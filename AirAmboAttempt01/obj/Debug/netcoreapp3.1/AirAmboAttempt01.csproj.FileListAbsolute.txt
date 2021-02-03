@@ -1,0 +1,13 @@
+D:\Users\Alex\source\repos\GameDev\AirAmbo\AirAmboAttempt01\AirAmboAttempt01\bin\Debug\netcoreapp3.1\AirAmboAttempt01.exe
+D:\Users\Alex\source\repos\GameDev\AirAmbo\AirAmboAttempt01\AirAmboAttempt01\bin\Debug\netcoreapp3.1\AirAmboAttempt01.deps.json
+D:\Users\Alex\source\repos\GameDev\AirAmbo\AirAmboAttempt01\AirAmboAttempt01\bin\Debug\netcoreapp3.1\AirAmboAttempt01.runtimeconfig.json
+D:\Users\Alex\source\repos\GameDev\AirAmbo\AirAmboAttempt01\AirAmboAttempt01\bin\Debug\netcoreapp3.1\AirAmboAttempt01.runtimeconfig.dev.json
+D:\Users\Alex\source\repos\GameDev\AirAmbo\AirAmboAttempt01\AirAmboAttempt01\bin\Debug\netcoreapp3.1\AirAmboAttempt01.dll
+D:\Users\Alex\source\repos\GameDev\AirAmbo\AirAmboAttempt01\AirAmboAttempt01\bin\Debug\netcoreapp3.1\AirAmboAttempt01.pdb
+D:\Users\Alex\source\repos\GameDev\AirAmbo\AirAmboAttempt01\AirAmboAttempt01\obj\Debug\netcoreapp3.1\AirAmboAttempt01.csprojAssemblyReference.cache
+D:\Users\Alex\source\repos\GameDev\AirAmbo\AirAmboAttempt01\AirAmboAttempt01\obj\Debug\netcoreapp3.1\AirAmboAttempt01.AssemblyInfoInputs.cache
+D:\Users\Alex\source\repos\GameDev\AirAmbo\AirAmboAttempt01\AirAmboAttempt01\obj\Debug\netcoreapp3.1\AirAmboAttempt01.AssemblyInfo.cs
+D:\Users\Alex\source\repos\GameDev\AirAmbo\AirAmboAttempt01\AirAmboAttempt01\obj\Debug\netcoreapp3.1\AirAmboAttempt01.csproj.CoreCompileInputs.cache
+D:\Users\Alex\source\repos\GameDev\AirAmbo\AirAmboAttempt01\AirAmboAttempt01\obj\Debug\netcoreapp3.1\AirAmboAttempt01.dll
+D:\Users\Alex\source\repos\GameDev\AirAmbo\AirAmboAttempt01\AirAmboAttempt01\obj\Debug\netcoreapp3.1\AirAmboAttempt01.pdb
+D:\Users\Alex\source\repos\GameDev\AirAmbo\AirAmboAttempt01\AirAmboAttempt01\obj\Debug\netcoreapp3.1\AirAmboAttempt01.genruntimeconfig.cache

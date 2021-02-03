@@ -6,15 +6,12 @@ namespace AirAmboAttempt01
 {
     public enum BloodType
     {
-        ONeg,
-        OPos,
-        ANeg,
-        APos,
-        BNeg,
-        BPos,
-        ABNeg,
-        ABPos
+        O,
+        A,
+        B,
+        AB
     }
+
     public enum Gender
     {
         Other,
@@ -31,6 +28,13 @@ namespace AirAmboAttempt01
         LeftLeg,
         RightLeg,
         Other //?
+    }
+    public enum BleedingSeverity
+    {
+        None,
+        Minor,
+        Moderate,
+        Severe
     }
 
     class Patient
@@ -50,13 +54,12 @@ namespace AirAmboAttempt01
 
     class Body
     {
-        readonly BloodType bloodType;
-        readonly bool isPregnant;
-
         public bool isConscious;
         public bool isAlive = true;
 
         public Skeleton skeleton;
+        public Organs organs;
+        public Blood blood;
 
         //GCS - Eyes(1-4), Verb(1-5), Motor(1-6) //This should probably be just Consciousness-bool maybe enum?
         Dictionary<string, int> GCS = new Dictionary<string, int>() //Already hating this idea
@@ -69,78 +72,148 @@ namespace AirAmboAttempt01
         public Body()
         {
             skeleton = new Skeleton();
+            organs = new Organs();
+            blood = new Blood();
         }
-
-        //BloodVolume ?float ?int
-
-
-
-        //Head - Bones (Skull, Spine, Jaw, Facial), Organs (Face, Brain), Vessels, Nerves
-        //Chest - Bones (Ribs, Spine, Shoulder), Organs (Lungs, Heart), Vessels, Nerves
-        //Abdomen - Bones(Spine, Pelvis), Organs ( GI(Stomach, Bowels, Appendyx), UT(Kidneys, Ureters, Bladder), Other(Pancreas, Liver, Spleen, Reproductives)), Vessels, Nerves
-        //Arms (L,R) - Bones( Humerus, Radius, Ulnar, Hand), Vessels, Nerves
-        //Legs (L,R) - Bones(Femur, Patella, Tibius, Fibula, Foot), Vessels, Nerves
-
-        //Bloods
-        //Electrolytes
-        //Drugs - Stimulants, Sedetives, Opiods, Hallucinogens
-        //Cardiac
-        //Coags
-
     }
 
-    private class Bone
+    public class Organs
     {
-        public readonly string name;
+        readonly bool isPregnant;
 
-        public bool isBroken { get; private set; }
-        public bool isMisaligned { get; private set; }
-        public bool isImpingingVessel { get; private set; }
-        public bool isFused { get; private set; }
-
-        public Bone(string name)
+        Dictionary<BodyRegion, Organ[]> organs = new Dictionary<BodyRegion, Organ[]>()
         {
-            this.name = name;
-            isBroken = false;
-            isMisaligned = false;
-            isImpingingVessel = false;
-            isFused = false;
+            {
+                BodyRegion.Head, new Organ[]
+                {
+                    new Organ("Brain"),
+                }
+            },
+
+            {
+                BodyRegion.Chest, new Organ[]
+                {
+                    new Organ("Heart"),
+                    new Organ("Left Lung"),
+                    new Organ("Right Lung"),
+                }
+            },
+
+            {
+                BodyRegion.Abdomen, new Organ[]
+                {
+                    new Organ("Gastrointestinal Tract"),
+                    new Organ("Urinary Tract"),
+                    new Organ("Liver"),
+                    new Organ("Pancreas"),
+                    new Organ("Spleen"),
+                    new Organ("Reproductive"),
+                }
+            }
+        };
+
+
+        private struct Organ
+        {
+            readonly string name;
+
+            public Organ(string name)
+            {
+                this.name = name;
+            }
+        }
+    }
+
+    public class Blood
+    {
+        readonly int _normalBloodVolume = 6; //Litres
+
+        readonly Dictionary<BleedingSeverity, float> _bloodLossDefaults = new Dictionary<BleedingSeverity, float>()
+        {
+            { BleedingSeverity.None, 0},
+            { BleedingSeverity.Minor, 0.5f},
+            { BleedingSeverity.Moderate, 1},
+            { BleedingSeverity.Severe, 2}
+        };
+
+        Dictionary<BodyRegion, BleedingSeverity> isBleeding = new Dictionary<BodyRegion, BleedingSeverity>()
+        {
+            {BodyRegion.Head, BleedingSeverity.None},
+            {BodyRegion.Chest, BleedingSeverity.None},
+            {BodyRegion.Abdomen, BleedingSeverity.None},
+            {BodyRegion.LeftArm, BleedingSeverity.None},
+            {BodyRegion.RightArm, BleedingSeverity.None},
+            {BodyRegion.LeftLeg, BleedingSeverity.None},
+            {BodyRegion.RightLeg, BleedingSeverity.None}
+        };
+
+        public readonly BloodType bloodType;
+        public readonly bool BloodRhesus;
+        public int CurrentBloodVolume { get; private set; }
+        public float Hematocrit { get; private set; }
+        public float ClottingRatio { get; private set; }
+        public float CardiacEnzymes { get; private set; }
+
+
+        public void BloodTransfusion(BloodType incBloodType, bool Rhesus, int incBloodVolume)
+        {
+            if(BloodTypeCompatibility(incBloodType, Rhesus))
+            {
+                Console.WriteLine("Tranfusion successful");
+            }
+            else
+            {
+                Console.WriteLine("Incompatible blood type.");
+            }
+
         }
 
-        public Bone(string name, bool isBroken, bool isMisaligned, bool isImpingingVessel, bool isFused)
+
+        private bool BloodTypeCompatibility(BloodType incBloodType, bool Rhesus)
         {
-            this.name = name;
-            this.isBroken = isBroken;
-            this.isMisaligned = isMisaligned;
-            this.isImpingingVessel = isMisaligned ? isImpingingVessel : false; //Vessel can only be impinged if bone is misaligned
-            this.isFused = isFused;
+
+
+
+            if (bloodType == incBloodType)
+                return true;
+
+            if ((incBloodType == BloodType.A ) && (bloodType == BloodType.B))
+            {
+                    return false;
+            }
+            else
+            {
+                return bloodType >= incBloodType;
+            }
         }
 
-        public void AlignBone()
+        private IllictDrugs illictDrugs;
+
+        public IllictDrugs DrugScreen()
         {
-            isMisaligned = false;
-            isImpingingVessel = false;
+            return illictDrugs;
         }
 
-        public void BreakBone(bool isMisaligned, bool isImpingingVessel)
+        public Blood()
         {
-            isBroken = true;
-            this.isMisaligned = isMisaligned;
-            this.isImpingingVessel = isImpingingVessel;
+            bloodType = BloodType.BPos;
+            ClottingRatio = 1;
+            Hematocrit = 0.4f;
+            illictDrugs = new IllictDrugs();
+            CardiacEnzymes = 0;
         }
 
-        public void FuseBone() => isFused = true;
+        //Electrolytes
+        
 
-        public string GetDescription(int scanLevel)
+        public struct IllictDrugs
         {
-            string broken = isBroken ? "" : "not ";
-            string aligned = isMisaligned ? "" : "not ";
-            string impingingVessel = isImpingingVessel ? "" : "not ";
-            string fused = isFused ? "" : "not ";
-
-            return $"The {name} is {broken} broken, {aligned} aligned, " +
-                $"{impingingVessel} impinging a vessel, {fused} fused.";
+            public bool stimulants;
+            public bool sedetives;
+            public bool opiods;
+            public bool hallucinogens;
         }
+
     }
 
     public class Skeleton
@@ -214,10 +287,10 @@ namespace AirAmboAttempt01
                 }
             }
         };
-        
-        public bool AlignBone(string name, BodyRegion bodyRegion)
+
+        public bool AlignBone(string name, BodyRegion br)
         {
-            Bone target = GetBone(name, bodyRegion);
+            Bone target = GetBone(name, br);
 
             if (!target.isFused) //Cant align fused bone, must rebreak bone first
             {
@@ -252,22 +325,21 @@ namespace AirAmboAttempt01
         }
         private Bone GetBone(string name, BodyRegion br)
         {
-            Bone[] regionBones = Bones[br];
-                for (int i = 0; i < regionBones.Length; i++)
-                {
-                    if (regionBones[i].name == name)
-                        return regionBones[i];
-                }
+            for (int i = 0; i < Bones[br].Length; i++)
+            {
+                if (Bones[br][i].name == name)
+                    return Bones[br][i];
+            }
             return new Bone("Error"); //This may be a mistake (no error checking)
         }
         private struct Bone
         {
             public readonly string name;
 
-            public bool isBroken { get;  set; }
-            public bool isMisaligned { get;  set; }
-            public bool isImpingingVessel { get;  set; }
-            public bool isFused { get;  set; }
+            public bool isBroken { get; set; }
+            public bool isMisaligned { get; set; }
+            public bool isImpingingVessel { get; set; }
+            public bool isFused { get; set; }
 
             public Bone(string name)
             {
@@ -277,7 +349,6 @@ namespace AirAmboAttempt01
                 isImpingingVessel = false;
                 isFused = false;
             }
-
             public Bone(string name, bool isBroken, bool isMisaligned, bool isImpingingVessel, bool isFused)
             {
                 this.name = name;
@@ -286,28 +357,7 @@ namespace AirAmboAttempt01
                 this.isImpingingVessel = isMisaligned ? isImpingingVessel : false; //Vessel can only be impinged if bone is misaligned
                 this.isFused = isFused;
             }
-
-           
-
-            
         }
-
-        //public bool AlignBone(Bone targetBone)
-        //{
-        //    return AlignBone(targetBone.name, targetBone.bodyRegion);
-        //}
-
-        //public Bone GetBone(string name, BodyRegion bodyRegion)
-        //{
-        //    for (int i = 0; i < bones.Length; i++)
-        //    {
-        //        if (bones[i].name == name && bones[i].bodyRegion == bodyRegion)
-        //            return bones[i];
-        //    }
-
-        //    return null;
-        //}
-        //Bone[] bones;
     }
 }
 
@@ -349,4 +399,75 @@ namespace AirAmboAttempt01
                 new Bone("Fibula",BodyRegion.LeftLeg),
                 new Bone("Foot",BodyRegion.LeftLeg),
             };
+
+   //public bool AlignBone(Bone targetBone)
+        //{
+        //    return AlignBone(targetBone.name, targetBone.bodyRegion);
+        //}
+
+        //public Bone GetBone(string name, BodyRegion bodyRegion)
+        //{
+        //    for (int i = 0; i < bones.Length; i++)
+        //    {
+        //        if (bones[i].name == name && bones[i].bodyRegion == bodyRegion)
+        //            return bones[i];
+        //    }
+
+        //    return null;
+        //}
+        //Bone[] bones;
+
+private class Bone
+    {
+        public readonly string name;
+
+        public bool isBroken { get; private set; }
+        public bool isMisaligned { get; private set; }
+        public bool isImpingingVessel { get; private set; }
+        public bool isFused { get; private set; }
+
+        public Bone(string name)
+        {
+            this.name = name;
+            isBroken = false;
+            isMisaligned = false;
+            isImpingingVessel = false;
+            isFused = false;
+        }
+
+        public Bone(string name, bool isBroken, bool isMisaligned, bool isImpingingVessel, bool isFused)
+        {
+            this.name = name;
+            this.isBroken = isBroken;
+            this.isMisaligned = isMisaligned;
+            this.isImpingingVessel = isMisaligned ? isImpingingVessel : false; //Vessel can only be impinged if bone is misaligned
+            this.isFused = isFused;
+        }
+
+        public void AlignBone()
+        {
+            isMisaligned = false;
+            isImpingingVessel = false;
+        }
+
+        public void BreakBone(bool isMisaligned, bool isImpingingVessel)
+        {
+            isBroken = true;
+            this.isMisaligned = isMisaligned;
+            this.isImpingingVessel = isImpingingVessel;
+        }
+
+        public void FuseBone() => isFused = true;
+
+        public string GetDescription(int scanLevel)
+        {
+            string broken = isBroken ? "" : "not ";
+            string aligned = isMisaligned ? "" : "not ";
+            string impingingVessel = isImpingingVessel ? "" : "not ";
+            string fused = isFused ? "" : "not ";
+
+            return $"The {name} is {broken} broken, {aligned} aligned, " +
+                $"{impingingVessel} impinging a vessel, {fused} fused.";
+        }
+    }
  */
