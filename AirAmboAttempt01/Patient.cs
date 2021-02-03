@@ -89,7 +89,7 @@ namespace AirAmboAttempt01
 
     }
 
-    public class Bone
+    private class Bone
     {
         public readonly string name;
 
@@ -145,19 +145,12 @@ namespace AirAmboAttempt01
 
     public class Skeleton
     {
-        //Bone[] bones;
-
-        public Skeleton()
-        {
-
-        }
-
-        Dictionary<BodyRegion, Bone[]> Bones1 = new Dictionary<BodyRegion, Bone[]>()
+        private Dictionary<BodyRegion, Bone[]> Bones = new Dictionary<BodyRegion, Bone[]>()
         {
             {
                 BodyRegion.Head, new Bone[]
                 {
-                 new Bone("Skull"),
+                new Bone("Skull"),
                 new Bone("Spine"),
                 new Bone("Jaw"),
                 new Bone("Facial")
@@ -221,32 +214,83 @@ namespace AirAmboAttempt01
                 }
             }
         };
-
-        //these should be in interventions
+        
         public bool AlignBone(string name, BodyRegion bodyRegion)
         {
             Bone target = GetBone(name, bodyRegion);
 
-            if (target != null && !target.isFused) //Cant align fused bone, must rebreak bone first
+            if (!target.isFused) //Cant align fused bone, must rebreak bone first
             {
-                target.AlignBone();
+                target.isMisaligned = false;
+                target.isImpingingVessel = false;
                 return !target.isMisaligned;
             }
             return false;
         }
+        public void BreakBone(string name, BodyRegion br, bool isMisaligned, bool isImpingingVessel)
+        {
+            Bone targetBone = GetBone(name, br);
+            targetBone.isBroken = true;
+            targetBone.isMisaligned = isMisaligned;
+            targetBone.isImpingingVessel = isImpingingVessel;
+        }
+        public void FuseBone(string name, BodyRegion br)
+        {
+            Bone targetBone = GetBone(name, br);
+            targetBone.isFused = true;
+        }
+        public string GetDescription(string name, BodyRegion br, int scanLevel)
+        {
+            Bone targetBone = GetBone(name, br);
+            string broken = targetBone.isBroken ? "" : "not ";
+            string aligned = targetBone.isMisaligned ? "" : "not ";
+            string impingingVessel = targetBone.isImpingingVessel ? "" : "not ";
+            string fused = targetBone.isFused ? "" : "not ";
 
+            return $"The {name} in {br} is {broken} broken, {aligned} aligned, " +
+                $"{impingingVessel} impinging a vessel, {fused} fused.";
+        }
         private Bone GetBone(string name, BodyRegion br)
         {
-            Bone[] regionBones = Bones1[br];
-
-            for (int i = 0; i < regionBones.Length; i++)
-            {
-                if (regionBones[i].name == name)
-                    return regionBones[i];
-            }
-            return null;
+            Bone[] regionBones = Bones[br];
+                for (int i = 0; i < regionBones.Length; i++)
+                {
+                    if (regionBones[i].name == name)
+                        return regionBones[i];
+                }
+            return new Bone("Error"); //This may be a mistake (no error checking)
         }
+        private struct Bone
+        {
+            public readonly string name;
 
+            public bool isBroken { get;  set; }
+            public bool isMisaligned { get;  set; }
+            public bool isImpingingVessel { get;  set; }
+            public bool isFused { get;  set; }
+
+            public Bone(string name)
+            {
+                this.name = name;
+                isBroken = false;
+                isMisaligned = false;
+                isImpingingVessel = false;
+                isFused = false;
+            }
+
+            public Bone(string name, bool isBroken, bool isMisaligned, bool isImpingingVessel, bool isFused)
+            {
+                this.name = name;
+                this.isBroken = isBroken;
+                this.isMisaligned = isMisaligned;
+                this.isImpingingVessel = isMisaligned ? isImpingingVessel : false; //Vessel can only be impinged if bone is misaligned
+                this.isFused = isFused;
+            }
+
+           
+
+            
+        }
 
         //public bool AlignBone(Bone targetBone)
         //{
@@ -263,6 +307,7 @@ namespace AirAmboAttempt01
 
         //    return null;
         //}
+        //Bone[] bones;
     }
 }
 
