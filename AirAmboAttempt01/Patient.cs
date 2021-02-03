@@ -4,12 +4,17 @@ using System.Text;
 
 namespace AirAmboAttempt01
 {
-    public enum BloodType
+    public enum BloodGroup
     {
         O,
         A,
         B,
         AB
+    }
+    public enum BloodRhesus
+    {
+        Positive,
+        Negative
     }
     public enum Gender
     {
@@ -148,30 +153,51 @@ namespace AirAmboAttempt01
             {BodyRegion.RightLeg, BleedingSeverity.None}
         };
 
-        public readonly BloodType bloodType;
-        public readonly bool BloodRhesus;
+        public readonly BloodGroup bloodGroup;
+        public readonly BloodRhesus bloodRhesus;
+
         public float CurrentBloodVolume { get; private set; }
         public float Hematocrit { get; private set; }
         public float ClottingRatio { get; private set; }
         public float CardiacEnzymes { get; private set; }
+        //Electrolytes
 
 
-        public bool BloodTransfusion(BloodType incBloodType, bool Rhesus, float incBloodVolume, float incHematocrit = -1f)
+        public bool BloodTransfusion(BloodGroup incBloodType, BloodRhesus incRhesus, float incBloodVolume, float incHematocrit = -1f)
         {
             if (incHematocrit < 0f || incHematocrit > 1f)
             {
                 incHematocrit = _normalHematocrit;
             }
-
             AddVolume(incBloodVolume, incHematocrit);
-            if (BloodTypeCompatibility(incBloodType, Rhesus))
+
+            if (BloodTypeCompatibility(incBloodType, incRhesus))
             {
                 return true;
             }
             else
             {
+                return false; //Trigger Transfusion reaction
+            }
+        }
+        private bool BloodTypeCompatibility(BloodGroup incBloodType, BloodRhesus incRhesus)
+        {
+            if(bloodRhesus == BloodRhesus.Positive || incRhesus == BloodRhesus.Negative)
+            {
+                if ((incBloodType == BloodGroup.A) && (bloodGroup == BloodGroup.B))
+                {
+                    return false;
+                }
+                else
+                {
+                    return (bloodGroup >= incBloodType && (bloodRhesus == BloodRhesus.Positive || incRhesus == BloodRhesus.Negative));
+                }
+            }
+            else
+            {
                 return false;
             }
+           
         }
 
         public bool FluidTransfusion(float incVolume, float incHematocrit = -1f)
@@ -204,21 +230,7 @@ namespace AirAmboAttempt01
             Console.WriteLine(BloodVolumeRatio);
         }
 
-        private bool BloodTypeCompatibility(BloodType incBloodType, bool Rhesus)
-        {
-            if ((bloodType == incBloodType) && (BloodRhesus || !Rhesus))
-            {
-                return true; //If patient's rhesus +ve or transfusion is -ve
-            }
-            if ((incBloodType == BloodType.A) && (bloodType == BloodType.B))
-            {
-                return false;
-            }
-            else
-            {
-                return (bloodType >= incBloodType && (BloodRhesus || !Rhesus));
-            }
-        }
+        
 
         private IllictDrugs illictDrugs;
 
@@ -229,8 +241,8 @@ namespace AirAmboAttempt01
 
         public Blood()
         {
-            bloodType = BloodType.AB;
-            BloodRhesus = true;
+            bloodGroup = BloodGroup.AB;
+            bloodRhesus = BloodRhesus.Positive;
             CurrentBloodVolume = _normalBloodVolume;
 
             ClottingRatio = 1;
@@ -239,21 +251,19 @@ namespace AirAmboAttempt01
             CardiacEnzymes = 0;
 
             illictDrugs = new IllictDrugs();
+            
         }
 
-        public Blood(BloodType bt, bool Rhesus) : this()
+        public Blood(BloodGroup incBloodType, BloodRhesus incRhesus) : this()
         {
-            bloodType = bt;
-            BloodRhesus = Rhesus;
+            bloodGroup = incBloodType;
+            bloodRhesus = incRhesus;
         }
 
         public Blood(float hematocrit) : this()
         {
             Hematocrit = hematocrit;
         }
-
-        //Electrolytes
-
 
         public struct IllictDrugs
         {
