@@ -11,7 +11,6 @@ namespace AirAmboAttempt01
         B,
         AB
     }
-
     public enum Gender
     {
         Other,
@@ -36,6 +35,13 @@ namespace AirAmboAttempt01
         Moderate,
         Severe
     }
+    public enum Consciousness
+    {
+        Awake,
+        Responsive,
+        UnResponsive
+    }
+
 
     class Patient
     {
@@ -54,20 +60,12 @@ namespace AirAmboAttempt01
 
     class Body
     {
-        public bool isConscious;
+        public Consciousness consciousness;
         public bool isAlive = true;
 
         public Skeleton skeleton;
         public Organs organs;
         public Blood blood;
-
-        //GCS - Eyes(1-4), Verb(1-5), Motor(1-6) //This should probably be just Consciousness-bool maybe enum?
-        Dictionary<string, int> GCS = new Dictionary<string, int>() //Already hating this idea
-        {
-            {"Eyes", 1},
-            {"Verbal", 1},
-            {"Motor", 1},
-        };
 
         public Body()
         {
@@ -126,7 +124,10 @@ namespace AirAmboAttempt01
 
     public class Blood
     {
-        readonly int _normalBloodVolume = 6; //Litres
+        readonly float _normalBloodVolume = 6000f; //mL
+        readonly float _normalHematocrit = 0.4f;
+        readonly float _normalClottingRatio = 1f;
+        readonly float _normalCardiacEnzymes = 0f;
 
         readonly Dictionary<BleedingSeverity, float> _bloodLossDefaults = new Dictionary<BleedingSeverity, float>()
         {
@@ -149,41 +150,73 @@ namespace AirAmboAttempt01
 
         public readonly BloodType bloodType;
         public readonly bool BloodRhesus;
-        public int CurrentBloodVolume { get; private set; }
+        public float CurrentBloodVolume { get; private set; }
         public float Hematocrit { get; private set; }
         public float ClottingRatio { get; private set; }
         public float CardiacEnzymes { get; private set; }
 
 
-        public void BloodTransfusion(BloodType incBloodType, bool Rhesus, int incBloodVolume)
+        public bool BloodTransfusion(BloodType incBloodType, bool Rhesus, float incBloodVolume, float incHematocrit = -1f)
         {
-            if(BloodTypeCompatibility(incBloodType, Rhesus))
+            if (incHematocrit < 0f || incHematocrit > 1f)
             {
-                Console.WriteLine("Tranfusion successful");
+                incHematocrit = _normalHematocrit;
+            }
+
+            AddVolume(incBloodVolume, incHematocrit);
+            if (BloodTypeCompatibility(incBloodType, Rhesus))
+            {
+                return true;
             }
             else
             {
-                Console.WriteLine("Incompatible blood type.");
+                return false;
             }
-
         }
 
+        public bool FluidTransfusion(float incVolume, float incHematocrit = -1f)
+        {
+            AddVolume(incVolume, incHematocrit);
+
+            return true;
+        }
+
+        private void AddVolume(float incVolume, float incHematocrit = 0f)
+        {
+            float newBloodVolume = CurrentBloodVolume + incVolume;
+            
+            CardiacEnzymes = CardiacEnzymes * (CurrentBloodVolume / newBloodVolume);
+            Hematocrit = ((incVolume * incHematocrit) + (CurrentBloodVolume * Hematocrit)) / newBloodVolume;
+
+
+            CurrentBloodVolume = newBloodVolume;
+            BloodChecks();
+                    }
+
+        private void BloodChecks()
+        {
+            BloodVolumeCheck();
+        }
+
+        private void BloodVolumeCheck()
+        {
+            float BloodVolumeRatio = CurrentBloodVolume / _normalBloodVolume;
+            Console.WriteLine(BloodVolumeRatio);
+        }
 
         private bool BloodTypeCompatibility(BloodType incBloodType, bool Rhesus)
         {
-
-
-
-            if (bloodType == incBloodType)
-                return true;
-
-            if ((incBloodType == BloodType.A ) && (bloodType == BloodType.B))
+            if ((bloodType == incBloodType) && (BloodRhesus || !Rhesus))
             {
-                    return false;
+                return true; //If patient's rhesus +ve or transfusion is -ve
+            }
+            if ((incBloodType == BloodType.A) && (bloodType == BloodType.B))
+            {
+                return false;
             }
             else
             {
-                return bloodType >= incBloodType;
+                return (bloodType >= incBloodType && (BloodRhesus || !Rhesus));
             }
         }
 
@@ -196,15 +229,31 @@ namespace AirAmboAttempt01
 
         public Blood()
         {
-            bloodType = BloodType.BPos;
+            bloodType = BloodType.AB;
+            BloodRhesus = true;
+            CurrentBloodVolume = _normalBloodVolume;
+
             ClottingRatio = 1;
-            Hematocrit = 0.4f;
-            illictDrugs = new IllictDrugs();
+            Hematocrit = _normalHematocrit;
+
             CardiacEnzymes = 0;
+
+            illictDrugs = new IllictDrugs();
+        }
+
+        public Blood(BloodType bt, bool Rhesus) : this()
+        {
+            bloodType = bt;
+            BloodRhesus = Rhesus;
+        }
+
+        public Blood(float hematocrit) : this()
+        {
+            Hematocrit = hematocrit;
         }
 
         //Electrolytes
-        
+
 
         public struct IllictDrugs
         {
