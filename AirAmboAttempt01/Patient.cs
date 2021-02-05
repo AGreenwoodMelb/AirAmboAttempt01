@@ -5,10 +5,11 @@ namespace AirAmboAttempt01
 {
     public class Patient
     {
-        readonly string firstName;
-        readonly string lastName;
-        readonly int age;
-        readonly Gender gender;
+        public readonly string firstName;
+        public readonly string lastName;
+        public readonly int age;
+        public readonly Gender gender;
+        public bool isAlive = true;
 
         public Patient()
         {
@@ -26,7 +27,21 @@ namespace AirAmboAttempt01
             this.gender = gender;
         }
 
-        Body body;
+
+        private Physical _physical;
+        public Physical Body
+        {
+            get { return _physical; }
+            private set { _physical = value; }
+        }
+
+
+        private Mental _mind;
+        public Mental Mind
+        {
+            get { return _mind; }
+            private set { _mind = value; }
+        }
 
         //Conditions
 
@@ -35,16 +50,40 @@ namespace AirAmboAttempt01
         //DNR bool readonly
     }
 
-    class Body
+    public class Mental
     {
-        public Consciousness consciousness;
-        public bool isAlive = true;
+        public Consciousness Consciousness;
+        public MentalState MentalState;
+        public PainSeverity OverallPain; //May not need
+
+        Dictionary<BodyRegion, PainSeverity> RegionPainful = new Dictionary<BodyRegion, PainSeverity>()
+        {
+            {BodyRegion.Head, PainSeverity.None},
+            {BodyRegion.Chest, PainSeverity.None},
+            {BodyRegion.Abdomen, PainSeverity.None},
+            {BodyRegion.LeftArm, PainSeverity.None},
+            {BodyRegion.RightArm, PainSeverity.None},
+            {BodyRegion.LeftLeg, PainSeverity.None},
+            {BodyRegion.RightLeg, PainSeverity.None}
+        };
+    }
+
+    public class Physical 
+    {
+        public static readonly Dictionary<BleedingSeverity, float> _bloodLossDefaults = new Dictionary<BleedingSeverity, float>()
+        {
+            { BleedingSeverity.None, 0},
+            { BleedingSeverity.Mild, 0.5f},
+            { BleedingSeverity.Moderate, 1f},
+            { BleedingSeverity.Severe, 2f},
+            { BleedingSeverity.Extreme, 2.5f}
+        };
 
         public Skeleton skeleton;
         public Organs organs;
         public BloodSystem bloodSystem;
 
-        Dictionary<BodyRegion, BleedingSeverity> isRegionBleeding = new Dictionary<BodyRegion, BleedingSeverity>()
+        Dictionary<BodyRegion, BleedingSeverity> RegionBleeding = new Dictionary<BodyRegion, BleedingSeverity>()
         {
             {BodyRegion.Head, BleedingSeverity.None},
             {BodyRegion.Chest, BleedingSeverity.None},
@@ -55,66 +94,11 @@ namespace AirAmboAttempt01
             {BodyRegion.RightLeg, BleedingSeverity.None}
         };
 
-        public Body()
+        public Physical()
         {
             skeleton = new Skeleton();
             organs = new Organs();
             bloodSystem = new BloodSystem();
-        }
-
-        public Dictionary<BleedingSeverity, float> _bloodLossDefaults = new Dictionary<BleedingSeverity, float>()
-        {
-            { BleedingSeverity.None, 0},
-            { BleedingSeverity.Minor, 0.5f},
-            { BleedingSeverity.Moderate, 1},
-            { BleedingSeverity.Severe, 2}
-        };
-    }
-
-    public class Organs
-    {
-        readonly bool isPregnant;
-
-        Dictionary<BodyRegion, Organ[]> organs = new Dictionary<BodyRegion, Organ[]>()
-        {
-            {
-                BodyRegion.Head, new Organ[]
-                {
-                    new Organ("Brain"),
-                }
-            },
-
-            {
-                BodyRegion.Chest, new Organ[]
-                {
-                    new Organ("Heart"),
-                    new Organ("Left Lung"),
-                    new Organ("Right Lung"),
-                }
-            },
-
-            {
-                BodyRegion.Abdomen, new Organ[]
-                {
-                    new Organ("Gastrointestinal Tract"),
-                    new Organ("Urinary Tract"),
-                    new Organ("Liver"),
-                    new Organ("Pancreas"),
-                    new Organ("Spleen"),
-                    new Organ("Reproductive"),
-                }
-            }
-        };
-
-
-        private struct Organ
-        {
-            readonly string name;
-
-            public Organ(string name)
-            {
-                this.name = name;
-            }
         }
     }
 

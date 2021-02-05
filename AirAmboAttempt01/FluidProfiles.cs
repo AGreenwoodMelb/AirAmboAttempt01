@@ -4,7 +4,14 @@ using System.Text;
 
 namespace AirAmboAttempt01
 {
-    static class FluidProfiles
+    public struct FluidProfile
+    {
+        public float Hematocrit;
+        public float ClottingFactor;
+        public float Electrolytes;
+    }
+
+    public static class FluidProfiles
     {
         public static readonly FluidProfile drugDefault = new FluidProfile()
         {

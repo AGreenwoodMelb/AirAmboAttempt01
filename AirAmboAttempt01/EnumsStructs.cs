@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-namespace AirAmboAttempt01
+﻿namespace AirAmboAttempt01
 {
     public enum BloodABO
     {
@@ -38,22 +37,35 @@ namespace AirAmboAttempt01
     public enum BleedingSeverity
     {
         None,
-        Minor,
+        Mild,
         Moderate,
-        Severe
+        Severe,
+        Extreme
+    }
+    public enum PainSeverity
+    {
+        None,
+        Mild,
+        Moderate,
+        Severe,
+        Extreme
     }
     public enum Consciousness
     {
-        Awake,
-        Responsive,
-        UnResponsive
+       Dead,
+       Unresponsive,
+       Semi_Responsive,
+       Responsive
     }
-    public struct FluidProfile
+    public enum MentalState
     {
-        public float Hematocrit;
-        public float ClottingFactor;
-        public float Electrolytes;
+        Dead,
+        Normal,
+        Absent,
+        Confused,
+        Agitated,
     }
+
     public enum DrugType //For later use
     {
         None,

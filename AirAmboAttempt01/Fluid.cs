@@ -78,7 +78,6 @@ namespace AirAmboAttempt01
     {
         #region DefaultBloodValues
         private new static readonly float _defaultVolume = 450;
-        
         #endregion
 
         public readonly BloodType bloodType = new BloodType() { ABO = BloodABO.O, Rhesus = BloodRhesus.Negative };
@@ -111,7 +110,7 @@ namespace AirAmboAttempt01
             return successFlag;
         }
 
-        private bool BloodTypeCompatibility(BloodType incBloodType)
+        public bool BloodTypeCompatibility(BloodType incBloodType)
         {
             if (bloodType.Rhesus == BloodRhesus.Positive || incBloodType.Rhesus == BloodRhesus.Negative)
             {
@@ -138,10 +137,10 @@ namespace AirAmboAttempt01
         static readonly float _defaultBloodSystemVolume = 6000f; //mL
         #endregion
 
-        private IllilcitDrugsProfile illicitDrugsProfile;
+        private IllilcitDrugsProfile _illicitDrugsProfile;
         public IllilcitDrugsProfile IllilcitDrugsProfile
         {
-            get { return illicitDrugsProfile; }
+            get { return _illicitDrugsProfile; }
         }
 
         #region Constructors
@@ -191,19 +190,19 @@ namespace AirAmboAttempt01
             {
 
                 case DrugType.Stimulant:
-                    illicitDrugsProfile.stimulants = true;
+                    _illicitDrugsProfile.stimulants = true;
                     break;
                 case DrugType.Sedative:
-                    illicitDrugsProfile.sedetives = true;
+                    _illicitDrugsProfile.sedetives = true;
                     break;
                 case DrugType.Opiods:
-                    illicitDrugsProfile.opiods = true;
+                    _illicitDrugsProfile.opiods = true;
                     break;
                 case DrugType.Hallucinogens:
-                    illicitDrugsProfile.hallucinogens = true;
+                    _illicitDrugsProfile.hallucinogens = true;
                     break;
                 case DrugType.Detoxer:
-                    illicitDrugsProfile = new IllilcitDrugsProfile(); //Bool default is false
+                    _illicitDrugsProfile = new IllilcitDrugsProfile(); //Bool default is false
                     break;
                 case DrugType.None:
                 default:
@@ -213,17 +212,12 @@ namespace AirAmboAttempt01
             return true;
         }
 
-        private void BloodChecks()
+        public float BloodVolumeCheck()
         {
-            BloodVolumeCheck();
-        }
-
-        private void BloodVolumeCheck()
-        {
-            float BloodVolumeRatio = Volume / _defaultBloodSystemVolume;
-            Console.WriteLine(BloodVolumeRatio);
-        }
-
+            float bloodVolumeRatio = Volume / _defaultBloodSystemVolume;
+            Console.WriteLine(bloodVolumeRatio);
+            return bloodVolumeRatio;
+        }//Probably not needed here //Put In condition / event Manager
     }
 
     public class Drug : Fluid //This may be stupid
