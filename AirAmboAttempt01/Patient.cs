@@ -70,15 +70,6 @@ namespace AirAmboAttempt01
 
     public class Physical 
     {
-        public static readonly Dictionary<BleedingSeverity, float> _bloodLossDefaults = new Dictionary<BleedingSeverity, float>()
-        {
-            { BleedingSeverity.None, 0},
-            { BleedingSeverity.Mild, 0.5f},
-            { BleedingSeverity.Moderate, 1f},
-            { BleedingSeverity.Severe, 2f},
-            { BleedingSeverity.Extreme, 2.5f}
-        };
-
         public Skeleton skeleton;
         public Organs organs;
         public BloodSystem bloodSystem;

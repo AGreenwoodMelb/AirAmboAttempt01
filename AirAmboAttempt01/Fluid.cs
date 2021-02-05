@@ -3,13 +3,12 @@ using System.Collections.Generic;
 
 namespace AirAmboAttempt01
 {
-    public class Fluid
+    public class Fluid //Should this have been abstract?
     {
-        #region DefaultInfusionValues
+        #region DefaultFluidValues
         public static readonly float _defaultVolume = 1000;
-      
         #endregion
-        #region MaxMinInfusionValues
+        #region MaxMinFluidValues
         private readonly float _VolumeMax = 10000;
         private readonly float _VolumeMin = 0;
         private readonly float _HematocritMax = 1.0f; //Hematocrit is a percentage concentration of RBC in Blood

@@ -26,8 +26,8 @@
     }
     public enum BloodRhesus
     {
-        Positive,
-        Negative
+        Negative,
+        Positive
     }
     public struct BloodType
     {
@@ -60,6 +60,7 @@
     }
     public enum InfectionType
     {
+        None,
         Bacterial,
         Viral,
         Prion,
@@ -67,6 +68,7 @@
     }
     public enum InfectionResistance
     {
+        None,
         Susceptible,
         Stardard,
         Resistant,
@@ -77,6 +79,23 @@
         public InfectionType infectionType;
         public InfectionSeverity infectionSeverity;
         public InfectionResistance infectionResistance;
+
+        public void IncreaseInfection()
+        {
+            if(infectionSeverity != InfectionSeverity.Extreme)
+                infectionSeverity += 1;
+        }
+
+        public void DecreaseInfection()
+        {
+            if (infectionSeverity != InfectionSeverity.None)
+                infectionSeverity -= 1;
+        }
+
+        public void CureInfection()
+        {
+            infectionSeverity = InfectionSeverity.None;
+        }
     }
     public enum Consciousness
     {
@@ -108,5 +127,20 @@
         public bool sedetives;
         public bool opiods;
         public bool hallucinogens;
+    }
+
+
+    public struct LungLobe
+    {
+        public LobeLocation lobeLocation;
+        public Infection infection;
+        public bool isDestroyed;
+    }
+
+    public enum LobeLocation
+    {
+        Upper,
+        Middle,
+        Lower
     }
 }

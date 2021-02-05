@@ -22,20 +22,20 @@ namespace AirAmboAttempt01
                 BodyRegion.Chest, new Organ[]
                 {
                     new Heart(),
-                    new Lung(),
-                    new Lung(),
+                    new Lung(true),
+                    new Lung(false),
                 }
             },
 
             {
                 BodyRegion.Abdomen, new Organ[]
                 {
-                    new Organ("Gastrointestinal Tract"),
-                    new Organ("Urinary Tract"),
-                    new Organ("Liver"),
-                    new Organ("Pancreas"),
-                    new Organ("Spleen"),
-                    new Organ("Reproductive"),
+                    //GI
+                    //Kidney Left, Right
+                    //Liver
+                    //Pancreas
+                    //Spleen
+                    //Reproductive
                 }
             }
         };
@@ -49,12 +49,40 @@ namespace AirAmboAttempt01
                 protected set { _isBleeding = value; }
             }
 
-            private Infection _currentInfection;
-            public Infection CurrentInfection
+            public readonly float BloodLossRate;
+            public Infection CurrentInfection = new Infection();
+        
+           
+            public Organ(float bloodLossRate)
             {
-                get { return _currentInfection; }
-                private set { _currentInfection = value; }
+                BloodLossRate = bloodLossRate;
             }
+
+            public void InfectOrgan(Infection infection)
+            {
+                CurrentInfection = infection;
+            }
+
+            //public Infection CurrentInfection
+            //{
+            //    get { return _currentInfection; }
+            //    set { _currentInfection = value; }
+            //}
+
+            //public void IncreaseInfection()
+            //{
+            //    _currentInfection.IncreaseInfection();
+            //}
+
+            //public void DecreaseInfection()
+            //{
+            //    _currentInfection.DecreaseInfection();
+            //}
+
+            //public void CureInfection()
+            //{
+            //    _currentInfection.CureInfection();
+            //}
         }
 
         public class Brain : Organ
@@ -62,11 +90,14 @@ namespace AirAmboAttempt01
             private float _currentPressure = 0f;
             private bool _isSeizing;
 
+            public Brain() : base(BloodLossBaseRates.Brain)
+            {
+
+            }
             public void Haemorrhage()
             {
                 IsBleeding = BleedingSeverity.Extreme;
             }
-            
         }
 
         public class Heart : Organ
@@ -74,15 +105,61 @@ namespace AirAmboAttempt01
             private bool _isBeating;
             private bool _isArrythmic;
 
-            private int rate;
+            private int _beatsPerMinute;
+
+            public Heart() : base(BloodLossBaseRates.Heart)
+            {
+
+            }
         }
 
         public class Lung : Organ
         {
-            
+            public readonly bool isLeft;
+
+            private LungLobe[] Lobes;
+
+            public Lung(bool isLeft) : base(BloodLossBaseRates.Lung)
+            {
+                if (isLeft)
+                {
+                    Lobes = new LungLobe[]
+                    {
+                        new LungLobe()
+                        {
+                            lobeLocation = LobeLocation.Upper,
+                            infection = new Infection()
+                        },
+                        new LungLobe()
+                        {
+                            lobeLocation = LobeLocation.Lower,
+                            infection = new Infection()
+                        },
+                    };
+                }
+                else
+                {
+                    Lobes = new LungLobe[]
+                    {
+                        new LungLobe()
+                        {
+                            lobeLocation = LobeLocation.Upper,
+                            infection = new Infection()
+                        },
+                         new LungLobe()
+                        {
+                            lobeLocation = LobeLocation.Middle,
+                            infection = new Infection()
+                        },
+                        new LungLobe()
+                        {
+                            lobeLocation = LobeLocation.Lower,
+                            infection = new Infection()
+                        },
+                    };
+                }
+            }
         }
     }
-
-
 
 }

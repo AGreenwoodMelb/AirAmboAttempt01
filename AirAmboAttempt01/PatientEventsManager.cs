@@ -18,7 +18,7 @@ namespace AirAmboAttempt01
 
         public void Loop()
         {
-            currentPatient.body.bloodSystem.BloodVolumeCheck();
+            currentPatient.Body.bloodSystem.BloodVolumeCheck();
         }
     }
 }

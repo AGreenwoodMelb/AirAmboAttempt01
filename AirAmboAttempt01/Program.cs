@@ -1,5 +1,6 @@
 ﻿using System;
 
+
 namespace AirAmboAttempt01
 {
     class Program
@@ -7,21 +8,13 @@ namespace AirAmboAttempt01
 
         static void Main(string[] args)
         {
-            BloodSystem bs = new BloodSystem();
+            Organs.Lung lung = new Organs.Lung(true);
 
-            Console.WriteLine($"{bs.bloodType.ABO}{ bs.bloodType.Rhesus }");
-            Console.WriteLine(bs.Volume);
-
-            bs.Transfuse(new Blood());
-            Console.WriteLine(bs.Volume);
-
-            bs.Transfuse(new Drug());
-            Console.WriteLine(bs.Volume);
-
-            Console.WriteLine(bs.FluidProfile.ClottingFactor);
-
-
+            Console.WriteLine($"{ lung.CurrentInfection.infectionSeverity.ToString()}");
+            lung.CurrentInfection.IncreaseInfection();
+            Console.WriteLine($"{ lung.CurrentInfection.infectionSeverity.ToString()}");
             Console.ReadLine();
+
         }
     }
 
