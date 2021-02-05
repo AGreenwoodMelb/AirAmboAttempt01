@@ -130,14 +130,13 @@
     }
 
 
-    public struct LungLobe
+    public class LungLobe
     {
-        public LobeLocation lobeLocation;
         public Infection infection;
         public bool isDestroyed;
     }
 
-    public enum LobeLocation
+    public enum LungLobeLocation
     {
         Upper,
         Middle,

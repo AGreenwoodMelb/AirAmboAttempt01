@@ -51,8 +51,8 @@ namespace AirAmboAttempt01
 
             public readonly float BloodLossRate;
             public Infection CurrentInfection = new Infection();
-        
-           
+
+
             public Organ(float bloodLossRate)
             {
                 BloodLossRate = bloodLossRate;
@@ -62,27 +62,6 @@ namespace AirAmboAttempt01
             {
                 CurrentInfection = infection;
             }
-
-            //public Infection CurrentInfection
-            //{
-            //    get { return _currentInfection; }
-            //    set { _currentInfection = value; }
-            //}
-
-            //public void IncreaseInfection()
-            //{
-            //    _currentInfection.IncreaseInfection();
-            //}
-
-            //public void DecreaseInfection()
-            //{
-            //    _currentInfection.DecreaseInfection();
-            //}
-
-            //public void CureInfection()
-            //{
-            //    _currentInfection.CureInfection();
-            //}
         }
 
         public class Brain : Organ
@@ -94,10 +73,7 @@ namespace AirAmboAttempt01
             {
 
             }
-            public void Haemorrhage()
-            {
-                IsBleeding = BleedingSeverity.Extreme;
-            }
+
         }
 
         public class Heart : Organ
@@ -117,46 +93,43 @@ namespace AirAmboAttempt01
         {
             public readonly bool isLeft;
 
-            private LungLobe[] Lobes;
+            //private LungLobe[] Lobes;
+
+            private Dictionary<LungLobeLocation, LungLobe> Lobes;
 
             public Lung(bool isLeft) : base(BloodLossBaseRates.Lung)
             {
                 if (isLeft)
                 {
-                    Lobes = new LungLobe[]
+                    Lobes = new Dictionary<LungLobeLocation, LungLobe>()
                     {
-                        new LungLobe()
-                        {
-                            lobeLocation = LobeLocation.Upper,
-                            infection = new Infection()
-                        },
-                        new LungLobe()
-                        {
-                            lobeLocation = LobeLocation.Lower,
-                            infection = new Infection()
-                        },
+                        { LungLobeLocation.Upper, new LungLobe()},
+                        { LungLobeLocation.Lower, new LungLobe()}
                     };
                 }
                 else
                 {
-                    Lobes = new LungLobe[]
+                    Lobes = new Dictionary<LungLobeLocation, LungLobe>()
                     {
-                        new LungLobe()
-                        {
-                            lobeLocation = LobeLocation.Upper,
-                            infection = new Infection()
-                        },
-                         new LungLobe()
-                        {
-                            lobeLocation = LobeLocation.Middle,
-                            infection = new Infection()
-                        },
-                        new LungLobe()
-                        {
-                            lobeLocation = LobeLocation.Lower,
-                            infection = new Infection()
-                        },
+                        { LungLobeLocation.Upper, new LungLobe()},
+                        { LungLobeLocation.Middle, new LungLobe()},
+                        { LungLobeLocation.Lower, new LungLobe()}
                     };
+                }
+            }
+
+            private LungLobe GetLungLobe(LungLobeLocation lobeLocation)
+            {
+                if (Lobes.ContainsKey(lobeLocation))
+                {
+                    return Lobes[lobeLocation];
+                }
+                else
+                {
+                    throw new KeyNotFoundException(
+                        message: $"{lobeLocation} not found in Lung (Left Lung: {isLeft})"
+                        );
+
                 }
             }
         }

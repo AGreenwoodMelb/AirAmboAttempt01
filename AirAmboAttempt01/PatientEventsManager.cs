@@ -13,7 +13,7 @@ namespace AirAmboAttempt01
 
         public PatientEventsManager(Patient patient)
         {
-            this.currentPatient = patient;
+            currentPatient = patient;
         }
 
         public void Loop()
