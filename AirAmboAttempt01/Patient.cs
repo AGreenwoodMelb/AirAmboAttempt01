@@ -42,14 +42,33 @@ namespace AirAmboAttempt01
 
         public Skeleton skeleton;
         public Organs organs;
-        public Blood blood;
+        public BloodSystem bloodSystem;
+
+        Dictionary<BodyRegion, BleedingSeverity> isRegionBleeding = new Dictionary<BodyRegion, BleedingSeverity>()
+        {
+            {BodyRegion.Head, BleedingSeverity.None},
+            {BodyRegion.Chest, BleedingSeverity.None},
+            {BodyRegion.Abdomen, BleedingSeverity.None},
+            {BodyRegion.LeftArm, BleedingSeverity.None},
+            {BodyRegion.RightArm, BleedingSeverity.None},
+            {BodyRegion.LeftLeg, BleedingSeverity.None},
+            {BodyRegion.RightLeg, BleedingSeverity.None}
+        };
 
         public Body()
         {
             skeleton = new Skeleton();
             organs = new Organs();
-            blood = new Blood();
+            bloodSystem = new BloodSystem();
         }
+
+        public Dictionary<BleedingSeverity, float> _bloodLossDefaults = new Dictionary<BleedingSeverity, float>()
+        {
+            { BleedingSeverity.None, 0},
+            { BleedingSeverity.Minor, 0.5f},
+            { BleedingSeverity.Moderate, 1},
+            { BleedingSeverity.Severe, 2}
+        };
     }
 
     public class Organs

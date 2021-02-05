@@ -4,20 +4,20 @@ namespace AirAmboAttempt01
 {
     class Program
     {
-        
+
         static void Main(string[] args)
         {
+            BloodSystem bs = new BloodSystem();
 
+            Console.WriteLine($"{bs.bloodType.ABO}{ bs.bloodType.Rhesus }");
+            Console.WriteLine(bs.Volume);
 
-            Body body = new Body();
+            bs.Transfuse(new Blood());
+            Console.WriteLine(bs.Volume);
 
+            bs.Transfuse(new Drug());
+            Console.WriteLine(bs.Volume);
 
-            //Console.WriteLine($"{bi.Volume}");
-           // Console.WriteLine($"Pre-infusion hematocrit: ${b.Hematocrit}");
-
-            //b.BloodTransfusion(BloodGroup.O, BloodRhesus.Negative,500, 0.9f);
-
-            //Console.WriteLine($"Post-infusion hematocrit: ${b.Hematocrit}");
 
             Console.ReadLine();
         }

@@ -7,7 +7,7 @@ namespace AirAmboAttempt01
     {
         #region DefaultInfusionValues
         public static readonly float _defaultVolume = 1000;
-        public static readonly FluidProfile _defaultInfusionFluidProfile = new FluidProfile()
+        public static readonly FluidProfile _defaultFluidProfile = new FluidProfile()
         {
             Hematocrit = 0.0f,
             ClottingFactor = 0.0f,
@@ -34,7 +34,7 @@ namespace AirAmboAttempt01
                 _volume = Math.Clamp(value, _VolumeMin, _VolumeMax);
             }
         }
-        private FluidProfile _fluidProfile = _defaultInfusionFluidProfile;
+        private FluidProfile _fluidProfile = _defaultFluidProfile;
         public FluidProfile FluidProfile
         {
             get { return _fluidProfile; }
@@ -46,6 +46,7 @@ namespace AirAmboAttempt01
             }
         }
 
+        #region Constructors
         public Fluid()
         {
 
@@ -60,8 +61,9 @@ namespace AirAmboAttempt01
             Volume = volume;
             FluidProfile = infusionFluidProfile;
         }
+        #endregion
 
-        public void AddFluid(Fluid incFluid)
+        protected bool AddFluid(Fluid incFluid)
         {
             float newBloodVolume = _volume + incFluid.Volume;
             FluidProfile newFluidProfile = _fluidProfile;
@@ -72,44 +74,53 @@ namespace AirAmboAttempt01
 
             _volume = newBloodVolume;
             _fluidProfile = newFluidProfile;
+
+            return true;
         }
     }
 
-    public class BloodInfusion : Fluid
+    public class Blood : Fluid
     {
         #region DefaultBloodValues
         private new static readonly float _defaultVolume = 450;
-        private static readonly FluidProfile _defaultInfusionFluidProfile_Blood = new FluidProfile()
+        private static readonly FluidProfile _defaultFluidProfile_Blood = new FluidProfile()
         {
             Hematocrit = 0.4f,
             ClottingFactor = 1.0f,
             Electrolytes = 1.0f
-        };//Essentially ratios found in standard blood infusion
+        };//Essentially ratios found in standard blood
         #endregion
 
         public readonly BloodType bloodType = new BloodType() { ABO = BloodABO.O, Rhesus = BloodRhesus.Negative };
-
-        public BloodInfusion()
+       
+        #region Constructors
+        public Blood() : base(_defaultVolume, _defaultFluidProfile_Blood)
         {
 
         }
-        public BloodInfusion(BloodType bloodType) : base(_defaultVolume, _defaultInfusionFluidProfile_Blood)
+        public Blood(BloodType bloodType) : base(_defaultVolume, _defaultFluidProfile_Blood)
         {
             this.bloodType = bloodType;
         }
-        public BloodInfusion(BloodType bloodType, float volume) : base(volume, _defaultInfusionFluidProfile_Blood)
+        public Blood(BloodType bloodType, float volume) : base(volume, _defaultFluidProfile_Blood)
         {
             this.bloodType = bloodType;
         }
-        public BloodInfusion(BloodType bloodType, float volume, FluidProfile bloodFluidProfile) : base(volume, bloodFluidProfile)
+        public Blood(BloodType bloodType, float volume, FluidProfile bloodFluidProfile) : base(volume, bloodFluidProfile)
         {
             this.bloodType = bloodType;
         }
+        #endregion
 
-        public void AddFluid(BloodInfusion incBloodInfusion)
+        protected bool AddFluid(Blood incBloodInfusion)
         {
-
+            bool successFlag = false;
+            successFlag = BloodTypeCompatibility(incBloodInfusion.bloodType);
+            Console.WriteLine("BlooD");
+            base.AddFluid(incBloodInfusion);
+            return successFlag;
         }
+
         private bool BloodTypeCompatibility(BloodType incBloodType)
         {
             if (bloodType.Rhesus == BloodRhesus.Positive || incBloodType.Rhesus == BloodRhesus.Negative)
@@ -129,105 +140,88 @@ namespace AirAmboAttempt01
             }
 
         }
-
     }
 
-    public class Blood : Fluid
+    public class BloodSystem : Blood
     {
         #region DefaultValues
-        readonly float _normalBloodVolume = 6000f; //mL
-        static readonly FluidProfile _normalBloodProfile = new FluidProfile()
-        {
-            Hematocrit = 0.4f,
-            ClottingFactor = 1f,
-            Electrolytes = 1f
-        };
-        readonly Dictionary<BleedingSeverity, float> _bloodLossDefaults = new Dictionary<BleedingSeverity, float>()
-        {
-            { BleedingSeverity.None, 0},
-            { BleedingSeverity.Minor, 0.5f},
-            { BleedingSeverity.Moderate, 1},
-            { BleedingSeverity.Severe, 2}
-        };
+        static readonly float _defaultBloodSystemVolume = 6000f; //mL
         #endregion
 
-        public readonly BloodType bloodType = new BloodType() { ABO = BloodABO.AB, Rhesus = BloodRhesus.Positive };
-
-        Dictionary<BodyRegion, BleedingSeverity> isRegionBleeding = new Dictionary<BodyRegion, BleedingSeverity>()
-        {
-            {BodyRegion.Head, BleedingSeverity.None},
-            {BodyRegion.Chest, BleedingSeverity.None},
-            {BodyRegion.Abdomen, BleedingSeverity.None},
-            {BodyRegion.LeftArm, BleedingSeverity.None},
-            {BodyRegion.RightArm, BleedingSeverity.None},
-            {BodyRegion.LeftLeg, BleedingSeverity.None},
-            {BodyRegion.RightLeg, BleedingSeverity.None}
-        };
-
-        //public float CurrentBloodVolume { get; private set; }
-        private FluidProfile _bloodProfile = _normalBloodProfile;
-        public FluidProfile BloodProfile
-        {
-            get { return _bloodProfile; }
-        }
-        private IllilcitDrugsProfile illictDrugsProfile;
+        private IllilcitDrugsProfile illicitDrugsProfile;
         public IllilcitDrugsProfile IllilcitDrugsProfile
         {
-            get { return illictDrugsProfile; }
+            get { return illicitDrugsProfile; }
         }
 
-        public Blood()
+        #region Constructors
+        public BloodSystem()
         {
+            Volume = _defaultBloodSystemVolume;
         }
-        public Blood(BloodType bloodType)
+
+        public BloodSystem(Blood bloodSetup) : base(bloodSetup.bloodType, bloodSetup.Volume, bloodSetup.FluidProfile)
         {
-            this.bloodType = bloodType;
+
         }
-        public Blood(BloodType bloodType, FluidProfile bloodProfile) : this(bloodType)
+
+        public BloodSystem(BloodType bloodType, FluidProfile fluidProfile, float bloodVolume) : base(bloodType, bloodVolume, fluidProfile)
         {
-            _bloodProfile = bloodProfile;
+
         }
+        #endregion
 
-        //public bool BloodTranfusion(BloodInfusion incBlood)
-        //{
-        //    //AddVolume(incBlood);
-        //    if (BloodTypeCompatibility(incBlood.bloodType))
-        //    {
-        //        return true;
-        //    }
-        //    else
-        //    {
-        //        return false; //Trigger Transfusion reaction
-        //    }
-        //}
-
-
-        public bool FluidTransfusion(Fluid incFluid)
+        public bool Transfuse(Fluid incFluid)
         {
             bool successFlag = false;
-            switch (incFluid)//Maybe just an if would do? Depends on how many unique handlers are needed
-            {
-                case BloodInfusion incBlood:
-                    successFlag = BloodTranfusion(incBlood);
-                    break;
-                case DrugInfusion incDrug:
 
+            switch (incFluid)
+            {
+                case Blood incBlood:
+                    AddFluid(incBlood);
                     break;
-                case Fluid incInfusionFluid:
+                case Drug incDrug:
+                    DoingDrugs(incDrug);
+                    break;
+                case Fluid incBaseFluid:
+                    AddFluid(incBaseFluid);
                     break;
                 default:
                     throw new ArgumentException(
-                        message: "InfusionFluid is not a recognised transfusion fluid",
+                        message: "BloodSystem::Transfuse Unhandled Subtype of Fluid",
                         paramName: nameof(incFluid)
                         );
             }
-
-            //AddVolume(incFluid);
-
             return successFlag;
         }
 
+        private bool DoingDrugs(Drug incDrug)
+        {
+            switch (incDrug.drugType)
+            {
 
+                case DrugType.Stimulant:
+                    illicitDrugsProfile.stimulants = true;
+                    break;
+                case DrugType.Sedative:
+                    illicitDrugsProfile.sedetives = true;
+                    break;
+                case DrugType.Opiods:
+                    illicitDrugsProfile.opiods = true;
+                    break;
+                case DrugType.Hallucinogens:
+                    illicitDrugsProfile.hallucinogens = true;
+                    break;
+                case DrugType.Detoxer:
+                    illicitDrugsProfile = new IllilcitDrugsProfile(); //Bool default is false
+                    break;
+                case DrugType.None:
+                default:
+                    break;
+            }
+
+            return true;
+        }
 
         private void BloodChecks()
         {
@@ -236,42 +230,43 @@ namespace AirAmboAttempt01
 
         private void BloodVolumeCheck()
         {
-            float BloodVolumeRatio = CurrentBloodVolume / _normalBloodVolume;
+            float BloodVolumeRatio = Volume / _defaultBloodSystemVolume;
             Console.WriteLine(BloodVolumeRatio);
         }
 
     }
-    public class DrugInfusion : Fluid
+
+    public class Drug : Fluid //This may be stupid
     {
         #region DefaultDrugInfusionValues
         private new static readonly float _defaultVolume = 50;
-        private static readonly FluidProfile _defaultInfusionFluidProfile_Drug = new FluidProfile()
+        private static readonly FluidProfile _defaultFluidProfile_Drug = new FluidProfile()
         {
             Hematocrit = 0.0f,
             ClottingFactor = 0.0f,
             Electrolytes = 0.0f
-        };//Essentially ratios found in standard blood infusion
+        };//Essentially ratios found in standard drug infusion //TBC
         #endregion
 
         public readonly DrugType drugType = DrugType.None;
 
-
-        public DrugInfusion()
+        #region Constructors
+        public Drug() : base(_defaultVolume, _defaultFluidProfile_Drug)
         {
-
         }
-        public DrugInfusion(DrugType drugType) : base(_defaultVolume, _defaultInfusionFluidProfile_Drug)
+
+        public Drug(DrugType drugType) : base(_defaultVolume, _defaultFluidProfile_Drug)
         {
             this.drugType = drugType;
         }
-        public DrugInfusion(DrugType drugType, float volume) : base(volume, _defaultInfusionFluidProfile_Drug)
+        public Drug(DrugType drugType, float volume) : base(volume, _defaultFluidProfile_Drug)
         {
             this.drugType = drugType;
         }
-        public DrugInfusion(DrugType drugType, float volume, FluidProfile drugFluidProfile) : base(volume, _defaultInfusionFluidProfile_Drug)
+        public Drug(DrugType drugType, float volume, FluidProfile drugFluidProfile) : base(volume, _defaultFluidProfile_Drug)
         {
             this.drugType = drugType;
         }
-
+        #endregion
     }
 }

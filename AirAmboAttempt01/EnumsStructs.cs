@@ -1,4 +1,5 @@
-﻿namespace AirAmboAttempt01
+﻿using System.Collections.Generic;
+namespace AirAmboAttempt01
 {
     public enum BloodABO
     {
@@ -59,7 +60,8 @@
         Stimulant,
         Sedative,
         Opiods,
-        Hallucinogens
+        Hallucinogens,
+        Detoxer
     }
     public struct IllilcitDrugsProfile
     {
@@ -68,4 +70,6 @@
         public bool opiods;
         public bool hallucinogens;
     }
+
+   
 }
