@@ -1,22 +1,5 @@
 ﻿namespace AirAmboAttempt01
 {
-    public enum BloodABO
-    {
-        O,
-        A,
-        B,
-        AB
-    }
-    public enum BloodRhesus
-    {
-        Positive,
-        Negative
-    }
-    public struct BloodType
-    {
-        public BloodABO ABO;
-        public BloodRhesus Rhesus;
-    }
     public enum Gender
     {
         Other,
@@ -34,6 +17,23 @@
         RightLeg,
         Other //?
     }
+    public enum BloodABO
+    {
+        O,
+        A,
+        B,
+        AB
+    }
+    public enum BloodRhesus
+    {
+        Positive,
+        Negative
+    }
+    public struct BloodType
+    {
+        public BloodABO ABO;
+        public BloodRhesus Rhesus;
+    }
     public enum BleedingSeverity
     {
         None,
@@ -50,6 +50,34 @@
         Severe,
         Extreme
     }
+    public enum InfectionSeverity
+    {
+        None,
+        Mild,
+        Moderate,
+        Severe,
+        Extreme
+    }
+    public enum InfectionType
+    {
+        Bacterial,
+        Viral,
+        Prion,
+        Other
+    }
+    public enum InfectionResistance
+    {
+        Susceptible,
+        Stardard,
+        Resistant,
+        Immune
+    }
+    public struct Infection
+    {
+        public InfectionType infectionType;
+        public InfectionSeverity infectionSeverity;
+        public InfectionResistance infectionResistance;
+    }
     public enum Consciousness
     {
        Dead,
@@ -65,7 +93,6 @@
         Confused,
         Agitated,
     }
-
     public enum DrugType //For later use
     {
         None,
@@ -82,6 +109,4 @@
         public bool opiods;
         public bool hallucinogens;
     }
-
-   
 }

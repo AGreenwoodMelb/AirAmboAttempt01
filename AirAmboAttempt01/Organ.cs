@@ -22,8 +22,8 @@ namespace AirAmboAttempt01
                 BodyRegion.Chest, new Organ[]
                 {
                     new Heart(),
-                    new Organ("Left Lung"),
-                    new Organ("Right Lung"),
+                    new Lung(),
+                    new Lung(),
                 }
             },
 
@@ -48,12 +48,19 @@ namespace AirAmboAttempt01
                 get { return _isBleeding; }
                 protected set { _isBleeding = value; }
             }
+
+            private Infection _currentInfection;
+            public Infection CurrentInfection
+            {
+                get { return _currentInfection; }
+                private set { _currentInfection = value; }
+            }
         }
 
         public class Brain : Organ
         {
             private float _currentPressure = 0f;
-            private bool _isSeizuring;
+            private bool _isSeizing;
 
             public void Haemorrhage()
             {
@@ -68,6 +75,11 @@ namespace AirAmboAttempt01
             private bool _isArrythmic;
 
             private int rate;
+        }
+
+        public class Lung : Organ
+        {
+            
         }
     }
 
