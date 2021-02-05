@@ -7,12 +7,7 @@ namespace AirAmboAttempt01
     {
         #region DefaultInfusionValues
         public static readonly float _defaultVolume = 1000;
-        public static readonly FluidProfile _defaultFluidProfile = new FluidProfile()
-        {
-            Hematocrit = 0.0f,
-            ClottingFactor = 0.0f,
-            Electrolytes = 0.0f
-        };//Essentially ratios found in 1L of water
+      
         #endregion
         #region MaxMinInfusionValues
         private readonly float _VolumeMax = 10000;
@@ -34,7 +29,7 @@ namespace AirAmboAttempt01
                 _volume = Math.Clamp(value, _VolumeMin, _VolumeMax);
             }
         }
-        private FluidProfile _fluidProfile = _defaultFluidProfile;
+        private FluidProfile _fluidProfile = FluidProfiles.fluidDefault;
         public FluidProfile FluidProfile
         {
             get { return _fluidProfile; }
@@ -83,26 +78,21 @@ namespace AirAmboAttempt01
     {
         #region DefaultBloodValues
         private new static readonly float _defaultVolume = 450;
-        private static readonly FluidProfile _defaultFluidProfile_Blood = new FluidProfile()
-        {
-            Hematocrit = 0.4f,
-            ClottingFactor = 1.0f,
-            Electrolytes = 1.0f
-        };//Essentially ratios found in standard blood
+        
         #endregion
 
         public readonly BloodType bloodType = new BloodType() { ABO = BloodABO.O, Rhesus = BloodRhesus.Negative };
        
         #region Constructors
-        public Blood() : base(_defaultVolume, _defaultFluidProfile_Blood)
+        public Blood() : base(_defaultVolume, FluidProfiles.bloodDefault)
         {
 
         }
-        public Blood(BloodType bloodType) : base(_defaultVolume, _defaultFluidProfile_Blood)
+        public Blood(BloodType bloodType) : base(_defaultVolume, FluidProfiles.bloodDefault)
         {
             this.bloodType = bloodType;
         }
-        public Blood(BloodType bloodType, float volume) : base(volume, _defaultFluidProfile_Blood)
+        public Blood(BloodType bloodType, float volume) : base(volume, FluidProfiles.bloodDefault)
         {
             this.bloodType = bloodType;
         }
@@ -240,30 +230,25 @@ namespace AirAmboAttempt01
     {
         #region DefaultDrugInfusionValues
         private new static readonly float _defaultVolume = 50;
-        private static readonly FluidProfile _defaultFluidProfile_Drug = new FluidProfile()
-        {
-            Hematocrit = 0.0f,
-            ClottingFactor = 0.0f,
-            Electrolytes = 0.0f
-        };//Essentially ratios found in standard drug infusion //TBC
+        
         #endregion
 
         public readonly DrugType drugType = DrugType.None;
 
         #region Constructors
-        public Drug() : base(_defaultVolume, _defaultFluidProfile_Drug)
+        public Drug() : base(_defaultVolume, FluidProfiles.drugDefault)
         {
         }
 
-        public Drug(DrugType drugType) : base(_defaultVolume, _defaultFluidProfile_Drug)
+        public Drug(DrugType drugType) : base(_defaultVolume, FluidProfiles.drugDefault)
         {
             this.drugType = drugType;
         }
-        public Drug(DrugType drugType, float volume) : base(volume, _defaultFluidProfile_Drug)
+        public Drug(DrugType drugType, float volume) : base(volume, FluidProfiles.drugDefault)
         {
             this.drugType = drugType;
         }
-        public Drug(DrugType drugType, float volume, FluidProfile drugFluidProfile) : base(volume, _defaultFluidProfile_Drug)
+        public Drug(DrugType drugType, float volume, FluidProfile drugFluidProfile) : base(volume, FluidProfiles.drugDefault)
         {
             this.drugType = drugType;
         }

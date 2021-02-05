@@ -18,6 +18,8 @@ namespace AirAmboAttempt01
             bs.Transfuse(new Drug());
             Console.WriteLine(bs.Volume);
 
+            Console.WriteLine(bs.FluidProfile.ClottingFactor);
+
 
             Console.ReadLine();
         }
