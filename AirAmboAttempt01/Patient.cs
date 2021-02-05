@@ -4,17 +4,14 @@ using System.Text;
 
 namespace AirAmboAttempt01
 {
- 
-
-
-    class Patient
+    public class Patient
     {
         readonly string firstName;
         readonly string lastName;
         readonly int age;
         readonly Gender gender;
 
-        Patient()
+        public Patient()
         {
             firstName = "John";
             lastName = "Doe";
@@ -22,7 +19,7 @@ namespace AirAmboAttempt01
             gender = Gender.Other;
         }
 
-        Patient(string firstName, string lastName, int age, Gender gender)
+        public Patient(string firstName, string lastName, int age, Gender gender)
         {
             this.firstName = firstName;
             this.lastName = lastName;
@@ -107,9 +104,12 @@ namespace AirAmboAttempt01
     {
         #region DefaultValues
         readonly float _normalBloodVolume = 6000f; //mL
-        readonly float _normalHematocrit = 0.4f;
-        readonly float _normalClottingRatio = 1f;
-        readonly float _normalCardiacEnzymes = 0f;
+        static readonly FluidProfile _normalBloodProfile = new FluidProfile()
+        {
+            Hematocrit = 0.4f,
+            ClottingFactor = 1f,
+            Electrolytes = 1f
+        };
         readonly Dictionary<BleedingSeverity, float> _bloodLossDefaults = new Dictionary<BleedingSeverity, float>()
         {
             { BleedingSeverity.None, 0},
@@ -118,8 +118,10 @@ namespace AirAmboAttempt01
             { BleedingSeverity.Severe, 2}
         };
         #endregion
-
-        Dictionary<BodyRegion, BleedingSeverity> isBleeding = new Dictionary<BodyRegion, BleedingSeverity>()
+        
+        public readonly BloodType bloodType = new BloodType() { ABO = BloodABO.AB, Rhesus = BloodRhesus.Positive };
+        
+        Dictionary<BodyRegion, BleedingSeverity> isRegionBleeding = new Dictionary<BodyRegion, BleedingSeverity>()
         {
             {BodyRegion.Head, BleedingSeverity.None},
             {BodyRegion.Chest, BleedingSeverity.None},
@@ -130,41 +132,17 @@ namespace AirAmboAttempt01
             {BodyRegion.RightLeg, BleedingSeverity.None}
         };
 
-        //public readonly BloodABO bloodABO;
-        public readonly BloodRhesus bloodRhesus;
-
-        public readonly BloodType bloodType;
-
         public float CurrentBloodVolume { get; private set; }
-        public float Hematocrit { get; private set; }
-        public float ClottingRatio { get; private set; }
-        public float CardiacEnzymes { get; private set; }
-        //Electrolytes
-
-
-        //Change these to use InfusionFluid object and InfusionFluid:Blood for blood transfusion
-        public bool BloodTransfusion(BloodABO incBloodType, BloodRhesus incRhesus, float incBloodVolume, float incHematocrit = -1f) //Dont Use this
+        private FluidProfile _bloodProfile = _normalBloodProfile;
+        public FluidProfile BloodProfile
         {
-            if (incHematocrit < 0f || incHematocrit > 1f)
-            {
-                incHematocrit = _normalHematocrit;
-            }
-            AddVolume(incBloodVolume, incHematocrit);
-
-            if (BloodTypeCompatibility(incBloodType, incRhesus))
-            {
-                return true;
-            }
-            else
-            {
-                return false; //Trigger Transfusion reaction
-            }
+            get { return _bloodProfile; }
         }
-
+     
         public bool BloodTranfusion(BloodInfusion incBlood)
         {
-            AddVolume(incBlood.Volume, incBlood.Hematocrit);
-            if (BloodTypeCompatibility(incBlood.ABO, incBlood.Rhesus))
+            AddVolume(incBlood);
+            if (BloodTypeCompatibility(incBlood.BloodType))
             {
                 return true;
             }
@@ -174,17 +152,17 @@ namespace AirAmboAttempt01
             }
         }
 
-        private bool BloodTypeCompatibility(BloodABO incBloodType, BloodRhesus incRhesus)
+        private bool BloodTypeCompatibility(BloodType incBloodType)
         {
-            if (bloodRhesus == BloodRhesus.Positive || incRhesus == BloodRhesus.Negative)
+            if (bloodType.Rhesus == BloodRhesus.Positive || incBloodType.Rhesus == BloodRhesus.Negative)
             {
-                if ((incBloodType == BloodABO.A) && (bloodType.ABO == BloodABO.B))
+                if ((incBloodType.ABO == BloodABO.A) && (bloodType.ABO == BloodABO.B))
                 {
                     return false;
                 }
                 else
                 {
-                    return (bloodType.ABO >= incBloodType && (bloodRhesus == BloodRhesus.Positive || incRhesus == BloodRhesus.Negative));
+                    return (bloodType.ABO >= incBloodType.ABO && (bloodType.Rhesus == BloodRhesus.Positive || incBloodType.Rhesus == BloodRhesus.Negative));
                 }
             }
             else
@@ -194,19 +172,19 @@ namespace AirAmboAttempt01
 
         }
 
-        public bool FluidTransfusion(float incVolume, float incHematocrit = -1f)
+        public bool FluidTransfusion(InfusionFluid incFluid)//Need this? probably not
         {
-            AddVolume(incVolume, incHematocrit);
+            AddVolume(incFluid);
 
             return true;
         }
 
-        private void AddVolume(float incVolume, float incHematocrit = 0f)
+        private void AddVolume(InfusionFluid incFluid)
         {
-            float newBloodVolume = CurrentBloodVolume + incVolume;
+            float newBloodVolume = CurrentBloodVolume + incFluid.Volume;
 
-            CardiacEnzymes = CardiacEnzymes * (CurrentBloodVolume / newBloodVolume);
-            Hematocrit = ((incVolume * incHematocrit) + (CurrentBloodVolume * Hematocrit)) / newBloodVolume;
+            //CardiacEnzymes = CardiacEnzymes * (CurrentBloodVolume / newBloodVolume);
+            _bloodProfile.Hematocrit = ((incFluid.Volume * incFluid.FluidProfile.Hematocrit) + (CurrentBloodVolume * _bloodProfile.Hematocrit)) / newBloodVolume;
 
 
             CurrentBloodVolume = newBloodVolume;
@@ -226,25 +204,11 @@ namespace AirAmboAttempt01
 
 
 
-        private IllictDrugs illictDrugs;
-
-        public IllictDrugs DrugScreen()
-        {
-            return illictDrugs;
-        }
+       
 
         public Blood()
         {
-            bloodType = new BloodType() { ABO = BloodABO.AB, Rhesus = BloodRhesus.Positive };
-            CurrentBloodVolume = _normalBloodVolume;
-
-            ClottingRatio = _normalClottingRatio;
-            Hematocrit = _normalHematocrit;
-
-            CardiacEnzymes = 0;
-
-            illictDrugs = new IllictDrugs();
-
+           // illictDrugs = new IllictDrugs();
         }
 
         public Blood(BloodType bloodType) : this()
@@ -254,9 +218,10 @@ namespace AirAmboAttempt01
 
         public Blood(float hematocrit) : this()
         {
-            Hematocrit = hematocrit;
+            _bloodProfile.Hematocrit = hematocrit;
         }
 
+        /* Implement this later
         public struct IllictDrugs
         {
             public bool stimulants;
@@ -264,6 +229,14 @@ namespace AirAmboAttempt01
             public bool opiods;
             public bool hallucinogens;
         }
+
+        private IllictDrugs illictDrugs;
+
+        public IllictDrugs DrugScreen()
+        {
+            return illictDrugs;
+        }
+        */
 
     }
 

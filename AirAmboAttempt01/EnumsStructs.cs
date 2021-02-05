@@ -49,11 +49,18 @@
         UnResponsive
     }
 
-    public struct InfusionFluidProfile
+    public struct FluidProfile
     {
         public float Hematocrit;
         public float ClottingFactor;
         public float Electrolytes;
     }
 
+
+    public enum DrugType //For later use
+    {
+        None,
+        Stimulant,
+        Sedative
+    }
 }

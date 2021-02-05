@@ -7,7 +7,7 @@ namespace AirAmboAttempt01
     {
         #region DefaultInfusionValues
         public static readonly float _defaultVolume = 1000;
-        public static readonly InfusionFluidProfile _defaultInfusionFluidProfile = new InfusionFluidProfile()
+        public static readonly FluidProfile _defaultInfusionFluidProfile = new FluidProfile()
         {
             Hematocrit = 0.0f,
             ClottingFactor = 0.0f,
@@ -34,8 +34,8 @@ namespace AirAmboAttempt01
                 _volume = Math.Clamp(value, _VolumeMin, _VolumeMax);
             }
         }
-        private InfusionFluidProfile _fluidProfile = _defaultInfusionFluidProfile;
-        public InfusionFluidProfile FluidProfile
+        private FluidProfile _fluidProfile = _defaultInfusionFluidProfile;
+        public FluidProfile FluidProfile
         {
             get { return _fluidProfile; }
             protected set
@@ -51,7 +51,7 @@ namespace AirAmboAttempt01
             Volume = volume;
         }
 
-        public InfusionFluid(float volume, InfusionFluidProfile infusionFluidProfile)
+        public InfusionFluid(float volume, FluidProfile infusionFluidProfile)
         {
             Volume = volume;
             FluidProfile = infusionFluidProfile;
@@ -62,7 +62,7 @@ namespace AirAmboAttempt01
     {
         #region DefaultBloodValues
         private new static readonly float _defaultVolume = 450;
-        private static readonly InfusionFluidProfile _defaultInfusionFluidProfile_Blood = new InfusionFluidProfile()
+        private static readonly FluidProfile _defaultInfusionFluidProfile_Blood = new FluidProfile()
         {
             Hematocrit = 0.4f,
             ClottingFactor = 1.0f,
@@ -87,7 +87,7 @@ namespace AirAmboAttempt01
             BloodType = bloodType;
         }
 
-        public BloodInfusion(BloodType bloodType, float volume, InfusionFluidProfile infusion) : base(volume, infusion)
+        public BloodInfusion(BloodType bloodType, float volume, FluidProfile infusion) : base(volume, infusion)
         {
             BloodType = bloodType;
         }
