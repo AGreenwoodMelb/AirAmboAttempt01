@@ -28,7 +28,7 @@ namespace AirAmboAttempt01
                 _volume = Math.Clamp(value, _VolumeMin, _VolumeMax);
             }
         }
-        private FluidProfile _fluidProfile = FluidProfiles.fluidDefault;
+        private FluidProfile _fluidProfile = DefaultFluidProfiles.BaseFluid;
         public FluidProfile FluidProfile
         {
             get { return _fluidProfile; }
@@ -82,15 +82,15 @@ namespace AirAmboAttempt01
         public readonly BloodType bloodType = new BloodType() { ABO = BloodABO.O, Rhesus = BloodRhesus.Negative };
        
         #region Constructors
-        public Blood() : base(_defaultVolume, FluidProfiles.bloodDefault)
+        public Blood() : base(_defaultVolume, DefaultFluidProfiles.Blood)
         {
 
         }
-        public Blood(BloodType bloodType) : base(_defaultVolume, FluidProfiles.bloodDefault)
+        public Blood(BloodType bloodType) : base(_defaultVolume, DefaultFluidProfiles.Blood)
         {
             this.bloodType = bloodType;
         }
-        public Blood(BloodType bloodType, float volume) : base(volume, FluidProfiles.bloodDefault)
+        public Blood(BloodType bloodType, float volume) : base(volume, DefaultFluidProfiles.Blood)
         {
             this.bloodType = bloodType;
         }
@@ -229,19 +229,19 @@ namespace AirAmboAttempt01
         public readonly DrugType drugType = DrugType.None;
 
         #region Constructors
-        public Drug() : base(_defaultVolume, FluidProfiles.drugDefault)
+        public Drug() : base(_defaultVolume, DefaultFluidProfiles.Drug)
         {
         }
 
-        public Drug(DrugType drugType) : base(_defaultVolume, FluidProfiles.drugDefault)
+        public Drug(DrugType drugType) : base(_defaultVolume, DefaultFluidProfiles.Drug)
         {
             this.drugType = drugType;
         }
-        public Drug(DrugType drugType, float volume) : base(volume, FluidProfiles.drugDefault)
+        public Drug(DrugType drugType, float volume) : base(volume, DefaultFluidProfiles.Drug)
         {
             this.drugType = drugType;
         }
-        public Drug(DrugType drugType, float volume, FluidProfile drugFluidProfile) : base(volume, FluidProfiles.drugDefault)
+        public Drug(DrugType drugType, float volume, FluidProfile drugFluidProfile) : base(volume, DefaultFluidProfiles.Drug)
         {
             this.drugType = drugType;
         }

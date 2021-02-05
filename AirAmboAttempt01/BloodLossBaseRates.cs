@@ -8,7 +8,7 @@ namespace AirAmboAttempt01
     {
         public static readonly float Superficial = 1f;
 
-        public static readonly float Brain =1f;
+        public static readonly float Brain = 1f;
 
         public static readonly float Heart = 1f;
         public static readonly float Lung = 1f;

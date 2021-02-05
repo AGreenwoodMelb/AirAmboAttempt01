@@ -40,6 +40,7 @@ namespace AirAmboAttempt01
             }
         };
 
+        #region AbstractOrganClasses
         public abstract class Organ
         {
             private BleedingSeverity _isBleeding = BleedingSeverity.None;
@@ -52,7 +53,6 @@ namespace AirAmboAttempt01
             public readonly float BloodLossRate;
             public Infection CurrentInfection = new Infection();
 
-
             public Organ(float bloodLossRate)
             {
                 BloodLossRate = bloodLossRate;
@@ -64,6 +64,17 @@ namespace AirAmboAttempt01
             }
         }
 
+        public abstract class PairedOrgan : Organ
+        {
+            public readonly bool isLeft;
+
+            public PairedOrgan(float bloodLossBaseRate, bool isLeft) : base(bloodLossBaseRate)
+            {
+                this.isLeft = isLeft;
+            }
+        }
+        #endregion
+        #region PracticalOrganClasses
         public class Brain : Organ
         {
             private float _currentPressure = 0f;
@@ -89,21 +100,19 @@ namespace AirAmboAttempt01
             }
         }
 
-        public class Lung : Organ
+        public class Lung : PairedOrgan
         {
-            public readonly bool isLeft;
-
-            //private LungLobe[] Lobes;
-
             private Dictionary<LungLobeLocation, LungLobe> Lobes;
 
-            public Lung(bool isLeft) : base(BloodLossBaseRates.Lung)
+            public Lung(bool isLeft) : base(BloodLossBaseRates.Lung, isLeft)
             {
                 if (isLeft)
                 {
                     Lobes = new Dictionary<LungLobeLocation, LungLobe>()
                     {
                         { LungLobeLocation.Upper, new LungLobe()},
+                        { LungLobeLocation.Middle, null},
+
                         { LungLobeLocation.Lower, new LungLobe()}
                     };
                 }
@@ -129,10 +138,23 @@ namespace AirAmboAttempt01
                     throw new KeyNotFoundException(
                         message: $"{lobeLocation} not found in Lung (Left Lung: {isLeft})"
                         );
-
                 }
             }
         }
-    }
 
+        public class Kidney : PairedOrgan
+        {
+            public Kidney(bool isLeft) : base(BloodLossBaseRates.Kidney, isLeft)
+            {
+
+            }
+
+            public bool test()
+            {
+                return isLeft;
+            }
+        }
+        #endregion
+    }
 }
+
