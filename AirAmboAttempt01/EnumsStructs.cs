@@ -1,6 +1,5 @@
 ﻿namespace AirAmboAttempt01
 {
-
     public enum BloodABO
     {
         O,
@@ -48,19 +47,25 @@
         Responsive,
         UnResponsive
     }
-
     public struct FluidProfile
     {
         public float Hematocrit;
         public float ClottingFactor;
         public float Electrolytes;
     }
-
-
     public enum DrugType //For later use
     {
         None,
         Stimulant,
-        Sedative
+        Sedative,
+        Opiods,
+        Hallucinogens
+    }
+    public struct IllilcitDrugsProfile
+    {
+        public bool stimulants;
+        public bool sedetives;
+        public bool opiods;
+        public bool hallucinogens;
     }
 }
