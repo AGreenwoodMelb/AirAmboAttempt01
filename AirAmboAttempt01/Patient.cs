@@ -4,55 +4,31 @@ using System.Text;
 
 namespace AirAmboAttempt01
 {
-    public enum BloodGroup
-    {
-        O,
-        A,
-        B,
-        AB
-    }
-    public enum BloodRhesus
-    {
-        Positive,
-        Negative
-    }
-    public enum Gender
-    {
-        Other,
-        Male,
-        Female
-    }
-    public enum BodyRegion
-    {
-        Head,
-        Chest,
-        Abdomen,
-        LeftArm,
-        RightArm,
-        LeftLeg,
-        RightLeg,
-        Other //?
-    }
-    public enum BleedingSeverity
-    {
-        None,
-        Minor,
-        Moderate,
-        Severe
-    }
-    public enum Consciousness
-    {
-        Awake,
-        Responsive,
-        UnResponsive
-    }
+ 
 
 
     class Patient
     {
-        readonly string name;
+        readonly string firstName;
+        readonly string lastName;
         readonly int age;
         readonly Gender gender;
+
+        Patient()
+        {
+            firstName = "John";
+            lastName = "Doe";
+            age = 30;
+            gender = Gender.Other;
+        }
+
+        Patient(string firstName, string lastName, int age, Gender gender)
+        {
+            this.firstName = firstName;
+            this.lastName = lastName;
+            this.age = age;
+            this.gender = gender;
+        }
 
         Body body;
 
@@ -129,11 +105,11 @@ namespace AirAmboAttempt01
 
     public class Blood
     {
+        #region DefaultValues
         readonly float _normalBloodVolume = 6000f; //mL
         readonly float _normalHematocrit = 0.4f;
         readonly float _normalClottingRatio = 1f;
         readonly float _normalCardiacEnzymes = 0f;
-
         readonly Dictionary<BleedingSeverity, float> _bloodLossDefaults = new Dictionary<BleedingSeverity, float>()
         {
             { BleedingSeverity.None, 0},
@@ -141,6 +117,7 @@ namespace AirAmboAttempt01
             { BleedingSeverity.Moderate, 1},
             { BleedingSeverity.Severe, 2}
         };
+        #endregion
 
         Dictionary<BodyRegion, BleedingSeverity> isBleeding = new Dictionary<BodyRegion, BleedingSeverity>()
         {
@@ -153,8 +130,10 @@ namespace AirAmboAttempt01
             {BodyRegion.RightLeg, BleedingSeverity.None}
         };
 
-        public readonly BloodGroup bloodGroup;
+        //public readonly BloodABO bloodABO;
         public readonly BloodRhesus bloodRhesus;
+
+        public readonly BloodType bloodType;
 
         public float CurrentBloodVolume { get; private set; }
         public float Hematocrit { get; private set; }
@@ -163,7 +142,8 @@ namespace AirAmboAttempt01
         //Electrolytes
 
 
-        public bool BloodTransfusion(BloodGroup incBloodType, BloodRhesus incRhesus, float incBloodVolume, float incHematocrit = -1f)
+        //Change these to use InfusionFluid object and InfusionFluid:Blood for blood transfusion
+        public bool BloodTransfusion(BloodABO incBloodType, BloodRhesus incRhesus, float incBloodVolume, float incHematocrit = -1f) //Dont Use this
         {
             if (incHematocrit < 0f || incHematocrit > 1f)
             {
@@ -180,24 +160,38 @@ namespace AirAmboAttempt01
                 return false; //Trigger Transfusion reaction
             }
         }
-        private bool BloodTypeCompatibility(BloodGroup incBloodType, BloodRhesus incRhesus)
+
+        public bool BloodTranfusion(BloodInfusion incBlood)
         {
-            if(bloodRhesus == BloodRhesus.Positive || incRhesus == BloodRhesus.Negative)
+            AddVolume(incBlood.Volume, incBlood.Hematocrit);
+            if (BloodTypeCompatibility(incBlood.ABO, incBlood.Rhesus))
             {
-                if ((incBloodType == BloodGroup.A) && (bloodGroup == BloodGroup.B))
+                return true;
+            }
+            else
+            {
+                return false; //Trigger Transfusion reaction
+            }
+        }
+
+        private bool BloodTypeCompatibility(BloodABO incBloodType, BloodRhesus incRhesus)
+        {
+            if (bloodRhesus == BloodRhesus.Positive || incRhesus == BloodRhesus.Negative)
+            {
+                if ((incBloodType == BloodABO.A) && (bloodType.ABO == BloodABO.B))
                 {
                     return false;
                 }
                 else
                 {
-                    return (bloodGroup >= incBloodType && (bloodRhesus == BloodRhesus.Positive || incRhesus == BloodRhesus.Negative));
+                    return (bloodType.ABO >= incBloodType && (bloodRhesus == BloodRhesus.Positive || incRhesus == BloodRhesus.Negative));
                 }
             }
             else
             {
                 return false;
             }
-           
+
         }
 
         public bool FluidTransfusion(float incVolume, float incHematocrit = -1f)
@@ -210,14 +204,14 @@ namespace AirAmboAttempt01
         private void AddVolume(float incVolume, float incHematocrit = 0f)
         {
             float newBloodVolume = CurrentBloodVolume + incVolume;
-            
+
             CardiacEnzymes = CardiacEnzymes * (CurrentBloodVolume / newBloodVolume);
             Hematocrit = ((incVolume * incHematocrit) + (CurrentBloodVolume * Hematocrit)) / newBloodVolume;
 
 
             CurrentBloodVolume = newBloodVolume;
             BloodChecks();
-                    }
+        }
 
         private void BloodChecks()
         {
@@ -230,7 +224,7 @@ namespace AirAmboAttempt01
             Console.WriteLine(BloodVolumeRatio);
         }
 
-        
+
 
         private IllictDrugs illictDrugs;
 
@@ -241,23 +235,21 @@ namespace AirAmboAttempt01
 
         public Blood()
         {
-            bloodGroup = BloodGroup.AB;
-            bloodRhesus = BloodRhesus.Positive;
+            bloodType = new BloodType() { ABO = BloodABO.AB, Rhesus = BloodRhesus.Positive };
             CurrentBloodVolume = _normalBloodVolume;
 
-            ClottingRatio = 1;
+            ClottingRatio = _normalClottingRatio;
             Hematocrit = _normalHematocrit;
 
             CardiacEnzymes = 0;
 
             illictDrugs = new IllictDrugs();
-            
+
         }
 
-        public Blood(BloodGroup incBloodType, BloodRhesus incRhesus) : this()
+        public Blood(BloodType bloodType) : this()
         {
-            bloodGroup = incBloodType;
-            bloodRhesus = incRhesus;
+            this.bloodType = bloodType;
         }
 
         public Blood(float hematocrit) : this()

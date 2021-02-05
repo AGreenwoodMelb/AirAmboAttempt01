@@ -13,56 +13,56 @@ namespace AirAmboAttempt01Test
         public void BloodTransfusionSameTypeSameRhesusCompatible()
         {
             //Arrange
-            Blood blood = new Blood(BloodGroup.AB, BloodRhesus.Negative);
+            Blood blood = new Blood(BloodABO.AB, BloodRhesus.Negative);
             //Assess
 
             //Assert
-            Assert.True(blood.BloodTransfusion(BloodGroup.AB, BloodRhesus.Negative, 600));
+            Assert.True(blood.BloodTransfusion(BloodABO.AB, BloodRhesus.Negative, 600));
         }
 
         [Fact]
         public void BloodTransfusionSameTypeDifferentRhesusCompatible()
         {
-            Blood blood = new Blood(BloodGroup.AB, BloodRhesus.Positive);
+            Blood blood = new Blood(BloodABO.AB, BloodRhesus.Positive);
 
 
-            Assert.True(blood.BloodTransfusion(BloodGroup.AB, BloodRhesus.Negative, 600));
+            Assert.True(blood.BloodTransfusion(BloodABO.AB, BloodRhesus.Negative, 600));
         }
 
         [Fact]
         public void BloodTransfusionDifferentTypeSameRhesusCompatible()
         {
-            Blood blood = new Blood(BloodGroup.A, BloodRhesus.Positive);
+            Blood blood = new Blood(BloodABO.A, BloodRhesus.Positive);
 
-            Assert.True(blood.BloodTransfusion(BloodGroup.O, BloodRhesus.Positive, 600));
+            Assert.True(blood.BloodTransfusion(BloodABO.O, BloodRhesus.Positive, 600));
         }
         [Fact]
         public void BloodTransfusionDifferentTypeDifferentRhesusCompatible()
         {
-            Blood blood = new Blood(BloodGroup.A, BloodRhesus.Positive);
+            Blood blood = new Blood(BloodABO.A, BloodRhesus.Positive);
 
-            Assert.True(blood.BloodTransfusion(BloodGroup.O, BloodRhesus.Negative, 600));
+            Assert.True(blood.BloodTransfusion(BloodABO.O, BloodRhesus.Negative, 600));
         }
         [Fact]
         public void BloodTransFusionSameTypeDifferentRhesusIncompatible()
         {
-            Blood blood = new Blood(BloodGroup.A, BloodRhesus.Negative);
+            Blood blood = new Blood(BloodABO.A, BloodRhesus.Negative);
 
-            Assert.False(blood.BloodTransfusion(BloodGroup.A, BloodRhesus.Positive, 600));
+            Assert.False(blood.BloodTransfusion(BloodABO.A, BloodRhesus.Positive, 600));
         }
         [Fact]
         public void BloodTransfusionDifferentTypeSameRhesusIncompatible()
         {
-            Blood blood = new Blood(BloodGroup.B, BloodRhesus.Positive);
+            Blood blood = new Blood(BloodABO.B, BloodRhesus.Positive);
 
-            Assert.False(blood.BloodTransfusion(BloodGroup.A, BloodRhesus.Positive, 600));
+            Assert.False(blood.BloodTransfusion(BloodABO.A, BloodRhesus.Positive, 600));
         }
         [Fact]
         public void BloodTransfusionDifferentTypeDifferentRhesusIncompatible()
         {
-            Blood blood = new Blood(BloodGroup.A, BloodRhesus.Positive);
+            Blood blood = new Blood(BloodABO.A, BloodRhesus.Positive);
 
-            Assert.False(blood.BloodTransfusion(BloodGroup.B, BloodRhesus.Negative, 600));
+            Assert.False(blood.BloodTransfusion(BloodABO.B, BloodRhesus.Negative, 600));
         }
         #endregion 
 
@@ -71,7 +71,7 @@ namespace AirAmboAttempt01Test
         {
             Blood b = new Blood();
            
-            b.BloodTransfusion(BloodGroup.O, BloodRhesus.Negative, 600); //10% increase in TBV at 40%
+            b.BloodTransfusion(BloodABO.O, BloodRhesus.Negative, 600); //10% increase in TBV at 40%
 
             Assert.True(b.Hematocrit == 0.4f);
         }
@@ -81,7 +81,7 @@ namespace AirAmboAttempt01Test
         {
             Blood b = new Blood(0.0f);
 
-            b.BloodTransfusion(BloodGroup.O, BloodRhesus.Negative, 6000);
+            b.BloodTransfusion(BloodABO.O, BloodRhesus.Negative, 6000);
 
             Assert.Equal(0.2f, b.Hematocrit);
         }

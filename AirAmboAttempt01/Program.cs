@@ -9,11 +9,16 @@ namespace AirAmboAttempt01
         {
             Blood b = new Blood(0.2f);
 
-            Console.WriteLine($"Pre-infusion hematocrit: ${b.Hematocrit}");
+            BloodInfusion bi = new BloodInfusion();
 
-            b.BloodTransfusion(BloodGroup.O, BloodRhesus.Negative,500, 0.9f);
 
-            Console.WriteLine($"Post-infusion hematocrit: ${b.Hematocrit}");
+
+            Console.WriteLine($"{bi.Volume}");
+           // Console.WriteLine($"Pre-infusion hematocrit: ${b.Hematocrit}");
+
+            //b.BloodTransfusion(BloodGroup.O, BloodRhesus.Negative,500, 0.9f);
+
+            //Console.WriteLine($"Post-infusion hematocrit: ${b.Hematocrit}");
 
             Console.ReadLine();
         }
