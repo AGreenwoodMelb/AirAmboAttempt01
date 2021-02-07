@@ -48,6 +48,24 @@ namespace AirAmboAttempt01.Patients.PatientPhysical
         {
             Abdomen = new Abdomen(isMale);
         }
+
+        public Physical(Head head = null, Chest chest = null, Abdomen abdomen = null, BloodSystem blood = null, Limbs limbs = null)
+        {
+            if (head != null)
+                _head = head;
+
+            if (chest != null)
+                _chest = chest;
+
+            if (abdomen != null)
+                _abdomen = abdomen;
+
+            if (blood != null)
+                _blood = blood;
+
+            if (limbs != null)
+                _limbs = limbs;
+        }
     }
 
     public abstract class PhysicalPart
@@ -85,31 +103,24 @@ namespace AirAmboAttempt01.Patients.PatientPhysical
             set { _brain = value; }
         }
 
-        public Head(Bone[] headBoneStructure = null)
+        public Head(Bone[] headBoneStructure = null, Brain brain = null)
         {
-            if (headBoneStructure == null)
-            {
-                Bones = DefaultBoneStructures.DefaultHeadBones;
-            }
-            else
-            {
-                Bones = headBoneStructure;
-            }
+            Bones = (headBoneStructure == null) ? DefaultBoneStructures.DefaultHeadBones : headBoneStructure;
+            Brain = (brain == null) ? new Brain() : brain;
         }
     }
 
     public class Chest : PhysicalPart
     {
         #region Props
-        private Heart _heart = new Heart();
+        private Heart _heart;
         public Heart Heart
         {
             get { return _heart; }
             set { _heart = value; }
         }
 
-        private Lungs _lungs = new Lungs();
-
+        private Lungs _lungs;
         public Lungs Lungs
         {
             get { return _lungs; }
@@ -117,86 +128,69 @@ namespace AirAmboAttempt01.Patients.PatientPhysical
         }
         #endregion
 
-        public Chest(Bone[] chestBoneStructure = null)
+        public Chest(Bone[] chestBoneStructure = null, Heart heart = null, Lungs lungs = null)
         {
-            if (chestBoneStructure == null)
-            {
-                Bones = DefaultBoneStructures.DefaultChestBones;
-            }
-            else
-            {
-                Bones = chestBoneStructure;
-            }
+            Bones = (chestBoneStructure == null) ? DefaultBoneStructures.DefaultChestBones : chestBoneStructure;
+            Heart = (heart == null) ? new Heart() : heart;
+            Lungs = (lungs == null) ? new Lungs() : lungs;
         }
     }
 
     public class Abdomen : PhysicalPart
     {
         #region Props
-        private GastrointestinalTract _gastrointestinalTract = new GastrointestinalTract();
+        private GastrointestinalTract _gastrointestinalTract;
         public GastrointestinalTract GastrointestinalTract
         {
             get { return _gastrointestinalTract; }
             set { _gastrointestinalTract = value; }
         }
 
-        private Liver _liver = new Liver();
+        private Liver _liver;
         public Liver Liver
         {
             get { return _liver; }
             set { _liver = value; }
         }
 
-        private Pancreas _pancreas = new Pancreas();
+        private Pancreas _pancreas;
         public Pancreas Pancreas
         {
             get { return _pancreas; }
             set { _pancreas = value; }
         }
 
-        private Kidneys _kidneys = new Kidneys();
-
+        private Kidneys _kidneys;
         public Kidneys Kidneys
         {
             get { return _kidneys; }
             set { _kidneys = value; }
         }
 
-
-        private Spleen _spleen = new Spleen();
+        private Spleen _spleen;
         public Spleen Spleen
         {
             get { return _spleen; }
             set { _spleen = value; }
         }
 
-        private Reproductive _repoductives;
+        private Reproductive _reproductives;
         public Reproductive Reproductives
         {
-            get { return _repoductives; }
-            set { _repoductives = value; }
+            get { return _reproductives; }
+            set { _reproductives = value; }
         }
         #endregion
 
-        public Abdomen(bool isMale, Bone[] AbdomenBoneStructure = null)
+        public Abdomen(Bone[] abdomenBoneStructure = null, GastrointestinalTract gastrointestinalTract = null, Liver liver = null, Pancreas pancreas = null, Kidneys kidneys = null, Spleen spleen = null, Reproductive reproductives = null)
         {
-            if (isMale)
-            {
-                _repoductives = new Reproductive_Male();
-            }
-            else
-            {
-                _repoductives = new Reproductive_Female();
-            }
-
-            if (AbdomenBoneStructure == null)
-            {
-                Bones = DefaultBoneStructures.DefaultAbdomenBones;
-            }
-            else
-            {
-                Bones = AbdomenBoneStructure;
-            }
+            Bones = (abdomenBoneStructure == null) ? DefaultBoneStructures.DefaultAbdomenBones : abdomenBoneStructure;
+            GastrointestinalTract = (gastrointestinalTract == null) ? new GastrointestinalTract() : gastrointestinalTract;
+            Liver = (liver == null) ? new Liver() : liver;
+            Pancreas = (pancreas == null) ? new Pancreas() : pancreas;
+            Kidneys = (kidneys == null) ? new Kidneys() : kidneys;
+            Spleen = (spleen == null) ? new Spleen() : spleen;
+            Reproductives = (reproductives == null) ? new Reproductive_Female() : reproductives;
         }
 
         public Organ[] GetOrgans()
@@ -240,69 +234,65 @@ namespace AirAmboAttempt01.Patients.PatientPhysical
 
     public class Arms
     {
-        private Arm _leftArm = new Arm();
-
+        #region Props
+        private Arm _leftArm;
         public Arm LeftArm
         {
             get { return _leftArm; }
             set { _leftArm = value; }
         }
 
-        private Arm _rightArm = new Arm();
-
+        private Arm _rightArm;
         public Arm RightArm
         {
             get { return _rightArm; }
             set { _rightArm = value; }
         }
+        #endregion
 
+        public Arms(Arm leftArm = null, Arm rightArm = null)
+        {
+            LeftArm = (leftArm == null) ? new Arm() : leftArm;
+            RightArm = (rightArm == null) ? new Arm() : rightArm;
+        }
     }
     public class Arm : Limb
     {
         public Arm(Bone[] armBoneStructure = null)
         {
-            if (armBoneStructure == null)
-            {
-                Bones = DefaultBoneStructures.DefaultArmBones;
-            }
-            else
-            {
-                Bones = armBoneStructure;
-            }
+            Bones = (armBoneStructure == null) ? DefaultBoneStructures.DefaultArmBones : armBoneStructure;
         }
     }
 
     public class Legs
     {
-        private Leg _leftLeg = new Leg();
-
+        #region Props
+        private Leg _leftLeg;
         public Leg LeftLeg
         {
             get { return _leftLeg; }
             set { _leftLeg = value; }
         }
 
-        private Leg _rightLeg = new Leg();
-
+        private Leg _rightLeg;
         public Leg RightLeg
         {
             get { return _rightLeg; }
             set { _rightLeg = value; }
         }
+        #endregion
 
+        public Legs(Leg leftLeg = null,  Leg rightLeg = null)
+        {
+            LeftLeg = (leftLeg == null) ? new Leg() : leftLeg;
+            RightLeg = (rightLeg == null) ? new Leg() : rightLeg;
+        }
     }
     public class Leg : Limb
     {
         public Leg(Bone[] legBoneStructure = null)
         {
-            if (legBoneStructure == null)
-            {
-                Bones = DefaultBoneStructures.DefaultArmBones;
-            }
-            else
-            {
-                Bones = legBoneStructure;
-            }
+            Bones = (legBoneStructure == null) ? DefaultBoneStructures.DefaultLegBones : legBoneStructure;
         }
     }
     #endregion

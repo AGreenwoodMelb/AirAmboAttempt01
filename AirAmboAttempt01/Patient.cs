@@ -41,6 +41,19 @@ namespace AirAmboAttempt01.Patients
             set { _isAlive = value; }
         }
 
+        private Physical _body = new Physical(false);
+        public Physical Body
+        {
+            get { return _body; }
+            private set { _body = value; }
+        }
+
+        private Mental _mind = new Mental();
+        public Mental Mind
+        {
+            get { return _mind; }
+            private set { _mind = value; }
+        }
         #endregion
         public Patient()
         {
@@ -58,18 +71,10 @@ namespace AirAmboAttempt01.Patients
             Gender = gender;
         }
 
-        private Physical _body = new Physical(false);
-        public Physical Body
+        public Patient(string firstName, string lastName, int age, Gender gender, Physical body, Mental mind) : this( firstName, lastName, age, gender)
         {
-            get { return _body; }
-            private set { _body = value; }
-        }
-
-        private Mental _mind = new Mental();
-        public Mental Mind
-        {
-            get { return _mind; }
-            private set { _mind = value; }
+            _body = body;
+            _mind = mind;
         }
     }
 }
