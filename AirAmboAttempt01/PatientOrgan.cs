@@ -20,7 +20,7 @@ namespace AirAmboAttempt01.Patients.PatientOrgans
         }
     }
     #endregion
-    #region PracticalOrganClasses
+    #region DerivedOrganClasses
     #region HeadOrgans
     public class Brain : Organ
     {
@@ -49,11 +49,35 @@ namespace AirAmboAttempt01.Patients.PatientOrgans
     #region ChestOrgans
     public class Heart : Organ
     {
+        #region Props
         private bool _isBeating;
+        public bool IsBeating
+        {
+            get { return _isBeating; }
+            set { _isBeating = value; }
+        }
+
         private bool _isArrythmic;
-        private bool _hasPaceMaker;
+        public bool IsArrythmic
+        {
+            get { return _isArrythmic; }
+            set { _isArrythmic = value; }
+        }
+
+        private bool hasPacemaker;
+        public bool HasPaceMaker
+        {
+            get { return hasPacemaker; }
+            set { hasPacemaker = value; }
+        }
 
         private int _beatsPerMinute;
+        public int BeatsPerMinute
+        {
+            get { return _beatsPerMinute; }
+            set { _beatsPerMinute = value; }
+        }
+        #endregion
 
         public Heart() : base(DefaultBloodLossBaseRates.Heart)
         {
@@ -62,8 +86,8 @@ namespace AirAmboAttempt01.Patients.PatientOrgans
     }
     public class Lung : Organ
     {
+        #region Props
         private LungLobe _upperLobe = new LungLobe();
-
         public LungLobe UpperLobe
         {
             get { return _upperLobe; }
@@ -71,7 +95,6 @@ namespace AirAmboAttempt01.Patients.PatientOrgans
         }
 
         private LungLobe _middleLobe = new LungLobe();
-
         public LungLobe MiddleLobe
         {
             get { return _middleLobe; }
@@ -79,41 +102,60 @@ namespace AirAmboAttempt01.Patients.PatientOrgans
         }
 
         private LungLobe _lowerLobe = new LungLobe();
-
         public LungLobe LowerLobe
         {
             get { return _lowerLobe; }
             set { _lowerLobe = value; }
         }
+        #endregion
 
-
-        public Lung(bool isLeft) : base(DefaultBloodLossBaseRates.Lung)
+        public Lung() : base(DefaultBloodLossBaseRates.Lung)
         {
-            if (isLeft)
-                MiddleLobe = null;
+            
         }
     }
     public class LungLobe
     {
-        public Infection infection;
-        public bool isDestroyed;
+        #region Props
+        private Infection _infection;
+        public Infection Infection
+        {
+            get { return _infection; }
+            set { _infection = value; }
+        }
+
+        private bool _isDestroyed;
+        public bool IsDestroyed
+        {
+            get { return _isDestroyed; }
+            set { _isDestroyed = value; }
+        }
+        #endregion
     }
+
     public class Lungs
     {
-        private Lung _leftLung = new Lung(true);
-
+        #region Props
+        private Lung _leftLung ;
         public Lung LeftLung
         {
             get { return _leftLung; }
             set { _leftLung = value; }
         }
 
-        private Lung _rightLung = new Lung(false);
-
+        private Lung _rightLung;
         public Lung RightLung
         {
             get { return _rightLung; }
             set { _rightLung = value; }
+        }
+        #endregion
+
+        public Lungs(Lung leftLung = null, Lung rightLung = null)
+        {
+            LeftLung = (leftLung == null) ? new Lung() : leftLung;
+            LeftLung.MiddleLobe = null;
+            RightLung = (rightLung == null) ? new Lung() : rightLung;
         }
     }
     #endregion

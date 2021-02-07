@@ -6,24 +6,58 @@ namespace AirAmboAttempt01.Patients
 {
     class Program
     {
-
         static void Main(string[] args)
         {
-            Patient p1 = new Patient();
-            
-            foreach (Organ organ in p1.Body.Abdomen.GetOrgans())
+            Lungs newLungs = new Lungs()
             {
-                Console.WriteLine($"{organ.GetType().Name}: {organ.BloodLossRate}");
-            }
+                LeftLung = new Lung()
+                {
+                    UpperLobe = new LungLobe()
+                    {
+                        Infection = new PatientInfection.Infection()
+                        {
+                            infectionResistance = PatientInfection.InfectionResistance.Immune,
+                            infectionSeverity = PatientInfection.InfectionSeverity.Mild,
+                            infectionType = PatientInfection.InfectionType.Bacterial
+                        },
+                        IsDestroyed = false
+                    },
+                    MiddleLobe = new LungLobe()
+                    {
+                        Infection = new PatientInfection.Infection()
+                        {
+                            infectionResistance = PatientInfection.InfectionResistance.Immune,
+                            infectionSeverity = PatientInfection.InfectionSeverity.Moderate,
+                            infectionType = PatientInfection.InfectionType.Bacterial
+                        },
+                        IsDestroyed = false
+                    },
+                    LowerLobe = new LungLobe()
+                    {
+                        Infection = new PatientInfection.Infection()
+                        {
+                            infectionResistance = PatientInfection.InfectionResistance.Immune,
+                            infectionSeverity = PatientInfection.InfectionSeverity.Severe,
+                            infectionType = PatientInfection.InfectionType.Bacterial
+                        },
+                        IsDestroyed = true
+                    }
+                },
+                RightLung = new Lung()
+                {
+                    UpperLobe = new LungLobe(),
+                    MiddleLobe = new LungLobe(),
+                    LowerLobe = new LungLobe()
+                }
+            };
 
-            p1.Mind.Consciousness = Consciousness.Responsive;
+            PatientPhysical.Chest chest = new PatientPhysical.Chest(lungs: newLungs);
 
-            Console.WriteLine(p1.Mind.Consciousness);
+            //Lungs otherLungs = new Lungs();
 
-            Console.WriteLine(p1.Body.Head.AnyBonesBroken());
-            Console.WriteLine(p1.Body.Head.PainSeverity);
-            Console.WriteLine(p1.Body.Limbs.Arms.LeftArm.AnyBonesBroken());
-            Console.WriteLine(p1.Body.Head.Brain.CurrentPressure);
+            Console.WriteLine(chest.Lungs.LeftLung.MiddleLobe.IsDestroyed);
+
+            //Console.WriteLine(otherLungs.LeftLung.MiddleLobe.IsDestroyed);
         }
     }
 }
