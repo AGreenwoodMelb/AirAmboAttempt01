@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using AirAmboAttempt01.PatientBlood;
-using AirAmboAttempt01.PatientInfection;
+﻿using AirAmboAttempt01.Patients.PatientBlood;
+using AirAmboAttempt01.Patients.PatientInfection;
 
-namespace AirAmboAttempt01
+namespace AirAmboAttempt01.Patients.PatientOrgans
 {
     #region BaseOrganClasses
     public class Organ

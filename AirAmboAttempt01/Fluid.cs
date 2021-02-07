@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using AirAmboAttempt01.PatientBlood;
+using AirAmboAttempt01.Patients.PatientBlood;
 
-namespace AirAmboAttempt01
+namespace AirAmboAttempt01.Patients
 {
     public class Fluid //Should this have been abstract?
     {

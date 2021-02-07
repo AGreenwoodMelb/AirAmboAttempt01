@@ -1,5 +1,4 @@
-﻿
-namespace AirAmboAttempt01.PatientBones
+﻿namespace AirAmboAttempt01.Patients.PatientBones
 {
     public struct Bone
     {
@@ -27,7 +26,6 @@ namespace AirAmboAttempt01.PatientBones
             this.isFused = isFused;
         }
     }
-
     class DefaultBoneStructures
     {
         public static readonly Bone[] DefaultHeadBones = new Bone[]

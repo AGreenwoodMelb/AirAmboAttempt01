@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace AirAmboAttempt01.PatientInfection
+﻿namespace AirAmboAttempt01.Patients.PatientInfection
 {
     public enum InfectionSeverity
     {

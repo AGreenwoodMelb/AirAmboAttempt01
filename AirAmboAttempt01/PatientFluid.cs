@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace AirAmboAttempt01.PatientBlood
+namespace AirAmboAttempt01.Patients.PatientBlood
 {
     public struct FluidProfile
     {

@@ -1,4 +1,5 @@
-﻿using AirAmboAttempt01.PatientBody;
+﻿using AirAmboAttempt01.Patients.PatientPhysical;
+using AirAmboAttempt01.Patients.PatientMental;
 
 namespace AirAmboAttempt01.Patients
 {
@@ -28,8 +29,8 @@ namespace AirAmboAttempt01.Patients
 
        
 
-        private Body _body = new Body(false);
-        public Body Body
+        private Physical _body = new Physical(false);
+        public Physical Body
         {
             get { return _body; }
             private set { _body = value; }
@@ -41,21 +42,7 @@ namespace AirAmboAttempt01.Patients
             get { return _mind; }
             private set { _mind = value; }
         }
-
-       
-
-        //Conditions
-
-        //LATER CONCERNS
-        //Insurance
-        //DNR bool readonly
-    }
-
-    public class Mental
-    {
-        public Consciousness Consciousness;
-        public MentalState MentalState;
-        public PainSeverity OverallPain; //May not need. Should be dynamically calculated by highest PainSeverity in BodyParts
+        
     }
 
  

@@ -1,10 +1,11 @@
-﻿using AirAmboAttempt01.PatientBlood;
-using AirAmboAttempt01.PatientBones;
+﻿using AirAmboAttempt01.Patients.PatientBlood;
+using AirAmboAttempt01.Patients.PatientBones;
+using AirAmboAttempt01.Patients.PatientOrgans;
 
-namespace AirAmboAttempt01.PatientBody
+namespace AirAmboAttempt01.Patients.PatientPhysical
 {
 
-    public class Body
+    public class Physical
     {
         #region Props
         private BloodSystem _blood = new BloodSystem();
@@ -14,7 +15,7 @@ namespace AirAmboAttempt01.PatientBody
             set { _blood = value; }
         }
 
-        private Limbs _limbs;
+        private Limbs _limbs = new Limbs();
         public Limbs Limbs
         {
             get { return _limbs; }
@@ -43,14 +44,13 @@ namespace AirAmboAttempt01.PatientBody
         }
         #endregion
 
-        public Body(bool isMale = false)
+        public Physical(bool isMale = false)
         {
             Abdomen = new Abdomen(isMale);
-
         }
     }
 
-    public abstract class BodyPart
+    public abstract class PhysicalPart
     {
         public BleedingSeverity SurfaceBleedingSeverity;
         public PainSeverity PainSeverity;
@@ -76,7 +76,7 @@ namespace AirAmboAttempt01.PatientBody
         }
     }
 
-    public class Head : BodyPart
+    public class Head : PhysicalPart
     {
         private Brain _brain;
         public Brain Brain
@@ -98,7 +98,7 @@ namespace AirAmboAttempt01.PatientBody
         }
     }
 
-    public class Chest : BodyPart
+    public class Chest : PhysicalPart
     {
         #region Props
         private Heart _heart = new Heart();
@@ -130,7 +130,7 @@ namespace AirAmboAttempt01.PatientBody
         }
     }
 
-    public class Abdomen : BodyPart
+    public class Abdomen : PhysicalPart
     {
         #region Props
         private GastrointestinalTract _gastrointestinalTract = new GastrointestinalTract();
@@ -214,9 +214,10 @@ namespace AirAmboAttempt01.PatientBody
         }
     }
 
+    #region LimbRelatedClasses
     public class Limbs
     {
-        private Arms _arms;
+        private Arms _arms = new Arms();
 
         public Arms Arms
         {
@@ -224,7 +225,7 @@ namespace AirAmboAttempt01.PatientBody
             set { _arms = value; }
         }
 
-        private Legs _legs;
+        private Legs _legs = new Legs();
 
         public Legs Legs
         {
@@ -232,10 +233,14 @@ namespace AirAmboAttempt01.PatientBody
             set { _legs = value; }
         }
     }
+    public class Limb : PhysicalPart
+    {
+        //Bool isImmobile //For later
+    }
 
     public class Arms
     {
-        private Arm _leftArm;
+        private Arm _leftArm = new Arm();
 
         public Arm LeftArm
         {
@@ -243,7 +248,7 @@ namespace AirAmboAttempt01.PatientBody
             set { _leftArm = value; }
         }
 
-        private Arm _rightArm;
+        private Arm _rightArm = new Arm();
 
         public Arm RightArm
         {
@@ -252,32 +257,6 @@ namespace AirAmboAttempt01.PatientBody
         }
 
     }
-
-    public class Legs
-    {
-        private Leg _leftLeg;
-
-        public Leg LeftLeg
-        {
-            get { return _leftLeg; }
-            set { _leftLeg = value; }
-        }
-
-        private Leg _rightLeg;
-
-        public Leg RightLeg
-        {
-            get { return _rightLeg; }
-            set { _rightLeg = value; }
-        }
-
-    }
-
-    public class Limb : BodyPart
-    {
-        //Bool isImmobile //For later
-    }
-
     public class Arm : Limb
     {
         public Arm(Bone[] armBoneStructure = null)
@@ -293,6 +272,25 @@ namespace AirAmboAttempt01.PatientBody
         }
     }
 
+    public class Legs
+    {
+        private Leg _leftLeg = new Leg();
+
+        public Leg LeftLeg
+        {
+            get { return _leftLeg; }
+            set { _leftLeg = value; }
+        }
+
+        private Leg _rightLeg = new Leg();
+
+        public Leg RightLeg
+        {
+            get { return _rightLeg; }
+            set { _rightLeg = value; }
+        }
+
+    }
     public class Leg : Limb
     {
         public Leg(Bone[] legBoneStructure = null)
@@ -307,5 +305,5 @@ namespace AirAmboAttempt01.PatientBody
             }
         }
     }
-
+    #endregion
 }
