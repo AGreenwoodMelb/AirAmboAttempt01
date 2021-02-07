@@ -57,10 +57,10 @@ namespace AirAmboAttempt01.Patients
         #endregion
         public Patient()
         {
-            firstName = "John";
-            lastName = "Doe";
-            age = 30;
-            gender = Gender.Other;
+            FirstName = "John";
+            LastName = "Doe";
+            Age = 30;
+            Gender = Gender.Other;
         }
 
         public Patient(string firstName, string lastName, int age, Gender gender)
