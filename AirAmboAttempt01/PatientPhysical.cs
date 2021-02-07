@@ -8,28 +8,28 @@ namespace AirAmboAttempt01.Patients.PatientPhysical
     public class Physical
     {
         #region Props
-        private BloodSystem _blood = new BloodSystem();
+        private BloodSystem _blood;
         public BloodSystem Blood
         {
             get { return _blood; }
             set { _blood = value; }
         }
 
-        private Limbs _limbs = new Limbs();
+        private Limbs _limbs;
         public Limbs Limbs
         {
             get { return _limbs; }
             set { _limbs = value; }
         }
 
-        private Head _head = new Head();
+        private Head _head;
         public Head Head
         {
             get { return _head; }
             set { _head = value; }
         }
 
-        private Chest _chest = new Chest();
+        private Chest _chest;
         public Chest Chest
         {
             get { return _chest; }
@@ -44,27 +44,13 @@ namespace AirAmboAttempt01.Patients.PatientPhysical
         }
         #endregion
 
-        public Physical(bool isMale = false)
-        {
-            Abdomen = new Abdomen(isMale);
-        }
-
         public Physical(Head head = null, Chest chest = null, Abdomen abdomen = null, BloodSystem blood = null, Limbs limbs = null)
         {
-            if (head != null)
-                _head = head;
-
-            if (chest != null)
-                _chest = chest;
-
-            if (abdomen != null)
-                _abdomen = abdomen;
-
-            if (blood != null)
-                _blood = blood;
-
-            if (limbs != null)
-                _limbs = limbs;
+            Head = (head == null) ? new Head() : head;
+            Chest = (chest == null) ? new Chest() : chest;
+            Abdomen = (abdomen == null) ? new Abdomen() : abdomen;
+            Blood = (blood == null) ? new BloodSystem() : blood;
+            Limbs = (limbs == null) ? new Limbs() : limbs;
         }
     }
 
@@ -282,7 +268,7 @@ namespace AirAmboAttempt01.Patients.PatientPhysical
         }
         #endregion
 
-        public Legs(Leg leftLeg = null,  Leg rightLeg = null)
+        public Legs(Leg leftLeg = null, Leg rightLeg = null)
         {
             LeftLeg = (leftLeg == null) ? new Leg() : leftLeg;
             RightLeg = (rightLeg == null) ? new Leg() : rightLeg;

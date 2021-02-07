@@ -41,7 +41,7 @@ namespace AirAmboAttempt01.Patients
             set { _isAlive = value; }
         }
 
-        private Physical _body = new Physical(false);
+        private Physical _body = new Physical();
         public Physical Body
         {
             get { return _body; }
