@@ -45,7 +45,7 @@ namespace AirAmboAttempt01.PatientBody
         #endregion
 
         #region BodyParts
-        private Head _head; 
+        private Head _head = new Head();
 
         public Head Head
         {
@@ -54,6 +54,7 @@ namespace AirAmboAttempt01.PatientBody
         }
 
         #endregion
+
     }
 
 
@@ -61,29 +62,6 @@ namespace AirAmboAttempt01.PatientBody
     {
         public BleedingSeverity SurfaceBleedingSeverity;
         public PainSeverity PainSeverity;
-    }
-
-    public class Head : BodyPart
-    {
-        private Brain _brain;
-
-        public Brain Brain
-        {
-            get { return _brain; }
-            set { _brain = value; }
-        }
-
-        public Head()
-        {
-
-        }
-    }
-
-    public class Limb : BodyPart
-    {
-        public BleedingSeverity LimbBleeding;
-        public readonly bool isLeft;
-        //public bool isMobile; //For later
 
         private Bone[] _bones;
 
@@ -93,10 +71,47 @@ namespace AirAmboAttempt01.PatientBody
             protected set { _bones = value; }
         }
 
+    }
 
-        public Limb(bool isLeft)
+    public class Head : BodyPart
+    {
+        private Brain _brain;
+        public Brain Brain
+        {
+            get { return _brain; }
+            set { _brain = value; }
+        }
+
+        public Head(Bone[] headBoneStructure = null)
+        {
+            if(headBoneStructure == null)
+            {
+                Bones = DefaultBoneStructures.DefaultHeadBones;
+            }
+            else
+            {
+                Bones = headBoneStructure;
+            }
+        }
+    }
+
+    public class PairedBodyPart : BodyPart
+    {
+        public readonly bool isLeft;
+
+        public PairedBodyPart(bool isLeft)
         {
             this.isLeft = isLeft;
+        }
+    }
+
+    public class Limb : PairedBodyPart
+    {
+        //Bool isImmobile //For later
+
+        public Limb(bool isLeft) : base(isLeft)
+        {
+
         }
     }
 
@@ -113,10 +128,9 @@ namespace AirAmboAttempt01.PatientBody
                 Bones = armBoneStructure;
             }
         }
-
     }
 
-    public class Leg : Limb
+    public class Leg : PairedBodyPart
     {
         public Leg(bool isLeft) : base(isLeft)
         {

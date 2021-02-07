@@ -30,6 +30,13 @@ namespace AirAmboAttempt01.PatientBones
 
     class DefaultBoneStructures
     {
+        public static readonly Bone[] DefaultHeadBones = new Bone[]
+        {
+            new Bone("Skull"),
+            new Bone("Spine"),
+            new Bone("Facial")
+        };
+
         public static readonly Bone[] DefaultArmBones = new Bone[]
         {
             new Bone("Humerus"),
