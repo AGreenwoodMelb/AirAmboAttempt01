@@ -65,13 +65,13 @@ namespace AirAmboAttempt01
             {BodyRegion.RightArm, PainSeverity.None},
             {BodyRegion.LeftLeg, PainSeverity.None},
             {BodyRegion.RightLeg, PainSeverity.None}
-        };
+        }; //Move to BodyPart
     }
 
     public class Physical
     {
         public Skeleton skeleton;
-        public OrganSystems organs;
+        public OrganSystems organs;// Change this for Head, Chest, Abdo class
         public BloodSystem bloodSystem;
 
         Dictionary<BodyRegion, BleedingSeverity> RegionBleeding = new Dictionary<BodyRegion, BleedingSeverity>()
@@ -92,7 +92,6 @@ namespace AirAmboAttempt01
             bloodSystem = new BloodSystem();
         }
     }
-
     public class Skeleton
     {
         private Dictionary<BodyRegion, Bone[]> Bones = new Dictionary<BodyRegion, Bone[]>()
@@ -209,63 +208,151 @@ namespace AirAmboAttempt01
             }
             return new Bone("Error"); //This may be a mistake (no error checking)
         }
-        private struct Bone
+
+
+
+    }
+
+    public class Body
+    {
+        #region Limbs
+        #region Arms
+        private Arm _leftArm = new Arm(true);
+
+        public Arm LeftArm
         {
-            public readonly string name;
-
-            public bool isBroken { get; set; }
-            public bool isMisaligned { get; set; }
-            public bool isImpingingVessel { get; set; }
-            public bool isFused { get; set; }
-
-            public Bone(string name)
-            {
-                this.name = name;
-                isBroken = false;
-                isMisaligned = false;
-                isImpingingVessel = false;
-                isFused = false;
-            }
-            public Bone(string name, bool isBroken, bool isMisaligned, bool isImpingingVessel, bool isFused)
-            {
-                this.name = name;
-                this.isBroken = isBroken;
-                this.isMisaligned = isMisaligned;
-                this.isImpingingVessel = isMisaligned ? isImpingingVessel : false; //Vessel can only be impinged if bone is misaligned
-                this.isFused = isFused;
-            }
+            get { return _leftArm; }
+            set { _leftArm = value; }
         }
 
+        private Arm _rightArm = new Arm(false);
 
-        public class Limb
+        public Arm RightArm
         {
-            bool isBleeding;
-            protected readonly bool isLeft;
+            get { return _rightArm; }
+            set { _rightArm = value; }
+        }
+        #endregion
+        #region Legs
+        private Leg _leftLeg;
 
-            Bone[] bones;
-
-            public Limb(bool isLeft)
-            {
-                this.isLeft = isLeft;
-            }
+        public Leg LeftLeg
+        {
+            get { return _leftLeg; }
+            set { _leftLeg = value; }
         }
 
-        public class Arm : Limb
-        {
-            public Arm(bool isLeft) : base(isLeft)
-            {
+        private Leg _rightLeg;
 
-            }
+        public Leg RightLeg
+        {
+            get { return _rightLeg; }
+            set { _rightLeg = value; }
         }
 
-        public class Leg : Limb
-        {
-            public Leg(bool isLeft) : base(isLeft)
-            {
+        #endregion
+        #endregion
 
-            }
+        #region Organs
+
+        #endregion
+    }
+
+
+    public struct Bone
+    {
+        public readonly string name;
+
+        public bool isBroken { get; set; }
+        public bool isMisaligned { get; set; }
+        public bool isImpingingVessel { get; set; }
+        public bool isFused { get; set; } //May remove
+
+        public Bone(string name)
+        {
+            this.name = name;
+            isBroken = false;
+            isMisaligned = false;
+            isImpingingVessel = false;
+            isFused = false;
+        }
+        public Bone(string name, bool isBroken, bool isMisaligned, bool isImpingingVessel, bool isFused)
+        {
+            this.name = name;
+            this.isBroken = isBroken;
+            this.isMisaligned = isMisaligned;
+            this.isImpingingVessel = isMisaligned ? isImpingingVessel : false; //Vessel can only be impinged if bone is misaligned
+            this.isFused = isFused;
+        }
+    }
+
+    public class BodyPart
+    {
+        public BleedingSeverity SurfaceBleedingSeverity;
+        public PainSeverity PainSeverity;
+    }
+
+    public class Head : BodyPart
+    {
+        private Brain _brain;
+
+        public Brain Brain
+        {
+            get { return _brain; }
+            set { _brain = value; }
+        }
+
+        public Head()
+        {
+
         }
 
 
     }
+
+
+    public class Limb : BodyPart
+    {
+        public BleedingSeverity LimbBleeding;
+        public readonly bool isLeft;
+
+        private Bone[] _bones;
+
+        public Bone[] Bones
+        {
+            get { return _bones; }
+            protected set { _bones = value; }
+        }
+
+
+        public Limb(bool isLeft)
+        {
+            this.isLeft = isLeft;
+        }
+    }
+
+    public class Arm : Limb
+    {
+        public Arm(bool isLeft, Bone[] armBoneStructure = null) : base(isLeft)
+        {
+            if (armBoneStructure == null)
+            {
+                Bones = DefaultBoneStructures.DefaultArmBones;
+            }
+            else
+            {
+                Bones = armBoneStructure;
+            }
+        }
+     
+    }
+
+    public class Leg : Limb
+    {
+        public Leg(bool isLeft) : base(isLeft)
+        {
+
+        }
+    }
+
 }

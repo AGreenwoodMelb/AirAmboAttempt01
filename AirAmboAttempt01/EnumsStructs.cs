@@ -130,16 +130,18 @@
     }
 
 
-    public class LungLobe
-    {
-        public Infection infection;
-        public bool isDestroyed;
-    }
+  
 
     public enum LungLobeLocation
     {
         Upper,
         Middle,
         Lower
+    }
+
+
+    public enum ArmBones
+    {
+
     }
 }

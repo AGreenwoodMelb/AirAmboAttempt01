@@ -5,9 +5,9 @@ using AirAmboAttempt01.Defaults;
 namespace AirAmboAttempt01
 {
 
-    public class OrganSystems
+    public class OrganSystems //To be replaced
     {
-        readonly bool isPregnant; //Move to Reproductive_Female
+        
         public Dictionary<BodyRegion, Organ[]> organs;
 
         public OrganSystems(bool hasMaleRepro)
@@ -122,6 +122,7 @@ namespace AirAmboAttempt01
     {
         private bool _isBeating;
         private bool _isArrythmic;
+        private bool _hasPaceMaker;
 
         private int _beatsPerMinute;
 
@@ -171,6 +172,11 @@ namespace AirAmboAttempt01
                     );
             }
         }
+    }
+    public class LungLobe
+    {
+        public Infection infection;
+        public bool isDestroyed;
     }
     #endregion
     #region AbdomenOrgans
@@ -237,6 +243,7 @@ namespace AirAmboAttempt01
 
     public class Reproductive_Female : Reproductive
     {
+        readonly bool isPregnant; 
         public Reproductive_Female() : base(DefaultBloodLossBaseRates.Reproductive_Female)
         {
 
