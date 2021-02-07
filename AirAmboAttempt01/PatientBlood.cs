@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace AirAmboAttempt01.PatientFluid
+namespace AirAmboAttempt01.PatientBlood
 {
     public enum BloodABO
     {

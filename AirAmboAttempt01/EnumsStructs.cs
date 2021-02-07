@@ -25,7 +25,6 @@
         Severe,
         Extreme
     }
-  
     public enum Consciousness
     {
        Dead,
