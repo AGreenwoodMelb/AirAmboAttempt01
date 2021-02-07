@@ -7,6 +7,13 @@ namespace AirAmboAttempt01.PatientBody
     public class Body
     {
         #region Props
+        private BloodSystem _blood = new BloodSystem();
+        public BloodSystem Blood
+        {
+            get { return _blood; }
+            set { _blood = value; }
+        }
+
         private Limbs _limbs;
         public Limbs Limbs
         {
@@ -108,7 +115,6 @@ namespace AirAmboAttempt01.PatientBody
             get { return _lungs; }
             set { _lungs = value; }
         }
-
         #endregion
 
         public Chest(Bone[] chestBoneStructure = null)
@@ -148,7 +154,7 @@ namespace AirAmboAttempt01.PatientBody
             set { _pancreas = value; }
         }
 
-        private Kidneys _kidneys = new Kidneys();   
+        private Kidneys _kidneys = new Kidneys();
 
         public Kidneys Kidneys
         {
@@ -191,6 +197,20 @@ namespace AirAmboAttempt01.PatientBody
             {
                 Bones = AbdomenBoneStructure;
             }
+        }
+
+        public Organ[] GetOrgans()
+        {
+            return new Organ[]
+            {
+                GastrointestinalTract,
+                Kidneys.LeftKidney,
+                Kidneys.RightKidney,
+                Liver,
+                Pancreas,
+                Spleen,
+                Reproductives
+            };
         }
     }
 

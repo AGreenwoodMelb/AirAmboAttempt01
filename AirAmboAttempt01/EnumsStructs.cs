@@ -6,17 +6,6 @@
         Male,
         Female
     }
-    public enum BodyRegion
-    {
-        Head,
-        Chest,
-        Abdomen,
-        LeftArm,
-        RightArm,
-        LeftLeg,
-        RightLeg,
-        Other //?
-    }
     public enum PainSeverity
     {
         None,

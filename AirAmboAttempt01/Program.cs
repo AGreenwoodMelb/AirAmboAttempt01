@@ -10,10 +10,11 @@ namespace AirAmboAttempt01
         static void Main(string[] args)
         {
            Patient p1 = new Patient();
-
-            Console.WriteLine(p1.Body.Abdomen.Reproductives.GetType().Name);
+            Organ[] organs = p1.Body.Abdomen.GetOrgans();
+            foreach (Organ organ in organs)
+            {
+                Console.WriteLine(organ.GetType().Name);
+            }
         }
     }
-
-
 }

@@ -26,13 +26,7 @@ namespace AirAmboAttempt01.Patients
             this.gender = gender;
         }
 
-        private BloodSystem _bloodSystem = new BloodSystem();
-
-        public BloodSystem BloodSystem
-        {
-            get { return _bloodSystem; }
-            set { _bloodSystem = value; }
-        }
+       
 
         private Body _body = new Body(false);
         public Body Body
@@ -64,16 +58,6 @@ namespace AirAmboAttempt01.Patients
         public PainSeverity OverallPain; //May not need. Should be dynamically calculated by highest PainSeverity in BodyParts
     }
 
-    //public class Physical
-    //{
-        
-    //    public Body Body;
-
-    //    public Physical() //Replace with body again?
-    //    {
-    //        bloodSystem = new BloodSystem();
-    //        Body = new Body(true);
-    //    }
-    //}
+ 
 
 }

@@ -21,16 +21,6 @@ namespace AirAmboAttempt01
             BloodLossRate = bloodLossRate;
         }
     }
-
-    //public class PairedOrgan : Organ
-    //{
-    //    public readonly bool isLeft;
-
-    //    public PairedOrgan(float bloodLossBaseRate, bool isLeft) : base(bloodLossBaseRate)
-    //    {
-    //        this.isLeft = isLeft;
-    //    }
-    //}
     #endregion
     #region PracticalOrganClasses
     #region HeadOrgans
@@ -60,14 +50,6 @@ namespace AirAmboAttempt01
 
         }
     }
-
-    //public enum LungLobeLocation
-    //{
-    //    Upper,
-    //    Middle,
-    //    Lower
-    //}
-
     public class Lung : Organ
     {
         private LungLobe _upperLobe = new LungLobe();
@@ -133,10 +115,9 @@ namespace AirAmboAttempt01
 
         }
     }
-
     public class Kidneys
     {
-        private Kidney _leftKidney;
+        private Kidney _leftKidney = new Kidney();
 
         public Kidney LeftKidney
         {
@@ -144,7 +125,7 @@ namespace AirAmboAttempt01
             set { _leftKidney = value; }
         }
 
-        private Kidney _rightKidney;
+        private Kidney _rightKidney = new Kidney();
 
         public Kidney RightKidney
         {
@@ -152,7 +133,6 @@ namespace AirAmboAttempt01
             set { _rightKidney = value; }
         }
     }
-
 
     public class Liver : Organ
     {
