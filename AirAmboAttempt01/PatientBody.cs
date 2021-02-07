@@ -46,17 +46,28 @@ namespace AirAmboAttempt01.PatientBody
 
         #region BodyParts
         private Head _head = new Head();
-
         public Head Head
         {
             get { return _head; }
             set { _head = value; }
         }
 
+        private Chest _chest = new Chest();
+        public Chest Chest
+        {
+            get { return _chest; }
+            set { _chest = value; }
+        }
+
+        private Abdomen _abdomen = new Abdomen(true);
+        public Abdomen Abdomen
+        {
+            get { return _abdomen; }
+            set { _abdomen = value; }
+        }
+
         #endregion
-
     }
-
 
     public abstract class BodyPart
     {
@@ -97,7 +108,90 @@ namespace AirAmboAttempt01.PatientBody
 
     public class Chest : BodyPart
     {
+        private Heart _heart = new Heart();
+        public Heart Heart
+        {
+            get { return _heart; }
+            set { _heart = value; }
+        }
 
+        private Lung _leftLung = new Lung(true);
+        public Lung LeftLung
+        {
+            get { return _leftLung; }
+            set { _leftLung = value; }
+        }
+
+        private Lung _rightLung = new Lung(false);
+        public Lung RightLung
+        {
+            get { return _rightLung; }
+            set { _rightLung = value; }
+        }
+    }
+
+    public class Abdomen
+    {
+        private GastrointestinalTract _gastrointestinalTract = new GastrointestinalTract();
+        public GastrointestinalTract GastrointestinalTract
+        {
+            get { return _gastrointestinalTract; }
+            set { _gastrointestinalTract = value; }
+        }
+
+        private Liver _liver = new Liver(); 
+        public Liver Liver
+        {
+            get { return _liver; }
+            set { _liver = value; }
+        }
+
+        private Pancreas _pancreas = new Pancreas();
+        public Pancreas Pancreas
+        {
+            get { return _pancreas; }
+            set { _pancreas = value; }
+        }
+
+        private Kidney _leftKidney = new Kidney(true);
+        public Kidney LeftKidney
+        {
+            get { return _leftKidney; }
+            set { _leftKidney = value; }
+        }
+
+        private Kidney _rightKidney = new Kidney(false);
+        public Kidney RightKidney
+        {
+            get { return _rightKidney; }
+            set { _rightKidney = value; }
+        }
+
+        private Spleen _spleen = new Spleen();
+        public Spleen Spleen
+        {
+            get { return _spleen; }
+            set { _spleen = value; }
+        }
+
+        private Reproductive _repoductives;
+        public Reproductive Reproductives
+        {
+            get { return _repoductives; }
+            set { _repoductives = value; }
+        }
+
+        public Abdomen(bool isMale)
+        {
+            if (isMale)
+            {
+                _repoductives = new Reproductive_Male();
+            }
+            else
+            {
+                _repoductives = new Reproductive_Female();
+            }
+        }
     }
 
     public class PairedBodyPart : BodyPart

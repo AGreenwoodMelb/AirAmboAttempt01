@@ -59,8 +59,6 @@
         public OrganSystems organs;// Change this for Head, Chest, Abdo class
         public BloodSystem bloodSystem;
 
-        
-
         public Physical() //Replace with body again?
         {
             organs = new OrganSystems(true);
