@@ -101,19 +101,14 @@ namespace AirAmboAttempt01.PatientBody
             set { _heart = value; }
         }
 
-        private Lung _leftLung = new Lung(true);
-        public Lung LeftLung
+        private Lungs _lungs = new Lungs();
+
+        public Lungs Lungs
         {
-            get { return _leftLung; }
-            set { _leftLung = value; }
+            get { return _lungs; }
+            set { _lungs = value; }
         }
 
-        private Lung _rightLung = new Lung(false);
-        public Lung RightLung
-        {
-            get { return _rightLung; }
-            set { _rightLung = value; }
-        }
         #endregion
 
         public Chest(Bone[] chestBoneStructure = null)
@@ -153,19 +148,14 @@ namespace AirAmboAttempt01.PatientBody
             set { _pancreas = value; }
         }
 
-        private Kidney _leftKidney = new Kidney(true);
-        public Kidney LeftKidney
+        private Kidneys _kidneys = new Kidneys();   
+
+        public Kidneys Kidneys
         {
-            get { return _leftKidney; }
-            set { _leftKidney = value; }
+            get { return _kidneys; }
+            set { _kidneys = value; }
         }
 
-        private Kidney _rightKidney = new Kidney(false);
-        public Kidney RightKidney
-        {
-            get { return _rightKidney; }
-            set { _rightKidney = value; }
-        }
 
         private Spleen _spleen = new Spleen();
         public Spleen Spleen

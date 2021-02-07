@@ -60,53 +60,45 @@ namespace AirAmboAttempt01
 
         }
     }
-   
-    public enum LungLobeLocation
-    {
-        Upper,
-        Middle,
-        Lower
-    }
+
+    //public enum LungLobeLocation
+    //{
+    //    Upper,
+    //    Middle,
+    //    Lower
+    //}
 
     public class Lung : Organ
     {
-        private Dictionary<LungLobeLocation, LungLobe> Lobes;
+        private LungLobe _upperLobe = new LungLobe();
+
+        public LungLobe UpperLobe
+        {
+            get { return _upperLobe; }
+            set { _upperLobe = value; }
+        }
+
+        private LungLobe _middleLobe = new LungLobe();
+
+        public LungLobe MiddleLobe
+        {
+            get { return _middleLobe; }
+            set { _middleLobe = value; }
+        }
+
+        private LungLobe _lowerLobe = new LungLobe();
+
+        public LungLobe LowerLobe
+        {
+            get { return _lowerLobe; }
+            set { _lowerLobe = value; }
+        }
+
 
         public Lung(bool isLeft) : base(DefaultBloodLossBaseRates.Lung)
         {
             if (isLeft)
-            {
-                Lobes = new Dictionary<LungLobeLocation, LungLobe>()
-                    {
-                        { LungLobeLocation.Upper, new LungLobe()},
-                        { LungLobeLocation.Middle, null},
-
-                        { LungLobeLocation.Lower, new LungLobe()}
-                    };
-            }
-            else
-            {
-                Lobes = new Dictionary<LungLobeLocation, LungLobe>()
-                    {
-                        { LungLobeLocation.Upper, new LungLobe()},
-                        { LungLobeLocation.Middle, new LungLobe()},
-                        { LungLobeLocation.Lower, new LungLobe()}
-                    };
-            }
-        }
-
-        private LungLobe GetLungLobe(LungLobeLocation lobeLocation)
-        {
-            if (Lobes.ContainsKey(lobeLocation))
-            {
-                return Lobes[lobeLocation];
-            }
-            else
-            {
-                throw new KeyNotFoundException(
-                    message: $"{lobeLocation} not found in Lung (Left Lung: )"
-                    );
-            }
+                MiddleLobe = null;
         }
     }
     public class LungLobe
@@ -116,7 +108,21 @@ namespace AirAmboAttempt01
     }
     public class Lungs
     {
+        private Lung _leftLung = new Lung(true);
 
+        public Lung LeftLung
+        {
+            get { return _leftLung; }
+            set { _leftLung = value; }
+        }
+
+        private Lung _rightLung = new Lung(false);
+
+        public Lung RightLung
+        {
+            get { return _rightLung; }
+            set { _rightLung = value; }
+        }
     }
     #endregion
     #region AbdomenOrgans
