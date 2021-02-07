@@ -23,6 +23,7 @@ namespace AirAmboAttempt01.Patients
             Console.WriteLine(p1.Body.Head.AnyBonesBroken());
             Console.WriteLine(p1.Body.Head.PainSeverity);
             Console.WriteLine(p1.Body.Limbs.Arms.LeftArm.AnyBonesBroken());
+            Console.WriteLine(p1.Body.Head.Brain.CurrentPressure);
         }
     }
 }

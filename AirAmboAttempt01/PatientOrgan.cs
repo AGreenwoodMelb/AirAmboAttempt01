@@ -24,14 +24,26 @@ namespace AirAmboAttempt01.Patients.PatientOrgans
     #region HeadOrgans
     public class Brain : Organ
     {
-        private float _currentPressure = 0f;
+        #region Props
+        private float _currentPressure;
+        public float CurrentPressure
+        {
+            get { return _currentPressure; }
+            set { _currentPressure = value; }
+        }
+
         private bool _isSeizing;
+        public bool IsSeizing
+        {
+            get { return _isSeizing; }
+            set { _isSeizing = value; }
+        }
+        #endregion
 
         public Brain() : base(DefaultBloodLossBaseRates.Brain)
         {
 
         }
-
     }
     #endregion
     #region ChestOrgans
