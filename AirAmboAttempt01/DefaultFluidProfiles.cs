@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace AirAmboAttempt01
+namespace AirAmboAttempt01.Defaults
 {
     public struct FluidProfile
     {

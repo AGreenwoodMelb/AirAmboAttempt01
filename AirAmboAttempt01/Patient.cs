@@ -68,10 +68,10 @@ namespace AirAmboAttempt01
         };
     }
 
-    public class Physical 
+    public class Physical
     {
         public Skeleton skeleton;
-        public Organs organs;
+        public OrganSystems organs;
         public BloodSystem bloodSystem;
 
         Dictionary<BodyRegion, BleedingSeverity> RegionBleeding = new Dictionary<BodyRegion, BleedingSeverity>()
@@ -88,7 +88,7 @@ namespace AirAmboAttempt01
         public Physical()
         {
             skeleton = new Skeleton();
-            organs = new Organs();
+            organs = new OrganSystems(true);
             bloodSystem = new BloodSystem();
         }
     }
@@ -235,5 +235,37 @@ namespace AirAmboAttempt01
                 this.isFused = isFused;
             }
         }
+
+
+        public class Limb
+        {
+            bool isBleeding;
+            protected readonly bool isLeft;
+
+            Bone[] bones;
+
+            public Limb(bool isLeft)
+            {
+                this.isLeft = isLeft;
+            }
+        }
+
+        public class Arm : Limb
+        {
+            public Arm(bool isLeft) : base(isLeft)
+            {
+
+            }
+        }
+
+        public class Leg : Limb
+        {
+            public Leg(bool isLeft) : base(isLeft)
+            {
+
+            }
+        }
+
+
     }
 }

@@ -8,11 +8,24 @@ namespace AirAmboAttempt01
 
         static void Main(string[] args)
         {
-            Organs.Lung lung = new Organs.Lung(true);
+            OrganSystems organs = new OrganSystems(true);
 
-            Console.WriteLine($"{ lung.CurrentInfection.infectionSeverity.ToString()}");
-            lung.CurrentInfection.IncreaseInfection();
-            Console.WriteLine($"{ lung.CurrentInfection.infectionSeverity.ToString()}");
+           
+            foreach (BodyRegion item in Enum.GetValues(typeof(BodyRegion)))
+            {
+                if (organs.organs.ContainsKey(item))
+                {
+                   Organ[] regionOrgans = organs.organs[item];
+                    Console.WriteLine(Enum.GetName(typeof(BodyRegion), item));
+                    Console.WriteLine("\u2500\u2500\u2500\u2500");
+                    foreach (Organ organ in regionOrgans)
+                    {
+                        Console.WriteLine(organ.GetType().Name);
+                    }
+                }
+                Console.WriteLine();
+            }
+
             Console.ReadLine();
 
         }

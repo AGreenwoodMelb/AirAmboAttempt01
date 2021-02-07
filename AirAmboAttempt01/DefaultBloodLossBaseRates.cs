@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace AirAmboAttempt01
+namespace AirAmboAttempt01.Defaults
 {
-    public static class BloodLossBaseRates
+    public static class DefaultBloodLossBaseRates
     {
         public static readonly float Superficial = 1f;
 

@@ -1,160 +1,248 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using AirAmboAttempt01.Defaults;
 
 namespace AirAmboAttempt01
 {
 
-    public class Organs
+    public class OrganSystems
     {
-        readonly bool isPregnant;
+        readonly bool isPregnant; //Move to Reproductive_Female
+        public Dictionary<BodyRegion, Organ[]> organs;
 
-        Dictionary<BodyRegion, Organ[]> organs = new Dictionary<BodyRegion, Organ[]>()
+        public OrganSystems(bool hasMaleRepro)
         {
-            {
-                BodyRegion.Head, new Organ[]
+            SetupOrgans(hasMaleRepro);
+        }
+
+
+        public void SetupOrgans(bool hasMaleRepro)
+        {
+            organs = new Dictionary<BodyRegion, Organ[]>()
                 {
-                    new Brain(),
+                    {
+                        BodyRegion.Head, new Organ[]
+                        {
+                            new Brain(),
+                        }
+                    },
+
+                    {
+                        BodyRegion.Chest, new Organ[]
+                        {
+                            new Heart(),
+                            new Lung(true),
+                            new Lung(false),
+                        }
+                    },
+
+                    {
+                        BodyRegion.Abdomen, new Organ[]
+                        {
+                            new GastrointestinalTract(),
+                            new Kidney(true),
+                            new Kidney(false),
+                            new Liver(),
+                            new Pancreas(),
+                            new Spleen(),
+                            new Reproductive_Female()
+                        }
+                    }
+                };
+
+            if (hasMaleRepro)
+            {
+                Organ[] temp = organs[BodyRegion.Abdomen];
+
+                for (int i = 0; i < temp.Length; i++)
+                {
+                    if(temp[i].GetType().IsSubclassOf(typeof(Reproductive)))
+                    {
+                        temp[i] = new Reproductive_Male();
+                    }
                 }
-            },
-
-            {
-                BodyRegion.Chest, new Organ[]
-                {
-                    new Heart(),
-                    new Lung(true),
-                    new Lung(false),
-                }
-            },
-
-            {
-                BodyRegion.Abdomen, new Organ[]
-                {
-                    //GI
-                    //Kidney Left, Right
-                    //Liver
-                    //Pancreas
-                    //Spleen
-                    //Reproductive
-                }
-            }
-        };
-
-        #region AbstractOrganClasses
-        public abstract class Organ
-        {
-            private BleedingSeverity _isBleeding = BleedingSeverity.None;
-            public BleedingSeverity IsBleeding
-            {
-                get { return _isBleeding; }
-                protected set { _isBleeding = value; }
-            }
-
-            public readonly float BloodLossRate;
-            public Infection CurrentInfection = new Infection();
-
-            public Organ(float bloodLossRate)
-            {
-                BloodLossRate = bloodLossRate;
-            }
-
-            public void InfectOrgan(Infection infection)
-            {
-                CurrentInfection = infection;
             }
         }
 
-        public abstract class PairedOrgan : Organ
+
+
+       
+    }
+
+    #region BaseOrganClasses
+    public class Organ
+    {
+        private BleedingSeverity _isBleeding = BleedingSeverity.None;
+        public BleedingSeverity IsBleeding
         {
-            public readonly bool isLeft;
-
-            public PairedOrgan(float bloodLossBaseRate, bool isLeft) : base(bloodLossBaseRate)
-            {
-                this.isLeft = isLeft;
-            }
-        }
-        #endregion
-        #region PracticalOrganClasses
-        public class Brain : Organ
-        {
-            private float _currentPressure = 0f;
-            private bool _isSeizing;
-
-            public Brain() : base(BloodLossBaseRates.Brain)
-            {
-
-            }
-
+            get { return _isBleeding; }
+            protected set { _isBleeding = value; }
         }
 
-        public class Heart : Organ
+        public readonly float BloodLossRate;
+        public Infection CurrentInfection = new Infection();
+
+        public Organ(float bloodLossRate)
         {
-            private bool _isBeating;
-            private bool _isArrythmic;
-
-            private int _beatsPerMinute;
-
-            public Heart() : base(BloodLossBaseRates.Heart)
-            {
-
-            }
+            BloodLossRate = bloodLossRate;
         }
 
-        public class Lung : PairedOrgan
+        public void InfectOrgan(Infection infection)
         {
-            private Dictionary<LungLobeLocation, LungLobe> Lobes;
+            CurrentInfection = infection;
+        }
+    }
 
-            public Lung(bool isLeft) : base(BloodLossBaseRates.Lung, isLeft)
+    public class PairedOrgan : Organ
+    {
+        public readonly bool isLeft;
+
+        public PairedOrgan(float bloodLossBaseRate, bool isLeft) : base(bloodLossBaseRate)
+        {
+            this.isLeft = isLeft;
+        }
+    }
+    #endregion
+    #region PracticalOrganClasses
+    #region HeadOrgans
+    public class Brain : Organ
+    {
+        private float _currentPressure = 0f;
+        private bool _isSeizing;
+
+        public Brain() : base(DefaultBloodLossBaseRates.Brain)
+        {
+
+        }
+
+    }
+    #endregion
+    #region ChestOrgans
+    public class Heart : Organ
+    {
+        private bool _isBeating;
+        private bool _isArrythmic;
+
+        private int _beatsPerMinute;
+
+        public Heart() : base(DefaultBloodLossBaseRates.Heart)
+        {
+
+        }
+    }
+
+    public class Lung : PairedOrgan
+    {
+        private Dictionary<LungLobeLocation, LungLobe> Lobes;
+
+        public Lung(bool isLeft) : base(DefaultBloodLossBaseRates.Lung, isLeft)
+        {
+            if (isLeft)
             {
-                if (isLeft)
-                {
-                    Lobes = new Dictionary<LungLobeLocation, LungLobe>()
+                Lobes = new Dictionary<LungLobeLocation, LungLobe>()
                     {
                         { LungLobeLocation.Upper, new LungLobe()},
                         { LungLobeLocation.Middle, null},
 
                         { LungLobeLocation.Lower, new LungLobe()}
                     };
-                }
-                else
-                {
-                    Lobes = new Dictionary<LungLobeLocation, LungLobe>()
+            }
+            else
+            {
+                Lobes = new Dictionary<LungLobeLocation, LungLobe>()
                     {
                         { LungLobeLocation.Upper, new LungLobe()},
                         { LungLobeLocation.Middle, new LungLobe()},
                         { LungLobeLocation.Lower, new LungLobe()}
                     };
-                }
-            }
-
-            private LungLobe GetLungLobe(LungLobeLocation lobeLocation)
-            {
-                if (Lobes.ContainsKey(lobeLocation))
-                {
-                    return Lobes[lobeLocation];
-                }
-                else
-                {
-                    throw new KeyNotFoundException(
-                        message: $"{lobeLocation} not found in Lung (Left Lung: {isLeft})"
-                        );
-                }
             }
         }
 
-        public class Kidney : PairedOrgan
+        private LungLobe GetLungLobe(LungLobeLocation lobeLocation)
         {
-            public Kidney(bool isLeft) : base(BloodLossBaseRates.Kidney, isLeft)
+            if (Lobes.ContainsKey(lobeLocation))
             {
-
+                return Lobes[lobeLocation];
             }
-
-            public bool test()
+            else
             {
-                return isLeft;
+                throw new KeyNotFoundException(
+                    message: $"{lobeLocation} not found in Lung (Left Lung: {isLeft})"
+                    );
             }
         }
-        #endregion
     }
+    #endregion
+    #region AbdomenOrgans
+    public class Kidney : PairedOrgan
+    {
+        public Kidney(bool isLeft) : base(DefaultBloodLossBaseRates.Kidney, isLeft)
+        {
+
+        }
+
+        public bool test()
+        {
+            return isLeft;
+        }
+    }
+
+    public class Liver : Organ
+    {
+        public Liver() : base(DefaultBloodLossBaseRates.Liver)
+        {
+
+        }
+    }
+
+    public class GastrointestinalTract : Organ
+    {
+        public GastrointestinalTract() : base(DefaultBloodLossBaseRates.GI)
+        {
+
+        }
+    }
+
+    public class Spleen : Organ
+    {
+        public Spleen() : base(DefaultBloodLossBaseRates.Spleen)
+        {
+
+        }
+    }
+
+    public class Pancreas : Organ
+    {
+        public Pancreas() : base(DefaultBloodLossBaseRates.Pancreas)
+        {
+
+        }
+    }
+
+    public abstract class Reproductive : Organ
+    {
+        public Reproductive(float bloodLossRate) : base(bloodLossRate)
+        {
+
+        }
+    }
+
+    public class Reproductive_Male : Reproductive
+    {
+        public Reproductive_Male() : base(DefaultBloodLossBaseRates.Reproductive_Male)
+        {
+
+        }
+    }
+
+    public class Reproductive_Female : Reproductive
+    {
+        public Reproductive_Female() : base(DefaultBloodLossBaseRates.Reproductive_Female)
+        {
+
+        }
+    }
+    #endregion
+    #endregion
 }
 
