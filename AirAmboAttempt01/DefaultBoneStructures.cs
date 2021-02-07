@@ -12,7 +12,6 @@ namespace AirAmboAttempt01
             new Bone("Radius/Ulnar"),
             new Bone("Hand")
         };
-
     }
 }
 

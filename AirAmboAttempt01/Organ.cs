@@ -63,14 +63,10 @@ namespace AirAmboAttempt01
                 }
             }
         }
-
-
-
-       
     }
 
     #region BaseOrganClasses
-    public class Organ
+    public class Organ 
     {
         private BleedingSeverity _isBleeding = BleedingSeverity.None;
         public BleedingSeverity IsBleeding

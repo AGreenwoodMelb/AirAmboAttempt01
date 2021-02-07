@@ -70,11 +70,11 @@ namespace AirAmboAttempt01
 
     public class Physical
     {
-        public Skeleton skeleton;
+        //public Skeleton skeleton;
         public OrganSystems organs;// Change this for Head, Chest, Abdo class
         public BloodSystem bloodSystem;
 
-        Dictionary<BodyRegion, BleedingSeverity> RegionBleeding = new Dictionary<BodyRegion, BleedingSeverity>()
+        Dictionary<BodyRegion, BleedingSeverity> RegionBleeding = new Dictionary<BodyRegion, BleedingSeverity>()//Move to BodyPart
         {
             {BodyRegion.Head, BleedingSeverity.None},
             {BodyRegion.Chest, BleedingSeverity.None},
@@ -87,7 +87,7 @@ namespace AirAmboAttempt01
 
         public Physical()
         {
-            skeleton = new Skeleton();
+            //skeleton = new Skeleton();
             organs = new OrganSystems(true);
             bloodSystem = new BloodSystem();
         }
