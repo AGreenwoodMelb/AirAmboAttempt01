@@ -22,15 +22,15 @@ namespace AirAmboAttempt01
         }
     }
 
-    public class PairedOrgan : Organ
-    {
-        public readonly bool isLeft;
+    //public class PairedOrgan : Organ
+    //{
+    //    public readonly bool isLeft;
 
-        public PairedOrgan(float bloodLossBaseRate, bool isLeft) : base(bloodLossBaseRate)
-        {
-            this.isLeft = isLeft;
-        }
-    }
+    //    public PairedOrgan(float bloodLossBaseRate, bool isLeft) : base(bloodLossBaseRate)
+    //    {
+    //        this.isLeft = isLeft;
+    //    }
+    //}
     #endregion
     #region PracticalOrganClasses
     #region HeadOrgans
@@ -60,7 +60,7 @@ namespace AirAmboAttempt01
 
         }
     }
-
+   
     public enum LungLobeLocation
     {
         Upper,
@@ -68,11 +68,11 @@ namespace AirAmboAttempt01
         Lower
     }
 
-    public class Lung : PairedOrgan
+    public class Lung : Organ
     {
         private Dictionary<LungLobeLocation, LungLobe> Lobes;
 
-        public Lung(bool isLeft) : base(DefaultBloodLossBaseRates.Lung, isLeft)
+        public Lung(bool isLeft) : base(DefaultBloodLossBaseRates.Lung)
         {
             if (isLeft)
             {
@@ -104,7 +104,7 @@ namespace AirAmboAttempt01
             else
             {
                 throw new KeyNotFoundException(
-                    message: $"{lobeLocation} not found in Lung (Left Lung: {isLeft})"
+                    message: $"{lobeLocation} not found in Lung (Left Lung: )"
                     );
             }
         }
@@ -114,20 +114,39 @@ namespace AirAmboAttempt01
         public Infection infection;
         public bool isDestroyed;
     }
+    public class Lungs
+    {
+
+    }
     #endregion
     #region AbdomenOrgans
-    public class Kidney : PairedOrgan
+    public class Kidney : Organ
     {
-        public Kidney(bool isLeft) : base(DefaultBloodLossBaseRates.Kidney, isLeft)
+        public Kidney() : base(DefaultBloodLossBaseRates.Kidney)
         {
 
-        }
-
-        public bool test()
-        {
-            return isLeft;
         }
     }
+
+    public class Kidneys
+    {
+        private Kidney _leftKidney;
+
+        public Kidney LeftKidney
+        {
+            get { return _leftKidney; }
+            set { _leftKidney = value; }
+        }
+
+        private Kidney _rightKidney;
+
+        public Kidney RightKidney
+        {
+            get { return _rightKidney; }
+            set { _rightKidney = value; }
+        }
+    }
+
 
     public class Liver : Organ
     {

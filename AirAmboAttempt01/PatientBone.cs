@@ -56,6 +56,14 @@ namespace AirAmboAttempt01.PatientBones
             new Bone("Pelvis")
         };
 
+        public static readonly Bone[] DefaultLegBones = new Bone[]
+        {
+            new Bone("Femur"),
+            new Bone("Patella"),
+            new Bone("Tibia/Fibula"),
+            new Bone("Foot")
+        };
+
     }
 }
 

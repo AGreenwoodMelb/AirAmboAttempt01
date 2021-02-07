@@ -6,45 +6,14 @@ namespace AirAmboAttempt01.PatientBody
 
     public class Body
     {
-        #region Limbs
-        #region Arms
-        private Arm _leftArm = new Arm(true);
-
-        public Arm LeftArm
+        #region Props
+        private Limbs _limbs;
+        public Limbs Limbs
         {
-            get { return _leftArm; }
-            set { _leftArm = value; }
+            get { return _limbs; }
+            set { _limbs = value; }
         }
 
-        private Arm _rightArm = new Arm(false);
-
-        public Arm RightArm
-        {
-            get { return _rightArm; }
-            set { _rightArm = value; }
-        }
-        #endregion
-        #region Legs
-        private Leg _leftLeg;
-
-        public Leg LeftLeg
-        {
-            get { return _leftLeg; }
-            set { _leftLeg = value; }
-        }
-
-        private Leg _rightLeg;
-
-        public Leg RightLeg
-        {
-            get { return _rightLeg; }
-            set { _rightLeg = value; }
-        }
-
-        #endregion
-        #endregion
-
-        #region BodyParts
         private Head _head = new Head();
         public Head Head
         {
@@ -59,21 +28,18 @@ namespace AirAmboAttempt01.PatientBody
             set { _chest = value; }
         }
 
-        private Abdomen _abdomen = new Abdomen(false);
+        private Abdomen _abdomen;
         public Abdomen Abdomen
         {
             get { return _abdomen; }
             set { _abdomen = value; }
         }
-
         #endregion
 
-        public Body(bool isMale)
+        public Body(bool isMale = false)
         {
-            if (isMale)
-            {
-                Abdomen = new Abdomen(true);
-            }
+            Abdomen = new Abdomen(isMale);
+
         }
     }
 
@@ -81,7 +47,7 @@ namespace AirAmboAttempt01.PatientBody
     {
         public BleedingSeverity SurfaceBleedingSeverity;
         public PainSeverity PainSeverity;
-        
+
         private Bone[] _bones;
 
         public Bone[] Bones
@@ -92,7 +58,7 @@ namespace AirAmboAttempt01.PatientBody
 
         public bool AnyBonesBroken()
         {
-            foreach(Bone bone in Bones)
+            foreach (Bone bone in Bones)
             {
                 if (bone.isBroken)
                 {
@@ -152,7 +118,7 @@ namespace AirAmboAttempt01.PatientBody
 
         public Chest(Bone[] chestBoneStructure = null)
         {
-            if(chestBoneStructure == null)
+            if (chestBoneStructure == null)
             {
                 Bones = DefaultBoneStructures.DefaultChestBones;
             }
@@ -173,7 +139,7 @@ namespace AirAmboAttempt01.PatientBody
             set { _gastrointestinalTract = value; }
         }
 
-        private Liver _liver = new Liver(); 
+        private Liver _liver = new Liver();
         public Liver Liver
         {
             get { return _liver; }
@@ -227,7 +193,7 @@ namespace AirAmboAttempt01.PatientBody
                 _repoductives = new Reproductive_Female();
             }
 
-            if(AbdomenBoneStructure == null)
+            if (AbdomenBoneStructure == null)
             {
                 Bones = DefaultBoneStructures.DefaultAbdomenBones;
             }
@@ -237,30 +203,74 @@ namespace AirAmboAttempt01.PatientBody
             }
         }
     }
-    
-    public class PairedBodyPart : BodyPart
-    {
-        public readonly bool isLeft;
 
-        public PairedBodyPart(bool isLeft)
+    public class Limbs
+    {
+        private Arms _arms;
+
+        public Arms Arms
         {
-            this.isLeft = isLeft;
+            get { return _arms; }
+            set { _arms = value; }
+        }
+
+        private Legs _legs;
+
+        public Legs Legs
+        {
+            get { return _legs; }
+            set { _legs = value; }
         }
     }
 
-    public class Limb : PairedBodyPart
+    public class Arms
+    {
+        private Arm _leftArm;
+
+        public Arm LeftArm
+        {
+            get { return _leftArm; }
+            set { _leftArm = value; }
+        }
+
+        private Arm _rightArm;
+
+        public Arm RightArm
+        {
+            get { return _rightArm; }
+            set { _rightArm = value; }
+        }
+
+    }
+
+    public class Legs
+    {
+        private Leg _leftLeg;
+
+        public Leg LeftLeg
+        {
+            get { return _leftLeg; }
+            set { _leftLeg = value; }
+        }
+
+        private Leg _rightLeg;
+
+        public Leg RightLeg
+        {
+            get { return _rightLeg; }
+            set { _rightLeg = value; }
+        }
+
+    }
+
+    public class Limb : BodyPart
     {
         //Bool isImmobile //For later
-
-        public Limb(bool isLeft) : base(isLeft)
-        {
-
-        }
     }
 
     public class Arm : Limb
     {
-        public Arm(bool isLeft, Bone[] armBoneStructure = null) : base(isLeft)
+        public Arm(Bone[] armBoneStructure = null)
         {
             if (armBoneStructure == null)
             {
@@ -273,11 +283,18 @@ namespace AirAmboAttempt01.PatientBody
         }
     }
 
-    public class Leg : PairedBodyPart
+    public class Leg : Limb
     {
-        public Leg(bool isLeft) : base(isLeft)
+        public Leg(Bone[] legBoneStructure = null)
         {
-
+            if (legBoneStructure == null)
+            {
+                Bones = DefaultBoneStructures.DefaultArmBones;
+            }
+            else
+            {
+                Bones = legBoneStructure;
+            }
         }
     }
 
