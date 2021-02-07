@@ -5,68 +5,8 @@ using AirAmboAttempt01.PatientInfection;
 
 namespace AirAmboAttempt01
 {
-    public class OrganSystems //To be replaced
-    {
-        
-        public Dictionary<BodyRegion, Organ[]> organs;
-
-        public OrganSystems(bool hasMaleRepro)
-        {
-            SetupOrgans(hasMaleRepro);
-        }
-
-
-        public void SetupOrgans(bool hasMaleRepro)
-        {
-            organs = new Dictionary<BodyRegion, Organ[]>()
-                {
-                    {
-                        BodyRegion.Head, new Organ[]
-                        {
-                            new Brain(),
-                        }
-                    },
-
-                    {
-                        BodyRegion.Chest, new Organ[]
-                        {
-                            new Heart(),
-                            new Lung(true),
-                            new Lung(false),
-                        }
-                    },
-
-                    {
-                        BodyRegion.Abdomen, new Organ[]
-                        {
-                            new GastrointestinalTract(),
-                            new Kidney(true),
-                            new Kidney(false),
-                            new Liver(),
-                            new Pancreas(),
-                            new Spleen(),
-                            new Reproductive_Female()
-                        }
-                    }
-                };
-
-            if (hasMaleRepro)
-            {
-                Organ[] temp = organs[BodyRegion.Abdomen];
-
-                for (int i = 0; i < temp.Length; i++)
-                {
-                    if(temp[i].GetType().IsSubclassOf(typeof(Reproductive)))
-                    {
-                        temp[i] = new Reproductive_Male();
-                    }
-                }
-            }
-        }
-    }
-
     #region BaseOrganClasses
-    public class Organ 
+    public class Organ
     {
         private BleedingSeverity _isBleeding = BleedingSeverity.None;
         public BleedingSeverity IsBleeding
@@ -74,18 +14,11 @@ namespace AirAmboAttempt01
             get { return _isBleeding; }
             protected set { _isBleeding = value; }
         }
-
         public readonly float BloodLossRate;
-        public Infection CurrentInfection = new Infection();
 
         public Organ(float bloodLossRate)
         {
             BloodLossRate = bloodLossRate;
-        }
-
-        public void InfectOrgan(Infection infection)
-        {
-            CurrentInfection = infection;
         }
     }
 
@@ -126,6 +59,13 @@ namespace AirAmboAttempt01
         {
 
         }
+    }
+
+    public enum LungLobeLocation
+    {
+        Upper,
+        Middle,
+        Lower
     }
 
     public class Lung : PairedOrgan
@@ -239,7 +179,7 @@ namespace AirAmboAttempt01
 
     public class Reproductive_Female : Reproductive
     {
-        readonly bool isPregnant; 
+        readonly bool isPregnant;
         public Reproductive_Female() : base(DefaultBloodLossBaseRates.Reproductive_Female)
         {
 

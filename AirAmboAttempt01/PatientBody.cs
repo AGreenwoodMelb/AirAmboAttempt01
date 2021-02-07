@@ -59,7 +59,7 @@ namespace AirAmboAttempt01.PatientBody
             set { _chest = value; }
         }
 
-        private Abdomen _abdomen = new Abdomen(true);
+        private Abdomen _abdomen = new Abdomen(false);
         public Abdomen Abdomen
         {
             get { return _abdomen; }
@@ -67,13 +67,21 @@ namespace AirAmboAttempt01.PatientBody
         }
 
         #endregion
+
+        public Body(bool isMale)
+        {
+            if (isMale)
+            {
+                Abdomen = new Abdomen(true);
+            }
+        }
     }
 
     public abstract class BodyPart
     {
         public BleedingSeverity SurfaceBleedingSeverity;
         public PainSeverity PainSeverity;
-
+        
         private Bone[] _bones;
 
         public Bone[] Bones
@@ -82,6 +90,17 @@ namespace AirAmboAttempt01.PatientBody
             protected set { _bones = value; }
         }
 
+        public bool AnyBonesBroken()
+        {
+            foreach(Bone bone in Bones)
+            {
+                if (bone.isBroken)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 
     public class Head : BodyPart
@@ -95,7 +114,7 @@ namespace AirAmboAttempt01.PatientBody
 
         public Head(Bone[] headBoneStructure = null)
         {
-            if(headBoneStructure == null)
+            if (headBoneStructure == null)
             {
                 Bones = DefaultBoneStructures.DefaultHeadBones;
             }
@@ -108,6 +127,7 @@ namespace AirAmboAttempt01.PatientBody
 
     public class Chest : BodyPart
     {
+        #region Props
         private Heart _heart = new Heart();
         public Heart Heart
         {
@@ -128,10 +148,24 @@ namespace AirAmboAttempt01.PatientBody
             get { return _rightLung; }
             set { _rightLung = value; }
         }
+        #endregion
+
+        public Chest(Bone[] chestBoneStructure = null)
+        {
+            if(chestBoneStructure == null)
+            {
+                Bones = DefaultBoneStructures.DefaultChestBones;
+            }
+            else
+            {
+                Bones = chestBoneStructure;
+            }
+        }
     }
 
-    public class Abdomen
+    public class Abdomen : BodyPart
     {
+        #region Props
         private GastrointestinalTract _gastrointestinalTract = new GastrointestinalTract();
         public GastrointestinalTract GastrointestinalTract
         {
@@ -180,8 +214,9 @@ namespace AirAmboAttempt01.PatientBody
             get { return _repoductives; }
             set { _repoductives = value; }
         }
+        #endregion
 
-        public Abdomen(bool isMale)
+        public Abdomen(bool isMale, Bone[] AbdomenBoneStructure = null)
         {
             if (isMale)
             {
@@ -191,9 +226,18 @@ namespace AirAmboAttempt01.PatientBody
             {
                 _repoductives = new Reproductive_Female();
             }
+
+            if(AbdomenBoneStructure == null)
+            {
+                Bones = DefaultBoneStructures.DefaultAbdomenBones;
+            }
+            else
+            {
+                Bones = AbdomenBoneStructure;
+            }
         }
     }
-
+    
     public class PairedBodyPart : BodyPart
     {
         public readonly bool isLeft;

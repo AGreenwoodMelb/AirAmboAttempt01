@@ -1,4 +1,5 @@
 ﻿using System;
+using AirAmboAttempt01.Patients;
 
 
 namespace AirAmboAttempt01
@@ -8,26 +9,9 @@ namespace AirAmboAttempt01
 
         static void Main(string[] args)
         {
-            OrganSystems organs = new OrganSystems(true);
+           Patient p1 = new Patient();
 
-           
-            foreach (BodyRegion item in Enum.GetValues(typeof(BodyRegion)))
-            {
-                if (organs.organs.ContainsKey(item))
-                {
-                   Organ[] regionOrgans = organs.organs[item];
-                    Console.WriteLine(Enum.GetName(typeof(BodyRegion), item));
-                    Console.WriteLine("\u2500\u2500\u2500\u2500");
-                    foreach (Organ organ in regionOrgans)
-                    {
-                        Console.WriteLine(organ.GetType().Name);
-                    }
-                }
-                Console.WriteLine();
-            }
-
-            Console.ReadLine();
-
+            Console.WriteLine(p1.Body.Abdomen.Reproductives.GetType().Name);
         }
     }
 

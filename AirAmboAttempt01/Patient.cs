@@ -1,4 +1,6 @@
-﻿namespace AirAmboAttempt01.Patient
+﻿using AirAmboAttempt01.PatientBody;
+
+namespace AirAmboAttempt01.Patients
 {
     public class Patient
     {
@@ -24,21 +26,29 @@
             this.gender = gender;
         }
 
+        private BloodSystem _bloodSystem = new BloodSystem();
 
-        private Physical _physical;
-        public Physical Body
+        public BloodSystem BloodSystem
         {
-            get { return _physical; }
-            private set { _physical = value; }
+            get { return _bloodSystem; }
+            set { _bloodSystem = value; }
         }
 
+        private Body _body = new Body(false);
+        public Body Body
+        {
+            get { return _body; }
+            private set { _body = value; }
+        }
 
-        private Mental _mind;
+        private Mental _mind = new Mental();
         public Mental Mind
         {
             get { return _mind; }
             private set { _mind = value; }
         }
+
+       
 
         //Conditions
 
@@ -54,16 +64,16 @@
         public PainSeverity OverallPain; //May not need. Should be dynamically calculated by highest PainSeverity in BodyParts
     }
 
-    public class Physical
-    {
-        public OrganSystems organs;// Change this for Head, Chest, Abdo class
-        public BloodSystem bloodSystem;
+    //public class Physical
+    //{
+        
+    //    public Body Body;
 
-        public Physical() //Replace with body again?
-        {
-            organs = new OrganSystems(true);
-            bloodSystem = new BloodSystem();
-        }
-    }
+    //    public Physical() //Replace with body again?
+    //    {
+    //        bloodSystem = new BloodSystem();
+    //        Body = new Body(true);
+    //    }
+    //}
 
 }

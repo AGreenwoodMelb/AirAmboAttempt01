@@ -56,11 +56,6 @@
         public bool opiods;
         public bool hallucinogens;
     }
-    public enum LungLobeLocation
-    {
-        Upper,
-        Middle,
-        Lower
-    }
+    
   
 }

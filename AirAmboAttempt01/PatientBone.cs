@@ -43,6 +43,19 @@ namespace AirAmboAttempt01.PatientBones
             new Bone("Radius/Ulnar"),
             new Bone("Hand")
         };
+
+        public static readonly Bone[] DefaultChestBones = new Bone[]
+        {
+            new Bone("Ribs"),
+            new Bone("Spine")
+        };
+
+        public static readonly Bone[] DefaultAbdomenBones = new Bone[]
+        {
+            new Bone("Spine"),
+            new Bone("Pelvis")
+        };
+
     }
 }
 
