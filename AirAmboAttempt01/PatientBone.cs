@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace AirAmboAttempt01
+﻿
+namespace AirAmboAttempt01.PatientBones
 {
     class DefaultBoneStructures
     {

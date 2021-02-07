@@ -1,8 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace AirAmboAttempt01.Defaults
+namespace AirAmboAttempt01.PatientFluid
 {
+    public enum BloodABO
+    {
+        O,
+        A,
+        B,
+        AB
+    }
+    public enum BloodRhesus
+    {
+        Negative,
+        Positive
+    }
+    public struct BloodType
+    {
+        public BloodABO ABO;
+        public BloodRhesus Rhesus;
+    }
+    public enum BleedingSeverity
+    {
+        None,
+        Mild,
+        Moderate,
+        Severe,
+        Extreme
+    }
     public static class DefaultBloodLossBaseRates
     {
         public static readonly float Superficial = 1f;

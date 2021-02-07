@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using AirAmboAttempt01.Defaults;
+using AirAmboAttempt01.PatientFluid;
+using AirAmboAttempt01.PatientInfection;
 
 namespace AirAmboAttempt01
 {

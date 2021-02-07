@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using AirAmboAttempt01.PatientBones;
+using AirAmboAttempt01.PatientFluid;
 
 namespace AirAmboAttempt01
 {
@@ -54,18 +56,7 @@ namespace AirAmboAttempt01
     {
         public Consciousness Consciousness;
         public MentalState MentalState;
-        public PainSeverity OverallPain; //May not need
-
-        Dictionary<BodyRegion, PainSeverity> RegionPainful = new Dictionary<BodyRegion, PainSeverity>()
-        {
-            {BodyRegion.Head, PainSeverity.None},
-            {BodyRegion.Chest, PainSeverity.None},
-            {BodyRegion.Abdomen, PainSeverity.None},
-            {BodyRegion.LeftArm, PainSeverity.None},
-            {BodyRegion.RightArm, PainSeverity.None},
-            {BodyRegion.LeftLeg, PainSeverity.None},
-            {BodyRegion.RightLeg, PainSeverity.None}
-        }; //Move to BodyPart
+        public PainSeverity OverallPain; //May not need. Should be dynamically calculated by highest PainSeverity in BodyParts
     }
 
     public class Physical
@@ -74,18 +65,9 @@ namespace AirAmboAttempt01
         public OrganSystems organs;// Change this for Head, Chest, Abdo class
         public BloodSystem bloodSystem;
 
-        Dictionary<BodyRegion, BleedingSeverity> RegionBleeding = new Dictionary<BodyRegion, BleedingSeverity>()//Move to BodyPart
-        {
-            {BodyRegion.Head, BleedingSeverity.None},
-            {BodyRegion.Chest, BleedingSeverity.None},
-            {BodyRegion.Abdomen, BleedingSeverity.None},
-            {BodyRegion.LeftArm, BleedingSeverity.None},
-            {BodyRegion.RightArm, BleedingSeverity.None},
-            {BodyRegion.LeftLeg, BleedingSeverity.None},
-            {BodyRegion.RightLeg, BleedingSeverity.None}
-        };
+        
 
-        public Physical()
+        public Physical() //Replace with body again?
         {
             //skeleton = new Skeleton();
             organs = new OrganSystems(true);
@@ -306,15 +288,13 @@ namespace AirAmboAttempt01
         {
 
         }
-
-
     }
-
 
     public class Limb : BodyPart
     {
         public BleedingSeverity LimbBleeding;
         public readonly bool isLeft;
+        //public bool isMobile; //For later
 
         private Bone[] _bones;
 

@@ -17,31 +17,6 @@
         RightLeg,
         Other //?
     }
-    public enum BloodABO
-    {
-        O,
-        A,
-        B,
-        AB
-    }
-    public enum BloodRhesus
-    {
-        Negative,
-        Positive
-    }
-    public struct BloodType
-    {
-        public BloodABO ABO;
-        public BloodRhesus Rhesus;
-    }
-    public enum BleedingSeverity
-    {
-        None,
-        Mild,
-        Moderate,
-        Severe,
-        Extreme
-    }
     public enum PainSeverity
     {
         None,
@@ -50,53 +25,7 @@
         Severe,
         Extreme
     }
-    public enum InfectionSeverity
-    {
-        None,
-        Mild,
-        Moderate,
-        Severe,
-        Extreme
-    }
-    public enum InfectionType
-    {
-        None,
-        Bacterial,
-        Viral,
-        Prion,
-        Other
-    }
-    public enum InfectionResistance
-    {
-        None,
-        Susceptible,
-        Stardard,
-        Resistant,
-        Immune
-    }
-    public struct Infection
-    {
-        public InfectionType infectionType;
-        public InfectionSeverity infectionSeverity;
-        public InfectionResistance infectionResistance;
-
-        public void IncreaseInfection()
-        {
-            if(infectionSeverity != InfectionSeverity.Extreme)
-                infectionSeverity += 1;
-        }
-
-        public void DecreaseInfection()
-        {
-            if (infectionSeverity != InfectionSeverity.None)
-                infectionSeverity -= 1;
-        }
-
-        public void CureInfection()
-        {
-            infectionSeverity = InfectionSeverity.None;
-        }
-    }
+  
     public enum Consciousness
     {
        Dead,
@@ -128,20 +57,11 @@
         public bool opiods;
         public bool hallucinogens;
     }
-
-
-  
-
     public enum LungLobeLocation
     {
         Upper,
         Middle,
         Lower
     }
-
-
-    public enum ArmBones
-    {
-
-    }
+  
 }
