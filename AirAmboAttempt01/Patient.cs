@@ -6,6 +6,46 @@ namespace AirAmboAttempt01.Patients
     public class Patient
     {
         #region Props
+        private Biography _biography;
+        public Biography Biography
+        {
+            get { return _biography; }
+            set { _biography = value; }
+        }
+
+        private bool _isAlive;
+        public bool IsAlive
+        {
+            get { return _isAlive; }
+            set { _isAlive = value; }
+        }
+
+        private Physical _body = new Physical();
+        public Physical Body
+        {
+            get { return _body; }
+            private set { _body = value; }
+        }
+
+        private Mental _mind = new Mental();
+        public Mental Mind
+        {
+            get { return _mind; }
+            private set { _mind = value; }
+        }
+        #endregion
+
+        public Patient(Biography biography = null, Physical body = null, Mental mind = null)
+        {
+            Biography = (biography == null) ? new Biography() : biography;
+            Body = (body == null) ? new Physical() : body;
+            Mind = (mind == null) ? new Mental() : mind;
+        }
+    }
+
+    public class Biography
+    {
+        #region Props
         private string _firstName;
         public string FirstName
         {
@@ -33,48 +73,14 @@ namespace AirAmboAttempt01.Patients
             get { return _gender; }
             set { _gender = value; }
         }
-
-        private bool _isAlive;
-        public bool IsAlive
-        {
-            get { return _isAlive; }
-            set { _isAlive = value; }
-        }
-
-        private Physical _body = new Physical();
-        public Physical Body
-        {
-            get { return _body; }
-            private set { _body = value; }
-        }
-
-        private Mental _mind = new Mental();
-        public Mental Mind
-        {
-            get { return _mind; }
-            private set { _mind = value; }
-        }
         #endregion
-        public Patient()
-        {
-            FirstName = "John";
-            LastName = "Doe";
-            Age = 30;
-            Gender = Gender.Other;
-        }
 
-        public Patient(string firstName, string lastName, int age, Gender gender)
+        public Biography(string firstName = "John", string lastName = "Doe", int age = 30, Gender gender = Gender.Other)
         {
             FirstName = firstName;
             LastName = lastName;
             Age = age;
             Gender = gender;
-        }
-
-        public Patient(string firstName, string lastName, int age, Gender gender, Physical body, Mental mind) : this( firstName, lastName, age, gender)
-        {
-            _body = body;
-            _mind = mind;
         }
     }
 }

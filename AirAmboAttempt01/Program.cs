@@ -10,8 +10,8 @@ namespace AirAmboAttempt01.Patients
         static void Main(string[] args)
         {
             Patient p1 = new Patient();
-            Organ[] organs = p1.Body.Abdomen.GetOrgans();
-            foreach (Organ organ in organs)
+            
+            foreach (Organ organ in p1.Body.Abdomen.GetOrgans())
             {
                 Console.WriteLine($"{organ.GetType().Name}: {organ.BloodLossRate}");
             }
