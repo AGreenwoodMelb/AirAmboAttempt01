@@ -95,6 +95,11 @@ namespace AirAmboAttempt01.PatientBody
         }
     }
 
+    public class Chest : BodyPart
+    {
+
+    }
+
     public class PairedBodyPart : BodyPart
     {
         public readonly bool isLeft;
