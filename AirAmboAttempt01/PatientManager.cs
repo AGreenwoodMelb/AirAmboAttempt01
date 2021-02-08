@@ -5,10 +5,10 @@ using AirAmboAttempt01.Patients;
 
 namespace AirAmboAttempt01
 {
-    class PatientManager
+    public class PatientManager
     {
         #region Props
-        private Patient CurrentPatient { get; set; }//This should be private to prevent direct access and manipulation of the patient.
+        protected Patient CurrentPatient { get; private set; }//This should be protected to prevent direct access and manipulation of the patient.
 
         //public Patient CurrentPatient
         //{
@@ -19,7 +19,7 @@ namespace AirAmboAttempt01
 
         public bool TryAddPatient(Patient newPatient)
         {
-            if(CurrentPatient == null)
+            if (CurrentPatient == null)
             {
                 CurrentPatient = newPatient;
                 return true;
@@ -29,7 +29,7 @@ namespace AirAmboAttempt01
 
         public bool TryRemovePatient()
         {
-            if(CurrentPatient != null)
+            if (CurrentPatient != null)
             {
                 CurrentPatient = null;
                 return true;
@@ -39,7 +39,7 @@ namespace AirAmboAttempt01
 
         public string GetPatientBio()
         {
-            if(CurrentPatient == null)
+            if (CurrentPatient == null)
             {
                 return "No Patient Found in Pod";
             }
@@ -61,10 +61,42 @@ namespace AirAmboAttempt01
         }
         public string GetPatientHead()
         {
-
             return "";
         }
 
+        public Patient TEMP_GetPatient()
+        {
+            return CurrentPatient;
+        }
+
+        public bool PerformIntervention(IIntervention i)
+        {
+            return i.Intervene(CurrentPatient);
+        }
+    }
+
+    public interface IIntervention
+    {
+        public virtual bool Intervene(Patient target) { return false; }
         
+    }
+
+    public class Transfuse : IIntervention
+    {
+        private Fluid _fluid;
+        public Transfuse(Fluid incFluid)
+        {
+            _fluid = incFluid;
+        }
+
+        public bool Intervene(Patient target)
+        {
+            return target.Body.Blood.Transfuse(_fluid);
+        }
+    }
+
+    public class Tester : IIntervention
+    {
+
     }
 }

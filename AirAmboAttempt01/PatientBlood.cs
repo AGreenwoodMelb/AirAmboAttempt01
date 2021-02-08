@@ -55,7 +55,7 @@ namespace AirAmboAttempt01.Patients.PatientBlood
             { BleedingSeverity.Extreme, 2.5f}
         };
 
-       
+
     }
     public class BloodSystem : Blood
     {
@@ -86,31 +86,26 @@ namespace AirAmboAttempt01.Patients.PatientBlood
         }
         #endregion
 
-        public bool Transfuse(Fluid incFluid)
+        public bool Transfuse(Fluid incFluid) //This Shouldnt be here //Make this An IIntervention
         {
-            bool successFlag = false;
 
             switch (incFluid)
             {
                 case Blood incBlood:
-                    AddFluid(incBlood);
-                    break;
+                    return AddFluid(incBlood);
                 case Drug incDrug:
-                    DoingDrugs(incDrug);
-                    break;
+                    return DoingDrugs(incDrug);
                 case Fluid incBaseFluid:
-                    AddFluid(incBaseFluid);
-                    break;
+                    return AddFluid(incBaseFluid);
                 default:
                     throw new ArgumentException(
                         message: "BloodSystem::Transfuse Unhandled Subtype of Fluid",
                         paramName: nameof(incFluid)
                         );
             }
-            return successFlag;
         }
 
-        private bool DoingDrugs(Drug incDrug)
+        private bool DoingDrugs(Drug incDrug)//THis Shouldnt be here //Make this An IIntervention
         {
             switch (incDrug.drugType)
             {

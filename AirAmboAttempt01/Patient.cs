@@ -6,6 +6,7 @@ namespace AirAmboAttempt01.Patients
     public class Patient
     {
         #region Props
+        //public int _randomSeed { get;} //For Unity stuff
         private Biography _biography;
         public Biography Biography
         {
@@ -13,21 +14,21 @@ namespace AirAmboAttempt01.Patients
             set { _biography = value; }
         }
 
-        private bool _isAlive;
+        private bool _isAlive = true;
         public bool IsAlive
         {
             get { return _isAlive; }
             set { _isAlive = value; }
         }
 
-        private Physical _body = new Physical();
+        private Physical _body;
         public Physical Body
         {
             get { return _body; }
             private set { _body = value; }
         }
 
-        private Mental _mind = new Mental();
+        private Mental _mind;
         public Mental Mind
         {
             get { return _mind; }
@@ -40,6 +41,7 @@ namespace AirAmboAttempt01.Patients
             Biography = (biography == null) ? new Biography() : biography;
             Body = (body == null) ? new Physical() : body;
             Mind = (mind == null) ? new Mental() : mind;
+            //_randomSeed = MagicRandomStaticThingy;
         }
     }
 
