@@ -12,8 +12,6 @@ namespace AirAmboAttempt01.Patients.PatientOrgans
         Impaired,
         Damaged
     }
-
-    #region BaseOrganClasses
     public class Organ
     {
         #region Props
@@ -38,7 +36,7 @@ namespace AirAmboAttempt01.Patients.PatientOrgans
             OrganState = OrganState.Normal;
         }
     }
-    #endregion
+
     #region DerivedOrganClasses
     #region HeadOrgans
     public class Brain : Organ
@@ -56,6 +54,13 @@ namespace AirAmboAttempt01.Patients.PatientOrgans
         {
             get { return _isSeizing; }
             set { _isSeizing = value; }
+        }
+
+        private bool _isIschaemic;
+        public bool IsIschaemic
+        {
+            get { return _isIschaemic; }
+            set { _isIschaemic = value; }
         }
         #endregion
 
@@ -133,7 +138,7 @@ namespace AirAmboAttempt01.Patients.PatientOrgans
 
         }
 
-        public new OrganState OrganState
+        public new OrganState OrganState //rework this
         {
             get
             {
@@ -198,15 +203,67 @@ namespace AirAmboAttempt01.Patients.PatientOrgans
     #region AbdomenOrgans
     public class Kidney : Organ
     {
+        #region Props
+        private bool _hasStone;
+        public bool HasStone
+        {
+            get { return _hasStone; }
+            set { _hasStone = value; }
+        }
+
+        private bool _isUreterBlocked;
+        public bool IsUreterBlocked
+        {
+            get { return _isUreterBlocked; }
+            set { _isUreterBlocked = value; }
+        }
+        #endregion
+
         public Kidney() : base(DefaultBloodLossBaseRates.Kidney)
         {
 
         }
     }
-    public class Kidneys
+    public class Bladder : Organ
     {
-        private Kidney _leftKidney = new Kidney();
+        #region Props
+        private float _maxVolume;   
+        public float MaxVolume
+        {
+            get { return _maxVolume; }
+            set { _maxVolume = value; }
+        }
 
+        private float _currentVolume;
+        public float CurrentVolume
+        {
+            get { return _currentVolume; }
+            set { _currentVolume = value; }
+        }
+
+        private bool _hasStones;
+        public bool HasStones
+        {
+            get { return _hasStones; }
+            set { _hasStones = value; }
+        }
+
+        private bool _isUrethraBlocked;
+        public bool IsUrethraBlocked
+        {
+            get { return _isUrethraBlocked; }
+            set { _isUrethraBlocked = value; }
+        }
+        #endregion
+        public Bladder() : base(DefaultBloodLossBaseRates.Bladder)
+        {
+
+        }
+    }
+    public class UrinaryTract
+    {
+        #region Props
+        private Kidney _leftKidney = new Kidney();
         public Kidney LeftKidney
         {
             get { return _leftKidney; }
@@ -214,16 +271,45 @@ namespace AirAmboAttempt01.Patients.PatientOrgans
         }
 
         private Kidney _rightKidney = new Kidney();
-
         public Kidney RightKidney
         {
             get { return _rightKidney; }
             set { _rightKidney = value; }
         }
-    }
 
+        private Bladder _bladder;
+        public Bladder Bladder
+        {
+            get { return _bladder; }
+            set { _bladder = value; }
+        }
+        #endregion
+
+        public UrinaryTract(Kidney leftKidney = null, Kidney rightKidney = null, Bladder bladder = null)
+        {
+            LeftKidney = (leftKidney == null) ? new Kidney() : leftKidney;
+            RightKidney = (rightKidney == null) ? new Kidney() : rightKidney;
+            Bladder = (bladder == null) ? new Bladder() : bladder;
+        }
+    }
     public class Liver : Organ
     {
+        #region Props
+        private bool _hasStones;
+        public bool HasStones
+        {
+            get { return _hasStones; }
+            set { _hasStones = value; }
+        }
+
+        private bool _isBilliaryDuctBlocked;
+        public bool IsBilliaryDuctBlocked
+        {
+            get { return _isBilliaryDuctBlocked; }
+            set { _isBilliaryDuctBlocked = value; }
+        }
+        #endregion
+
         public Liver() : base(DefaultBloodLossBaseRates.Liver)
         {
 
@@ -237,7 +323,6 @@ namespace AirAmboAttempt01.Patients.PatientOrgans
 
         }
     }
-
     public class Spleen : Organ
     {
         public Spleen() : base(DefaultBloodLossBaseRates.Spleen)
@@ -264,6 +349,15 @@ namespace AirAmboAttempt01.Patients.PatientOrgans
 
     public class Reproductive_Male : Reproductive
     {
+        #region Props
+        private float _psa;
+        public float PSA
+        {
+            get { return _psa; }
+            set { _psa = value; }
+        }
+        #endregion
+
         public Reproductive_Male() : base(DefaultBloodLossBaseRates.Reproductive_Male)
         {
 
@@ -272,7 +366,29 @@ namespace AirAmboAttempt01.Patients.PatientOrgans
 
     public class Reproductive_Female : Reproductive
     {
-        readonly bool isPregnant;
+        #region Props
+        private bool _isPregnant;
+        public bool IsPregnant
+        {
+            get { return _isPregnant; }
+            set { _isPregnant = value; }
+        }
+
+        private int _weeksGestation;
+        public int WeeksGestation
+        {
+            get { return _weeksGestation; }
+            set { _weeksGestation = value; }
+        }
+
+        private float _bHCG;
+        public float bHCG
+        {
+            get { return _bHCG; }
+            set { _bHCG = value; }
+        }
+        #endregion
+
         public Reproductive_Female() : base(DefaultBloodLossBaseRates.Reproductive_Female)
         {
 

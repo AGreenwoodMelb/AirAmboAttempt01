@@ -54,5 +54,95 @@ namespace AirAmboAttempt01.Patients.PatientBlood
             { BleedingSeverity.Severe, 2f},
             { BleedingSeverity.Extreme, 2.5f}
         };
+
+       
+    }
+    public class BloodSystem : Blood
+    {
+        #region DefaultValues
+        static readonly float _defaultBloodSystemVolume = 6000f; //mL
+        #endregion
+
+        private IllilcitDrugsProfile _illicitDrugsProfile;
+        public IllilcitDrugsProfile IllilcitDrugsProfile
+        {
+            get { return _illicitDrugsProfile; }
+        }
+
+        #region Constructors
+        public BloodSystem()
+        {
+            Volume = _defaultBloodSystemVolume;
+        }
+
+        public BloodSystem(Blood bloodSetup) : base(bloodSetup.bloodType, bloodSetup.Volume, bloodSetup.FluidProfile)
+        {
+
+        }
+
+        public BloodSystem(BloodType bloodType, FluidProfile fluidProfile, float bloodVolume) : base(bloodType, bloodVolume, fluidProfile)
+        {
+
+        }
+        #endregion
+
+        public bool Transfuse(Fluid incFluid)
+        {
+            bool successFlag = false;
+
+            switch (incFluid)
+            {
+                case Blood incBlood:
+                    AddFluid(incBlood);
+                    break;
+                case Drug incDrug:
+                    DoingDrugs(incDrug);
+                    break;
+                case Fluid incBaseFluid:
+                    AddFluid(incBaseFluid);
+                    break;
+                default:
+                    throw new ArgumentException(
+                        message: "BloodSystem::Transfuse Unhandled Subtype of Fluid",
+                        paramName: nameof(incFluid)
+                        );
+            }
+            return successFlag;
+        }
+
+        private bool DoingDrugs(Drug incDrug)
+        {
+            switch (incDrug.drugType)
+            {
+
+                case DrugType.Stimulant:
+                    _illicitDrugsProfile.stimulants = true;
+                    break;
+                case DrugType.Sedative:
+                    _illicitDrugsProfile.sedetives = true;
+                    break;
+                case DrugType.Opiods:
+                    _illicitDrugsProfile.opiods = true;
+                    break;
+                case DrugType.Hallucinogens:
+                    _illicitDrugsProfile.hallucinogens = true;
+                    break;
+                case DrugType.Detoxer:
+                    _illicitDrugsProfile = new IllilcitDrugsProfile(); //Bool default is false
+                    break;
+                case DrugType.None:
+                default:
+                    break;
+            }
+
+            return true;
+        }
+
+        public float BloodVolumeCheck()
+        {
+            float bloodVolumeRatio = Volume / _defaultBloodSystemVolume;
+            Console.WriteLine(bloodVolumeRatio);
+            return bloodVolumeRatio;
+        }//Probably not needed here //Put In condition / event Manager
     }
 }

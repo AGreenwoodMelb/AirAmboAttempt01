@@ -60,7 +60,6 @@ namespace AirAmboAttempt01.Patients.PatientPhysical
         public PainSeverity PainSeverity;
 
         private Bone[] _bones;
-
         public Bone[] Bones
         {
             get { return _bones; }
@@ -82,12 +81,14 @@ namespace AirAmboAttempt01.Patients.PatientPhysical
 
     public class Head : PhysicalPart
     {
+        #region Props
         private Brain _brain;
         public Brain Brain
         {
             get { return _brain; }
             set { _brain = value; }
         }
+        #endregion
 
         public Head(Bone[] headBoneStructure = null, Brain brain = null)
         {
@@ -113,7 +114,7 @@ namespace AirAmboAttempt01.Patients.PatientPhysical
             set { _lungs = value; }
         }
         #endregion
-
+        
         public Chest(Bone[] chestBoneStructure = null, Heart heart = null, Lungs lungs = null)
         {
             Bones = (chestBoneStructure == null) ? DefaultBoneStructures.DefaultChestBones : chestBoneStructure;
@@ -146,8 +147,8 @@ namespace AirAmboAttempt01.Patients.PatientPhysical
             set { _pancreas = value; }
         }
 
-        private Kidneys _kidneys;
-        public Kidneys Kidneys
+        private UrinaryTract _kidneys;
+        public UrinaryTract UrinaryTract
         {
             get { return _kidneys; }
             set { _kidneys = value; }
@@ -168,13 +169,13 @@ namespace AirAmboAttempt01.Patients.PatientPhysical
         }
         #endregion
 
-        public Abdomen(Bone[] abdomenBoneStructure = null, GastrointestinalTract gastrointestinalTract = null, Liver liver = null, Pancreas pancreas = null, Kidneys kidneys = null, Spleen spleen = null, Reproductive reproductives = null)
+        public Abdomen(Bone[] abdomenBoneStructure = null, GastrointestinalTract gastrointestinalTract = null, Liver liver = null, Pancreas pancreas = null, UrinaryTract urinaryTract = null, Spleen spleen = null, Reproductive reproductives = null)
         {
             Bones = (abdomenBoneStructure == null) ? DefaultBoneStructures.DefaultAbdomenBones : abdomenBoneStructure;
             GastrointestinalTract = (gastrointestinalTract == null) ? new GastrointestinalTract() : gastrointestinalTract;
             Liver = (liver == null) ? new Liver() : liver;
             Pancreas = (pancreas == null) ? new Pancreas() : pancreas;
-            Kidneys = (kidneys == null) ? new Kidneys() : kidneys;
+            UrinaryTract = (urinaryTract == null) ? new UrinaryTract() : urinaryTract;
             Spleen = (spleen == null) ? new Spleen() : spleen;
             Reproductives = (reproductives == null) ? new Reproductive_Female() : reproductives;
         }
@@ -184,8 +185,8 @@ namespace AirAmboAttempt01.Patients.PatientPhysical
             return new Organ[]
             {
                 GastrointestinalTract,
-                Kidneys.LeftKidney,
-                Kidneys.RightKidney,
+                UrinaryTract.LeftKidney,
+                UrinaryTract.RightKidney,
                 Liver,
                 Pancreas,
                 Spleen,
