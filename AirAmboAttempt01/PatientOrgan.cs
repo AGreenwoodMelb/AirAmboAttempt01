@@ -3,20 +3,39 @@ using AirAmboAttempt01.Patients.PatientInfection;
 
 namespace AirAmboAttempt01.Patients.PatientOrgans
 {
+    public enum OrganState
+    {
+        None,
+        Removed,
+        Destroyed,
+        Normal,
+        Impaired,
+        Damaged
+    }
+
     #region BaseOrganClasses
     public class Organ
     {
+        #region Props
+        private OrganState _organState;
+        public OrganState OrganState
+        {
+            get { return _organState; }
+            set { _organState = value; }
+        }
+
         private BleedingSeverity _isBleeding = BleedingSeverity.None;
         public BleedingSeverity IsBleeding
         {
             get { return _isBleeding; }
             protected set { _isBleeding = value; }
         }
-        public readonly float BloodLossRate;
-
+        public readonly float BaseBloodLossRate;
+        #endregion
         public Organ(float bloodLossRate)
         {
-            BloodLossRate = bloodLossRate;
+            BaseBloodLossRate = bloodLossRate;
+            OrganState = OrganState.Normal;
         }
     }
     #endregion
@@ -111,7 +130,23 @@ namespace AirAmboAttempt01.Patients.PatientOrgans
 
         public Lung() : base(DefaultBloodLossBaseRates.Lung)
         {
-            
+
+        }
+
+        public new OrganState OrganState
+        {
+            get
+            {
+                OrganState output = UpperLobe.LobeState;
+
+                if (MiddleLobe != null && MiddleLobe.LobeState > output)
+                    output = MiddleLobe.LobeState;
+
+                if (LowerLobe.LobeState > output)
+                    output = LowerLobe.LobeState;
+
+                return output;
+            }
         }
     }
     public class LungLobe
@@ -124,19 +159,20 @@ namespace AirAmboAttempt01.Patients.PatientOrgans
             set { _infection = value; }
         }
 
-        private bool _isDestroyed;
-        public bool IsDestroyed
+        private OrganState _lobeState;
+
+        public OrganState LobeState
         {
-            get { return _isDestroyed; }
-            set { _isDestroyed = value; }
+            get { return _lobeState; }
+            set { _lobeState = value; }
         }
+
         #endregion
     }
-
     public class Lungs
     {
         #region Props
-        private Lung _leftLung ;
+        private Lung _leftLung;
         public Lung LeftLung
         {
             get { return _leftLung; }

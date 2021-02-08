@@ -20,7 +20,7 @@ namespace AirAmboAttempt01.Patients
                             infectionSeverity = PatientInfection.InfectionSeverity.Mild,
                             infectionType = PatientInfection.InfectionType.Bacterial
                         },
-                        IsDestroyed = false
+                        LobeState = OrganState.Impaired
                     },
                     MiddleLobe = new LungLobe()
                     {
@@ -30,7 +30,7 @@ namespace AirAmboAttempt01.Patients
                             infectionSeverity = PatientInfection.InfectionSeverity.Moderate,
                             infectionType = PatientInfection.InfectionType.Bacterial
                         },
-                        IsDestroyed = false
+                        LobeState = OrganState.Damaged
                     },
                     LowerLobe = new LungLobe()
                     {
@@ -40,7 +40,7 @@ namespace AirAmboAttempt01.Patients
                             infectionSeverity = PatientInfection.InfectionSeverity.Severe,
                             infectionType = PatientInfection.InfectionType.Bacterial
                         },
-                        IsDestroyed = true
+                        LobeState = OrganState.Destroyed
                     }
                 },
                 RightLung = new Lung()
@@ -53,11 +53,8 @@ namespace AirAmboAttempt01.Patients
 
             PatientPhysical.Chest chest = new PatientPhysical.Chest(lungs: newLungs);
 
-            //Lungs otherLungs = new Lungs();
+            Console.WriteLine(chest.Lungs.LeftLung.OrganState);
 
-            Console.WriteLine(chest.Lungs.LeftLung.MiddleLobe.IsDestroyed);
-
-            //Console.WriteLine(otherLungs.LeftLung.MiddleLobe.IsDestroyed);
         }
     }
 }
