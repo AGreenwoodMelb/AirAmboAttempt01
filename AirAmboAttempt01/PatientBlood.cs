@@ -60,15 +60,31 @@ namespace AirAmboAttempt01.Patients.PatientBlood
     public class BloodSystem : Blood
     {
         #region DefaultValues
-        static readonly float _defaultBloodSystemVolume = 6000f; //mL
+        readonly float _defaultBloodSystemVolume = 6000f; //mL
         #endregion
 
+        #region Props
         private IllilcitDrugsProfile _illicitDrugsProfile;
         public IllilcitDrugsProfile IllilcitDrugsProfile
         {
             get { return _illicitDrugsProfile; }
         }
 
+        private bool _hasTranfusionReaction;
+        public bool HasTransfusionReaction
+        {
+            get { return _hasTranfusionReaction; }
+            set { _hasTranfusionReaction = value; }
+        }
+
+        private bool _immunoSuppressed;
+        public bool ImmunoSuppressed
+        {
+            get { return _immunoSuppressed; }
+            set { _immunoSuppressed = value; }
+        }
+
+        #endregion
         #region Constructors
         public BloodSystem()
         {
