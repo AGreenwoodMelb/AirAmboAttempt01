@@ -8,9 +8,9 @@ namespace AirAmboAttempt01.Patients
     {
         static void Main(string[] args)
         {
-            Patient p1 = new Patient();
+            PatientManager Pod = new PatientManager();
+            
 
-            Console.WriteLine(p1.Body.Blood.Volume);
         }
     }
 }
