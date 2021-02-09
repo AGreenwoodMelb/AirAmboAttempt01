@@ -29,22 +29,6 @@
         Confused,
         Agitated,
     }
-    public enum DrugType //For later use
-    {
-        None,
-        Stimulant,
-        Sedative,
-        Opiods,
-        Hallucinogens,
-        Detoxer
-    }
-    public struct IllilcitDrugsProfile
-    {
-        public bool stimulants;
-        public bool sedetives;
-        public bool opiods;
-        public bool hallucinogens;
-    }
-    
+
   
 }

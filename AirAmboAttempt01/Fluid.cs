@@ -120,32 +120,5 @@ namespace AirAmboAttempt01.Patients
         }
     }
 
-    public class Drug : Fluid //This may be stupid
-    {
-        #region DefaultDrugInfusionValues
-        private new static readonly float _defaultVolume = 50;
-        
-        #endregion
-
-        public readonly DrugType drugType = DrugType.None;
-
-        #region Constructors
-        public Drug() : base(_defaultVolume, DefaultFluidProfiles.Drug)
-        {
-        }
-
-        public Drug(DrugType drugType) : base(_defaultVolume, DefaultFluidProfiles.Drug)
-        {
-            this.drugType = drugType;
-        }
-        public Drug(DrugType drugType, float volume) : base(volume, DefaultFluidProfiles.Drug)
-        {
-            this.drugType = drugType;
-        }
-        public Drug(DrugType drugType, float volume, FluidProfile drugFluidProfile) : base(volume, DefaultFluidProfiles.Drug)
-        {
-            this.drugType = drugType;
-        }
-        #endregion
-    }
+  
 }

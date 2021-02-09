@@ -1,5 +1,6 @@
 ﻿using System;
 using AirAmboAttempt01.Patients;
+using AirAmboAttempt01.Patients.PatientDrugs;
 
 namespace AirAmboAttempt01
 {
@@ -7,7 +8,7 @@ namespace AirAmboAttempt01
     {
         public virtual bool Intervene(Patient target)
         {
-            throw new NotImplementedException(message: "No Intervene method implemented");
+            throw new NotImplementedException(message: "IIntervention:: No Intervene method implemented");
         }
     }
 
@@ -34,8 +35,6 @@ namespace AirAmboAttempt01
             {
                 case Blood _:
                     return TranfuseBlood();
-                case Drug _:
-                    return false;
                 case Fluid _:
                     return false;
                 default:
@@ -61,6 +60,21 @@ namespace AirAmboAttempt01
         }
     }
 
+
+    public class AdministerDrug : IIntervention
+    {
+        private Drug _drug;
+        public AdministerDrug(Drug drug)
+        {
+            _drug = drug;
+        }
+
+        public bool Intervene(Patient target)
+        {
+            _drug.Administer(target);
+            throw new NotImplementedException(message: "AdministerDrug:: No Intervene method implemented");
+        }
+    }
     /*
      * 
         private bool DoingDrugs(Drug incDrug)//THis Shouldnt be here //Make this An IIntervention

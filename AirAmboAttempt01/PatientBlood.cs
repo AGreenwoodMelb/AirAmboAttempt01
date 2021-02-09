@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using AirAmboAttempt01.Patients.PatientDrugs;
 
 namespace AirAmboAttempt01.Patients.PatientBlood
 {
@@ -66,10 +67,10 @@ namespace AirAmboAttempt01.Patients.PatientBlood
         #endregion
 
         #region Props
-        private IllilcitDrugsProfile _illicitDrugsProfile;
-        public IllilcitDrugsProfile IllilcitDrugsProfile
+        private DrugProfile _DrugsProfile = new DrugProfile();
+        public DrugProfile DrugsProfile
         {
-            get { return _illicitDrugsProfile; }
+            get { return _DrugsProfile; }
         }
 
         private bool _hasTranfusionReaction;
