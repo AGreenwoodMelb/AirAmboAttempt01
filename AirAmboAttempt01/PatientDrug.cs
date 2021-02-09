@@ -3,15 +3,7 @@ using AirAmboAttempt01.Patients.PatientInterventions;
 
 namespace AirAmboAttempt01.Patients.PatientDrugs
 {
-    public enum DrugType //For later use
-    {
-        None,
-        Stimulant,
-        Sedative,
-        Opiods,
-        Hallucinogens,
-        Detoxer
-    }
+
 
 
     public struct DrugProfile
