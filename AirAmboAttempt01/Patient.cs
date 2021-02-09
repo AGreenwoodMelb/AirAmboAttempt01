@@ -43,6 +43,12 @@ namespace AirAmboAttempt01.Patients
             Mind = (mind == null) ? new Mental() : mind;
             //_randomSeed = MagicRandomStaticThingy;
         }
+
+        public float BloodVolumeCheck()
+        {
+            float bloodVolumeRatio = _body.Blood.Volume / _body.Blood._defaultBloodSystemVolume;
+            return bloodVolumeRatio;
+        }
     }
 
     public class Biography

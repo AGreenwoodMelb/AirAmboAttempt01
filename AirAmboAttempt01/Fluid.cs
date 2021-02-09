@@ -18,7 +18,7 @@ namespace AirAmboAttempt01.Patients
         private readonly float _ElectrolytesMax = 10.0f; //Arbitrary value
         private readonly float _ElectrolytesMin = 0.0f; //Cant be negative
         #endregion
-
+        #region Props
         private float _volume = _defaultVolume;
         public float Volume
         {
@@ -39,7 +39,7 @@ namespace AirAmboAttempt01.Patients
                 _fluidProfile.Electrolytes = Math.Clamp(value.Electrolytes, _ElectrolytesMin, _ElectrolytesMax);
             }
         }
-
+        #endregion
         #region Constructors
         public Fluid()
         {
@@ -99,16 +99,7 @@ namespace AirAmboAttempt01.Patients
             this.bloodType = bloodType;
         }
         #endregion
-
-        //protected bool AddFluid(Blood incBloodInfusion)
-        //{
-        //    bool successFlag = false;
-        //    successFlag = BloodTypeCompatibility(incBloodInfusion.bloodType);
-        //    Console.WriteLine("BlooD");
-        //    base.AddFluid(incBloodInfusion);
-        //    return successFlag;
-        //}
-
+    
         public bool BloodTypeCompatibility(BloodType incBloodType)
         {
             if (bloodType.Rhesus == BloodRhesus.Positive || incBloodType.Rhesus == BloodRhesus.Negative)
@@ -126,7 +117,6 @@ namespace AirAmboAttempt01.Patients
             {
                 return false;
             }
-
         }
     }
 

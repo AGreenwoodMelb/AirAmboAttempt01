@@ -62,7 +62,7 @@ namespace AirAmboAttempt01.Patients.PatientBlood
     public class BloodSystem : Blood //Do I need this?
     {
         #region DefaultValues
-        readonly float _defaultBloodSystemVolume = 6000f; //mL
+        public readonly float _defaultBloodSystemVolume = 6000f; //mL
         #endregion
 
         #region Props

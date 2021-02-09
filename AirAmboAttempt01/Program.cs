@@ -10,8 +10,7 @@ namespace AirAmboAttempt01.Patients
         static void Main(string[] args)
         {
             PatientManager Pod = new PatientManager();
-
-            Patient newPatient = new Patient();
+            
             Pod.TryAddPatient(new Patient());
             Console.WriteLine(Pod.TEMP_GetPatient().Body.Blood.bloodType.GetBloodType);
 
@@ -23,7 +22,8 @@ namespace AirAmboAttempt01.Patients
             Blood blood = new Blood(new BloodType() { ABO = BloodABO.AB, Rhesus = BloodRhesus.Positive});
             Transfuse transfuse = new Transfuse(blood);
             Console.WriteLine($"{typeof(Transfuse).Name} Succeeded: {Pod.PerformIntervention(transfuse)}");
-           
+
+            Console.WriteLine(temp.Body.Blood.Volume);
         }
     }
 }
