@@ -57,7 +57,7 @@ namespace AirAmboAttempt01.Patients
         }
         #endregion
 
-        protected bool AddFluid(Fluid incFluid)
+        public bool AddFluid(Fluid incFluid)
         {
             float newBloodVolume = _volume + incFluid.Volume;
             FluidProfile newFluidProfile = _fluidProfile;
@@ -100,14 +100,14 @@ namespace AirAmboAttempt01.Patients
         }
         #endregion
 
-        protected bool AddFluid(Blood incBloodInfusion)
-        {
-            bool successFlag = false;
-            successFlag = BloodTypeCompatibility(incBloodInfusion.bloodType);
-            Console.WriteLine("BlooD");
-            base.AddFluid(incBloodInfusion);
-            return successFlag;
-        }
+        //protected bool AddFluid(Blood incBloodInfusion)
+        //{
+        //    bool successFlag = false;
+        //    successFlag = BloodTypeCompatibility(incBloodInfusion.bloodType);
+        //    Console.WriteLine("BlooD");
+        //    base.AddFluid(incBloodInfusion);
+        //    return successFlag;
+        //}
 
         public bool BloodTypeCompatibility(BloodType incBloodType)
         {

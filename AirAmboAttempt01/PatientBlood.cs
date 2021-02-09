@@ -19,6 +19,8 @@ namespace AirAmboAttempt01.Patients.PatientBlood
     {
         public BloodABO ABO;
         public BloodRhesus Rhesus;
+
+        public string GetBloodType => $"{ABO} {Rhesus}";
     }
     public enum BleedingSeverity
     {
@@ -57,7 +59,7 @@ namespace AirAmboAttempt01.Patients.PatientBlood
 
 
     }
-    public class BloodSystem : Blood
+    public class BloodSystem : Blood //Do I need this?
     {
         #region DefaultValues
         readonly float _defaultBloodSystemVolume = 6000f; //mL
@@ -102,58 +104,5 @@ namespace AirAmboAttempt01.Patients.PatientBlood
         }
         #endregion
 
-        public bool Transfuse(Fluid incFluid) //This Shouldnt be here //Make this An IIntervention
-        {
-
-            switch (incFluid)
-            {
-                case Blood incBlood:
-                    return AddFluid(incBlood);
-                case Drug incDrug:
-                    return DoingDrugs(incDrug);
-                case Fluid incBaseFluid:
-                    return AddFluid(incBaseFluid);
-                default:
-                    throw new ArgumentException(
-                        message: "BloodSystem::Transfuse Unhandled Subtype of Fluid",
-                        paramName: nameof(incFluid)
-                        );
-            }
-        }
-
-        private bool DoingDrugs(Drug incDrug)//THis Shouldnt be here //Make this An IIntervention
-        {
-            switch (incDrug.drugType)
-            {
-
-                case DrugType.Stimulant:
-                    _illicitDrugsProfile.stimulants = true;
-                    break;
-                case DrugType.Sedative:
-                    _illicitDrugsProfile.sedetives = true;
-                    break;
-                case DrugType.Opiods:
-                    _illicitDrugsProfile.opiods = true;
-                    break;
-                case DrugType.Hallucinogens:
-                    _illicitDrugsProfile.hallucinogens = true;
-                    break;
-                case DrugType.Detoxer:
-                    _illicitDrugsProfile = new IllilcitDrugsProfile(); //Bool default is false
-                    break;
-                case DrugType.None:
-                default:
-                    break;
-            }
-
-            return true;
-        }
-
-        public float BloodVolumeCheck()
-        {
-            float bloodVolumeRatio = Volume / _defaultBloodSystemVolume;
-            Console.WriteLine(bloodVolumeRatio);
-            return bloodVolumeRatio;
-        }//Probably not needed here //Put In condition / event Manager
     }
 }
