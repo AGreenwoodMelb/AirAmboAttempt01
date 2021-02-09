@@ -2,6 +2,8 @@
 using AirAmboAttempt01.Patients.PatientBlood;
 using AirAmboAttempt01.Patients.PatientOrgans;
 using AirAmboAttempt01.Patients.PatientPhysical;
+using AirAmboAttempt01.Patients.PatientDrugs;
+using AirAmboAttempt01.Patients.PatientInterventions;
 
 namespace AirAmboAttempt01.Patients
 {
@@ -12,18 +14,17 @@ namespace AirAmboAttempt01.Patients
             PatientManager Pod = new PatientManager();
             
             Pod.TryAddPatient(new Patient());
-            Console.WriteLine(Pod.TEMP_GetPatient().Body.Blood.bloodType.GetBloodType);
+            //Console.WriteLine(Pod.TEMP_GetPatient().Body.Blood.bloodType.GetBloodType);
 
 
             Patient temp = Pod.TEMP_GetPatient();
+            Console.WriteLine(temp.Body.Blood.DrugsProfile.IsStimulant);
+            IPatientIntervention intervention = new AdministerDrug(new DrugStim1());
+            Pod.PerformIntervention(intervention);
+            Console.WriteLine(temp.Body.Blood.DrugsProfile.IsStimulant);
 
-            Console.WriteLine(temp.Body.Blood.Volume);
-            
-            Blood blood = new Blood(new BloodType() { ABO = BloodABO.AB, Rhesus = BloodRhesus.Positive});
-            Transfuse transfuse = new Transfuse(blood);
-            Console.WriteLine($"{typeof(Transfuse).Name} Succeeded: {Pod.PerformIntervention(transfuse)}");
-
-            Console.WriteLine(temp.Body.Blood.Volume);
+            Pod.PerformIntervention(new AdministerDrug(new DrugDetoxer()));
+            Console.WriteLine(temp.Body.Blood.DrugsProfile.IsStimulant);
         }
     }
 }

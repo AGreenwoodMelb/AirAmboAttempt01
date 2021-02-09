@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using AirAmboAttempt01.Patients;
+﻿using AirAmboAttempt01.Patients;
+using AirAmboAttempt01.Patients.PatientInterventions;
 
 namespace AirAmboAttempt01
 {
@@ -62,7 +60,7 @@ namespace AirAmboAttempt01
             return CurrentPatient;
         }
 
-        public bool PerformIntervention(IIntervention i)
+        public bool PerformIntervention(IPatientIntervention i)
         {
             return i.Intervene(CurrentPatient);
         }

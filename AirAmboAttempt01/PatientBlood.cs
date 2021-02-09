@@ -65,12 +65,12 @@ namespace AirAmboAttempt01.Patients.PatientBlood
         #region DefaultValues
         public readonly float _defaultBloodSystemVolume = 6000f; //mL
         #endregion
-
         #region Props
         private DrugProfile _DrugsProfile = new DrugProfile();
         public DrugProfile DrugsProfile
         {
             get { return _DrugsProfile; }
+            set { _DrugsProfile = value; }
         }
 
         private bool _hasTranfusionReaction;
@@ -104,6 +104,5 @@ namespace AirAmboAttempt01.Patients.PatientBlood
 
         }
         #endregion
-
     }
 }

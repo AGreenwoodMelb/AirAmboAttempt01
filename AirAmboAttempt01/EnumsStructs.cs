@@ -29,6 +29,4 @@
         Confused,
         Agitated,
     }
-
-  
 }

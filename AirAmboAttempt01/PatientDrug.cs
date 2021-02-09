@@ -1,7 +1,5 @@
-﻿using AirAmboAttempt01.Patients.PatientBlood;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
+using AirAmboAttempt01.Patients.PatientInterventions;
 
 namespace AirAmboAttempt01.Patients.PatientDrugs
 {
@@ -14,7 +12,7 @@ namespace AirAmboAttempt01.Patients.PatientDrugs
         Hallucinogens,
         Detoxer
     }
-    
+
 
     public struct DrugProfile
     {
@@ -24,41 +22,85 @@ namespace AirAmboAttempt01.Patients.PatientDrugs
         public bool IsHallucinogen;
     }
 
-    public interface Drug
+    public abstract class Drug
     {
+        public Patient Target { get; protected set; }
+        public DrugProfile drugProfile;
+
+
         public virtual bool Administer(Patient target)
         {
-            throw new NotImplementedException(message: "Drug:: No implementation for Administer()");
+            throw new NotImplementedException(message: "Drug::Administer not implements");
         }
+
+        public void UpdatePatientDrugProfile()
+        {
+            DrugProfile targetProfile = Target.Body.Blood.DrugsProfile;
+
+            targetProfile.IsStimulant = drugProfile.IsStimulant || targetProfile.IsStimulant;
+            targetProfile.IsSedative = drugProfile.IsSedative || targetProfile.IsSedative;
+            targetProfile.IsOpiod = drugProfile.IsOpiod || targetProfile.IsOpiod;
+            targetProfile.IsHallucinogen = drugProfile.IsHallucinogen || targetProfile.IsHallucinogen;
+
+            Target.Body.Blood.DrugsProfile = targetProfile;
+        }
+
     }
 
 
-    public class oDrug : Fluid //This may be stupid
+    public class DrugStim1 : Drug
     {
-        #region DefaultDrugInfusionValues
-        private new static readonly float _defaultVolume = 50;
-
-        #endregion
-
-        public readonly DrugType drugType = DrugType.None;
-
-        #region Constructors
-        public oDrug() : base(_defaultVolume, DefaultFluidProfiles.Drug)
+        public DrugStim1()
         {
+            drugProfile.IsStimulant = true;
         }
 
-        public oDrug(DrugType drugType) : base(_defaultVolume, DefaultFluidProfiles.Drug)
+
+        public override bool Administer(Patient target)
         {
-            this.drugType = drugType;
+            Target = target;
+            //Do the action of the drug
+            UpdatePatientDrugProfile();
+            return true;
         }
-        public oDrug(DrugType drugType, float volume) : base(volume, DefaultFluidProfiles.Drug)
-        {
-            this.drugType = drugType;
-        }
-        public oDrug(DrugType drugType, float volume, FluidProfile drugFluidProfile) : base(volume, DefaultFluidProfiles.Drug)
-        {
-            this.drugType = drugType;
-        }
-        #endregion
     }
+
+    public class DrugDetoxer : Drug
+    {
+        public override bool Administer(Patient target)
+        {
+            Target = target;
+            Target.Body.Blood.DrugsProfile = new DrugProfile();
+            return true;
+        }
+    }
+
+    //public class oDrug : Fluid //This may be stupid
+    //{
+    //    #region DefaultDrugInfusionValues
+    //    private new static readonly float _defaultVolume = 50;
+
+    //    #endregion
+
+    //    public readonly DrugType drugType = DrugType.None;
+
+    //    #region Constructors
+    //    public oDrug() : base(_defaultVolume, DefaultFluidProfiles.Drug)
+    //    {
+    //    }
+
+    //    public oDrug(DrugType drugType) : base(_defaultVolume, DefaultFluidProfiles.Drug)
+    //    {
+    //        this.drugType = drugType;
+    //    }
+    //    public oDrug(DrugType drugType, float volume) : base(volume, DefaultFluidProfiles.Drug)
+    //    {
+    //        this.drugType = drugType;
+    //    }
+    //    public oDrug(DrugType drugType, float volume, FluidProfile drugFluidProfile) : base(volume, DefaultFluidProfiles.Drug)
+    //    {
+    //        this.drugType = drugType;
+    //    }
+    //    #endregion
+    //}
 }

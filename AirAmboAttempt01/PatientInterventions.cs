@@ -2,9 +2,9 @@
 using AirAmboAttempt01.Patients;
 using AirAmboAttempt01.Patients.PatientDrugs;
 
-namespace AirAmboAttempt01
+namespace AirAmboAttempt01.Patients.PatientInterventions
 {
-    public interface IIntervention
+    public interface IPatientIntervention
     {
         public virtual bool Intervene(Patient target)
         {
@@ -12,7 +12,7 @@ namespace AirAmboAttempt01
         }
     }
 
-    public class Transfuse : IIntervention
+    public class Transfuse : IPatientIntervention
     {
         private Fluid _fluid;
         private Patient _target;
@@ -61,7 +61,7 @@ namespace AirAmboAttempt01
     }
 
 
-    public class AdministerDrug : IIntervention
+    public class AdministerDrug : IPatientIntervention
     {
         private Drug _drug;
         public AdministerDrug(Drug drug)
@@ -72,40 +72,8 @@ namespace AirAmboAttempt01
         public bool Intervene(Patient target)
         {
             _drug.Administer(target);
-            throw new NotImplementedException(message: "AdministerDrug:: No Intervene method implemented");
-        }
-    }
-    /*
-     * 
-        private bool DoingDrugs(Drug incDrug)//THis Shouldnt be here //Make this An IIntervention
-        {
-            switch (incDrug.drugType)
-            {
-
-                case DrugType.Stimulant:
-                    _illicitDrugsProfile.stimulants = true;
-                    break;
-                case DrugType.Sedative:
-                    _illicitDrugsProfile.sedetives = true;
-                    break;
-                case DrugType.Opiods:
-                    _illicitDrugsProfile.opiods = true;
-                    break;
-                case DrugType.Hallucinogens:
-                    _illicitDrugsProfile.hallucinogens = true;
-                    break;
-                case DrugType.Detoxer:
-                    _illicitDrugsProfile = new IllilcitDrugsProfile(); //Bool default is false
-                    break;
-                case DrugType.None:
-                default:
-                    break;
-            }
-
+            //throw new NotImplementedException(message: "AdministerDrug:: No Intervene method implemented");
             return true;
         }
-
-       
-     * 
-     */
+    }
 }
