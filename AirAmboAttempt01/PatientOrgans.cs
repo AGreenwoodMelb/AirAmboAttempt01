@@ -15,7 +15,7 @@ namespace AirAmboAttempt01.Patients.PatientOrgans
         Damaged
     }
 
-    public class LungDefaults
+    public static class LungDefaults
     {
         public static readonly Dictionary<OrganState, float> LungFunctionValues = new Dictionary<OrganState, float>()
         {
@@ -127,6 +127,25 @@ namespace AirAmboAttempt01.Patients.PatientOrgans
 
         }
     }
+    public class LungLobe
+    {
+        #region Props
+        private Infection _infection;
+        public Infection Infection
+        {
+            get { return _infection; }
+            set { _infection = value; }
+        }
+
+        private OrganState _lobeState = OrganState.Normal;
+        public OrganState LobeState
+        {
+            get { return _lobeState; }
+            set { _lobeState = value; }
+        }
+
+        #endregion
+    }
     public class Lung : Organ
     {
         public readonly bool IsLeft;
@@ -142,7 +161,7 @@ namespace AirAmboAttempt01.Patients.PatientOrgans
         public LungLobe MiddleLobe
         {
             get { return _middleLobe; }
-            set { _middleLobe = value; }
+            set { _middleLobe = IsLeft ? null : value; }
         }
 
         private LungLobe _lowerLobe = new LungLobe();
@@ -156,7 +175,7 @@ namespace AirAmboAttempt01.Patients.PatientOrgans
         public Lung(bool isLeft) : base(DefaultBloodLossBaseRates.Lung)
         {
             IsLeft = isLeft;
-            if (isLeft)
+            if (IsLeft)
                 MiddleLobe = null;
         }
 
@@ -177,26 +196,6 @@ namespace AirAmboAttempt01.Patients.PatientOrgans
         }
 
     }
-    public class LungLobe
-    {
-        #region Props
-        private Infection _infection;
-        public Infection Infection
-        {
-            get { return _infection; }
-            set { _infection = value; }
-        }
-
-        private OrganState _lobeState = OrganState.Normal;
-
-        public OrganState LobeState
-        {
-            get { return _lobeState; }
-            set { _lobeState = value; }
-        }
-
-        #endregion
-    }
     public class Lungs
     {
         #region Props
@@ -204,14 +203,14 @@ namespace AirAmboAttempt01.Patients.PatientOrgans
         public Lung LeftLung
         {
             get { return _leftLung; }
-            set { _leftLung = value; }
+            private set { _leftLung = value.IsLeft ? value : _leftLung; }
         }
 
         private Lung _rightLung;
         public Lung RightLung
         {
             get { return _rightLung; }
-            set { _rightLung = value; }
+            private set { _rightLung = value; }
         }
 
         public int RespiratoryRate { get; set; }
@@ -220,7 +219,7 @@ namespace AirAmboAttempt01.Patients.PatientOrgans
         {
             get
             {
-                return GetLungFunction() * ((float) RespiratoryRate / LungDefaults.RespirationRate) * LungDefaults.OxygenSaturation; //Don't clamp here as over-saturation will be used as indicator to reduce RespRate in Patient manager
+                return GetLungFunction() * ((float)RespiratoryRate / LungDefaults.RespirationRate) * LungDefaults.OxygenSaturation; //Don't clamp here as over-saturation will be used as indicator to reduce RespRate in Patient manager
             }
         }
         #endregion
@@ -276,7 +275,7 @@ namespace AirAmboAttempt01.Patients.PatientOrgans
 
         public bool InsertLung(Lung newLung)
         {
-            if ((newLung.IsLeft && LeftLung != null) || (!newLung.IsLeft && RightLung != null)) //There is a lung in target location
+            if ((newLung.IsLeft && LeftLung != null) || (!newLung.IsLeft && RightLung != null)) //There is a lung in target location or you are trying to assign a lung to the wrong side
                 return false;
 
             if (newLung.IsLeft)

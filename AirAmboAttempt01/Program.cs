@@ -17,12 +17,11 @@ namespace AirAmboAttempt01.Patients
             Patient temp = Pod.TEMP_GetPatient();
             temp.Body.Chest.Lungs.RespiratoryRate = 20;
 
+
             IPatientExamination patientExamination = new TEMP_ExamineBloodVolumeRatio();
 
             //Console.WriteLine(   Pod.PerformExamination(patientExamination));
             Pod.PerformExamination(new TEMP_GetO2Sats());
-
-
 
         }
     }
