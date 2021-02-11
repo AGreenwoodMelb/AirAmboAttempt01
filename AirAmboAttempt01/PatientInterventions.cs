@@ -6,7 +6,7 @@ namespace AirAmboAttempt01.Patients.PatientInterventions
 {
     public interface IPatientIntervention
     {
-        public virtual bool Intervene(Patient target)
+        public virtual bool Intervene(Patient patient)
         {
             throw new NotImplementedException(message: "IIntervention:: No Intervene method implemented");
         }
@@ -15,17 +15,17 @@ namespace AirAmboAttempt01.Patients.PatientInterventions
     public class Transfuse : IPatientIntervention
     {
         private Fluid _fluid;
-        private Patient _target;
+        private Patient _patient;
         public Transfuse(Fluid incFluid)
         {
             _fluid = incFluid;
         }
 
-        public bool Intervene(Patient target)
+        public bool Intervene(Patient patient)
         {
-            _target = target;
+            _patient = patient;
             bool output = DetermineTransfusion();
-            Console.WriteLine(_target.BloodVolumeCheck());
+            Console.WriteLine(_patient.BloodVolumeCheck()); //Temp: Will remove all monitoring to a PatientMonitoring system.
             return output;
         }
 
@@ -48,15 +48,16 @@ namespace AirAmboAttempt01.Patients.PatientInterventions
         {
             Blood incBlood = (Blood)_fluid;
 
-            if (_target.Body.Blood.BloodTypeCompatibility(incBlood.bloodType))
+            if (_patient.Body.Blood.BloodTypeCompatibility(incBlood.bloodType))
             {
+                //Handle Transfusion reaction here
                 Console.WriteLine("Blood Transfusion Compatible"); //Temp
             }
             else
             {
                 Console.WriteLine("Blood Transfusion Incompatible");
             }
-            return _target.Body.Blood.AddFluid(_fluid);
+            return _patient.Body.Blood.AddFluid(_fluid);
         }
     }
 
@@ -69,9 +70,9 @@ namespace AirAmboAttempt01.Patients.PatientInterventions
             _drug = drug;
         }
 
-        public bool Intervene(Patient target)
+        public bool Intervene(Patient patient)
         {
-            _drug.Administer(target);
+            _drug.Administer(patient);
             //throw new NotImplementedException(message: "AdministerDrug:: No Intervene method implemented");
             return true;
         }

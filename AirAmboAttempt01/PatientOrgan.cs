@@ -1,5 +1,7 @@
 ﻿using AirAmboAttempt01.Patients.PatientBlood;
 using AirAmboAttempt01.Patients.PatientInfection;
+using System;
+using System.Collections.Generic;
 
 namespace AirAmboAttempt01.Patients.PatientOrgans
 {
@@ -12,6 +14,23 @@ namespace AirAmboAttempt01.Patients.PatientOrgans
         Impaired,
         Damaged
     }
+
+    public class LungDefaults
+    {
+        public static readonly Dictionary<OrganState, float> LungFunctionValues = new Dictionary<OrganState, float>()
+        {
+            {OrganState.None, 0f },
+            {OrganState.Removed, 0f },
+            {OrganState.Destroyed, 0.1f },
+            {OrganState.Normal, 1f },
+            {OrganState.Impaired, 0.75f },
+            {OrganState.Damaged, 0.5f },
+        };
+
+        public static readonly float OxygenSaturation = 100f;
+        public static readonly int RespirationRate = 16;
+    }
+
     public class Organ
     {
         #region Props
@@ -110,6 +129,7 @@ namespace AirAmboAttempt01.Patients.PatientOrgans
     }
     public class Lung : Organ
     {
+        public readonly bool IsLeft;
         #region Props
         private LungLobe _upperLobe = new LungLobe();
         public LungLobe UpperLobe
@@ -133,26 +153,29 @@ namespace AirAmboAttempt01.Patients.PatientOrgans
         }
         #endregion
 
-        public Lung() : base(DefaultBloodLossBaseRates.Lung)
+        public Lung(bool isLeft) : base(DefaultBloodLossBaseRates.Lung)
         {
-
+            IsLeft = isLeft;
+            if (isLeft)
+                MiddleLobe = null;
         }
 
-        public new OrganState OrganState //rework this
+        public float GetLungEfficiency()
         {
-            get
+            float average = 0f;
+            average += LungDefaults.LungFunctionValues[UpperLobe.LobeState];
+            average += LungDefaults.LungFunctionValues[LowerLobe.LobeState];
+            if (IsLeft)
             {
-                OrganState output = UpperLobe.LobeState;
-
-                if (MiddleLobe != null && MiddleLobe.LobeState > output)
-                    output = MiddleLobe.LobeState;
-
-                if (LowerLobe.LobeState > output)
-                    output = LowerLobe.LobeState;
-
-                return output;
+                return average / 2f;
+            }
+            else
+            {
+                average += LungDefaults.LungFunctionValues[MiddleLobe.LobeState];
+                return average / 3f;
             }
         }
+
     }
     public class LungLobe
     {
@@ -164,7 +187,7 @@ namespace AirAmboAttempt01.Patients.PatientOrgans
             set { _infection = value; }
         }
 
-        private OrganState _lobeState;
+        private OrganState _lobeState = OrganState.Normal;
 
         public OrganState LobeState
         {
@@ -190,13 +213,82 @@ namespace AirAmboAttempt01.Patients.PatientOrgans
             get { return _rightLung; }
             set { _rightLung = value; }
         }
-        #endregion
 
+        public int RespiratoryRate { get; set; }
+
+        public float OxygenSaturation
+        {
+            get
+            {
+                return Math.Clamp((GetLungFunction() * (RespiratoryRate / LungDefaults.RespirationRate) * LungDefaults.OxygenSaturation),0f,100f); //Shouldnt clamp here as over-saturation could be used as indicator to reduce RespRate in Patient manager
+            }
+        }
+        #endregion
+        
         public Lungs(Lung leftLung = null, Lung rightLung = null)
         {
-            LeftLung = (leftLung == null) ? new Lung() : leftLung;
-            LeftLung.MiddleLobe = null;
-            RightLung = (rightLung == null) ? new Lung() : rightLung;
+            if (leftLung == null || !leftLung.IsLeft)
+            {
+                LeftLung = new Lung(true);
+            }
+            else
+            {
+                LeftLung = leftLung;
+            }
+
+            if (rightLung == null || rightLung.IsLeft)
+            {
+                RightLung = new Lung(false);
+            }
+            else
+            {
+                RightLung = rightLung;
+            }
+        }
+
+        public float GetLungFunction()
+        {
+            float average = 0;
+            if (LeftLung != null)
+                average += LeftLung.GetLungEfficiency();
+            if (RightLung != null)
+                average += RightLung.GetLungEfficiency();
+
+            return average / 2;
+        }
+
+        public bool RemoveLung(bool isTargetLeft)
+        {
+            if (isTargetLeft && LeftLung != null)
+            {
+                LeftLung = null;
+                return true;
+            }
+
+            if (!isTargetLeft && RightLung != null)
+            {
+                RightLung = null;
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool InsertLung(Lung newLung)
+        {
+            if ((newLung.IsLeft && LeftLung != null) || (!newLung.IsLeft && RightLung != null)) //There is a lung in target location
+                return false;
+
+            if (newLung.IsLeft)
+            {
+                LeftLung = newLung;
+            }
+            else
+            {
+                RightLung = newLung;
+            }
+
+            return true;
         }
     }
     #endregion
@@ -227,7 +319,7 @@ namespace AirAmboAttempt01.Patients.PatientOrgans
     public class Bladder : Organ
     {
         #region Props
-        private float _maxVolume;   
+        private float _maxVolume;
         public float MaxVolume
         {
             get { return _maxVolume; }
@@ -287,9 +379,9 @@ namespace AirAmboAttempt01.Patients.PatientOrgans
 
         public UrinaryTract(Kidney leftKidney = null, Kidney rightKidney = null, Bladder bladder = null)
         {
-            LeftKidney = (leftKidney == null) ? new Kidney() : leftKidney;
-            RightKidney = (rightKidney == null) ? new Kidney() : rightKidney;
-            Bladder = (bladder == null) ? new Bladder() : bladder;
+            LeftKidney = leftKidney ?? new Kidney();
+            RightKidney = rightKidney ?? new Kidney();
+            Bladder = bladder ?? new Bladder();
         }
     }
     public class Liver : Organ

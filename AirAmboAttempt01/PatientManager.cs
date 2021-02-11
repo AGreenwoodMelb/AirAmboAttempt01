@@ -1,5 +1,6 @@
 ﻿using AirAmboAttempt01.Patients;
 using AirAmboAttempt01.Patients.PatientInterventions;
+using AirAmboAttempt01.Patients.PatientExaminations;
 
 namespace AirAmboAttempt01
 {
@@ -60,10 +61,20 @@ namespace AirAmboAttempt01
             return CurrentPatient;
         }
 
-        public bool PerformIntervention(IPatientIntervention i)
+        public bool PerformIntervention(IPatientIntervention patientIntervention)
         {
-            return i.Intervene(CurrentPatient);
+            return patientIntervention.Intervene(CurrentPatient);
+        }
+
+        public bool PerformExamination(IPatientExamination patientExamination)
+        {
+            patientExamination.Examine(CurrentPatient, out PatientExamResults results);
+
+            //HandleResults(); //Somehow...
+            System.Console.WriteLine(results.tempOutput);
+            return true;
         }
     }
 
+  
 }
