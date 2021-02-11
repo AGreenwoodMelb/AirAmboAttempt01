@@ -220,11 +220,11 @@ namespace AirAmboAttempt01.Patients.PatientOrgans
         {
             get
             {
-                return Math.Clamp((GetLungFunction() * (RespiratoryRate / LungDefaults.RespirationRate) * LungDefaults.OxygenSaturation),0f,100f); //Shouldnt clamp here as over-saturation could be used as indicator to reduce RespRate in Patient manager
+                return GetLungFunction() * ((float) RespiratoryRate / LungDefaults.RespirationRate) * LungDefaults.OxygenSaturation; //Don't clamp here as over-saturation will be used as indicator to reduce RespRate in Patient manager
             }
         }
         #endregion
-        
+
         public Lungs(Lung leftLung = null, Lung rightLung = null)
         {
             if (leftLung == null || !leftLung.IsLeft)

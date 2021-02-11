@@ -15,7 +15,7 @@ namespace AirAmboAttempt01.Patients
             PatientManager Pod = new PatientManager();
             Pod.TryAddPatient(new Patient());
             Patient temp = Pod.TEMP_GetPatient();
-            temp.Body.Chest.Lungs.RespiratoryRate = 16;
+            temp.Body.Chest.Lungs.RespiratoryRate = 20;
 
             IPatientExamination patientExamination = new TEMP_ExamineBloodVolumeRatio();
 
