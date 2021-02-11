@@ -38,9 +38,9 @@ namespace AirAmboAttempt01.Patients
 
         public Patient(Biography biography = null, Physical body = null, Mental mind = null)
         {
-            Biography = (biography == null) ? new Biography() : biography;
-            Body = (body == null) ? new Physical() : body;
-            Mind = (mind == null) ? new Mental() : mind;
+            Biography = biography ?? new Biography();
+            Body = body ?? new Physical();
+            Mind = mind ?? new Mental();
             //_randomSeed = MagicRandomStaticThingy;
         }
 

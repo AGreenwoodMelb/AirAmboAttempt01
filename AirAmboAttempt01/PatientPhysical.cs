@@ -92,8 +92,8 @@ namespace AirAmboAttempt01.Patients.PatientPhysical
 
         public Head(Bone[] headBoneStructure = null, Brain brain = null)
         {
-            Bones = (headBoneStructure == null) ? DefaultBoneStructures.DefaultHeadBones : headBoneStructure;
-            Brain = (brain == null) ? new Brain() : brain;
+            Bones = headBoneStructure ?? DefaultBoneStructures.DefaultHeadBones;
+            Brain = brain ?? new Brain();
         }
     }
 
@@ -114,12 +114,12 @@ namespace AirAmboAttempt01.Patients.PatientPhysical
             set { _lungs = value; }
         }
         #endregion
-        
+
         public Chest(Bone[] chestBoneStructure = null, Heart heart = null, Lungs lungs = null)
         {
-            Bones = (chestBoneStructure == null) ? DefaultBoneStructures.DefaultChestBones : chestBoneStructure;
-            Heart = (heart == null) ? new Heart() : heart;
-            Lungs = (lungs == null) ? new Lungs() : lungs;
+            Bones = chestBoneStructure ?? DefaultBoneStructures.DefaultChestBones;
+            Heart = heart ?? new Heart();
+            Lungs = lungs ?? new Lungs();
         }
     }
 
@@ -171,16 +171,16 @@ namespace AirAmboAttempt01.Patients.PatientPhysical
 
         public Abdomen(Bone[] abdomenBoneStructure = null, GastrointestinalTract gastrointestinalTract = null, Liver liver = null, Pancreas pancreas = null, UrinaryTract urinaryTract = null, Spleen spleen = null, Reproductive reproductives = null)
         {
-            Bones = (abdomenBoneStructure == null) ? DefaultBoneStructures.DefaultAbdomenBones : abdomenBoneStructure;
-            GastrointestinalTract = (gastrointestinalTract == null) ? new GastrointestinalTract() : gastrointestinalTract;
-            Liver = (liver == null) ? new Liver() : liver;
-            Pancreas = (pancreas == null) ? new Pancreas() : pancreas;
-            UrinaryTract = (urinaryTract == null) ? new UrinaryTract() : urinaryTract;
-            Spleen = (spleen == null) ? new Spleen() : spleen;
-            Reproductives = (reproductives == null) ? new Reproductive_Female() : reproductives;
+            Bones = abdomenBoneStructure ?? DefaultBoneStructures.DefaultAbdomenBones;
+            GastrointestinalTract = gastrointestinalTract ?? new GastrointestinalTract();
+            Liver = liver ?? new Liver();
+            Pancreas = pancreas ?? new Pancreas();
+            UrinaryTract = urinaryTract ?? new UrinaryTract();
+            Spleen = spleen ?? new Spleen();
+            Reproductives = reproductives ?? new Reproductive_Female();
         }
 
-        public Organ[] GetOrgans()
+        public Organ[] GetOrgans() //REMOVE LATER
         {
             return new Organ[]
             {
@@ -239,15 +239,15 @@ namespace AirAmboAttempt01.Patients.PatientPhysical
 
         public Arms(Arm leftArm = null, Arm rightArm = null)
         {
-            LeftArm = (leftArm == null) ? new Arm() : leftArm;
-            RightArm = (rightArm == null) ? new Arm() : rightArm;
+            LeftArm = leftArm ?? new Arm();
+            RightArm = rightArm ?? new Arm();
         }
     }
     public class Arm : Limb
     {
         public Arm(Bone[] armBoneStructure = null)
         {
-            Bones = (armBoneStructure == null) ? DefaultBoneStructures.DefaultArmBones : armBoneStructure;
+            Bones = armBoneStructure ?? DefaultBoneStructures.DefaultArmBones;
         }
     }
 
@@ -271,15 +271,15 @@ namespace AirAmboAttempt01.Patients.PatientPhysical
 
         public Legs(Leg leftLeg = null, Leg rightLeg = null)
         {
-            LeftLeg = (leftLeg == null) ? new Leg() : leftLeg;
-            RightLeg = (rightLeg == null) ? new Leg() : rightLeg;
+            LeftLeg = leftLeg ?? new Leg();
+            RightLeg = rightLeg ?? new Leg();
         }
     }
     public class Leg : Limb
     {
         public Leg(Bone[] legBoneStructure = null)
         {
-            Bones = (legBoneStructure == null) ? DefaultBoneStructures.DefaultLegBones : legBoneStructure;
+            Bones = legBoneStructure ?? DefaultBoneStructures.DefaultLegBones;
         }
     }
     #endregion

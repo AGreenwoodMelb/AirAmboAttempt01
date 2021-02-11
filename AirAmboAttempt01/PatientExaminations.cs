@@ -10,6 +10,12 @@ namespace AirAmboAttempt01.Patients.PatientExaminations
         public string tempOutput;
     }
 
+    public enum PatientExamResultsType //May be useful later
+    {
+        Error,
+        BloodPressure
+    }
+
     public interface IPatientExamination
     {
         public virtual bool Examine(Patient patient, out PatientExamResults results)

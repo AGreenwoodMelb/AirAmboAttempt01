@@ -7,7 +7,7 @@ namespace AirAmboAttempt01
     public class PatientManager
     {
         #region Props
-        protected Patient CurrentPatient { get; private set;}//This should be protected to prevent direct access and manipulation of the patient.
+        protected Patient CurrentPatient { get; private set; }//This should be protected to prevent direct access and manipulation of the patient.
         #endregion
 
         public bool TryAddPatient(Patient newPatient)
