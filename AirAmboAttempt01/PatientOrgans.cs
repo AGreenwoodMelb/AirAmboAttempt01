@@ -15,7 +15,7 @@ namespace PatientManagementSystem.Patients.PatientOrgans
         Damaged
     }
 
-    public static class LungDefaults
+    public static class DefaultLungs
     {
         public static readonly Dictionary<OrganState, float> LungFunctionValues = new Dictionary<OrganState, float>()
         {
@@ -182,15 +182,15 @@ namespace PatientManagementSystem.Patients.PatientOrgans
         public float GetLungEfficiency()
         {
             float average = 0f;
-            average += LungDefaults.LungFunctionValues[UpperLobe.LobeState];
-            average += LungDefaults.LungFunctionValues[LowerLobe.LobeState];
+            average += DefaultLungs.LungFunctionValues[UpperLobe.LobeState];
+            average += DefaultLungs.LungFunctionValues[LowerLobe.LobeState];
             if (IsLeft)
             {
                 return average / 2f;
             }
             else
             {
-                average += LungDefaults.LungFunctionValues[MiddleLobe.LobeState];
+                average += DefaultLungs.LungFunctionValues[MiddleLobe.LobeState];
                 return average / 3f;
             }
         }
@@ -199,7 +199,7 @@ namespace PatientManagementSystem.Patients.PatientOrgans
     public class Lungs
     {
         #region Props
-        private Lung _leftLung;
+        private Lung _leftLung ;
         public Lung LeftLung
         {
             get { return _leftLung; }
@@ -213,19 +213,25 @@ namespace PatientManagementSystem.Patients.PatientOrgans
             private set { _rightLung = value; }
         }
 
-        public int RespiratoryRate { get; set; }
+        private int _respiratoryRate ;
+        public int RespiratoryRate
+        {
+            get { return _respiratoryRate; }
+            set { _respiratoryRate = value; }
+        }
 
         public float OxygenSaturation
         {
             get
             {
-                return GetLungFunction() * ((float)RespiratoryRate / LungDefaults.RespirationRate) * LungDefaults.OxygenSaturation; //Don't clamp here as over-saturation will be used as indicator to reduce RespRate in Patient manager
+                return GetLungFunction() * ((float)RespiratoryRate / DefaultLungs.RespirationRate) * DefaultLungs.OxygenSaturation; //Don't clamp here as over-saturation will be used as indicator to reduce RespRate in Patient manager
             }
         }
         #endregion
 
-        public Lungs(Lung leftLung = null, Lung rightLung = null)
+        public Lungs(Lung leftLung = null, Lung rightLung = null, int? respiratoryRate = null)
         {
+            RespiratoryRate = respiratoryRate ?? DefaultLungs.RespirationRate;
             if (leftLung == null || !leftLung.IsLeft)
             {
                 LeftLung = new Lung(true);

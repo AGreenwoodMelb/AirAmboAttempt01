@@ -23,7 +23,7 @@ namespace PatientManagementSystem.Patients.PatientExaminations
         }
     }
 
-    public class TEMP_ExamineBloodVolumeRatio : IPatientExamination
+    public class ExamineBloodVolumeRatio : IPatientExamination
     {
         public bool Examine(Patient patient, out PatientExamResults results)
         {
@@ -32,7 +32,7 @@ namespace PatientManagementSystem.Patients.PatientExaminations
         }
     }
 
-    public class TEMP_GetRespiratoryRate : IPatientExamination
+    public class GetRespiratoryRate : IPatientExamination
     {
         public bool Examine(Patient patient, out PatientExamResults results)
         {
@@ -41,7 +41,7 @@ namespace PatientManagementSystem.Patients.PatientExaminations
         }
     }
 
-    public class TEMP_GetO2Sats : IPatientExamination
+    public class GetO2Sats : IPatientExamination
     {
         public bool Examine(Patient patient, out PatientExamResults results)
         {

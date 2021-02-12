@@ -16,13 +16,10 @@ namespace PatientManagementSystem.Patients
             Pod.TryAddPatient(new Patient());
             Patient temp = Pod.TEMP_GetPatient();
 
-            temp.Body.Chest.Lungs.RespiratoryRate = 16;
 
             PatientExamResults meow = new PatientExamResults();
 
-            Console.WriteLine(Pod.PerformIntervention(new InsertArtificalAirway(ArtificialAirway.NasalProngs)));
-
-           
+            Console.WriteLine(Pod.PerformIntervention(new InsertArtificalAirway(ArtificialAirway.FaceMask)));
 
 
             //Pod.PerformExamination(new TEMP_GetO2Sats(), ref meow);

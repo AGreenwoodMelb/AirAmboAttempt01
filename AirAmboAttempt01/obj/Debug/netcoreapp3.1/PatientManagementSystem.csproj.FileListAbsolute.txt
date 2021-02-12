@@ -1,0 +1,13 @@
+D:\Users\Alex\source\repos\GameDev\AirAmbo\AirAmboAttempt01\AirAmboAttempt01\obj\Debug\netcoreapp3.1\PatientManagementSystem.csprojAssemblyReference.cache
+D:\Users\Alex\source\repos\GameDev\AirAmbo\AirAmboAttempt01\AirAmboAttempt01\obj\Debug\netcoreapp3.1\PatientManagementSystem.AssemblyInfoInputs.cache
+D:\Users\Alex\source\repos\GameDev\AirAmbo\AirAmboAttempt01\AirAmboAttempt01\obj\Debug\netcoreapp3.1\PatientManagementSystem.AssemblyInfo.cs
+D:\Users\Alex\source\repos\GameDev\AirAmbo\AirAmboAttempt01\AirAmboAttempt01\obj\Debug\netcoreapp3.1\PatientManagementSystem.csproj.CoreCompileInputs.cache
+D:\Users\Alex\source\repos\GameDev\AirAmbo\AirAmboAttempt01\AirAmboAttempt01\bin\Debug\netcoreapp3.1\PatientManagementSystem.exe
+D:\Users\Alex\source\repos\GameDev\AirAmbo\AirAmboAttempt01\AirAmboAttempt01\bin\Debug\netcoreapp3.1\PatientManagementSystem.deps.json
+D:\Users\Alex\source\repos\GameDev\AirAmbo\AirAmboAttempt01\AirAmboAttempt01\bin\Debug\netcoreapp3.1\PatientManagementSystem.runtimeconfig.json
+D:\Users\Alex\source\repos\GameDev\AirAmbo\AirAmboAttempt01\AirAmboAttempt01\bin\Debug\netcoreapp3.1\PatientManagementSystem.runtimeconfig.dev.json
+D:\Users\Alex\source\repos\GameDev\AirAmbo\AirAmboAttempt01\AirAmboAttempt01\bin\Debug\netcoreapp3.1\PatientManagementSystem.dll
+D:\Users\Alex\source\repos\GameDev\AirAmbo\AirAmboAttempt01\AirAmboAttempt01\bin\Debug\netcoreapp3.1\PatientManagementSystem.pdb
+D:\Users\Alex\source\repos\GameDev\AirAmbo\AirAmboAttempt01\AirAmboAttempt01\obj\Debug\netcoreapp3.1\PatientManagementSystem.dll
+D:\Users\Alex\source\repos\GameDev\AirAmbo\AirAmboAttempt01\AirAmboAttempt01\obj\Debug\netcoreapp3.1\PatientManagementSystem.pdb
+D:\Users\Alex\source\repos\GameDev\AirAmbo\AirAmboAttempt01\AirAmboAttempt01\obj\Debug\netcoreapp3.1\PatientManagementSystem.genruntimeconfig.cache
