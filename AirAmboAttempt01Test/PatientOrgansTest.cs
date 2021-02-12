@@ -19,10 +19,7 @@ namespace AirAmboAttempt01Test
         [Fact]
         public void InsertLungCantPutRightLungInLeftSpot()
         {
-            Lungs lungs = new Lungs();
 
-            lungs.RemoveLung(true);
-            Assert.False(lungs.InsertLung(new Lung(false)));
         } 
 
     }

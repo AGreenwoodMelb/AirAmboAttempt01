@@ -56,10 +56,12 @@ namespace AirAmboAttempt01
             return "";
         }
 
+#if DEBUG
         public Patient TEMP_GetPatient()
         {
             return CurrentPatient;
         }
+#endif
 
         public bool PerformIntervention(IPatientIntervention patientIntervention)
         {
@@ -76,5 +78,5 @@ namespace AirAmboAttempt01
         }
     }
 
-  
+
 }

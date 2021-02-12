@@ -1,5 +1,7 @@
 ﻿using AirAmboAttempt01.Patients.PatientPhysical;
 using AirAmboAttempt01.Patients.PatientMental;
+using AirAmboAttempt01.Patients.PatientDrugs;
+using AirAmboAttempt01.Patients.PatientInterventions;
 
 namespace AirAmboAttempt01.Patients
 {
@@ -34,6 +36,21 @@ namespace AirAmboAttempt01.Patients
             get { return _mind; }
             private set { _mind = value; }
         }
+
+        private AccessPoints _accessPoints;
+        public AccessPoints AccessPoints
+        {
+            get { return _accessPoints; }
+            set { _accessPoints = value; }
+        }
+
+        private int _magicRandomSeed = 1;
+        public int MagicRandomSeed
+        {
+            get { return _magicRandomSeed; }
+            set { _magicRandomSeed = value; }
+        }
+
         #endregion
 
         public Patient(Biography biography = null, Physical body = null, Mental mind = null)
@@ -41,16 +58,17 @@ namespace AirAmboAttempt01.Patients
             Biography = biography ?? new Biography();
             Body = body ?? new Physical();
             Mind = mind ?? new Mental();
+            AccessPoints = new AccessPoints();
             //_randomSeed = MagicRandomStaticThingy;
         }
 
-        public float BloodVolumeCheck()
+        public float BloodVolumeCheck() //Why is this here?
         {
             float bloodVolumeRatio = _body.Blood.Volume / _body.Blood._defaultBloodSystemVolume;
             return bloodVolumeRatio;
         }
     }
-
+  
     public class Biography
     {
         #region Props

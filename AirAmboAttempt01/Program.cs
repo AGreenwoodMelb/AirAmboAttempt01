@@ -15,14 +15,19 @@ namespace AirAmboAttempt01.Patients
             PatientManager Pod = new PatientManager();
             Pod.TryAddPatient(new Patient());
             Patient temp = Pod.TEMP_GetPatient();
-            temp.Body.Chest.Lungs.RespiratoryRate = 20;
 
+            
+            IPatientIntervention intervention = new InsertIV(IVTargetLocation.ArmLeft);
 
-            IPatientExamination patientExamination = new TEMP_ExamineBloodVolumeRatio();
+            Console.WriteLine(Pod.PerformIntervention(intervention));
+            Console.WriteLine(Pod.PerformIntervention(intervention));
 
-            //Console.WriteLine(   Pod.PerformExamination(patientExamination));
-            Pod.PerformExamination(new TEMP_GetO2Sats());
+            intervention = new RemoveIV(IVTargetLocation.ArmRight);
 
+            Console.WriteLine(Pod.PerformIntervention(intervention));
+
+            intervention = new RemoveIV(IVTargetLocation.ArmLeft);
+            Console.WriteLine(Pod.PerformIntervention(intervention));
         }
     }
 }

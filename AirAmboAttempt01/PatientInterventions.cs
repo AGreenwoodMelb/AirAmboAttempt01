@@ -1,9 +1,21 @@
 ﻿using System;
 using AirAmboAttempt01.Patients;
+using System.Collections.Generic;
 using AirAmboAttempt01.Patients.PatientDrugs;
+using AirAmboAttempt01.Patients.PatientInfection;
 
 namespace AirAmboAttempt01.Patients.PatientInterventions
 {
+    public enum IVTargetLocation
+    {
+        None,
+        ArmLeft,
+        ArmRight,
+        LegLeft,
+        LegRight,
+        CentralLine
+    }
+
     public interface IPatientIntervention
     {
         public virtual bool Intervene(Patient patient)
@@ -12,7 +24,7 @@ namespace AirAmboAttempt01.Patients.PatientInterventions
         }
     }
 
-    public class Transfuse : IPatientIntervention
+    public class Transfuse : IPatientIntervention //Redo using IVAccess Object
     {
         private Fluid _fluid;
         private Patient _patient;
@@ -61,8 +73,7 @@ namespace AirAmboAttempt01.Patients.PatientInterventions
         }
     }
 
-
-    public class AdministerDrug : IPatientIntervention
+    public class AdministerDrug : IPatientIntervention //Maybe redo? Or Should this represent an IM or bolus via IVAccess
     {
         private Drug _drug;
         public AdministerDrug(Drug drug)
@@ -76,5 +87,82 @@ namespace AirAmboAttempt01.Patients.PatientInterventions
             //throw new NotImplementedException(message: "AdministerDrug:: No Intervene method implemented");
             return true;
         }
+    }
+
+    public class InsertIV : IPatientIntervention
+    {
+        private IVTargetLocation _target;
+        private Patient _patient;
+
+        public InsertIV(IVTargetLocation target)
+        {
+            _target = target;
+        }
+
+        public bool Intervene(Patient patient)
+        {
+            _patient = patient;
+            if (_patient.AccessPoints.IVs[_target] == null && IsInstallSuccessful())
+            {
+                //Check to Infect
+                if (_patient.MagicRandomSeed > 100f) // NOT DONE
+                    _patient.AccessPoints.IVs[_target].infection = new Infection();
+
+                _patient.AccessPoints.IVs[_target] = new IVAccess();
+                return true;
+            }
+            return false;
+        }
+
+        private bool IsInstallSuccessful()
+        {
+            if (_patient.MagicRandomSeed > 0.5f) //NOT DONE
+                return true;
+
+            return false;
+        }
+    }
+
+    public class RemoveIV : IPatientIntervention 
+    {
+        private IVTargetLocation _target;
+
+        public RemoveIV(IVTargetLocation target)
+        {
+            _target = target;
+        }
+
+        public bool Intervene(Patient patient)
+        {
+            if (patient.AccessPoints.IVs[_target] != null)
+            {
+                patient.AccessPoints.IVs[_target] = null;
+                return true;
+            }
+            return false;
+        }
+
+    }
+
+    public class AccessPoints
+    {
+        public Dictionary<IVTargetLocation, IVAccess> IVs = new Dictionary<IVTargetLocation, IVAccess>()
+        {
+            {IVTargetLocation.ArmLeft, null },
+            {IVTargetLocation.ArmRight, null },
+            {IVTargetLocation.LegLeft, null },
+            {IVTargetLocation.LegRight, null },
+            {IVTargetLocation.CentralLine, null },
+        };
+
+        public bool HasUrinaryCatheter;
+    }
+
+    public class IVAccess
+    {
+        public Infection infection;
+        public Fluid CurrentFluid { get; set; }
+        public float FlowRate { get; set; }
+        public Drug AddedDrug { get; set; }
     }
 }
