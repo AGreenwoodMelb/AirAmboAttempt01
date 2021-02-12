@@ -1,12 +1,12 @@
 ﻿using System;
-using AirAmboAttempt01.Patients.PatientBlood;
-using AirAmboAttempt01.Patients.PatientOrgans;
-using AirAmboAttempt01.Patients.PatientPhysical;
-using AirAmboAttempt01.Patients.PatientDrugs;
-using AirAmboAttempt01.Patients.PatientInterventions;
-using AirAmboAttempt01.Patients.PatientExaminations;
+using PatientManagementSystem.Patients.PatientBlood;
+using PatientManagementSystem.Patients.PatientOrgans;
+using PatientManagementSystem.Patients.PatientPhysical;
+using PatientManagementSystem.Patients.PatientDrugs;
+using PatientManagementSystem.Patients.PatientInterventions;
+using PatientManagementSystem.Patients.PatientExaminations;
 
-namespace AirAmboAttempt01.Patients
+namespace PatientManagementSystem.Patients
 {
     class Program
     {
@@ -16,18 +16,21 @@ namespace AirAmboAttempt01.Patients
             Pod.TryAddPatient(new Patient());
             Patient temp = Pod.TEMP_GetPatient();
 
-            
-            IPatientIntervention intervention = new InsertIV(IVTargetLocation.ArmLeft);
+            temp.Body.Chest.Lungs.RespiratoryRate = 16;
 
-            Console.WriteLine(Pod.PerformIntervention(intervention));
-            Console.WriteLine(Pod.PerformIntervention(intervention));
+            PatientExamResults meow = new PatientExamResults();
 
-            intervention = new RemoveIV(IVTargetLocation.ArmRight);
+            Console.WriteLine(Pod.PerformIntervention(new InsertArtificalAirway(ArtificialAirway.NasalProngs)));
 
-            Console.WriteLine(Pod.PerformIntervention(intervention));
+           
 
-            intervention = new RemoveIV(IVTargetLocation.ArmLeft);
-            Console.WriteLine(Pod.PerformIntervention(intervention));
+
+            //Pod.PerformExamination(new TEMP_GetO2Sats(), ref meow);
+            //Console.WriteLine(meow.tempOutput);
+            //Pod.PerformExamination(new TEMP_GetRespiratoryRate(), ref meow);
+            //Console.WriteLine(meow.tempOutput);
+            //Pod.PerformExamination(new TEMP_ExamineBloodVolumeRatio(),ref meow);
+            //Console.WriteLine(meow.tempOutput);
         }
     }
 }

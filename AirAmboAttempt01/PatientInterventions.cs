@@ -1,11 +1,40 @@
 ﻿using System;
-using AirAmboAttempt01.Patients;
 using System.Collections.Generic;
-using AirAmboAttempt01.Patients.PatientDrugs;
-using AirAmboAttempt01.Patients.PatientInfection;
+using PatientManagementSystem.Patients;
+using PatientManagementSystem.Patients.PatientDrugs;
+using PatientManagementSystem.Patients.PatientInfection;
 
-namespace AirAmboAttempt01.Patients.PatientInterventions
+namespace PatientManagementSystem.Patients.PatientInterventions
 {
+    public class AccessPoints
+    {
+        public Dictionary<IVTargetLocation, IVAccess> IVs = new Dictionary<IVTargetLocation, IVAccess>()
+        {
+            {IVTargetLocation.ArmLeft, null },
+            {IVTargetLocation.ArmRight, null },
+            {IVTargetLocation.LegLeft, null },
+            {IVTargetLocation.LegRight, null },
+            {IVTargetLocation.CentralLine, null },
+        };
+
+        public ArtificialAirway artificialAirway;
+        public bool HasUrinaryCatheter;
+    }
+
+    public enum ArtificialAirway
+    {
+        None,
+        FaceMask,
+        LaryngealMask
+    }
+
+    public class IVAccess
+    {
+        public Infection infection;
+        public Fluid CurrentFluid { get; set; }
+        public float FlowRate { get; set; }
+        public Drug AddedDrug { get; set; }
+    }
     public enum IVTargetLocation
     {
         None,
@@ -24,6 +53,7 @@ namespace AirAmboAttempt01.Patients.PatientInterventions
         }
     }
 
+    #region Fluids?
     public class Transfuse : IPatientIntervention //Redo using IVAccess Object
     {
         private Fluid _fluid;
@@ -37,7 +67,6 @@ namespace AirAmboAttempt01.Patients.PatientInterventions
         {
             _patient = patient;
             bool output = DetermineTransfusion();
-            Console.WriteLine(_patient.BloodVolumeCheck()); //Temp: Will remove all monitoring to a PatientMonitoring system.
             return output;
         }
 
@@ -62,17 +91,17 @@ namespace AirAmboAttempt01.Patients.PatientInterventions
 
             if (_patient.Body.Blood.BloodTypeCompatibility(incBlood.bloodType))
             {
-                //Handle Transfusion reaction here
                 Console.WriteLine("Blood Transfusion Compatible"); //Temp
             }
             else
             {
+                //Handle Transfusion reaction here
+                _patient.Body.Blood.HasTransfusionReaction = true;
                 Console.WriteLine("Blood Transfusion Incompatible");
             }
             return _patient.Body.Blood.AddFluid(_fluid);
         }
     }
-
     public class AdministerDrug : IPatientIntervention //Maybe redo? Or Should this represent an IM or bolus via IVAccess
     {
         private Drug _drug;
@@ -88,7 +117,9 @@ namespace AirAmboAttempt01.Patients.PatientInterventions
             return true;
         }
     }
+    #endregion
 
+    #region IVs
     public class InsertIV : IPatientIntervention
     {
         private IVTargetLocation _target;
@@ -102,7 +133,8 @@ namespace AirAmboAttempt01.Patients.PatientInterventions
         public bool Intervene(Patient patient)
         {
             _patient = patient;
-            if (_patient.AccessPoints.IVs[_target] == null && IsInstallSuccessful())
+            float successThreshold = (_target == IVTargetLocation.CentralLine) ? 0.7f : 0.0f;//Replace with call to static player class IVInsertSuccess Stat or CentralLineIVSuccess
+            if (_patient.AccessPoints.IVs[_target] == null && (_patient.MagicRandomSeed > successThreshold))
             {
                 //Check to Infect
                 if (_patient.MagicRandomSeed > 100f) // NOT DONE
@@ -113,17 +145,8 @@ namespace AirAmboAttempt01.Patients.PatientInterventions
             }
             return false;
         }
-
-        private bool IsInstallSuccessful()
-        {
-            if (_patient.MagicRandomSeed > 0.5f) //NOT DONE
-                return true;
-
-            return false;
-        }
     }
-
-    public class RemoveIV : IPatientIntervention 
+    public class RemoveIV : IPatientIntervention
     {
         private IVTargetLocation _target;
 
@@ -143,26 +166,44 @@ namespace AirAmboAttempt01.Patients.PatientInterventions
         }
 
     }
+    #endregion
 
-    public class AccessPoints
+    #region Airways
+    public class InsertArtificalAirway : IPatientIntervention
     {
-        public Dictionary<IVTargetLocation, IVAccess> IVs = new Dictionary<IVTargetLocation, IVAccess>()
+        private ArtificialAirway _artificialAirway;
+        private Patient _patient;
+        public InsertArtificalAirway(ArtificialAirway artificialAirway)
         {
-            {IVTargetLocation.ArmLeft, null },
-            {IVTargetLocation.ArmRight, null },
-            {IVTargetLocation.LegLeft, null },
-            {IVTargetLocation.LegRight, null },
-            {IVTargetLocation.CentralLine, null },
-        };
+            _artificialAirway = artificialAirway;
+        }
 
-        public bool HasUrinaryCatheter;
+        public bool Intervene(Patient patient)
+        {
+            _patient = patient;
+            float successThreshold = (_artificialAirway == ArtificialAirway.LaryngealMask) ? 0.7f : 0.5f; //Replace with call to static player class AirwayInsertSuccess or LaryngealMaskSuccess stat
+            if (patient.AccessPoints.artificialAirway == ArtificialAirway.None && (_patient.MagicRandomSeed > successThreshold))
+            {
+                patient.AccessPoints.artificialAirway = _artificialAirway;
+                return true;
+            }
+
+            return false;
+        }
     }
-
-    public class IVAccess
+    public class RemoveArtificialAirway : IPatientIntervention
     {
-        public Infection infection;
-        public Fluid CurrentFluid { get; set; }
-        public float FlowRate { get; set; }
-        public Drug AddedDrug { get; set; }
+        public bool Intervene(Patient patient)
+        {
+            if (patient.AccessPoints.artificialAirway != ArtificialAirway.None)
+            {
+                patient.AccessPoints.artificialAirway = ArtificialAirway.None;
+                return true;
+            }
+
+            return false;
+        }
     }
+    #endregion
+
 }

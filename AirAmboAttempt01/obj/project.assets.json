@@ -13,9 +13,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Users\\Alex\\source\\repos\\GameDev\\AirAmbo\\AirAmboAttempt01\\AirAmboAttempt01\\AirAmboAttempt01.csproj",
-      "projectName": "AirAmboAttempt01",
-      "projectPath": "D:\\Users\\Alex\\source\\repos\\GameDev\\AirAmbo\\AirAmboAttempt01\\AirAmboAttempt01\\AirAmboAttempt01.csproj",
+      "projectUniqueName": "D:\\Users\\Alex\\source\\repos\\GameDev\\AirAmbo\\AirAmboAttempt01\\AirAmboAttempt01\\PatientManagementSystem.csproj",
+      "projectName": "PatientManagementSystem",
+      "projectPath": "D:\\Users\\Alex\\source\\repos\\GameDev\\AirAmbo\\AirAmboAttempt01\\AirAmboAttempt01\\PatientManagementSystem.csproj",
       "packagesPath": "C:\\Users\\Alex\\.nuget\\packages\\",
       "outputPath": "D:\\Users\\Alex\\source\\repos\\GameDev\\AirAmbo\\AirAmboAttempt01\\AirAmboAttempt01\\obj\\",
       "projectStyle": "PackageReference",

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "amf2trUajl6tJkSe85lRmUb8j9IdWVUxolDFz7qcnFgibiFNc2EsEPWi++7Jneifwvk5RbZ6SyEluPpA6I5UAw==",
+  "dgSpecHash": "6mXM+25B3LA+BtfCVDRC6LeON2rp9bdz5cDMMM4QdcrMXQ4OpczuTesIIF4TlxfPzyMtmhPJHDEgm9hn0Dx58g==",
   "success": true,
-  "projectFilePath": "D:\\Users\\Alex\\source\\repos\\GameDev\\AirAmbo\\AirAmboAttempt01\\AirAmboAttempt01Test\\AirAmboAttempt01Test.csproj",
+  "projectFilePath": "D:\\Users\\Alex\\source\\repos\\GameDev\\AirAmbo\\AirAmboAttempt01\\AirAmboAttempt01Test\\PatientManagementSystemTest.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Alex\\.nuget\\packages\\coverlet.collector\\1.3.0\\coverlet.collector.1.3.0.nupkg.sha512",
     "C:\\Users\\Alex\\.nuget\\packages\\microsoft.codecoverage\\16.7.1\\microsoft.codecoverage.16.7.1.nupkg.sha512",

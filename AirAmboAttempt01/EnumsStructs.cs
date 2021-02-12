@@ -1,4 +1,4 @@
-﻿namespace AirAmboAttempt01.Patients
+﻿namespace PatientManagementSystem.Patients
 {
     public enum Gender
     {

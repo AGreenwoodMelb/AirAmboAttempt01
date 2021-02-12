@@ -1,4 +1,4 @@
-﻿namespace AirAmboAttempt01.Patients.PatientInfection
+﻿namespace PatientManagementSystem.Patients.PatientInfection
 {
     public enum InfectionSeverity
     {

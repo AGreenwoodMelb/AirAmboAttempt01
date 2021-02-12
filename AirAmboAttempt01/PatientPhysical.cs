@@ -1,8 +1,8 @@
-﻿using AirAmboAttempt01.Patients.PatientBlood;
-using AirAmboAttempt01.Patients.PatientBones;
-using AirAmboAttempt01.Patients.PatientOrgans;
+﻿using PatientManagementSystem.Patients.PatientBlood;
+using PatientManagementSystem.Patients.PatientBones;
+using PatientManagementSystem.Patients.PatientOrgans;
 
-namespace AirAmboAttempt01.Patients.PatientPhysical
+namespace PatientManagementSystem.Patients.PatientPhysical
 {
 
     public class Physical

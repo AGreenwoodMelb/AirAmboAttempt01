@@ -1,4 +1,4 @@
-﻿namespace AirAmboAttempt01.Patients.PatientMental
+﻿namespace PatientManagementSystem.Patients.PatientMental
 {
     public class Mental
     {

@@ -1,4 +1,4 @@
-﻿namespace AirAmboAttempt01.Patients.PatientBones
+﻿namespace PatientManagementSystem.Patients.PatientBones
 {
     public struct Bone
     {

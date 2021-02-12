@@ -1,9 +1,9 @@
-﻿using AirAmboAttempt01.Patients.PatientBlood;
-using AirAmboAttempt01.Patients.PatientInfection;
+﻿using PatientManagementSystem.Patients.PatientBlood;
+using PatientManagementSystem.Patients.PatientInfection;
 using System;
 using System.Collections.Generic;
 
-namespace AirAmboAttempt01.Patients.PatientOrgans
+namespace PatientManagementSystem.Patients.PatientOrgans
 {
     public enum OrganState
     {

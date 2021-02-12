@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using AirAmboAttempt01.Patients.PatientDrugs;
+using PatientManagementSystem.Patients.PatientDrugs;
 
-namespace AirAmboAttempt01.Patients.PatientBlood
+namespace PatientManagementSystem.Patients.PatientBlood
 {
     public enum BloodABO
     {

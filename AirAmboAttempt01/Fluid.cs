@@ -1,7 +1,7 @@
 ﻿using System;
-using AirAmboAttempt01.Patients.PatientBlood;
+using PatientManagementSystem.Patients.PatientBlood;
 
-namespace AirAmboAttempt01.Patients
+namespace PatientManagementSystem.Patients
 {
     public class Fluid //Should this have been abstract?
     {

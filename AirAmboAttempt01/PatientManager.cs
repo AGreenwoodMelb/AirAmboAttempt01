@@ -1,8 +1,8 @@
-﻿using AirAmboAttempt01.Patients;
-using AirAmboAttempt01.Patients.PatientInterventions;
-using AirAmboAttempt01.Patients.PatientExaminations;
+﻿using PatientManagementSystem.Patients;
+using PatientManagementSystem.Patients.PatientInterventions;
+using PatientManagementSystem.Patients.PatientExaminations;
 
-namespace AirAmboAttempt01
+namespace PatientManagementSystem
 {
     public class PatientManager
     {
@@ -56,24 +56,21 @@ namespace AirAmboAttempt01
             return "";
         }
 
-#if DEBUG
         public Patient TEMP_GetPatient()
         {
             return CurrentPatient;
         }
-#endif
 
         public bool PerformIntervention(IPatientIntervention patientIntervention)
         {
             return patientIntervention.Intervene(CurrentPatient);
         }
 
-        public bool PerformExamination(IPatientExamination patientExamination)
+        public bool PerformExamination(IPatientExamination patientExamination, ref PatientExamResults patientExamResults) //ref addition may be a mistake 
         {
-            patientExamination.Examine(CurrentPatient, out PatientExamResults results);
+            patientExamination.Examine(CurrentPatient, out patientExamResults);
 
             //HandleResults(); //Somehow...
-            System.Console.WriteLine(results.tempOutput);
             return true;
         }
     }

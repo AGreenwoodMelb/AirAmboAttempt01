@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using AirAmboAttempt01;
+using PatientManagementSystem;
 using Xunit;
 
-namespace AirAmboAttempt01Test
+namespace PatientManagementSystemTest
 {
     public class PatientBloodTest
     {

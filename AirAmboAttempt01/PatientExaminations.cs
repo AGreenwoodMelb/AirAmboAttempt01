@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace AirAmboAttempt01.Patients.PatientExaminations
+namespace PatientManagementSystem.Patients.PatientExaminations
 {
-
     public struct PatientExamResults
     {
         public string tempOutput;
@@ -20,7 +19,7 @@ namespace AirAmboAttempt01.Patients.PatientExaminations
     {
         public virtual bool Examine(Patient patient, out PatientExamResults results)
         {
-            throw new NotImplementedException(message: "IIPatientExamination::Examine is not implemented");
+            throw new NotImplementedException(message: "IPatientExamination::Examine is not implemented");
         }
     }
 
@@ -28,7 +27,16 @@ namespace AirAmboAttempt01.Patients.PatientExaminations
     {
         public bool Examine(Patient patient, out PatientExamResults results)
         {
-            results = new PatientExamResults() { tempOutput = patient.BloodVolumeCheck().ToString() };
+            results = new PatientExamResults() { tempOutput = (patient.Body.Blood.Volume / patient.Body.Blood._defaultBloodSystemVolume).ToString() };
+            return true;
+        }
+    }
+
+    public class TEMP_GetRespiratoryRate : IPatientExamination
+    {
+        public bool Examine(Patient patient, out PatientExamResults results)
+        {
+            results = new PatientExamResults() { tempOutput = patient.Body.Chest.Lungs.RespiratoryRate.ToString() };
             return true;
         }
     }
@@ -41,4 +49,5 @@ namespace AirAmboAttempt01.Patients.PatientExaminations
             return true;
         }
     }
+
 }

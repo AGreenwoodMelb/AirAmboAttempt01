@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 using Xunit;
-using AirAmboAttempt01.Patients.PatientOrgans;
+using PatientManagementSystem.Patients.PatientOrgans;
 
-namespace AirAmboAttempt01Test
+namespace PatientManagementSystemTest
 {
     public class PatientOrganLungsTests
     {

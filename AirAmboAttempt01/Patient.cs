@@ -1,9 +1,9 @@
-﻿using AirAmboAttempt01.Patients.PatientPhysical;
-using AirAmboAttempt01.Patients.PatientMental;
-using AirAmboAttempt01.Patients.PatientDrugs;
-using AirAmboAttempt01.Patients.PatientInterventions;
+﻿using PatientManagementSystem.Patients.PatientPhysical;
+using PatientManagementSystem.Patients.PatientMental;
+using PatientManagementSystem.Patients.PatientDrugs;
+using PatientManagementSystem.Patients.PatientInterventions;
 
-namespace AirAmboAttempt01.Patients
+namespace PatientManagementSystem.Patients
 {
     public class Patient
     {
@@ -60,12 +60,6 @@ namespace AirAmboAttempt01.Patients
             Mind = mind ?? new Mental();
             AccessPoints = new AccessPoints();
             //_randomSeed = MagicRandomStaticThingy;
-        }
-
-        public float BloodVolumeCheck() //Why is this here?
-        {
-            float bloodVolumeRatio = _body.Blood.Volume / _body.Blood._defaultBloodSystemVolume;
-            return bloodVolumeRatio;
         }
     }
   

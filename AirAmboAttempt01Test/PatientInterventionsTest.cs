@@ -1,11 +1,11 @@
 ﻿
 using Xunit;
-using AirAmboAttempt01;
-using AirAmboAttempt01.Patients;
-using AirAmboAttempt01.Patients.PatientInterventions;
+using PatientManagementSystem;
+using PatientManagementSystem.Patients;
+using PatientManagementSystem.Patients.PatientInterventions;
 
 
-namespace AirAmboAttempt01Test
+namespace PatientManagementSystemTest
 {
     public class PatientInterventionsTest
     {
