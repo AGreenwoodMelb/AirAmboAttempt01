@@ -1,5 +1,4 @@
-﻿
-using Xunit;
+﻿using Xunit;
 using PatientManagementSystem;
 using PatientManagementSystem.Patients;
 using PatientManagementSystem.Patients.PatientInterventions;

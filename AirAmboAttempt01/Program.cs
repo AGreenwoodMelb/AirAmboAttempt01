@@ -16,18 +16,6 @@ namespace PatientManagementSystem.Patients
             Pod.TryAddPatient(new Patient());
             Patient temp = Pod.TEMP_GetPatient();
 
-
-            PatientExamResults meow = new PatientExamResults();
-
-            Console.WriteLine(Pod.PerformIntervention(new InsertArtificalAirway(ArtificialAirway.FaceMask)));
-
-
-            //Pod.PerformExamination(new TEMP_GetO2Sats(), ref meow);
-            //Console.WriteLine(meow.tempOutput);
-            //Pod.PerformExamination(new TEMP_GetRespiratoryRate(), ref meow);
-            //Console.WriteLine(meow.tempOutput);
-            //Pod.PerformExamination(new TEMP_ExamineBloodVolumeRatio(),ref meow);
-            //Console.WriteLine(meow.tempOutput);
         }
     }
 }

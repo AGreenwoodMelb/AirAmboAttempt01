@@ -8,6 +8,13 @@ namespace PatientManagementSystem
     {
         #region Props
         protected Patient CurrentPatient { get; private set; }//This should be protected to prevent direct access and manipulation of the patient.
+
+        private PatientExamResults _patientResults;
+        public PatientExamResults PatientResults //Accessable by the GUI to display Patient Results and information
+        {
+            get { return _patientResults; }
+            private set { _patientResults = value; }
+        }
         #endregion
 
         public bool TryAddPatient(Patient newPatient)
@@ -66,14 +73,11 @@ namespace PatientManagementSystem
             return patientIntervention.Intervene(CurrentPatient);
         }
 
-        public bool PerformExamination(IPatientExamination patientExamination, ref PatientExamResults patientExamResults) //ref addition may be a mistake 
+        public bool PerformExamination(IPatientExamination patientExamination)
         {
-            patientExamination.Examine(CurrentPatient, out patientExamResults);
-
-            //HandleResults(); //Somehow...
+            patientExamination.Examine(CurrentPatient, ref _patientResults);
             return true;
         }
     }
-
 
 }

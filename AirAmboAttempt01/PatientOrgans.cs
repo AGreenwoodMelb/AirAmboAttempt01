@@ -48,6 +48,14 @@ namespace PatientManagementSystem.Patients.PatientOrgans
             protected set { _isBleeding = value; }
         }
         public readonly float BaseBloodLossRate;
+
+        private Infection _currentInfection;
+        public Infection CurrentInfection
+        {
+            get { return _currentInfection; }
+            set { _currentInfection = value; }
+        }
+
         #endregion
         public Organ(float bloodLossRate)
         {
@@ -80,6 +88,13 @@ namespace PatientManagementSystem.Patients.PatientOrgans
         {
             get { return _isIschaemic; }
             set { _isIschaemic = value; }
+        }
+
+        private bool _isBrainDead;
+        public bool IsBrainDead
+        {
+            get { return _isBrainDead; }
+            set { _isBrainDead = value; }
         }
         #endregion
 

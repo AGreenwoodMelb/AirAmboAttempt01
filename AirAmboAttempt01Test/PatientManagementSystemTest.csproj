@@ -19,5 +19,9 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\AirAmboAttempt01\PatientManagementSystem.csproj" />
+  </ItemGroup>
+
 
 </Project>
