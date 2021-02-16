@@ -31,8 +31,7 @@ namespace PatientManagementSystem.Patients.ExaminationResults
         public PatientExamResultsGastrointestinalTract GastrointestinalTract = new PatientExamResultsGastrointestinalTract();
         public PatientExamResultsUrinaryTract UrinaryTract = new PatientExamResultsUrinaryTract();
         public PatientExamResultsReproductives Reproductives = new PatientExamResultsReproductives();
-    }
-    //TODO: Expand and complete all OrganResult classes
+    } //TODO: Expand and complete all OrganResult classes
 
     #region XRaysResults
     public class PatientExamResultsXRays
@@ -84,7 +83,7 @@ namespace PatientManagementSystem.Patients.ExaminationResults
         public bool isIschaemic;
         public BleedingSeverity isBleeding;
 
-        public Infection currentInfection;
+        public Infection currentInfection; //Should this be allowed? Or should the player have to determine it from the CSF?
         public CSFProfile latestCSFResults;
 
         public float currentPressure;
@@ -151,6 +150,8 @@ namespace PatientManagementSystem.Patients.ExaminationResults
 
         public PatientExamResultsLung LeftLung = new PatientExamResultsLung();
         public PatientExamResultsLung RightLung = new PatientExamResultsLung();
+
+        public string tempSputumSample;
 
         #region Classes
         public class PatientExamResultsLung

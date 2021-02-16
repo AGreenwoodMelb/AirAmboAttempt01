@@ -309,7 +309,7 @@ namespace PatientManagementSystem.Patients.PatientExaminations
         }
     }
 
-    public class ExamineO2Sats : IPatientExamination
+    public class ExamineOxygenSaturation : IPatientExamination
     {
         public bool Examine(Patient patient, ref PatientExamResults results)
         {
@@ -318,6 +318,31 @@ namespace PatientManagementSystem.Patients.PatientExaminations
         }
     }
 
+    public class ExamineSputumSample : IPatientExamination
+    {
+        public bool Examine(Patient patient, ref PatientExamResults results)
+        {
+            //This should return an average picture of the lungs infection state
+            throw new NotImplementedException();
+        }
+    }//TODO: Implement all the required background fields
+
+    public class ExamineBronchoscopySample : IPatientExamination
+    {
+        private bool _targetLeftLung;
+        private string _targetLobeLocation; //TODO: Replace type with appropriate enum?
+        public ExamineBronchoscopySample(bool targetLeftLung, string temp_targetLobeLocation)
+        {
+            _targetLeftLung = targetLeftLung;
+            _targetLobeLocation = temp_targetLobeLocation;
+        }
+
+        public bool Examine (Patient patient, ref PatientExamResults results)
+        {
+            //This should return a picture of the specific target lobe's infection state
+            throw new NotImplementedException();
+        }
+    } //TODO: Implement all the required bacground field and appropriate enum for _targetLobeLocation
     #endregion
 
     #region UrinaryTractExams
@@ -371,6 +396,88 @@ namespace PatientManagementSystem.Patients.PatientExaminations
             return true;
         }
     }
+
+    public class ExamineBloodCardiacMarkers : IPatientExamination
+    {
+        public bool Examine(Patient patient, ref PatientExamResults results)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class ExamineBloodPSA : IPatientExamination
+    {
+        public bool Examine(Patient patient, ref PatientExamResults results)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class ExamineBloodBetaHCG : IPatientExamination
+    {
+        public bool Examine(Patient patient, ref PatientExamResults results)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class ExamineBloodBloodSugarLevel : IPatientExamination
+    {
+        public bool Examine(Patient patient, ref PatientExamResults results)
+        {
+            throw new NotImplementedException();
+        }
+    }
+    
+    public class ExamineBloodCRP : IPatientExamination
+    {
+        public bool Examine(Patient patient, ref PatientExamResults results)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class ExamineBloodCultures : IPatientExamination
+    {
+        public bool Examine(Patient patient, ref PatientExamResults results)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class ExamineBloodElectrolytes : IPatientExamination
+    {
+        public bool Examine(Patient patient, ref PatientExamResults results)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class ExamineBloodIllicitDrugScreen : IPatientExamination
+    {
+        public bool Examine(Patient patient, ref PatientExamResults results)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class ExamineBloodKidneyFunctions : IPatientExamination
+    {
+        public bool Examine(Patient patient, ref PatientExamResults results)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    #region CopyPastey
+    public class ExamineBlood : IPatientExamination
+    {
+        public bool Examine(Patient patient, ref PatientExamResults results)
+        {
+            throw new NotImplementedException();
+        }
+    }
+    #endregion
     #endregion
 
 }

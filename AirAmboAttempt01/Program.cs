@@ -19,7 +19,7 @@ namespace PatientManagementSystem.Patients
             PatientExamResults tempResults = Pod.PatientResults;
 
             Pod.PerformExamination(new ExamineBrainCT());
-            Pod.PerformExamination(new ExamineO2Sats());
+            Pod.PerformExamination(new ExamineOxygenSaturation());
             Pod.PerformExamination(new ExamineRespiratoryRate());
             Pod.PerformExamination(new ExamineHeartECG());
             Pod.PerformExamination(new ExamineXRay(BodyRegion.Chest));

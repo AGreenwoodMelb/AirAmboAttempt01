@@ -14,7 +14,6 @@ namespace PatientManagementSystem.Patients.PatientOrgans
         Impaired,
         Damaged
     }
-
     public enum OrganName
     {
         None,
@@ -401,7 +400,6 @@ namespace PatientManagementSystem.Patients.PatientOrgans
         }
 
     }
-  
     public class UrinaryTract
     {
         #region Props
