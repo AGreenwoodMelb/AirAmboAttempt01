@@ -5,6 +5,8 @@ using PatientManagementSystem.Patients.PatientPhysical;
 using PatientManagementSystem.Patients.PatientDrugs;
 using PatientManagementSystem.Patients.PatientInterventions;
 using PatientManagementSystem.Patients.PatientExaminations;
+using PatientManagementSystem.Patients.ExaminationResults;
+using PatientManagementSystem.Patients.PatientAccessPoints;
 
 namespace PatientManagementSystem.Patients
 {
@@ -13,16 +15,18 @@ namespace PatientManagementSystem.Patients
         static void Main(string[] args)
         {
             PatientManager Pod = new PatientManager();
-            Pod.TryAddPatient(new Patient());
-            Patient temp = Pod.TEMP_GetPatient();
 
-            PatientExamResults tempResults = Pod.PatientResults;
+            #region SetupPatient 
+            Blood bs = new Blood(new BloodType() { ABO = BloodABO.AB, Rhesus = BloodRhesus.Positive });
+            BloodSystem blood = new BloodSystem(bs);
+            Abdomen abs = new Abdomen(reproductives: new Reproductive_Male());
+            Physical body = new Physical(blood: blood, abdomen: abs);
+            Patient pt = new Patient(body: body);
+            #endregion //This sucks
 
-            Pod.PerformExamination(new ExamineBrainCT());
-            Pod.PerformExamination(new ExamineOxygenSaturation());
-            Pod.PerformExamination(new ExamineRespiratoryRate());
-            Pod.PerformExamination(new ExamineHeartECG());
-            Pod.PerformExamination(new ExamineXRay(BodyRegion.Chest));
+            Pod.TryAddPatient(pt);
+
+            Pod.PerformIntervention(new InsertIV(IVTargetLocation.ArmLeft));
             Pod.PerformExamination(new ExamineBloodType());
             Pod.PerformExamination(new ExamineOrgan(OrganName.Reproductives));
 

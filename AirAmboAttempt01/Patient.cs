@@ -2,6 +2,7 @@
 using PatientManagementSystem.Patients.PatientMental;
 using PatientManagementSystem.Patients.PatientDrugs;
 using PatientManagementSystem.Patients.PatientInterventions;
+using PatientManagementSystem.Patients.PatientAccessPoints;
 
 namespace PatientManagementSystem.Patients
 {

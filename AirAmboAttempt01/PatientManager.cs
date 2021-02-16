@@ -1,6 +1,7 @@
 ﻿using PatientManagementSystem.Patients;
 using PatientManagementSystem.Patients.PatientInterventions;
 using PatientManagementSystem.Patients.PatientExaminations;
+using PatientManagementSystem.Patients.ExaminationResults;
 
 namespace PatientManagementSystem
 {

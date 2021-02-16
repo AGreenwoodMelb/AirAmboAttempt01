@@ -3,49 +3,11 @@ using System.Collections.Generic;
 using PatientManagementSystem.Patients;
 using PatientManagementSystem.Patients.PatientDrugs;
 using PatientManagementSystem.Patients.PatientInfection;
+using PatientManagementSystem.Patients.PatientAccessPoints;
 
 namespace PatientManagementSystem.Patients.PatientInterventions
 {
-    public class AccessPoints
-    {
-        public Dictionary<IVTargetLocation, IVAccess> IVs = new Dictionary<IVTargetLocation, IVAccess>()
-        {
-            {IVTargetLocation.ArmLeft, null },
-            {IVTargetLocation.ArmRight, null },
-            {IVTargetLocation.LegLeft, null },
-            {IVTargetLocation.LegRight, null },
-            {IVTargetLocation.CentralLine, null },
-        };
-
-        public ArtificialAirway artificialAirway;
-        public bool HasUrinaryCatheter;
-    }
-
-    public enum ArtificialAirway
-    {
-        None,
-        FaceMask,
-        LaryngealMask
-    }
-
-    public class IVAccess
-    {
-        public Infection infection;
-        public Fluid CurrentFluid { get; set; }
-        public float FlowRate { get; set; }
-        public Drug AddedDrug { get; set; }
-    }
-
-    public enum IVTargetLocation
-    {
-        None,
-        ArmLeft,
-        ArmRight,
-        LegLeft,
-        LegRight,
-        CentralLine
-    }
-
+    
     public interface IPatientIntervention
     {
         public virtual bool Intervene(Patient patient)

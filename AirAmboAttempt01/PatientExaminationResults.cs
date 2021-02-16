@@ -203,7 +203,6 @@ namespace PatientManagementSystem.Patients.ExaminationResults
 
         public PatientResultsBladder Bladder = new PatientResultsBladder();
 
-
         #region Classes
         public class PatientResultsKidney
         {

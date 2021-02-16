@@ -5,6 +5,7 @@ using PatientManagementSystem.Patients.PatientBones;
 using PatientManagementSystem.Patients.PatientInterventions;
 using PatientManagementSystem.Patients.PatientOrgans;
 using PatientManagementSystem.Patients.ExaminationResults;
+using PatientManagementSystem.Patients.PatientAccessPoints;
 
 namespace PatientManagementSystem.Patients.PatientExaminations
 {
@@ -25,6 +26,7 @@ namespace PatientManagementSystem.Patients.PatientExaminations
         }
     } //TODO: Replace with Blood Pressure Examination
 
+    #region GeneralExams
     public class ExamineXRay : IPatientExamination
     {
         private BodyRegion _target;
@@ -64,7 +66,7 @@ namespace PatientManagementSystem.Patients.PatientExaminations
                     throw new ArgumentException($"GetXRay::Examine Unhandled BodyRegion: {nameof(_target)}");
             }
             return true;
-        } //Rename to BoneScan? That way I dont have to report gallstones or other organ abnormalities commonly found on XRays
+        } 
 
         private void XRayHead()
         {
@@ -111,7 +113,7 @@ namespace PatientManagementSystem.Patients.PatientExaminations
             }
         }
 
-    }
+    } //Rename to BoneScan? That way I dont have to report gallstones or other organ abnormalities commonly found on XRays
 
     public class ExamineOrgan : IPatientExamination
     {
@@ -240,7 +242,8 @@ namespace PatientManagementSystem.Patients.PatientExaminations
         }
         #endregion
         #endregion
-    }//TODO: Expand Examine[Organ] methods to return important information regarding that organ.
+    } //TODO: Expand Examine[Organ] methods to return important information regarding that organ.
+    #endregion
 
     #region HeadExams
     public class ExamineBrainEEG : IPatientExamination
@@ -337,7 +340,7 @@ namespace PatientManagementSystem.Patients.PatientExaminations
             _targetLobeLocation = temp_targetLobeLocation;
         }
 
-        public bool Examine (Patient patient, ref PatientExamResults results)
+        public bool Examine(Patient patient, ref PatientExamResults results)
         {
             //This should return a picture of the specific target lobe's infection state
             throw new NotImplementedException();
@@ -359,29 +362,45 @@ namespace PatientManagementSystem.Patients.PatientExaminations
     #endregion
 
     #region BloodTests
-    public class ExamineBloodType : IPatientExamination
+
+    public abstract class ExamineBlood : IPatientExamination
+    {
+        public bool Examine(Patient patient)
+        {
+            return patient.AccessPoints.HasIVAccess;
+        }
+    }
+    public class ExamineBloodType : ExamineBlood, IPatientExamination
     {
         public bool Examine(Patient patient, ref PatientExamResults results)
         {
+            if (Examine(patient))
+                return false;
 
             results.Blood.BloodType = patient.Body.Blood.bloodType;
             return true;
         }
     }
 
-    public class ExamineBloodClottingFactors : IPatientExamination
+    public class ExamineBloodClottingFactors : ExamineBlood, IPatientExamination
     {
         public bool Examine(Patient patient, ref PatientExamResults results)
         {
+            if (Examine(patient))
+                return false;
+
             results.Blood.ClottingFactors = patient.Body.Blood.FluidProfile.ClottingFactor;
             return true;
         }
     }
 
-    public class ExamineBloodLiverFunctions : IPatientExamination
+    public class ExamineBloodLiverFunctions : ExamineBlood, IPatientExamination
     {
         public bool Examine(Patient patient, ref PatientExamResults results)
         {
+            if (Examine(patient))
+                return false;
+
             //LIVER DAMAGE MARKERS:
             //ALT - Liver Inflammation (Infection marker)
             //ALP - Bile duct (Gallstones causing blockage)
@@ -397,83 +416,111 @@ namespace PatientManagementSystem.Patients.PatientExaminations
         }
     }
 
-    public class ExamineBloodCardiacMarkers : IPatientExamination
+    public class ExamineBloodCardiacMarkers : ExamineBlood, IPatientExamination
     {
         public bool Examine(Patient patient, ref PatientExamResults results)
         {
+            if (Examine(patient))
+                return false;
+
             throw new NotImplementedException();
         }
     }
 
-    public class ExamineBloodPSA : IPatientExamination
+    public class ExamineBloodPSA : ExamineBlood, IPatientExamination
     {
         public bool Examine(Patient patient, ref PatientExamResults results)
         {
+            if (Examine(patient))
+                return false;
+
             throw new NotImplementedException();
         }
     }
 
-    public class ExamineBloodBetaHCG : IPatientExamination
+    public class ExamineBloodBetaHCG : ExamineBlood, IPatientExamination
     {
         public bool Examine(Patient patient, ref PatientExamResults results)
         {
+            if (Examine(patient))
+                return false;
+
             throw new NotImplementedException();
         }
     }
 
-    public class ExamineBloodBloodSugarLevel : IPatientExamination
+    public class ExamineBloodBloodSugarLevel : ExamineBlood, IPatientExamination
     {
         public bool Examine(Patient patient, ref PatientExamResults results)
         {
-            throw new NotImplementedException();
-        }
-    }
-    
-    public class ExamineBloodCRP : IPatientExamination
-    {
-        public bool Examine(Patient patient, ref PatientExamResults results)
-        {
+            if (Examine(patient))
+                return false;
+
             throw new NotImplementedException();
         }
     }
 
-    public class ExamineBloodCultures : IPatientExamination
+    public class ExamineBloodCRP : ExamineBlood, IPatientExamination
     {
         public bool Examine(Patient patient, ref PatientExamResults results)
         {
+            if (Examine(patient))
+                return false;
+
             throw new NotImplementedException();
         }
     }
 
-    public class ExamineBloodElectrolytes : IPatientExamination
+    public class ExamineBloodCultures : ExamineBlood, IPatientExamination
     {
         public bool Examine(Patient patient, ref PatientExamResults results)
         {
+            if (Examine(patient))
+                return false;
+
             throw new NotImplementedException();
         }
     }
 
-    public class ExamineBloodIllicitDrugScreen : IPatientExamination
+    public class ExamineBloodElectrolytes : ExamineBlood, IPatientExamination
     {
         public bool Examine(Patient patient, ref PatientExamResults results)
         {
+            if (Examine(patient))
+                return false;
+
             throw new NotImplementedException();
         }
     }
 
-    public class ExamineBloodKidneyFunctions : IPatientExamination
+    public class ExamineBloodIllicitDrugScreen : ExamineBlood, IPatientExamination
     {
         public bool Examine(Patient patient, ref PatientExamResults results)
         {
+            if (Examine(patient))
+                return false;
+
+            throw new NotImplementedException();
+        }
+    }
+
+    public class ExamineBloodKidneyFunctions : ExamineBlood, IPatientExamination
+    {
+        public bool Examine(Patient patient, ref PatientExamResults results)
+        {
+            if (Examine(patient))
+                return false;
             throw new NotImplementedException();
         }
     }
 
     #region CopyPastey
-    public class ExamineBlood : IPatientExamination
+    public class TEMP_ExamineBlood : ExamineBlood, IPatientExamination
     {
         public bool Examine(Patient patient, ref PatientExamResults results)
         {
+            if (Examine(patient))
+                return false;
             throw new NotImplementedException();
         }
     }

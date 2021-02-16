@@ -16,7 +16,7 @@ namespace PatientManagementSystem.Patients.PatientBlood
         Negative,
         Positive
     }
-    public struct BloodType
+    public class BloodType
     {
         public BloodABO ABO;
         public BloodRhesus Rhesus;
