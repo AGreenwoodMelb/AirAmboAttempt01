@@ -7,7 +7,7 @@ using PatientManagementSystem.Patients.PatientAccessPoints;
 
 namespace PatientManagementSystem.Patients.PatientInterventions
 {
-    
+
     public interface IPatientIntervention
     {
         public virtual bool Intervene(Patient patient)
@@ -82,6 +82,8 @@ namespace PatientManagementSystem.Patients.PatientInterventions
     }
     #endregion
 
+
+    #region ManageAccessPoints
     #region IVs
     public class InsertIV : IPatientIntervention
     {
@@ -173,7 +175,7 @@ namespace PatientManagementSystem.Patients.PatientInterventions
             float successThreshold = 0.75f; //Replace with call to static player class UrinaryCatheterSuccess stat;
             if (patient.AccessPoints.HasUrinaryCatheter || patient.Body.Abdomen.UrinaryTract.Bladder.IsUrethraBlocked)
                 return false;
-            if(patient.MagicRandomSeed >= successThreshold)
+            if (patient.MagicRandomSeed >= successThreshold)
             {
                 patient.AccessPoints.HasUrinaryCatheter = true;
                 return true;
@@ -185,7 +187,7 @@ namespace PatientManagementSystem.Patients.PatientInterventions
 
     public class RemoveUrinaryCatheter : IPatientIntervention
     {
-        public bool Intervene (Patient patient)
+        public bool Intervene(Patient patient)
         {
             if (!patient.AccessPoints.HasUrinaryCatheter)
                 return false;
@@ -195,4 +197,40 @@ namespace PatientManagementSystem.Patients.PatientInterventions
         }
     }
     #endregion;
+
+    #region CerebralShunt
+    public class InsertCerebralShunt : IPatientIntervention
+    {
+        public bool Intervene(Patient patient)
+        {
+            float successThreshold = 0.7f; //Replace with call to static player class CerebralShuntInsertSuccess
+            if (patient.AccessPoints.HasCerebralShunt = false && (patient.MagicRandomSeed > successThreshold))
+            {
+                //Check to Infect
+                //if (patient.MagicRandomSeed > 100f) // NOT DONE
+                //Infection of Shunt
+
+                patient.AccessPoints.HasCerebralShunt = true;
+                return true;
+            }
+            return false;
+        }
+    }
+
+    public class RemoveCerebralShunt : IPatientIntervention
+    {
+        public bool Intervene(Patient patient)
+        {
+            if (patient.AccessPoints.HasCerebralShunt)
+            {
+                patient.AccessPoints.HasCerebralShunt = false;
+                return true;
+            }
+            return false;
+        }
+    }
+    #endregion
+    #endregion
+
+    
 }

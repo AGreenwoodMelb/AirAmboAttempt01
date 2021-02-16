@@ -20,6 +20,7 @@ namespace PatientManagementSystem.Patients.PatientAccessPoints
         public ArtificialAirway artificialAirway;
         public bool HasUrinaryCatheter;
         public bool HasIVAccess => CheckForIVAccess();
+        public bool HasCerebralShunt; //TODO: Temp, replace with CerebralShunt object to allow for isBlocked, isInfected bool etc;
         private bool CheckForIVAccess()
         {
             foreach (KeyValuePair<IVTargetLocation, IVAccess> IVPoint in IVs)

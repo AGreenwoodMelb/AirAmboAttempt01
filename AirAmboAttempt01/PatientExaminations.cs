@@ -66,7 +66,7 @@ namespace PatientManagementSystem.Patients.PatientExaminations
                     throw new ArgumentException($"GetXRay::Examine Unhandled BodyRegion: {nameof(_target)}");
             }
             return true;
-        } 
+        }
 
         private void XRayHead()
         {
@@ -270,11 +270,41 @@ namespace PatientManagementSystem.Patients.PatientExaminations
 
     public class ExamineCerebrospinalFluid : IPatientExamination
     {
-        public bool Examine(Patient patient, ref PatientExamResults results)
+        public bool Examine(Patient patient, ref PatientExamResults results) //TODO: Implement Cerebral shunt mechanism, Implement infection chance
         {
-            results.Brain.latestCSFResults = new CSFProfile(patient.Body.Head.Brain.CurrentInfection);
+            if (patient.AccessPoints.HasCerebralShunt)
+            {
+                //Take from shunt. Small chance to infect Cerebral Shunt?
+                results.Brain.latestCSFResults = new CSFProfile(patient.Body.Head.Brain.CurrentInfection);
+            }
+            else
+            {
+                //Lumbar Puncture. Pain and greater risk of causing CNS infection, High chance to fail
+                if (PerformLumbarPuncture(patient))
+                {
+                    results.Brain.latestCSFResults = new CSFProfile(patient.Body.Head.Brain.CurrentInfection);
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
             return true;
         }
+
+        private bool PerformLumbarPuncture(Patient patient)
+        {
+            float SuccessThreshold = 0.5f; //Replace with value from Static Player class
+            if(patient.MagicRandomSeed > SuccessThreshold)
+            {
+                //Chance to cause CNS infection
+                //Causes Pain
+                return true;
+            }
+
+            return false;
+        } //TODO: Implement Pain and infection mechanics
     } //Gets the exact nature of any infections that may be present in the brain. Does not show blood in csf at the moment 
     #endregion
 
@@ -374,7 +404,7 @@ namespace PatientManagementSystem.Patients.PatientExaminations
     {
         public bool Examine(Patient patient, ref PatientExamResults results)
         {
-            if (Examine(patient))
+            if (!Examine(patient))
                 return false;
 
             results.Blood.BloodType = patient.Body.Blood.bloodType;
@@ -386,7 +416,7 @@ namespace PatientManagementSystem.Patients.PatientExaminations
     {
         public bool Examine(Patient patient, ref PatientExamResults results)
         {
-            if (Examine(patient))
+            if (!Examine(patient))
                 return false;
 
             results.Blood.ClottingFactors = patient.Body.Blood.FluidProfile.ClottingFactor;
@@ -398,7 +428,7 @@ namespace PatientManagementSystem.Patients.PatientExaminations
     {
         public bool Examine(Patient patient, ref PatientExamResults results)
         {
-            if (Examine(patient))
+            if (!Examine(patient))
                 return false;
 
             //LIVER DAMAGE MARKERS:
@@ -420,7 +450,7 @@ namespace PatientManagementSystem.Patients.PatientExaminations
     {
         public bool Examine(Patient patient, ref PatientExamResults results)
         {
-            if (Examine(patient))
+            if (!Examine(patient))
                 return false;
 
             throw new NotImplementedException();
@@ -431,7 +461,7 @@ namespace PatientManagementSystem.Patients.PatientExaminations
     {
         public bool Examine(Patient patient, ref PatientExamResults results)
         {
-            if (Examine(patient))
+            if (!Examine(patient))
                 return false;
 
             throw new NotImplementedException();
@@ -442,7 +472,7 @@ namespace PatientManagementSystem.Patients.PatientExaminations
     {
         public bool Examine(Patient patient, ref PatientExamResults results)
         {
-            if (Examine(patient))
+            if (!Examine(patient))
                 return false;
 
             throw new NotImplementedException();
@@ -453,7 +483,7 @@ namespace PatientManagementSystem.Patients.PatientExaminations
     {
         public bool Examine(Patient patient, ref PatientExamResults results)
         {
-            if (Examine(patient))
+            if (!Examine(patient))
                 return false;
 
             throw new NotImplementedException();
@@ -464,7 +494,7 @@ namespace PatientManagementSystem.Patients.PatientExaminations
     {
         public bool Examine(Patient patient, ref PatientExamResults results)
         {
-            if (Examine(patient))
+            if (!Examine(patient))
                 return false;
 
             throw new NotImplementedException();
@@ -475,7 +505,7 @@ namespace PatientManagementSystem.Patients.PatientExaminations
     {
         public bool Examine(Patient patient, ref PatientExamResults results)
         {
-            if (Examine(patient))
+            if (!Examine(patient))
                 return false;
 
             throw new NotImplementedException();
@@ -486,7 +516,7 @@ namespace PatientManagementSystem.Patients.PatientExaminations
     {
         public bool Examine(Patient patient, ref PatientExamResults results)
         {
-            if (Examine(patient))
+            if (!Examine(patient))
                 return false;
 
             throw new NotImplementedException();
@@ -497,7 +527,7 @@ namespace PatientManagementSystem.Patients.PatientExaminations
     {
         public bool Examine(Patient patient, ref PatientExamResults results)
         {
-            if (Examine(patient))
+            if (!Examine(patient))
                 return false;
 
             throw new NotImplementedException();
@@ -508,7 +538,7 @@ namespace PatientManagementSystem.Patients.PatientExaminations
     {
         public bool Examine(Patient patient, ref PatientExamResults results)
         {
-            if (Examine(patient))
+            if (!Examine(patient))
                 return false;
             throw new NotImplementedException();
         }
@@ -519,7 +549,7 @@ namespace PatientManagementSystem.Patients.PatientExaminations
     {
         public bool Examine(Patient patient, ref PatientExamResults results)
         {
-            if (Examine(patient))
+            if (!Examine(patient))
                 return false;
             throw new NotImplementedException();
         }
