@@ -5,7 +5,7 @@
         Other,
         Male,
         Female
-    }
+    } 
     public enum PainSeverity
     {
         None,
@@ -21,7 +21,7 @@
        Semi_Responsive,
        Responsive
     }
-
+    
     public enum MentalState
     {
         Dead,

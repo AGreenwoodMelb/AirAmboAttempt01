@@ -15,6 +15,24 @@ namespace PatientManagementSystem.Patients.PatientOrgans
         Damaged
     }
 
+    public enum OrganName
+    {
+        None,
+        Brain,
+        Heart,
+        LeftLung,
+        RightLung,
+        Liver,
+        Pancreas,
+        Spleen,
+        GastrointestinalTract,
+        LeftKidney,
+        RightKidney,
+        Bladder,
+        Reproductives,
+        Other //For expansions?
+    }
+
     public static class DefaultLungs
     {
         public static readonly Dictionary<OrganState, float> LungFunctionValues = new Dictionary<OrganState, float>()
@@ -108,7 +126,7 @@ namespace PatientManagementSystem.Patients.PatientOrgans
     public class Heart : Organ
     {
         #region Props
-        private bool _isBeating;
+        private bool _isBeating = true;
         public bool IsBeating
         {
             get { return _isBeating; }
@@ -142,6 +160,7 @@ namespace PatientManagementSystem.Patients.PatientOrgans
 
         }
     }
+
     public class LungLobe
     {
         #region Props
@@ -457,6 +476,8 @@ namespace PatientManagementSystem.Patients.PatientOrgans
         {
 
         }
+
+        public abstract Gender GetOrgansSex();
     }
 
     public class Reproductive_Male : Reproductive
@@ -469,6 +490,7 @@ namespace PatientManagementSystem.Patients.PatientOrgans
             set { _psa = value; }
         }
         #endregion
+        public override Gender GetOrgansSex() => Gender.Male;
 
         public Reproductive_Male() : base(DefaultBloodLossBaseRates.Reproductive_Male)
         {
@@ -500,7 +522,7 @@ namespace PatientManagementSystem.Patients.PatientOrgans
             set { _bHCG = value; }
         }
         #endregion
-
+        public override Gender GetOrgansSex() => Gender.Female;
         public Reproductive_Female() : base(DefaultBloodLossBaseRates.Reproductive_Female)
         {
 

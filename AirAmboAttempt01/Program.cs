@@ -16,6 +16,18 @@ namespace PatientManagementSystem.Patients
             Pod.TryAddPatient(new Patient());
             Patient temp = Pod.TEMP_GetPatient();
 
+            PatientExamResults tempResults = Pod.PatientResults;
+
+            Pod.PerformExamination(new ExamineBrainCT());
+            Pod.PerformExamination(new ExamineO2Sats());
+            Pod.PerformExamination(new ExamineRespiratoryRate());
+            Pod.PerformExamination(new ExamineHeartECG());
+            Pod.PerformExamination(new ExamineXRay(BodyRegion.Chest));
+            Pod.PerformExamination(new ExamineBloodType());
+            Pod.PerformExamination(new ExamineOrgan(OrganName.Reproductives));
+
+            Console.WriteLine(Pod.PatientResults.Blood.BloodType.ToString());
+            Console.ReadLine();
         }
     }
 }

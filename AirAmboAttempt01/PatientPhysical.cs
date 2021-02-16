@@ -180,19 +180,7 @@ namespace PatientManagementSystem.Patients.PatientPhysical
             Reproductives = reproductives ?? new Reproductive_Female();
         }
 
-        public Organ[] GetOrgans() //REMOVE LATER
-        {
-            return new Organ[]
-            {
-                GastrointestinalTract,
-                UrinaryTract.LeftKidney,
-                UrinaryTract.RightKidney,
-                Liver,
-                Pancreas,
-                Spleen,
-                Reproductives
-            };
-        }
+        
     }
 
     #region LimbRelatedClasses
