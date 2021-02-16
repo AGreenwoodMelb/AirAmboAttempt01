@@ -385,12 +385,23 @@ namespace PatientManagementSystem.Patients.PatientOrgans
             get { return _isUrethraBlocked; }
             set { _isUrethraBlocked = value; }
         }
+
+        private FluidUrine _urine;
+
+        public FluidUrine Urine
+        {
+            get { return _urine; }
+            set { _urine = value; }
+        }
+            
         #endregion
         public Bladder() : base(DefaultBloodLossBaseRates.Bladder)
         {
 
         }
+
     }
+  
     public class UrinaryTract
     {
         #region Props
@@ -422,7 +433,9 @@ namespace PatientManagementSystem.Patients.PatientOrgans
             RightKidney = rightKidney ?? new Kidney();
             Bladder = bladder ?? new Bladder();
         }
+       
     }
+
     public class Liver : Organ
     {
         #region Props

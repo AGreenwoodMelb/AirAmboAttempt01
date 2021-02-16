@@ -35,6 +35,7 @@ namespace PatientManagementSystem.Patients.PatientInterventions
         public float FlowRate { get; set; }
         public Drug AddedDrug { get; set; }
     }
+
     public enum IVTargetLocation
     {
         None,
@@ -54,7 +55,7 @@ namespace PatientManagementSystem.Patients.PatientInterventions
     }
 
     #region Fluids?
-    public class Transfuse : IPatientIntervention //Redo using IVAccess Object
+    public class Transfuse : IPatientIntervention
     {
         private Fluid _fluid;
         private Patient _patient;
@@ -83,7 +84,7 @@ namespace PatientManagementSystem.Patients.PatientInterventions
                          message: $"BloodSystem::Transfuse Unhandled Subtype of Fluid: {nameof(_fluid)}"
                          );
             }
-        }
+        }//Redo using IVAccess Object
 
         private bool TranfuseBlood()
         {
@@ -123,7 +124,6 @@ namespace PatientManagementSystem.Patients.PatientInterventions
     public class InsertIV : IPatientIntervention
     {
         private IVTargetLocation _target;
-        private Patient _patient;
 
         public InsertIV(IVTargetLocation target)
         {
@@ -132,20 +132,20 @@ namespace PatientManagementSystem.Patients.PatientInterventions
 
         public bool Intervene(Patient patient)
         {
-            _patient = patient;
-            float successThreshold = (_target == IVTargetLocation.CentralLine) ? 0.7f : 0.0f;//Replace with call to static player class IVInsertSuccess Stat or CentralLineIVSuccess
-            if (_patient.AccessPoints.IVs[_target] == null && (_patient.MagicRandomSeed > successThreshold))
+            float successThreshold = (_target == IVTargetLocation.CentralLine) ? 0.7f : 0.0f; //Replace with call to static player class IVInsertSuccess Stat or CentralLineIVSuccess
+            if (patient.AccessPoints.IVs[_target] == null && (patient.MagicRandomSeed > successThreshold))
             {
                 //Check to Infect
-                if (_patient.MagicRandomSeed > 100f) // NOT DONE
-                    _patient.AccessPoints.IVs[_target].infection = new Infection();
+                if (patient.MagicRandomSeed > 100f) // NOT DONE
+                    patient.AccessPoints.IVs[_target].infection = new Infection(); //TODO: (LATER) Create region and organ based look-up tables for to determine infection Type 
 
-                _patient.AccessPoints.IVs[_target] = new IVAccess();
+                patient.AccessPoints.IVs[_target] = new IVAccess();
                 return true;
             }
             return false;
         }
     }
+
     public class RemoveIV : IPatientIntervention
     {
         private IVTargetLocation _target;
@@ -164,7 +164,6 @@ namespace PatientManagementSystem.Patients.PatientInterventions
             }
             return false;
         }
-
     }
     #endregion
 
@@ -172,7 +171,6 @@ namespace PatientManagementSystem.Patients.PatientInterventions
     public class InsertArtificalAirway : IPatientIntervention
     {
         private ArtificialAirway _artificialAirway;
-        private Patient _patient;
         public InsertArtificalAirway(ArtificialAirway artificialAirway)
         {
             _artificialAirway = artificialAirway;
@@ -180,9 +178,8 @@ namespace PatientManagementSystem.Patients.PatientInterventions
 
         public bool Intervene(Patient patient)
         {
-            _patient = patient;
             float successThreshold = (_artificialAirway == ArtificialAirway.LaryngealMask) ? 0.7f : 0.5f; //Replace with call to static player class AirwayInsertSuccess or LaryngealMaskSuccess stat
-            if (patient.AccessPoints.artificialAirway == ArtificialAirway.None && (_patient.MagicRandomSeed > successThreshold))
+            if (patient.AccessPoints.artificialAirway == ArtificialAirway.None && (patient.MagicRandomSeed > successThreshold))
             {
                 patient.AccessPoints.artificialAirway = _artificialAirway;
                 return true;
@@ -206,4 +203,34 @@ namespace PatientManagementSystem.Patients.PatientInterventions
     }
     #endregion
 
+    #region Catheter
+    public class InsertUrinaryCatheter : IPatientIntervention
+    {
+        public bool Intervene(Patient patient)
+        {
+            float successThreshold = 0.75f; //Replace with call to static player class UrinaryCatheterSuccess stat;
+            if (patient.AccessPoints.HasUrinaryCatheter || patient.Body.Abdomen.UrinaryTract.Bladder.IsUrethraBlocked)
+                return false;
+            if(patient.MagicRandomSeed >= successThreshold)
+            {
+                patient.AccessPoints.HasUrinaryCatheter = true;
+                return true;
+            }
+
+            return false;
+        }
+    }//TODO: Restructure Intervene to use single if statement
+
+    public class RemoveUrinaryCatheter : IPatientIntervention
+    {
+        public bool Intervene (Patient patient)
+        {
+            if (!patient.AccessPoints.HasUrinaryCatheter)
+                return false;
+
+            patient.AccessPoints.HasUrinaryCatheter = false;
+            return true;
+        }
+    }
+    #endregion;
 }

@@ -120,5 +120,8 @@ namespace PatientManagementSystem.Patients
         }
     }
 
-  
+    public class FluidUrine //:Fluid
+    {
+
+    }
 }
