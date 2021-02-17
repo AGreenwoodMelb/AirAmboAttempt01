@@ -1,7 +1,6 @@
 ﻿using PatientManagementSystem.Patients.PatientPhysical;
 using PatientManagementSystem.Patients.PatientMental;
 using PatientManagementSystem.Patients.PatientDrugs;
-using PatientManagementSystem.Patients.PatientInterventions;
 using PatientManagementSystem.Patients.PatientAccessPoints;
 
 namespace PatientManagementSystem.Patients
@@ -9,7 +8,8 @@ namespace PatientManagementSystem.Patients
     public class Patient
     {
         #region Props
-        //public int _randomSeed { get;} //For Unity stuff
+        public int _randomSeed { get;} //UNITY: For Unity stuff
+
         private Biography _biography;
         public Biography Biography
         {
@@ -45,7 +45,7 @@ namespace PatientManagementSystem.Patients
             set { _accessPoints = value; }
         }
 
-        private int _magicRandomSeed = 1;
+        private int _magicRandomSeed = 1; //UNITY: Replace later with random using _randomSeed
         public int MagicRandomSeed
         {
             get { return _magicRandomSeed; }
@@ -103,5 +103,5 @@ namespace PatientManagementSystem.Patients
             Age = age;
             Gender = gender;
         }
-    }
+    } //TODO: This doesnt belong here but there isnt enough to warrant a new file yet
 }

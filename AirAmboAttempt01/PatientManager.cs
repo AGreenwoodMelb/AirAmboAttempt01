@@ -8,7 +8,7 @@ namespace PatientManagementSystem
     public class PatientManager
     {
         #region Props
-        protected Patient CurrentPatient { get; private set; }//This should be protected to prevent direct access and manipulation of the patient.
+        private Patient CurrentPatient { get; set; }//This should be private to prevent direct access and manipulation of the patient.
 
         private PatientExamResults _patientResults = new PatientExamResults();
         public PatientExamResults PatientResults //Accessable by the GUI to display Patient Results and information

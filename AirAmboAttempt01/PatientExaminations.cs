@@ -172,7 +172,7 @@ namespace PatientManagementSystem.Patients.PatientExaminations
                     ExamineReproductives();
                     break;
                 case OrganName.Other:
-                    //TODO: (LUXURY CONSIDERATION) For adding custom organs? Execute some kind of event to which custom organ examination have been added? 
+                    //LUXURY: For adding custom organs? Execute some kind of event to which custom organ examination have been added? 
                     break;
                 default:
                     throw new ArgumentException(message: $"ExamineOrgan::Examine: Unhandled OrganName: {_organ}");
@@ -272,7 +272,7 @@ namespace PatientManagementSystem.Patients.PatientExaminations
     {
         public bool Examine(Patient patient, ref PatientExamResults results) //TODO: Implement Cerebral shunt mechanism, Implement infection chance
         {
-            if (patient.AccessPoints.HasCerebralShunt)
+            if (patient.AccessPoints.CerebralShunt != null)
             {
                 //Take from shunt. Small chance to infect Cerebral Shunt?
                 results.Brain.latestCSFResults = new CSFProfile(patient.Body.Head.Brain.CurrentInfection);
@@ -295,7 +295,7 @@ namespace PatientManagementSystem.Patients.PatientExaminations
 
         private bool PerformLumbarPuncture(Patient patient)
         {
-            float SuccessThreshold = 0.5f; //Replace with value from Static Player class
+            float SuccessThreshold = 0.5f; //UNITY: Replace with value from Static Player class
             if(patient.MagicRandomSeed > SuccessThreshold)
             {
                 //Chance to cause CNS infection
@@ -557,4 +557,5 @@ namespace PatientManagementSystem.Patients.PatientExaminations
     #endregion
     #endregion
 
+    //TODO: Add Examinations of AccessPoints for signs of infection
 }

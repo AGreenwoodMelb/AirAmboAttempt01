@@ -8,6 +8,12 @@ namespace PatientManagementSystem.Patients.PatientAccessPoints
 {
     public class AccessPoints
     {
+        //public bool sHasCerebralShunt;
+        public CerebralShunt CerebralShunt; //URGENT: Too tired to finish implementing this
+        public ArtificialAirway artificialAirway;
+        public bool HasIVAccess => CheckForIVAccess();
+        public bool HasUrinaryCatheter;
+
         public Dictionary<IVTargetLocation, IVAccess> IVs = new Dictionary<IVTargetLocation, IVAccess>()
         {
             {IVTargetLocation.ArmLeft, null },
@@ -16,11 +22,7 @@ namespace PatientManagementSystem.Patients.PatientAccessPoints
             {IVTargetLocation.LegRight, null },
             {IVTargetLocation.CentralLine, null },
         };
-
-        public ArtificialAirway artificialAirway;
-        public bool HasUrinaryCatheter;
-        public bool HasIVAccess => CheckForIVAccess();
-        public bool HasCerebralShunt; //TODO: Temp, replace with CerebralShunt object to allow for isBlocked, isInfected bool etc;
+        
         private bool CheckForIVAccess()
         {
             foreach (KeyValuePair<IVTargetLocation, IVAccess> IVPoint in IVs)
@@ -37,9 +39,18 @@ namespace PatientManagementSystem.Patients.PatientAccessPoints
     public class IVAccess
     {
         public Infection infection;
+        public bool IsBlocked;
+
         public Fluid CurrentFluid { get; set; }
         public float FlowRate { get; set; }
         public Drug AddedDrug { get; set; }
+    }
+
+    public class CerebralShunt
+    {
+        public Infection infection;
+        public float OpeningCerebralPressure; //This is probably useless but is intended to be the cerebral pressure at which the drain opens. May actually have some use.
+        public bool IsBlocked;
     }
 
     public enum IVTargetLocation

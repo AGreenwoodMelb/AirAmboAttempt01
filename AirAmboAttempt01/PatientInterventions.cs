@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using PatientManagementSystem.Patients;
 using PatientManagementSystem.Patients.PatientDrugs;
 using PatientManagementSystem.Patients.PatientInfection;
@@ -7,7 +6,6 @@ using PatientManagementSystem.Patients.PatientAccessPoints;
 
 namespace PatientManagementSystem.Patients.PatientInterventions
 {
-
     public interface IPatientIntervention
     {
         public virtual bool Intervene(Patient patient)
@@ -82,7 +80,6 @@ namespace PatientManagementSystem.Patients.PatientInterventions
     }
     #endregion
 
-
     #region ManageAccessPoints
     #region IVs
     public class InsertIV : IPatientIntervention
@@ -96,12 +93,12 @@ namespace PatientManagementSystem.Patients.PatientInterventions
 
         public bool Intervene(Patient patient)
         {
-            float successThreshold = (_target == IVTargetLocation.CentralLine) ? 0.7f : 0.0f; //Replace with call to static player class IVInsertSuccess Stat or CentralLineIVSuccess
+            float successThreshold = (_target == IVTargetLocation.CentralLine) ? 0.7f : 0.0f; //UNITY: Replace with call to static player class IVInsertSuccess Stat or CentralLineIVSuccess
             if (patient.AccessPoints.IVs[_target] == null && (patient.MagicRandomSeed > successThreshold))
             {
                 //Check to Infect
                 if (patient.MagicRandomSeed > 100f) // NOT DONE
-                    patient.AccessPoints.IVs[_target].infection = new Infection(); //TODO: (LATER) Create region and organ based look-up tables for to determine infection Type 
+                    patient.AccessPoints.IVs[_target].infection = new Infection(); //TODO: Create region and organ based look-up tables for to determine infection Type 
 
                 patient.AccessPoints.IVs[_target] = new IVAccess();
                 return true;
@@ -142,7 +139,7 @@ namespace PatientManagementSystem.Patients.PatientInterventions
 
         public bool Intervene(Patient patient)
         {
-            float successThreshold = (_artificialAirway == ArtificialAirway.LaryngealMask) ? 0.7f : 0.5f; //Replace with call to static player class AirwayInsertSuccess or LaryngealMaskSuccess stat
+            float successThreshold = (_artificialAirway == ArtificialAirway.LaryngealMask) ? 0.7f : 0.5f; //UNITY: Replace with call to static player class AirwayInsertSuccess or LaryngealMaskSuccess stat
             if (patient.AccessPoints.artificialAirway == ArtificialAirway.None && (patient.MagicRandomSeed > successThreshold))
             {
                 patient.AccessPoints.artificialAirway = _artificialAirway;
@@ -172,7 +169,7 @@ namespace PatientManagementSystem.Patients.PatientInterventions
     {
         public bool Intervene(Patient patient)
         {
-            float successThreshold = 0.75f; //Replace with call to static player class UrinaryCatheterSuccess stat;
+            float successThreshold = 0.75f; //UNITY: Replace with call to static player class UrinaryCatheterSuccess stat;
             if (patient.AccessPoints.HasUrinaryCatheter || patient.Body.Abdomen.UrinaryTract.Bladder.IsUrethraBlocked)
                 return false;
             if (patient.MagicRandomSeed >= successThreshold)
@@ -204,13 +201,12 @@ namespace PatientManagementSystem.Patients.PatientInterventions
         public bool Intervene(Patient patient)
         {
             float successThreshold = 0.7f; //Replace with call to static player class CerebralShuntInsertSuccess
-            if (patient.AccessPoints.HasCerebralShunt = false && (patient.MagicRandomSeed > successThreshold))
+            if (patient.AccessPoints.CerebralShunt == null && (patient.MagicRandomSeed > successThreshold))
             {
                 //Check to Infect
                 //if (patient.MagicRandomSeed > 100f) // NOT DONE
-                //Infection of Shunt
-
-                patient.AccessPoints.HasCerebralShunt = true;
+                //patient.AccessPoints.CerebralShunt.infection = new Infection();
+                patient.AccessPoints.CerebralShunt = new CerebralShunt();
                 return true;
             }
             return false;
@@ -221,9 +217,9 @@ namespace PatientManagementSystem.Patients.PatientInterventions
     {
         public bool Intervene(Patient patient)
         {
-            if (patient.AccessPoints.HasCerebralShunt)
+            if (patient.AccessPoints.CerebralShunt != null)
             {
-                patient.AccessPoints.HasCerebralShunt = false;
+                patient.AccessPoints.CerebralShunt = null;
                 return true;
             }
             return false;
@@ -231,6 +227,4 @@ namespace PatientManagementSystem.Patients.PatientInterventions
     }
     #endregion
     #endregion
-
-    
 }
