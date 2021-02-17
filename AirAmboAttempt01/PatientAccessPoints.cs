@@ -1,19 +1,31 @@
 ﻿using PatientManagementSystem.Patients.PatientDrugs;
 using PatientManagementSystem.Patients.PatientInfection;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace PatientManagementSystem.Patients.PatientAccessPoints
 {
+    public enum IVTargetLocation
+    {
+        None,
+        ArmLeft,
+        ArmRight,
+        LegLeft,
+        LegRight,
+        CentralLine
+    }
+    public enum ArtificialAirway
+    {
+        None,
+        FaceMask,
+        LaryngealMask
+    }
+
     public class AccessPoints
     {
-        //public bool sHasCerebralShunt;
-        public CerebralShunt CerebralShunt; //URGENT: Too tired to finish implementing this
+        public CerebralShunt CerebralShunt; //TODO: Finish implementing this
         public ArtificialAirway artificialAirway;
         public bool HasIVAccess => CheckForIVAccess();
         public bool HasUrinaryCatheter;
-
         public Dictionary<IVTargetLocation, IVAccess> IVs = new Dictionary<IVTargetLocation, IVAccess>()
         {
             {IVTargetLocation.ArmLeft, null },
@@ -22,7 +34,6 @@ namespace PatientManagementSystem.Patients.PatientAccessPoints
             {IVTargetLocation.LegRight, null },
             {IVTargetLocation.CentralLine, null },
         };
-        
         private bool CheckForIVAccess()
         {
             foreach (KeyValuePair<IVTargetLocation, IVAccess> IVPoint in IVs)
@@ -40,7 +51,6 @@ namespace PatientManagementSystem.Patients.PatientAccessPoints
     {
         public Infection infection;
         public bool IsBlocked;
-
         public Fluid CurrentFluid { get; set; }
         public float FlowRate { get; set; }
         public Drug AddedDrug { get; set; }
@@ -53,20 +63,5 @@ namespace PatientManagementSystem.Patients.PatientAccessPoints
         public bool IsBlocked;
     }
 
-    public enum IVTargetLocation
-    {
-        None,
-        ArmLeft,
-        ArmRight,
-        LegLeft,
-        LegRight,
-        CentralLine
-    }
-
-    public enum ArtificialAirway
-    {
-        None,
-        FaceMask,
-        LaryngealMask
-    }
+   
 }

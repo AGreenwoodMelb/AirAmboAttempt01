@@ -1,13 +1,10 @@
 ﻿using PatientManagementSystem.Patients.PatientBlood;
 using PatientManagementSystem.Patients.PatientBones;
 using PatientManagementSystem.Patients.PatientInfection;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using System; //Only being used when throwing exception
 
 namespace PatientManagementSystem.Patients.ExaminationResults
 {
-
     public class PatientExamResults
     {
         public string tempOutput; //Default dumping variable
@@ -89,7 +86,7 @@ namespace PatientManagementSystem.Patients.ExaminationResults
         public float currentPressure;
     }
 
-    public class CSFProfile //Perhaps invert this so that CSF is a part of the Infection or Brain Object? 
+    public class CSFProfile //Perhaps invert this so that CSF is a part of the Infection or Brain Object or Fluid class? 
     {
         public Infection Infection { get; }
         public float Glucose { get; }
@@ -139,7 +136,7 @@ namespace PatientManagementSystem.Patients.ExaminationResults
 
         //Scan Results:
         public string Appearance;
-    }
+    } //TODO: Expand to accomodate the results of the different heart scans
     #endregion
 
     #region LungsResults

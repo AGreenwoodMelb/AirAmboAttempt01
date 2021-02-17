@@ -113,7 +113,7 @@ namespace PatientManagementSystem.Patients.PatientExaminations
             }
         }
 
-    } //Rename to BoneScan? That way I dont have to report gallstones or other organ abnormalities commonly found on XRays
+    } //TODO: Rename to BoneScan? That way I dont have to report gallstones or other organ abnormalities commonly found on XRays
 
     public class ExamineOrgan : IPatientExamination
     {
@@ -184,12 +184,25 @@ namespace PatientManagementSystem.Patients.PatientExaminations
         #region Head
         private void ExamineBrain()
         {
-
+            //TODO: Expand this to check Brain related Variables
+            /*Brain:
+             * Vessels: Blockages (Cerebral Angiogram)
+             * Intracranial Pressure:
+             * Haemorrhage:
+             * Inflammation
+             */
         }
         #endregion
         #region Chest
         private void ExamineHeart()
         {
+            //TODO: Expand this to Check Heart related variables 
+            /* Heart:
+             * Vessels: Narrowings or occulsions (Coronary Angiogram)
+             * Walls: Ischaemia (signs of previous Myocardial Infarctions) (Echocardiogram)
+             * Size: (Heart Failure)
+             * Inflammation
+             */
             _results.Heart.Appearance = _patient.Body.Chest.Heart.CurrentInfection.infectionSeverity.ToString(); //Temp return until proper way to describe is found
         }
 
@@ -376,6 +389,17 @@ namespace PatientManagementSystem.Patients.PatientExaminations
             throw new NotImplementedException();
         }
     } //TODO: Implement all the required bacground field and appropriate enum for _targetLobeLocation
+    #endregion
+
+    #region TEMPNAME-LiverPancreas
+    public class ExamineHepatobiliaryTree : IPatientExamination
+    {
+        public bool Examine(Patient patient, ref PatientExamResults results)
+        {
+            //Check Liver and Pancreas for stones
+            return true;
+        }
+    }
     #endregion
 
     #region UrinaryTractExams

@@ -1,6 +1,5 @@
 ﻿using PatientManagementSystem.Patients.PatientBlood;
 using PatientManagementSystem.Patients.PatientInfection;
-using System;
 using System.Collections.Generic;
 
 namespace PatientManagementSystem.Patients.PatientOrgans

@@ -179,8 +179,6 @@ namespace PatientManagementSystem.Patients.PatientPhysical
             Spleen = spleen ?? new Spleen();
             Reproductives = reproductives ?? new Reproductive_Female();
         }
-
-        
     }
 
     #region LimbRelatedClasses
@@ -202,6 +200,7 @@ namespace PatientManagementSystem.Patients.PatientPhysical
             set { _legs = value; }
         }
     }
+
     public class Limb : PhysicalPart
     {
         //Bool isImmobile //For later

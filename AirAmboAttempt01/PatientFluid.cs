@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace PatientManagementSystem.Patients.PatientBlood
+﻿namespace PatientManagementSystem.Patients.PatientBlood
 {
     public struct FluidProfile
     {
