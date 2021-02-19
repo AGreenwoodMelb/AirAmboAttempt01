@@ -69,10 +69,14 @@ namespace PatientManagementSystem
             return CurrentPatient;
         }
 
-        public bool PerformIntervention(PatientIntervention patientIntervention)
+        public bool PerformIntervention(PatientIntervention patientIntervention, out bool Succeeded)
         {
-            //TotalWasteProduced += patientIntervention.WasteProduced //FOR LATER
-            return patientIntervention.Intervene(CurrentPatient);
+            if( patientIntervention.Intervene(CurrentPatient, out Succeeded))
+            {
+                TotalWasteProduced += patientIntervention.WasteProduced;
+                return true;
+            }
+            return false;
         }
 
         public bool PerformExamination(PatientExamination patientExamination)

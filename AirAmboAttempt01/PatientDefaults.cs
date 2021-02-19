@@ -1,4 +1,5 @@
-﻿using PatientManagementSystem.Patients.PatientBlood;
+﻿using PatientManagementSystem.Patients.PatientAccessPoints;
+using PatientManagementSystem.Patients.PatientBlood;
 using PatientManagementSystem.Patients.PatientBones;
 using PatientManagementSystem.Patients.PatientOrgans; //Hopefully this wont last
 
@@ -110,5 +111,61 @@ namespace PatientManagementSystem.Patients.PatientDefaults
 
         public static readonly float OxygenSaturation = 100f;
         public static readonly int RespirationRate = 16;
+    }
+
+    public static class DefaultWasteProduction
+    {
+        #region IVs
+        public static readonly float InsertIV = 0f;
+        public static readonly float RemoveIV = 0f;
+
+        public static readonly float InsertCentralLine = 0f;
+        public static readonly float RemoveCentralLine = 0f;
+        #endregion
+
+        #region Airways
+        public static readonly Dictionary<ArtificialAirway, float> InsertAirway = new Dictionary<ArtificialAirway, float>()
+        {
+            {ArtificialAirway.FaceMask, 0f },
+            {ArtificialAirway.LaryngealMask, 0f },
+        };
+
+        public static readonly Dictionary<ArtificialAirway, float> RemoveAirway = new Dictionary<ArtificialAirway, float>()
+        {
+            {ArtificialAirway.FaceMask, 0f },
+            {ArtificialAirway.LaryngealMask, 0f },
+        };
+        #endregion
+        #region UrinaryCatheter
+        public static float InsertUrinaryCatheter = 0f;
+        public static float RemoveUrinaryCatheter = 0f;
+        #endregion
+
+        #region CerebralShunt
+        public static float InsertCerebralShunt = 0f;
+        public static float RemoveCerebralShunt = 0f;
+        #endregion
+    }
+
+    public static class DefaultPlayerStatsTEMP
+    {
+        #region IVs
+        public static float InsertIVSuccess = 100f;
+        public static float InsertCentralLineSuccess = 100f;
+        #endregion
+        #region Airways
+        public static readonly Dictionary<ArtificialAirway, float> AirwayInsertionSuccess = new Dictionary<ArtificialAirway, float>()
+        {
+            {ArtificialAirway.FaceMask, 1f },
+            {ArtificialAirway.LaryngealMask,0f },
+        };
+        #endregion
+        #region UrinaryCatheter
+        public static float InsertUrinaryCatheterSuccess = 100f;
+        #endregion
+
+        #region CerebralShunt
+        public static float InsertCerebralShuntSuccess = 0f;
+        #endregion
     }
 }

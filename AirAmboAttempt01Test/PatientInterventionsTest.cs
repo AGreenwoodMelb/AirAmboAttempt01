@@ -2,7 +2,7 @@
 using PatientManagementSystem;
 using PatientManagementSystem.Patients;
 using PatientManagementSystem.Patients.PatientInterventions;
-
+using PatientManagementSystem.Patients.PatientAccessPoints;
 
 namespace PatientManagementSystemTest
 {
@@ -25,7 +25,7 @@ namespace PatientManagementSystemTest
             PatientManager pod = new PatientManager();
             pod.TryAddPatient(new Patient());
 
-            Assert.True(pod.PerformIntervention(new InsertIV(IVTargetLocation.ArmLeft)));
+            Assert.True(pod.PerformIntervention(new InsertIV(IVTargetLocation.ArmLeft), out bool Succeeded));
         }
     }
 }

@@ -3,14 +3,15 @@ using PatientManagementSystem.Patients;
 using PatientManagementSystem.Patients.PatientDrugs;
 using PatientManagementSystem.Patients.PatientInfection;
 using PatientManagementSystem.Patients.PatientAccessPoints;
+using PatientManagementSystem.Patients.PatientDefaults;
 
 namespace PatientManagementSystem.Patients.PatientInterventions
 {
     public abstract class PatientIntervention
     {
         public float WasteProduced { get; protected set; }
-        public abstract bool Intervene(Patient patient);
-        
+        public abstract bool Intervene(Patient patient, out bool Succeeded);
+
     }
 
     #region Fluids?
@@ -24,10 +25,11 @@ namespace PatientManagementSystem.Patients.PatientInterventions
             _fluid = incFluid;
         }
 
-        public override bool Intervene(Patient patient)
+        public override bool Intervene(Patient patient, out bool Succeeded)
         {
             _patient = patient;
             bool output = DetermineTransfusion();
+            Succeeded = false;
             return output;
         }
 
@@ -44,7 +46,7 @@ namespace PatientManagementSystem.Patients.PatientInterventions
                          message: $"BloodSystem::Transfuse Unhandled Subtype of Fluid: {nameof(_fluid)}"
                          );
             }
-        }//Redo using IVAccess Object
+        }//Redo using IVAccess Object. This whole thing is spiralling
 
         private bool TranfuseBlood()
         {
@@ -72,9 +74,10 @@ namespace PatientManagementSystem.Patients.PatientInterventions
             _drug = drug;
         }
 
-        public override bool Intervene(Patient patient)
+        public override bool Intervene(Patient patient, out bool Succeeded)
         {
             _drug.Administer(patient);
+            Succeeded = false;
             //throw new NotImplementedException(message: "AdministerDrug:: No Intervene method implemented");
             return true;
         }
@@ -86,26 +89,36 @@ namespace PatientManagementSystem.Patients.PatientInterventions
     public class InsertIV : PatientIntervention
     {
         private IVTargetLocation _target;
-        
+
         public InsertIV(IVTargetLocation target)
         {
-            WasteProduced = 0; //LATER: Replace with relevant value from a defaults file.
             _target = target;
         }
 
-        public override bool Intervene(Patient patient)
+        public override bool Intervene(Patient patient, out bool Succeeded)
         {
-            float successThreshold = (_target == IVTargetLocation.CentralLine) ? 0.7f : 0.0f; //UNITY: Replace with call to static player class IVInsertSuccess Stat or CentralLineIVSuccess
-            if (patient.AccessPoints.IVs[_target] == null && (patient.MagicRandomSeed > successThreshold))
+            Succeeded = false;
+
+            if (patient.AccessPoints.IVs[_target] != null) //Cant Insert
+                return false;
+
+            WasteProduced = (_target == IVTargetLocation.CentralLine) ? DefaultWasteProduction.InsertCentralLine : DefaultWasteProduction.InsertIV;
+            float successThreshold = (_target == IVTargetLocation.CentralLine) ? DefaultPlayerStatsTEMP.InsertCentralLineSuccess : DefaultPlayerStatsTEMP.InsertIVSuccess;
+            if (patient.MagicRandomSeed > successThreshold) //Failed to Insert
             {
-                //Check to Infect
-                if (patient.MagicRandomSeed > 100f) // NOT DONE
-                    patient.AccessPoints.IVs[_target].infection = new Infection(); //TODO: Create region and organ based look-up tables for to determine infection Type 
+                //LATER: Increase patient CurrentPain counter by DefaultPainCaused.InsertIV;
+                if (patient.MagicRandomSeed > 100f) //TODO: Implement placeholder infection chance
+                    patient.AccessPoints.IVs[_target].infection = new Infection(); //LATER: Create region and organ based look-up tables for to determine infection Type 
 
                 patient.AccessPoints.IVs[_target] = new IVAccess();
-                return true;
+                Succeeded = true;
             }
-            return false;
+            else
+            {
+                //Additional pain caused in failure?
+                WasteProduced += (_target == IVTargetLocation.CentralLine) ? DefaultWasteProduction.RemoveCentralLine : DefaultWasteProduction.RemoveIV; //This is because you have to throw away the used IV when you fail
+            }
+            return true;
         }
     }
 
@@ -115,17 +128,21 @@ namespace PatientManagementSystem.Patients.PatientInterventions
 
         public RemoveIV(IVTargetLocation target)
         {
-            WasteProduced = 0; //LATER: Replace with relevant value from a defaults file.
             _target = target;
         }
 
-        public override bool Intervene(Patient patient)
+        public override bool Intervene(Patient patient, out bool Succeeded)
         {
+            Succeeded = false;
+
             if (patient.AccessPoints.IVs[_target] != null)
             {
+                WasteProduced = (_target == IVTargetLocation.CentralLine) ? DefaultWasteProduction.RemoveCentralLine : DefaultWasteProduction.RemoveIV;
                 patient.AccessPoints.IVs[_target] = null;
+                Succeeded = true;
                 return true;
             }
+            WasteProduced = 0;
             return false;
         }
     }
@@ -137,37 +154,42 @@ namespace PatientManagementSystem.Patients.PatientInterventions
         private ArtificialAirway _artificialAirway;
         public InsertArtificalAirway(ArtificialAirway artificialAirway)
         {
-            WasteProduced = 0; //LATER: Replace with relevant value from a defaults file.
             _artificialAirway = artificialAirway;
         }
 
-        public override bool Intervene(Patient patient)
+        public override bool Intervene(Patient patient, out bool Succeeded)
         {
-            float successThreshold = (_artificialAirway == ArtificialAirway.LaryngealMask) ? 0.7f : 0.5f; //UNITY: Replace with call to static player class AirwayInsertSuccess or LaryngealMaskSuccess stat
-            if (patient.AccessPoints.artificialAirway == ArtificialAirway.None && (patient.MagicRandomSeed > successThreshold))
+            WasteProduced = DefaultWasteProduction.InsertAirway[_artificialAirway];
+            Succeeded = false;
+            if (patient.AccessPoints.artificialAirway != ArtificialAirway.None) //Cant Insert
+                return false;
+
+            if (patient.MagicRandomSeed > DefaultPlayerStatsTEMP.AirwayInsertionSuccess[_artificialAirway]) //Failed to Insert
             {
                 patient.AccessPoints.artificialAirway = _artificialAirway;
-                return true;
+                Succeeded = true;
             }
-
-            return false;
+            else
+            {
+                WasteProduced += DefaultWasteProduction.RemoveAirway[_artificialAirway];
+            }
+            return true;
         }
     }
+
     public class RemoveArtificialAirway : PatientIntervention
     {
-        public RemoveArtificialAirway()
+        public override bool Intervene(Patient patient, out bool Succeeded)
         {
-            WasteProduced = 0; //LATER: Replace with relevant value from a defaults file.
-        }
-
-        public override bool Intervene(Patient patient)
-        {
+            Succeeded = false;
             if (patient.AccessPoints.artificialAirway != ArtificialAirway.None)
             {
+                WasteProduced = DefaultWasteProduction.RemoveAirway[patient.AccessPoints.artificialAirway];
                 patient.AccessPoints.artificialAirway = ArtificialAirway.None;
+                Succeeded = true;
                 return true;
             }
-
+            WasteProduced = 0; //Think this is useless given the default value of float = 0
             return false;
         }
     }
@@ -176,38 +198,37 @@ namespace PatientManagementSystem.Patients.PatientInterventions
     #region Catheter
     public class InsertUrinaryCatheter : PatientIntervention
     {
-        public InsertUrinaryCatheter()
+        public override bool Intervene(Patient patient, out bool Succeeded)
         {
-            WasteProduced = 0; //LATER: Replace with relevant value from a defaults file.
-        }
-        public override bool Intervene(Patient patient)
-        {
-            float successThreshold = 0.75f; //UNITY: Replace with call to static player class UrinaryCatheterSuccess stat;
-            if (patient.AccessPoints.HasUrinaryCatheter || patient.Body.Abdomen.UrinaryTract.Bladder.IsUrethraBlocked)
+            WasteProduced = DefaultWasteProduction.InsertUrinaryCatheter;
+            Succeeded = false;
+            if (patient.AccessPoints.HasUrinaryCatheter || patient.Body.Abdomen.UrinaryTract.Bladder.IsUrethraBlocked)//Cant insert
                 return false;
-            if (patient.MagicRandomSeed >= successThreshold)
+
+            if (patient.MagicRandomSeed >= DefaultPlayerStatsTEMP.InsertUrinaryCatheterSuccess) //Failed to insert
             {
                 patient.AccessPoints.HasUrinaryCatheter = true;
-                return true;
+                Succeeded = true;
             }
-
-            return false;
+            else
+            {
+                WasteProduced += DefaultWasteProduction.RemoveUrinaryCatheter;
+            }
+            return true;
         }
-    }//TODO: Restructure Intervene to use single if statement
+    }
 
     public class RemoveUrinaryCatheter : PatientIntervention
     {
-        public RemoveUrinaryCatheter()
+        public override bool Intervene(Patient patient, out bool Succeeded)
         {
-            WasteProduced = 0; //LATER: Replace with relevant value from a defaults file.
-        }
-
-        public override bool Intervene(Patient patient)
-        {
+            Succeeded = false;
             if (!patient.AccessPoints.HasUrinaryCatheter)
                 return false;
 
             patient.AccessPoints.HasUrinaryCatheter = false;
+            WasteProduced += DefaultWasteProduction.RemoveUrinaryCatheter;
+            Succeeded = true;
             return true;
         }
     }
@@ -216,41 +237,43 @@ namespace PatientManagementSystem.Patients.PatientInterventions
     #region CerebralShunt
     public class InsertCerebralShunt : PatientIntervention
     {
-        public InsertCerebralShunt()
+        public override bool Intervene(Patient patient, out bool Succeeded)
         {
-            WasteProduced = 0; //LATER: Replace with relevant value from a defaults file.
-        }
+            Succeeded = false;
 
-        public override bool Intervene(Patient patient)
-        {
-            float successThreshold = 0.7f; //Replace with call to static player class CerebralShuntInsertSuccess
-            if (patient.AccessPoints.CerebralShunt == null && (patient.MagicRandomSeed > successThreshold))
+            if (patient.AccessPoints.CerebralShunt != null)
+                return false;
+
+            WasteProduced = DefaultWasteProduction.InsertCerebralShunt;
+            if (patient.MagicRandomSeed > DefaultPlayerStatsTEMP.InsertCerebralShuntSuccess)
             {
                 //Check to Infect
                 //if (patient.MagicRandomSeed > 100f) // NOT DONE
                 //patient.AccessPoints.CerebralShunt.infection = new Infection();
+
+                Succeeded = true;
                 patient.AccessPoints.CerebralShunt = new CerebralShunt();
-                return true;
             }
-            return false;
+            else
+            {
+                WasteProduced += DefaultWasteProduction.RemoveCerebralShunt;
+            }
+            return true;
         }
     }
 
     public class RemoveCerebralShunt : PatientIntervention
     {
-        public RemoveCerebralShunt()
+        public override bool Intervene(Patient patient, out bool Succeeded)
         {
-            WasteProduced = 0; //LATER: Replace with relevant value from a defaults file.
-        }
+            Succeeded = false;
+            if (patient.AccessPoints.CerebralShunt == null)
+                return false;
 
-        public override bool Intervene(Patient patient)
-        {
-            if (patient.AccessPoints.CerebralShunt != null)
-            {
-                patient.AccessPoints.CerebralShunt = null;
-                return true;
-            }
-            return false;
+            WasteProduced = DefaultWasteProduction.RemoveCerebralShunt;
+            patient.AccessPoints.CerebralShunt = null;
+            Succeeded = true;
+            return true;
         }
     }
     #endregion

@@ -26,7 +26,7 @@ namespace PatientManagementSystem.Patients
 
             Pod.TryAddPatient(pt);
 
-            Pod.PerformIntervention(new InsertIV(IVTargetLocation.ArmLeft));
+            Pod.PerformIntervention(new InsertIV(IVTargetLocation.ArmLeft), out bool Succeeded); //This Succeeded thing is already starting to wear thin
             Pod.PerformExamination(new ExamineBloodType());
             Pod.PerformExamination(new ExamineOrgan(OrganName.Reproductives));
 
