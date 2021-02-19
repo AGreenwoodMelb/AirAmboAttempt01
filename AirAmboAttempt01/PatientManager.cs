@@ -17,7 +17,7 @@ namespace PatientManagementSystem
             private set { _patientResults = value; }
         }
         #endregion
-
+        
         public bool TryAddPatient(Patient newPatient)
         {
             if (CurrentPatient == null)
@@ -69,16 +69,28 @@ namespace PatientManagementSystem
             return CurrentPatient;
         }
 
-        public bool PerformIntervention(IPatientIntervention patientIntervention)
+        public bool PerformIntervention(PatientIntervention patientIntervention)
         {
+            //TotalWasteProduced += patientIntervention.WasteProduced //FOR LATER
             return patientIntervention.Intervene(CurrentPatient);
         }
 
-        public bool PerformExamination(IPatientExamination patientExamination)
+        public bool PerformExamination(PatientExamination patientExamination)
         {
-            patientExamination.Examine(CurrentPatient, ref _patientResults);
+            //TotalWasteProduced += patientIntervention.WasteProduced //FOR LATER
+            patientExamination.Examine(CurrentPatient, _patientResults);
             return true;
         }
+
+        #region NOT_IMPLEMENTED_YET
+        public float TotalWasteProduced { get; private set; }
+        public void DumpWasteIntoStorage(object TEMP_wasteStorageObj)
+        {
+            TotalWasteProduced = 0; //Temp
+            //TEMP_wasteStorageObj.WasteContained += WasteProduced;
+            //Dump to WasteStorage object
+        }//TODO: Implement once the waste system is in production
+        #endregion
     }
 
 }

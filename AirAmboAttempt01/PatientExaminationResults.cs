@@ -1,6 +1,7 @@
 ﻿using PatientManagementSystem.Patients.PatientBlood;
 using PatientManagementSystem.Patients.PatientBones;
 using PatientManagementSystem.Patients.PatientInfection;
+using PatientManagementSystem.Patients.PatientAccessPoints;
 using System; //Only being used when throwing exception
 
 namespace PatientManagementSystem.Patients.ExaminationResults
@@ -28,6 +29,8 @@ namespace PatientManagementSystem.Patients.ExaminationResults
         public PatientExamResultsGastrointestinalTract GastrointestinalTract = new PatientExamResultsGastrointestinalTract();
         public PatientExamResultsUrinaryTract UrinaryTract = new PatientExamResultsUrinaryTract();
         public PatientExamResultsReproductives Reproductives = new PatientExamResultsReproductives();
+
+        public AccessPoints AccessPoints = new AccessPoints(); //No use current reason not to use the base version? Reference objects could be a problem here and anywhere using infection
     } //TODO: Expand and complete all OrganResult classes
 
     #region XRaysResults

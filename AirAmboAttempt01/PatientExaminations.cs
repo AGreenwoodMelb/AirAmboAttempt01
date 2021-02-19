@@ -9,17 +9,14 @@ using PatientManagementSystem.Patients.PatientAccessPoints;
 
 namespace PatientManagementSystem.Patients.PatientExaminations
 {
-    public interface IPatientExamination
+    public abstract class PatientExamination
     {
-        public virtual bool Examine(Patient patient, ref PatientExamResults results)
-        {
-            throw new NotImplementedException(message: "IPatientExamination::Examine is not implemented");
-        }
+        public abstract bool Examine(Patient patient, PatientExamResults results);
     }
 
-    public class ExamineBloodVolumeRatio : IPatientExamination
+    public class ExamineBloodVolumeRatio : PatientExamination
     {
-        public bool Examine(Patient patient, ref PatientExamResults results)
+        public override bool Examine(Patient patient, PatientExamResults results)
         {
             results.latestBloodVolumeRatio = patient.Body.Blood.Volume / patient.Body.Blood._defaultBloodSystemVolume;
             return true;
@@ -27,18 +24,18 @@ namespace PatientManagementSystem.Patients.PatientExaminations
     } //TODO: Replace with Blood Pressure Examination
 
     #region GeneralExams
-    public class ExamineXRay : IPatientExamination
+    public class ExamineSkeleton : PatientExamination
     {
         private BodyRegion _target;
         private Patient _patient;
         private PatientExamResults _results;
 
-        public ExamineXRay(BodyRegion target)
+        public ExamineSkeleton(BodyRegion target)
         {
             _target = target;
         }
 
-        public bool Examine(Patient patient, ref PatientExamResults results)
+        public override bool Examine(Patient patient, PatientExamResults results)
         {
             _patient = patient;
             _results = results;
@@ -113,9 +110,9 @@ namespace PatientManagementSystem.Patients.PatientExaminations
             }
         }
 
-    } //TODO: Rename to BoneScan? That way I dont have to report gallstones or other organ abnormalities commonly found on XRays
+    } //TODO: Rename to ExamineSkeleton? That way I dont have to report gallstones or other organ abnormalities commonly found on XRays
 
-    public class ExamineOrgan : IPatientExamination
+    public class ExamineOrgan : PatientExamination
     {
         private OrganName _organ;
         private Patient _patient;
@@ -126,7 +123,7 @@ namespace PatientManagementSystem.Patients.PatientExaminations
             _organ = organ;
         }
 
-        public bool Examine(Patient patient, ref PatientExamResults results)
+        public override bool Examine(Patient patient, PatientExamResults results)
         {
             _patient = patient;
             _results = results;
@@ -259,9 +256,9 @@ namespace PatientManagementSystem.Patients.PatientExaminations
     #endregion
 
     #region HeadExams
-    public class ExamineBrainEEG : IPatientExamination
+    public class ExamineBrainEEG : PatientExamination
     {
-        public bool Examine(Patient patient, ref PatientExamResults results)
+        public override bool Examine(Patient patient, PatientExamResults results)
         {
             results.Brain.isBrainDead = patient.Body.Head.Brain.IsBrainDead;
             results.Brain.isSeizing = patient.Body.Head.Brain.IsSeizing;
@@ -269,9 +266,9 @@ namespace PatientManagementSystem.Patients.PatientExaminations
         }
     } //Checks for brain death or seizures
 
-    public class ExamineBrainCT : IPatientExamination
+    public class ExamineBrainCT : PatientExamination
     {
-        public bool Examine(Patient patient, ref PatientExamResults results)
+        public override bool Examine(Patient patient, PatientExamResults results)
         {
             results.Brain.isIschaemic = patient.Body.Head.Brain.IsIschaemic;
             results.Brain.isBleeding = patient.Body.Head.Brain.IsBleeding;
@@ -281,9 +278,9 @@ namespace PatientManagementSystem.Patients.PatientExaminations
         }
     } //Checks for Hyper/hypo perfused areas as well as extravascular blood, also shows inflammation
 
-    public class ExamineCerebrospinalFluid : IPatientExamination
+    public class ExamineCerebrospinalFluid : PatientExamination
     {
-        public bool Examine(Patient patient, ref PatientExamResults results) //TODO: Implement Cerebral shunt mechanism, Implement infection chance
+        public override bool Examine(Patient patient, PatientExamResults results) //TODO: Implement Cerebral shunt mechanism, Implement infection chance
         {
             if (patient.AccessPoints.CerebralShunt != null)
             {
@@ -322,18 +319,18 @@ namespace PatientManagementSystem.Patients.PatientExaminations
     #endregion
 
     #region HeartExams
-    public class ExamineHeartRate : IPatientExamination
+    public class ExamineHeartRate : PatientExamination
     {
-        public bool Examine(Patient patient, ref PatientExamResults results)
+        public override bool Examine(Patient patient,  PatientExamResults results)
         {
             results.Heart.BeatsPerMinute = patient.Body.Chest.Heart.BeatsPerMinute;
             return true;
         }
     }
 
-    public class ExamineHeartECG : IPatientExamination
+    public class ExamineHeartECG : PatientExamination
     {
-        public bool Examine(Patient patient, ref PatientExamResults results)
+        public override bool Examine(Patient patient,  PatientExamResults results)
         {
             results.Heart.BeatsPerMinute = patient.Body.Chest.Heart.BeatsPerMinute;
             results.Heart.HasPacemaker = patient.Body.Chest.Heart.HasPaceMaker;
@@ -346,34 +343,34 @@ namespace PatientManagementSystem.Patients.PatientExaminations
     #endregion
 
     #region LungsExams
-    public class ExamineRespiratoryRate : IPatientExamination
+    public class ExamineRespiratoryRate : PatientExamination
     {
-        public bool Examine(Patient patient, ref PatientExamResults results)
+        public override bool Examine(Patient patient,  PatientExamResults results)
         {
             results.Lungs.RespirationRate = patient.Body.Chest.Lungs.RespiratoryRate;
             return true;
         }
     }
 
-    public class ExamineOxygenSaturation : IPatientExamination
+    public class ExamineOxygenSaturation : PatientExamination
     {
-        public bool Examine(Patient patient, ref PatientExamResults results)
+        public override bool Examine(Patient patient,  PatientExamResults results)
         {
             results.Lungs.OxygenSaturation = patient.Body.Chest.Lungs.OxygenSaturation;
             return true;
         }
     }
 
-    public class ExamineSputumSample : IPatientExamination
+    public class ExamineSputumSample : PatientExamination
     {
-        public bool Examine(Patient patient, ref PatientExamResults results)
+        public override bool Examine(Patient patient, PatientExamResults results)
         {
             //This should return an average picture of the lungs infection state
             throw new NotImplementedException();
         }
     }//TODO: Implement all the required background fields
 
-    public class ExamineBronchoscopySample : IPatientExamination
+    public class ExamineBronchoscopySample : PatientExamination
     {
         private bool _targetLeftLung;
         private string _targetLobeLocation; //TODO: Replace type with appropriate enum?
@@ -383,7 +380,7 @@ namespace PatientManagementSystem.Patients.PatientExaminations
             _targetLobeLocation = temp_targetLobeLocation;
         }
 
-        public bool Examine(Patient patient, ref PatientExamResults results)
+        public override bool Examine(Patient patient, PatientExamResults results)
         {
             //This should return a picture of the specific target lobe's infection state
             throw new NotImplementedException();
@@ -392,9 +389,9 @@ namespace PatientManagementSystem.Patients.PatientExaminations
     #endregion
 
     #region TEMPNAME-LiverPancreas
-    public class ExamineHepatobiliaryTree : IPatientExamination
+    public class ExamineHepatobiliaryTree : PatientExamination
     {
-        public bool Examine(Patient patient, ref PatientExamResults results)
+        public override bool Examine(Patient patient, PatientExamResults results)
         {
             //Check Liver and Pancreas for stones
             return true;
@@ -403,9 +400,9 @@ namespace PatientManagementSystem.Patients.PatientExaminations
     #endregion
 
     #region UrinaryTractExams
-    public class Urinalysis : IPatientExamination
+    public class Urinalysis : PatientExamination
     {
-        public bool Examine(Patient patient, ref PatientExamResults results)
+        public override bool Examine(Patient patient, PatientExamResults results)
         {
             if (!patient.AccessPoints.HasUrinaryCatheter || patient.Body.Abdomen.UrinaryTract.Bladder.IsUrethraBlocked)
                 return false;
@@ -415,20 +412,20 @@ namespace PatientManagementSystem.Patients.PatientExaminations
     }//TODO: Create UrinalysisResult and assigin it to results;
     #endregion
 
-    #region BloodTests
+    #region BloodExams
 
-    public abstract class ExamineBlood : IPatientExamination
+    public abstract class ExamineBlood : PatientExamination
     {
-        public bool Examine(Patient patient)
+        public bool CheckForIVAccess(Patient patient)
         {
             return patient.AccessPoints.HasIVAccess;
         }
     }
-    public class ExamineBloodType : ExamineBlood, IPatientExamination
+    public class ExamineBloodType : ExamineBlood
     {
-        public bool Examine(Patient patient, ref PatientExamResults results)
+        public override bool Examine(Patient patient, PatientExamResults results)
         {
-            if (!Examine(patient))
+            if (!CheckForIVAccess(patient))
                 return false;
 
             results.Blood.BloodType = patient.Body.Blood.bloodType;
@@ -436,11 +433,11 @@ namespace PatientManagementSystem.Patients.PatientExaminations
         }
     }
 
-    public class ExamineBloodClottingFactors : ExamineBlood, IPatientExamination
+    public class ExamineBloodClottingFactors : ExamineBlood
     {
-        public bool Examine(Patient patient, ref PatientExamResults results)
+        public override bool Examine(Patient patient, PatientExamResults results)
         {
-            if (!Examine(patient))
+            if (!CheckForIVAccess(patient))
                 return false;
 
             results.Blood.ClottingFactors = patient.Body.Blood.FluidProfile.ClottingFactor;
@@ -448,11 +445,11 @@ namespace PatientManagementSystem.Patients.PatientExaminations
         }
     }
 
-    public class ExamineBloodLiverFunctions : ExamineBlood, IPatientExamination
+    public class ExamineBloodLiverFunctions : ExamineBlood
     {
-        public bool Examine(Patient patient, ref PatientExamResults results)
+        public override bool Examine(Patient patient, PatientExamResults results)
         {
-            if (!Examine(patient))
+            if (!CheckForIVAccess(patient))
                 return false;
 
             //LIVER DAMAGE MARKERS:
@@ -470,110 +467,110 @@ namespace PatientManagementSystem.Patients.PatientExaminations
         }
     }
 
-    public class ExamineBloodCardiacMarkers : ExamineBlood, IPatientExamination
+    public class ExamineBloodCardiacMarkers : ExamineBlood
     {
-        public bool Examine(Patient patient, ref PatientExamResults results)
+        public override bool Examine(Patient patient, PatientExamResults results)
         {
-            if (!Examine(patient))
+            if (!CheckForIVAccess(patient))
                 return false;
 
             throw new NotImplementedException();
         }
     }
 
-    public class ExamineBloodPSA : ExamineBlood, IPatientExamination
+    public class ExamineBloodPSA : ExamineBlood
     {
-        public bool Examine(Patient patient, ref PatientExamResults results)
+        public override bool Examine(Patient patient, PatientExamResults results)
         {
-            if (!Examine(patient))
+            if (!CheckForIVAccess(patient))
                 return false;
 
             throw new NotImplementedException();
         }
     }
 
-    public class ExamineBloodBetaHCG : ExamineBlood, IPatientExamination
+    public class ExamineBloodBetaHCG : ExamineBlood
     {
-        public bool Examine(Patient patient, ref PatientExamResults results)
+        public override bool Examine(Patient patient, PatientExamResults results)
         {
-            if (!Examine(patient))
+            if (!CheckForIVAccess(patient))
                 return false;
 
             throw new NotImplementedException();
         }
     }
 
-    public class ExamineBloodBloodSugarLevel : ExamineBlood, IPatientExamination
+    public class ExamineBloodBloodSugarLevel : ExamineBlood
     {
-        public bool Examine(Patient patient, ref PatientExamResults results)
+        public override bool Examine(Patient patient, PatientExamResults results)
         {
-            if (!Examine(patient))
+            if (!CheckForIVAccess(patient))
                 return false;
 
             throw new NotImplementedException();
         }
     }
 
-    public class ExamineBloodCRP : ExamineBlood, IPatientExamination
+    public class ExamineBloodCRP : ExamineBlood
     {
-        public bool Examine(Patient patient, ref PatientExamResults results)
+        public override bool Examine(Patient patient, PatientExamResults results)
         {
-            if (!Examine(patient))
+            if (!CheckForIVAccess(patient))
                 return false;
 
             throw new NotImplementedException();
         }
     }
 
-    public class ExamineBloodCultures : ExamineBlood, IPatientExamination
+    public class ExamineBloodCultures : ExamineBlood
     {
-        public bool Examine(Patient patient, ref PatientExamResults results)
+        public override bool Examine(Patient patient, PatientExamResults results)
         {
-            if (!Examine(patient))
+            if (!CheckForIVAccess(patient))
                 return false;
 
             throw new NotImplementedException();
         }
     }
 
-    public class ExamineBloodElectrolytes : ExamineBlood, IPatientExamination
+    public class ExamineBloodElectrolytes : ExamineBlood
     {
-        public bool Examine(Patient patient, ref PatientExamResults results)
+        public override bool Examine(Patient patient, PatientExamResults results)
         {
-            if (!Examine(patient))
+            if (!CheckForIVAccess(patient))
                 return false;
 
             throw new NotImplementedException();
         }
     }
 
-    public class ExamineBloodIllicitDrugScreen : ExamineBlood, IPatientExamination
+    public class ExamineBloodIllicitDrugScreen : ExamineBlood
     {
-        public bool Examine(Patient patient, ref PatientExamResults results)
+        public override bool Examine(Patient patient, PatientExamResults results)
         {
-            if (!Examine(patient))
+            if (!CheckForIVAccess(patient))
                 return false;
 
             throw new NotImplementedException();
         }
     }
 
-    public class ExamineBloodKidneyFunctions : ExamineBlood, IPatientExamination
+    public class ExamineBloodKidneyFunctions : ExamineBlood
     {
-        public bool Examine(Patient patient, ref PatientExamResults results)
+        public override bool Examine(Patient patient,  PatientExamResults results)
         {
-            if (!Examine(patient))
+            if (!CheckForIVAccess(patient))
                 return false;
             throw new NotImplementedException();
         }
     }
 
     #region CopyPastey
-    public class TEMP_ExamineBlood : ExamineBlood, IPatientExamination
+    public class TEMP_ExamineBlood : ExamineBlood
     {
-        public bool Examine(Patient patient, ref PatientExamResults results)
+        public override bool Examine(Patient patient, PatientExamResults results)
         {
-            if (!Examine(patient))
+            if (!CheckForIVAccess(patient))
                 return false;
             throw new NotImplementedException();
         }
@@ -581,5 +578,40 @@ namespace PatientManagementSystem.Patients.PatientExaminations
     #endregion
     #endregion
 
-    //TODO: Add Examinations of AccessPoints for signs of infection
+    //TODO: Finishing adding Examinations of AccessPoints for signs of infection
+    #region AccessPointsExams
+    public class ExamineIV : PatientExamination
+    {
+        private IVTargetLocation _target;
+
+        public ExamineIV(IVTargetLocation target)
+        {
+            _target = target;
+        }
+
+        public override bool Examine(Patient patient, PatientExamResults results)
+        {
+            //TODO: Create PatientExamResultsAccessPoint class and update appropriate AccessPoint here;
+            return true;
+        }
+    }
+
+    public class ExamineUrinaryCatheter : PatientExamination
+    {
+        public override bool Examine(Patient patient, PatientExamResults results)
+        {
+            //See ExamineIV TODO:
+            return true;
+        }
+    }
+
+    public class ExamineCerebralShunt : PatientExamination
+    {
+        public override bool Examine(Patient patient, PatientExamResults results)
+        {
+            //See ExamineIV TODO:
+            return true;
+        }
+    }
+    #endregion
 }
