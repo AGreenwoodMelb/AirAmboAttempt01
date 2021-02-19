@@ -26,43 +26,7 @@
             this.isFused = isFused;
         }
     }
-    class DefaultBoneStructures
-    {
-        public static readonly Bone[] DefaultHeadBones = new Bone[]
-        {
-            new Bone("Skull"),
-            new Bone("Spine"),
-            new Bone("Facial")
-        };
-
-        public static readonly Bone[] DefaultArmBones = new Bone[]
-        {
-            new Bone("Humerus"),
-            new Bone("Radius/Ulnar"),
-            new Bone("Hand")
-        };
-
-        public static readonly Bone[] DefaultChestBones = new Bone[]
-        {
-            new Bone("Ribs"),
-            new Bone("Spine")
-        };
-
-        public static readonly Bone[] DefaultAbdomenBones = new Bone[]
-        {
-            new Bone("Spine"),
-            new Bone("Pelvis")
-        };
-
-        public static readonly Bone[] DefaultLegBones = new Bone[]
-        {
-            new Bone("Femur"),
-            new Bone("Patella"),
-            new Bone("Tibia/Fibula"),
-            new Bone("Foot")
-        };
-
-    }
+   
 }
 
 

@@ -1,5 +1,6 @@
 ﻿using PatientManagementSystem.Patients.PatientBlood;
 using PatientManagementSystem.Patients.PatientInfection;
+using PatientManagementSystem.Patients.PatientDefaults;
 using System.Collections.Generic;
 
 namespace PatientManagementSystem.Patients.PatientOrgans
@@ -30,23 +31,7 @@ namespace PatientManagementSystem.Patients.PatientOrgans
         Reproductives,
         Other //For expansions?
     }
-
-    public static class DefaultLungs
-    {
-        public static readonly Dictionary<OrganState, float> LungFunctionValues = new Dictionary<OrganState, float>()
-        {
-            {OrganState.None, 0f },
-            {OrganState.Removed, 0f },
-            {OrganState.Destroyed, 0.1f },
-            {OrganState.Normal, 1f },
-            {OrganState.Impaired, 0.75f },
-            {OrganState.Damaged, 0.5f },
-        };
-
-        public static readonly float OxygenSaturation = 100f;
-        public static readonly int RespirationRate = 16;
-    }
-
+    
     public class Organ
     {
         #region Props

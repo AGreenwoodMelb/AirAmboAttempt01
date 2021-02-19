@@ -16,7 +16,6 @@ namespace PatientManagementSystem.Patients.PatientInterventions
     #region Fluids?
     public class Transfuse : PatientIntervention
     {
-        
         private Fluid _fluid;
         private Patient _patient;
         public Transfuse(Fluid incFluid)
@@ -87,7 +86,7 @@ namespace PatientManagementSystem.Patients.PatientInterventions
     public class InsertIV : PatientIntervention
     {
         private IVTargetLocation _target;
-
+        
         public InsertIV(IVTargetLocation target)
         {
             WasteProduced = 0; //LATER: Replace with relevant value from a defaults file.

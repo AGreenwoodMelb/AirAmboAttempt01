@@ -1,5 +1,6 @@
-﻿using System;
+﻿using System; //Used for Math.Clamp;
 using PatientManagementSystem.Patients.PatientBlood;
+using PatientManagementSystem.Patients.PatientDefaults;
 
 namespace PatientManagementSystem.Patients
 {
