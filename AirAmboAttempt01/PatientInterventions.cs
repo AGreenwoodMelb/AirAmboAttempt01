@@ -98,7 +98,6 @@ namespace PatientManagementSystem.Patients.PatientInterventions
         public override bool Intervene(Patient patient, out bool Succeeded)
         {
             Succeeded = false;
-
             if (patient.AccessPoints.IVs[_target] != null) //Cant Insert
                 return false;
 
@@ -134,16 +133,13 @@ namespace PatientManagementSystem.Patients.PatientInterventions
         public override bool Intervene(Patient patient, out bool Succeeded)
         {
             Succeeded = false;
+            if (patient.AccessPoints.IVs[_target] == null)
+                return false;
 
-            if (patient.AccessPoints.IVs[_target] != null)
-            {
-                WasteProduced = (_target == IVTargetLocation.CentralLine) ? DefaultWasteProduction.RemoveCentralLine : DefaultWasteProduction.RemoveIV;
-                patient.AccessPoints.IVs[_target] = null;
-                Succeeded = true;
-                return true;
-            }
-            WasteProduced = 0;
-            return false;
+            WasteProduced = (_target == IVTargetLocation.CentralLine) ? DefaultWasteProduction.RemoveCentralLine : DefaultWasteProduction.RemoveIV;
+            patient.AccessPoints.IVs[_target] = null;
+            Succeeded = true;
+            return true;
         }
     }
     #endregion
@@ -159,11 +155,11 @@ namespace PatientManagementSystem.Patients.PatientInterventions
 
         public override bool Intervene(Patient patient, out bool Succeeded)
         {
-            WasteProduced = DefaultWasteProduction.InsertAirway[_artificialAirway];
             Succeeded = false;
             if (patient.AccessPoints.artificialAirway != ArtificialAirway.None) //Cant Insert
                 return false;
 
+            WasteProduced = DefaultWasteProduction.InsertAirway[_artificialAirway];
             if (patient.MagicRandomSeed > DefaultPlayerStatsTEMP.AirwayInsertionSuccess[_artificialAirway]) //Failed to Insert
             {
                 patient.AccessPoints.artificialAirway = _artificialAirway;
@@ -182,15 +178,13 @@ namespace PatientManagementSystem.Patients.PatientInterventions
         public override bool Intervene(Patient patient, out bool Succeeded)
         {
             Succeeded = false;
-            if (patient.AccessPoints.artificialAirway != ArtificialAirway.None)
-            {
-                WasteProduced = DefaultWasteProduction.RemoveAirway[patient.AccessPoints.artificialAirway];
-                patient.AccessPoints.artificialAirway = ArtificialAirway.None;
-                Succeeded = true;
-                return true;
-            }
-            WasteProduced = 0; //Think this is useless given the default value of float = 0
-            return false;
+            if (patient.AccessPoints.artificialAirway == ArtificialAirway.None)
+                return false;
+
+            WasteProduced = DefaultWasteProduction.RemoveAirway[patient.AccessPoints.artificialAirway];
+            patient.AccessPoints.artificialAirway = ArtificialAirway.None;
+            Succeeded = true;
+            return true;
         }
     }
     #endregion
@@ -200,11 +194,11 @@ namespace PatientManagementSystem.Patients.PatientInterventions
     {
         public override bool Intervene(Patient patient, out bool Succeeded)
         {
-            WasteProduced = DefaultWasteProduction.InsertUrinaryCatheter;
             Succeeded = false;
             if (patient.AccessPoints.HasUrinaryCatheter || patient.Body.Abdomen.UrinaryTract.Bladder.IsUrethraBlocked)//Cant insert
                 return false;
 
+            WasteProduced = DefaultWasteProduction.InsertUrinaryCatheter;
             if (patient.MagicRandomSeed >= DefaultPlayerStatsTEMP.InsertUrinaryCatheterSuccess) //Failed to insert
             {
                 patient.AccessPoints.HasUrinaryCatheter = true;
@@ -226,8 +220,8 @@ namespace PatientManagementSystem.Patients.PatientInterventions
             if (!patient.AccessPoints.HasUrinaryCatheter)
                 return false;
 
-            patient.AccessPoints.HasUrinaryCatheter = false;
             WasteProduced += DefaultWasteProduction.RemoveUrinaryCatheter;
+            patient.AccessPoints.HasUrinaryCatheter = false;
             Succeeded = true;
             return true;
         }
@@ -240,7 +234,6 @@ namespace PatientManagementSystem.Patients.PatientInterventions
         public override bool Intervene(Patient patient, out bool Succeeded)
         {
             Succeeded = false;
-
             if (patient.AccessPoints.CerebralShunt != null)
                 return false;
 
