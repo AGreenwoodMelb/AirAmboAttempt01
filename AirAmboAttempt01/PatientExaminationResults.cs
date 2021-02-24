@@ -2,6 +2,7 @@
 using PatientManagementSystem.Patients.PatientBones;
 using PatientManagementSystem.Patients.PatientInfection;
 using PatientManagementSystem.Patients.PatientAccessPoints;
+using PatientManagementSystem.Patients.PatientOrgans;
 using System; //Only being used when throwing exception
 
 namespace PatientManagementSystem.Patients.ExaminationResults
@@ -136,9 +137,12 @@ namespace PatientManagementSystem.Patients.ExaminationResults
         public bool IsBeating = true;
         public bool IsArrythmic;
         public bool HasPacemaker;
+        public OrganSize HeartSize;
 
-        //Scan Results:
-        public string Appearance;
+
+        public HeartTissues Echocardiogram;
+        public HeartVessels CoronaryAngiogram;
+
     } //TODO: Expand to accomodate the results of the different heart scans
     #endregion
 

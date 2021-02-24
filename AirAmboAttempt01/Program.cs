@@ -26,11 +26,11 @@ namespace PatientManagementSystem.Patients
 
             Pod.TryAddPatient(pt);
 
-            Pod.PerformIntervention(new InsertIV(IVTargetLocation.ArmLeft), out bool Succeeded); //This Succeeded thing is already starting to wear thin
-            Pod.PerformExamination(new ExamineBloodType());
-            Pod.PerformExamination(new ExamineOrgan(OrganName.Reproductives));
+            //Pod.PerformIntervention(new InsertIV(IVTargetLocation.ArmLeft), out bool Succeeded); //This Succeeded thing is already starting to wear thin
+            //Console.WriteLine(Pod.TotalWasteProduced);
+            //Console.WriteLine(Pod.PatientResults.Blood.BloodType.ToString());
 
-            Console.WriteLine(Pod.PatientResults.Blood.BloodType.ToString());
+            Console.WriteLine(pt.Body.Abdomen.Liver.OrganState);
             Console.ReadLine();
         }
     }

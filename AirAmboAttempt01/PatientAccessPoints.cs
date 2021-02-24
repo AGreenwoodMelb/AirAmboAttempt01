@@ -22,7 +22,7 @@ namespace PatientManagementSystem.Patients.PatientAccessPoints
 
     public class AccessPoints
     {
-        public CerebralShunt CerebralShunt; //TODO: Finish implementing this
+        public CerebralShunt CerebralShunt; 
         public ArtificialAirway artificialAirway;
         public bool HasIVAccess => CheckForIVAccess();
         public bool HasUrinaryCatheter;

@@ -21,7 +21,6 @@
        Semi_Responsive,
        Responsive
     }
-    
     public enum MentalState
     {
         Dead,
@@ -30,7 +29,6 @@
         Confused,
         Agitated,
     }
-
     public enum BodyRegion
     {
         None,

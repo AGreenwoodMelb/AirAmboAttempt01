@@ -11,7 +11,6 @@ namespace PatientManagementSystem.Patients.PatientInterventions
     {
         public float WasteProduced { get; protected set; }
         public abstract bool Intervene(Patient patient, out bool Succeeded);
-
     }
 
     #region Fluids?
@@ -143,7 +142,6 @@ namespace PatientManagementSystem.Patients.PatientInterventions
         }
     }
     #endregion
-
     #region Airways
     public class InsertArtificalAirway : PatientIntervention
     {
@@ -188,7 +186,6 @@ namespace PatientManagementSystem.Patients.PatientInterventions
         }
     }
     #endregion
-
     #region Catheter
     public class InsertUrinaryCatheter : PatientIntervention
     {
@@ -227,7 +224,6 @@ namespace PatientManagementSystem.Patients.PatientInterventions
         }
     }
     #endregion;
-
     #region CerebralShunt
     public class InsertCerebralShunt : PatientIntervention
     {
@@ -271,4 +267,27 @@ namespace PatientManagementSystem.Patients.PatientInterventions
     }
     #endregion
     #endregion
+
+
+    public class LumbarPuncture : PatientIntervention //Will 
+    {
+        public override bool Intervene(Patient patient, out bool Succeeded)
+        {
+            Succeeded = false;
+
+            /*
+            if (condition)
+                return false;
+            */
+
+            //Lumbar Puncture. Pain and greater risk of causing CNS infection, High chance to fail
+            
+            WasteProduced = DefaultWasteProduction.PerformLumbarPuncture;
+            if(patient.MagicRandomSeed > DefaultPlayerStatsTEMP.PerformLumbarPunctureSuccess)
+            {
+                Succeeded = true;
+            }
+            return true;
+        }
+    }
 }

@@ -17,7 +17,7 @@ namespace PatientManagementSystem
             private set { _patientResults = value; }
         }
         #endregion
-        
+
         public bool TryAddPatient(Patient newPatient)
         {
             if (CurrentPatient == null)
@@ -71,7 +71,7 @@ namespace PatientManagementSystem
 
         public bool PerformIntervention(PatientIntervention patientIntervention, out bool Succeeded)
         {
-            if( patientIntervention.Intervene(CurrentPatient, out Succeeded))
+            if (patientIntervention.Intervene(CurrentPatient, out Succeeded))
             {
                 TotalWasteProduced += patientIntervention.WasteProduced;
                 return true;
@@ -86,6 +86,15 @@ namespace PatientManagementSystem
             return true;
         }
 
+        public bool PerformProceedure(PatientProceedure patientProceedure, out bool Succeeded)
+        {
+            if (patientProceedure.Perform(CurrentPatient, _patientResults, out Succeeded))
+            {
+                TotalWasteProduced += patientProceedure.WasteProduced;
+            }
+            return true;
+        }
+
         #region NOT_IMPLEMENTED_YET
         public float TotalWasteProduced { get; private set; }
         public void DumpWasteIntoStorage(object TEMP_wasteStorageObj)
@@ -97,4 +106,26 @@ namespace PatientManagementSystem
         #endregion
     }
 
+    public abstract class PatientProceedure
+    {
+        public float WasteProduced { get; protected set; }
+        public abstract bool Perform(Patient patient, PatientExamResults results, out bool Succeeded);
+    }
+
+    public class PerformLumbarPunctureSample : PatientProceedure
+    {
+        public override bool Perform(Patient patient, PatientExamResults results, out bool Succeeded)
+        {
+            var temp = new LumbarPuncture();
+            temp.Intervene(patient, out Succeeded);
+            WasteProduced = temp.WasteProduced;
+
+            if (Succeeded)
+            {
+                new ExamineLumbarPunctureCSF().Examine(patient, results);
+                return true;
+            }
+            return false;
+        }
+    }
 }

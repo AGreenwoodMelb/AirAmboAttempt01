@@ -62,6 +62,8 @@ namespace PatientManagementSystem.Patients
             AccessPoints = new AccessPoints();
             //_randomSeed = MagicRandomStaticThingy;
         }
+
+
     }
   
     public class Biography

@@ -99,16 +99,6 @@ namespace PatientManagementSystem.Patients.PatientDefaults
 
     public static class DefaultLungs
     {
-        public static readonly Dictionary<OrganState, float> LungFunctionValues = new Dictionary<OrganState, float>() //TODO: Determine if OrganState enum is needed
-        {
-            {OrganState.None, 0f },
-            {OrganState.Removed, 0f },
-            {OrganState.Destroyed, 0.1f },
-            {OrganState.Normal, 1f },
-            {OrganState.Impaired, 0.75f },
-            {OrganState.Damaged, 0.5f },
-        };
-
         public static readonly float OxygenSaturation = 100f;
         public static readonly int RespirationRate = 16;
     }
@@ -116,7 +106,7 @@ namespace PatientManagementSystem.Patients.PatientDefaults
     public static class DefaultWasteProduction
     {
         #region IVs
-        public static readonly float InsertIV = 0f;
+        public static readonly float InsertIV = 10f;
         public static readonly float RemoveIV = 0f;
 
         public static readonly float InsertCentralLine = 0f;
@@ -136,6 +126,7 @@ namespace PatientManagementSystem.Patients.PatientDefaults
             {ArtificialAirway.LaryngealMask, 0f },
         };
         #endregion
+
         #region UrinaryCatheter
         public static float InsertUrinaryCatheter = 0f;
         public static float RemoveUrinaryCatheter = 0f;
@@ -145,6 +136,8 @@ namespace PatientManagementSystem.Patients.PatientDefaults
         public static float InsertCerebralShunt = 0f;
         public static float RemoveCerebralShunt = 0f;
         #endregion
+
+        public static float PerformLumbarPuncture = 0f;
     }
 
     public static class DefaultPlayerStatsTEMP
@@ -167,5 +160,20 @@ namespace PatientManagementSystem.Patients.PatientDefaults
         #region CerebralShunt
         public static float InsertCerebralShuntSuccess = 0f;
         #endregion
+
+        public static float PerformLumbarPunctureSuccess = 0f;
+    }
+
+    public static class DefaultOrganStuff
+    {
+        public static readonly (OrganState, float)[] OrganLookup = new (OrganState, float)[]
+        {
+            (OrganState.None,-1.0f),
+            (OrganState.Removed,0.0f),
+            (OrganState.Destroyed,0.10f),
+            (OrganState.Damaged,0.30f),
+            (OrganState.Impaired,0.70f),
+            (OrganState.Normal,1.0f),
+        };
     }
 }

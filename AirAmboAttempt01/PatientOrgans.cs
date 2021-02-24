@@ -10,9 +10,17 @@ namespace PatientManagementSystem.Patients.PatientOrgans
         None,
         Removed,
         Destroyed,
-        Normal,
+        Damaged,
         Impaired,
-        Damaged
+        Normal,
+    }
+
+
+    public enum OrganType //LATER: Implement for artificial organ stuff later
+    {
+        Original,
+        Transplanted,
+        Artificial,
     }
     public enum OrganName
     {
@@ -31,16 +39,31 @@ namespace PatientManagementSystem.Patients.PatientOrgans
         Reproductives,
         Other //For expansions?
     }
-    
     public class Organ
     {
         #region Props
-        private OrganState _organState;
-        public OrganState OrganState
+        //private OrganState _organState;
+        //public OrganState OrganState
+        //{
+        //    get { return _organState; }
+        //    set { _organState = value; }
+        //}
+
+        private float _organHealth = 0.96f;
+        public OrganState OrganState //This seems to work by chance, not design.
         {
-            get { return _organState; }
-            set { _organState = value; }
+            get
+            {
+                OrganState organState = OrganState.None;
+                for (int i = DefaultOrganStuff.OrganLookup.Length - 1; i >= 0; i--)
+                {
+                    if (_organHealth <= DefaultOrganStuff.OrganLookup[i].Item2)
+                        organState = DefaultOrganStuff.OrganLookup[i].Item1;
+                }
+                return organState;
+            }
         }
+
 
         private BleedingSeverity _isBleeding = BleedingSeverity.None;
         public BleedingSeverity IsBleeding
@@ -50,18 +73,18 @@ namespace PatientManagementSystem.Patients.PatientOrgans
         }
         public readonly float BaseBloodLossRate;
 
-        private Infection _currentInfection;
-        public Infection CurrentInfection
-        {
-            get { return _currentInfection; }
-            set { _currentInfection = value; }
-        }
+        //private Infection _currentInfection;
+        //public Infection CurrentInfection
+        //{
+        //    get { return _currentInfection; }
+        //    set { _currentInfection = value; }
+        //}
 
         #endregion
         public Organ(float bloodLossRate)
         {
             BaseBloodLossRate = bloodLossRate;
-            OrganState = OrganState.Normal;
+            //   OrganState = OrganState.Normal;
         }
     }
 
@@ -123,11 +146,11 @@ namespace PatientManagementSystem.Patients.PatientOrgans
             set { _isArrythmic = value; }
         }
 
-        private bool hasPacemaker;
+        private bool _hasPacemaker;
         public bool HasPaceMaker
         {
-            get { return hasPacemaker; }
-            set { hasPacemaker = value; }
+            get { return _hasPacemaker; }
+            set { _hasPacemaker = value; }
         }
 
         private int _beatsPerMinute;
@@ -136,11 +159,30 @@ namespace PatientManagementSystem.Patients.PatientOrgans
             get { return _beatsPerMinute; }
             set { _beatsPerMinute = value; }
         }
+
+        private HeartStructures _heartStructures;
+        public HeartStructures HeartStructures
+        {
+            get { return _heartStructures; }
+            set { _heartStructures = value; }
+        }
+        private OrganSize _heartSize;
+
+        public OrganSize HeartSize
+        {
+            get { return _heartSize; }
+            set { _heartSize = value; }
+        }
+
         #endregion
 
-        public Heart() : base(DefaultBloodLossBaseRates.Heart)
+        public Heart(HeartStructures heartStructures = null, bool isBeating = true, bool isArrythmic = false, bool hasPacemaker = false, int beatsPerMinute = 60) : base(DefaultBloodLossBaseRates.Heart)
         {
-
+            _heartStructures = heartStructures ?? new HeartStructures();
+            _isBeating = isBeating;
+            _isArrythmic = isArrythmic;
+            _hasPacemaker = hasPacemaker;
+            _beatsPerMinute = beatsPerMinute;
         }
     }
 
@@ -198,25 +240,26 @@ namespace PatientManagementSystem.Patients.PatientOrgans
 
         public float GetLungEfficiency()
         {
-            float average = 0f;
-            average += DefaultLungs.LungFunctionValues[UpperLobe.LobeState];
-            average += DefaultLungs.LungFunctionValues[LowerLobe.LobeState];
-            if (IsLeft)
-            {
-                return average / 2f;
-            }
-            else
-            {
-                average += DefaultLungs.LungFunctionValues[MiddleLobe.LobeState];
-                return average / 3f;
-            }
+            //float average = 0f;
+            //average += DefaultLungs.LungFunctionValues[UpperLobe.LobeState];
+            //average += DefaultLungs.LungFunctionValues[LowerLobe.LobeState];
+            //if (IsLeft)
+            //{
+            //    return average / 2f;
+            //}
+            //else
+            //{
+            //    average += DefaultLungs.LungFunctionValues[MiddleLobe.LobeState];
+            //    return average / 3f;
+            //}
+            return 0;
         }
 
     }
     public class Lungs
     {
         #region Props
-        private Lung _leftLung ;
+        private Lung _leftLung;
         public Lung LeftLung
         {
             get { return _leftLung; }
@@ -230,7 +273,7 @@ namespace PatientManagementSystem.Patients.PatientOrgans
             private set { _rightLung = value; }
         }
 
-        private int _respiratoryRate ;
+        private int _respiratoryRate;
         public int RespiratoryRate
         {
             get { return _respiratoryRate; }
@@ -376,7 +419,7 @@ namespace PatientManagementSystem.Patients.PatientOrgans
             get { return _urine; }
             set { _urine = value; }
         }
-            
+
         #endregion
         public Bladder() : base(DefaultBloodLossBaseRates.Bladder)
         {
@@ -415,7 +458,7 @@ namespace PatientManagementSystem.Patients.PatientOrgans
             RightKidney = rightKidney ?? new Kidney();
             Bladder = bladder ?? new Bladder();
         }
-       
+
     }
 
     public class Liver : Organ

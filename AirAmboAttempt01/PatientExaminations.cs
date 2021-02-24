@@ -110,7 +110,7 @@ namespace PatientManagementSystem.Patients.PatientExaminations
             }
         }
 
-    } //TODO: Rename to ExamineSkeleton? That way I dont have to report gallstones or other organ abnormalities commonly found on XRays
+    } //TODO: What way I dont have to report gallstones or other organ abnormalities commonly found on XRays
 
     public class ExamineOrgan : PatientExamination
     {
@@ -200,7 +200,8 @@ namespace PatientManagementSystem.Patients.PatientExaminations
              * Size: (Heart Failure)
              * Inflammation
              */
-            _results.Heart.Appearance = _patient.Body.Chest.Heart.CurrentInfection.infectionSeverity.ToString(); //Temp return until proper way to describe is found
+
+            //POOOOOOOOO
         }
 
         private void ExamineLung(bool isLeft)
@@ -273,55 +274,41 @@ namespace PatientManagementSystem.Patients.PatientExaminations
             results.Brain.isIschaemic = patient.Body.Head.Brain.IsIschaemic;
             results.Brain.isBleeding = patient.Body.Head.Brain.IsBleeding;
             results.Brain.currentPressure = patient.Body.Head.Brain.CurrentPressure;
-            results.Brain.currentInfection.infectionSeverity = patient.Body.Head.Brain.CurrentInfection.infectionSeverity;
+            //results.Brain.currentInfection.infectionSeverity = patient.Body.Head.Brain.CurrentInfection.infectionSeverity; //TODO: Redo with new Infections Object in Patient.Physical
             return true;
         }
     } //Checks for Hyper/hypo perfused areas as well as extravascular blood, also shows inflammation
 
-    public class ExamineCerebrospinalFluid : PatientExamination
+    public class ExamineShuntCSF : PatientExamination
     {
-        public override bool Examine(Patient patient, PatientExamResults results) //TODO: Implement Cerebral shunt mechanism, Implement infection chance
+        public override bool Examine(Patient patient, PatientExamResults results) //TODO: Implement infection chance
         {
             if (patient.AccessPoints.CerebralShunt != null)
             {
                 //Take from shunt. Small chance to infect Cerebral Shunt?
-                results.Brain.latestCSFResults = new CSFProfile(patient.Body.Head.Brain.CurrentInfection);
-            }
-            else
-            {
-                //Lumbar Puncture. Pain and greater risk of causing CNS infection, High chance to fail
-                if (PerformLumbarPuncture(patient))
-                {
-                    results.Brain.latestCSFResults = new CSFProfile(patient.Body.Head.Brain.CurrentInfection);
-                }
-                else
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        private bool PerformLumbarPuncture(Patient patient)
-        {
-            float SuccessThreshold = 0.5f; //UNITY: Replace with value from Static Player class
-            if(patient.MagicRandomSeed > SuccessThreshold)
-            {
-                //Chance to cause CNS infection
-                //Causes Pain
+                //results.Brain.latestCSFResults = new CSFProfile(patient.Body.Head.Brain.CurrentInfection);//TODO: Redo with new Infections Object in Patient.Physical
                 return true;
             }
-
+            
             return false;
-        } //TODO: Implement Pain and infection mechanics
+        }
     } //Gets the exact nature of any infections that may be present in the brain. Does not show blood in csf at the moment 
+
+    public class ExamineLumbarPunctureCSF : PatientExamination
+    {
+        public override bool Examine(Patient patient, PatientExamResults results)
+        {
+            //results.Brain.latestCSFResults = new CSFProfile(patient.Body.Head.Brain.CurrentInfection);//TODO: Redo with new Infections Object in Patient.Physical
+            return true;
+        }
+    }
+
     #endregion
 
     #region HeartExams
     public class ExamineHeartRate : PatientExamination
     {
-        public override bool Examine(Patient patient,  PatientExamResults results)
+        public override bool Examine(Patient patient, PatientExamResults results)
         {
             results.Heart.BeatsPerMinute = patient.Body.Chest.Heart.BeatsPerMinute;
             return true;
@@ -330,7 +317,7 @@ namespace PatientManagementSystem.Patients.PatientExaminations
 
     public class ExamineHeartECG : PatientExamination
     {
-        public override bool Examine(Patient patient,  PatientExamResults results)
+        public override bool Examine(Patient patient, PatientExamResults results)
         {
             results.Heart.BeatsPerMinute = patient.Body.Chest.Heart.BeatsPerMinute;
             results.Heart.HasPacemaker = patient.Body.Chest.Heart.HasPaceMaker;
@@ -340,12 +327,46 @@ namespace PatientManagementSystem.Patients.PatientExaminations
             return true;
         }
     }
+
+    public class ExamineHeartCoronaryAngiogram : PatientExamination
+    {
+        public override bool Examine(Patient patient, PatientExamResults results)
+        {
+            //Left Coronary Arteries
+            results.Heart.CoronaryAngiogram.LCA = patient.Body.Chest.Heart.HeartStructures.Vessels.LCA;
+            results.Heart.CoronaryAngiogram.LAD = patient.Body.Chest.Heart.HeartStructures.Vessels.LAD;
+            results.Heart.CoronaryAngiogram.LCircA = patient.Body.Chest.Heart.HeartStructures.Vessels.LCircA;
+
+            //Right Coronary Arteries
+            results.Heart.CoronaryAngiogram.RCA = patient.Body.Chest.Heart.HeartStructures.Vessels.RCA;
+            results.Heart.CoronaryAngiogram.PDA = patient.Body.Chest.Heart.HeartStructures.Vessels.PDA;
+            results.Heart.CoronaryAngiogram.RMA = patient.Body.Chest.Heart.HeartStructures.Vessels.RMA;
+
+            return true;
+        }
+    }//This is coupled into an intervention to allow for stenting and ballooning
+
+    public class ExamineHeartEchocardiogram : PatientExamination 
+    {
+        public override bool Examine(Patient patient, PatientExamResults results)
+        {
+            results.Heart.Echocardiogram.Septum = patient.Body.Chest.Heart.HeartStructures.Tissues.Septum;
+            results.Heart.Echocardiogram.LeftAnteriorWall = patient.Body.Chest.Heart.HeartStructures.Tissues.LeftAnteriorWall;
+            results.Heart.Echocardiogram.LeftPosteriorInferiorWall = patient.Body.Chest.Heart.HeartStructures.Tissues.LeftPosteriorInferiorWall;
+            results.Heart.Echocardiogram.FreeWall = patient.Body.Chest.Heart.HeartStructures.Tissues.FreeWall;
+            results.Heart.Echocardiogram.RightVentricle = patient.Body.Chest.Heart.HeartStructures.Tissues.RightVentricle;
+
+            results.Heart.HeartSize = patient.Body.Chest.Heart.HeartSize;
+
+            return true;
+        }
+    }//This is the basic scan done quickly and without Pain, Chance of Infection, requiring intervention
     #endregion
 
     #region LungsExams
     public class ExamineRespiratoryRate : PatientExamination
     {
-        public override bool Examine(Patient patient,  PatientExamResults results)
+        public override bool Examine(Patient patient, PatientExamResults results)
         {
             results.Lungs.RespirationRate = patient.Body.Chest.Lungs.RespiratoryRate;
             return true;
@@ -354,7 +375,7 @@ namespace PatientManagementSystem.Patients.PatientExaminations
 
     public class ExamineOxygenSaturation : PatientExamination
     {
-        public override bool Examine(Patient patient,  PatientExamResults results)
+        public override bool Examine(Patient patient, PatientExamResults results)
         {
             results.Lungs.OxygenSaturation = patient.Body.Chest.Lungs.OxygenSaturation;
             return true;
@@ -557,7 +578,7 @@ namespace PatientManagementSystem.Patients.PatientExaminations
 
     public class ExamineBloodKidneyFunctions : ExamineBlood
     {
-        public override bool Examine(Patient patient,  PatientExamResults results)
+        public override bool Examine(Patient patient, PatientExamResults results)
         {
             if (!CheckForIVAccess(patient))
                 return false;
@@ -578,6 +599,7 @@ namespace PatientManagementSystem.Patients.PatientExaminations
     #endregion
     #endregion
 
+    
     //TODO: Finishing adding Examinations of AccessPoints for signs of infection
     #region AccessPointsExams
     public class ExamineIV : PatientExamination
