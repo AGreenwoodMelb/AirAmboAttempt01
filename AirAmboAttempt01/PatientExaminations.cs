@@ -253,7 +253,7 @@ namespace PatientManagementSystem.Patients.PatientExaminations
         }
         #endregion
         #endregion
-    } //TODO: Expand Examine[Organ] methods to return important information regarding that organ.
+    } //TODO: Slowly break each OrganExamination into specific Examinations of that particular part of the organ with the end goal of removing this method entirely.
     #endregion
 
     #region HeadExams

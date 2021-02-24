@@ -5,6 +5,9 @@ using PatientManagementSystem.Patients.PatientDefaults;
 
 namespace PatientManagementSystem.Patients.PatientPhysical
 {
+    /*This class should eventually hold all the calculation based results (e.g GetINR()) as access to all components is available here
+     * 
+     */
 
     public class Physical
     {
@@ -182,6 +185,7 @@ namespace PatientManagementSystem.Patients.PatientPhysical
         }
     }
 
+    //What am I doing with this? Fractures? Infections? Stuff????
     #region LimbRelatedClasses
     public class Limbs
     {

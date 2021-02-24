@@ -138,6 +138,10 @@ namespace PatientManagementSystem.Patients.PatientDefaults
         #endregion
 
         public static float PerformLumbarPuncture = 0f;
+
+        #region DrugAdministration
+        //Meow
+        #endregion
     }
 
     public static class DefaultPlayerStatsTEMP

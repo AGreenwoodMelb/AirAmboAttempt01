@@ -18,6 +18,8 @@ namespace PatientManagementSystem
         }
         #endregion
 
+        //LATER: Add the equivalent of IV poles for hagging fluid bags and infusions
+
         public bool TryAddPatient(Patient newPatient)
         {
             if (CurrentPatient == null)
@@ -81,7 +83,7 @@ namespace PatientManagementSystem
 
         public bool PerformExamination(PatientExamination patientExamination)
         {
-            //TotalWasteProduced += patientIntervention.WasteProduced //FOR LATER
+            //TotalWasteProduced += patientIntervention.WasteProduced //FOR LATER - May not be needed
             patientExamination.Examine(CurrentPatient, _patientResults);
             return true;
         }

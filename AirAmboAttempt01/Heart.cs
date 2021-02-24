@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace PatientManagementSystem.Patients.PatientOrgans
+﻿namespace PatientManagementSystem.Patients.PatientOrgans
 {
 
     public enum VesselState
@@ -11,7 +7,6 @@ namespace PatientManagementSystem.Patients.PatientOrgans
         Narrowed,
         Blocked,
     }
-
     public enum TissueState
     {
         Normal,
