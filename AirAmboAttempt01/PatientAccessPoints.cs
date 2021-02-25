@@ -23,22 +23,24 @@ namespace PatientManagementSystem.Patients.PatientAccessPoints
     public class AccessPoints
     {
         public CerebralShunt CerebralShunt; 
-        public ArtificialAirway artificialAirway;
+        public ArtificialAirway ArtificialAirway;
+        public UrinaryCatheter UrinaryCatheter;
+
         public bool HasIVAccess => CheckForIVAccess();
-        public bool HasUrinaryCatheter;
-        public Dictionary<IVTargetLocation, IVAccess> IVs = new Dictionary<IVTargetLocation, IVAccess>()
+        
+        public Dictionary<IVTargetLocation, IV> IVs = new Dictionary<IVTargetLocation, IV>()
         {
-            {IVTargetLocation.ArmLeft, null },
-            {IVTargetLocation.ArmRight, null },
-            {IVTargetLocation.LegLeft, null },
-            {IVTargetLocation.LegRight, null },
-            {IVTargetLocation.CentralLine, null },
+            {IVTargetLocation.ArmLeft, new IV() },
+            {IVTargetLocation.ArmRight, new IV()},
+            {IVTargetLocation.LegLeft, new IV() },
+            {IVTargetLocation.LegRight, new IV() },
+            {IVTargetLocation.CentralLine, new IV() },
         };
         private bool CheckForIVAccess()
         {
-            foreach (KeyValuePair<IVTargetLocation, IVAccess> IVPoint in IVs)
+            foreach (KeyValuePair<IVTargetLocation, IV> IVPoint in IVs)
             {
-                if (IVPoint.Value != null)
+                if (IVPoint.Value.IsInserted)
                 {
                     return true;
                 }
@@ -47,20 +49,51 @@ namespace PatientManagementSystem.Patients.PatientAccessPoints
         }
     }
 
-    public class IVAccess
+    public abstract class AccessPoint
     {
-        public Infection infection;
+        public bool IsInserted;
         public bool IsBlocked;
-        public Fluid CurrentFluid { get; set; }
-        public float FlowRate { get; set; }
-        public Drug AddedDrug { get; set; }
+
+        public virtual void Remove()
+        {
+            IsInserted = false;
+            IsBlocked = false;
+        }
+    }
+    public class IV : AccessPoint
+    {
+        //public bool IsInserted;
+        //public bool IsBlocked;
+
+
+        //public void Remove()
+        //{
+        //    IsInserted = false;
+        //    IsBlocked = false;
+        //}
+
+        //public Infection infection; //Should remove to Infections class
+        //public Fluid CurrentFluid { get; set; } //Move to IVPole system?
+        //public float FlowRate { get; set; } //Move to IVPole system?
+        //public Drug AddedDrug { get; set; } //Move to IVPole system?
     }
 
-    public class CerebralShunt
+    public class CerebralShunt : AccessPoint
     {
-        public Infection infection;
+        //public Infection infection; //Should remove to Infections class
+        //public bool IsInserted;
+        //public bool IsBlocked;
         public float OpeningCerebralPressure; //This is probably useless but is intended to be the cerebral pressure at which the drain opens. May actually have some use.
-        public bool IsBlocked;
+        public override void Remove()
+        {
+            base.Remove();
+            OpeningCerebralPressure = -1f;
+        }
+    }
+
+    public class UrinaryCatheter : AccessPoint
+    {
+
     }
 
    

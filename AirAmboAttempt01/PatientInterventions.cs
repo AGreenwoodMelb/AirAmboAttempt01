@@ -98,7 +98,7 @@ namespace PatientManagementSystem.Patients.PatientInterventions
         public override bool Intervene(Patient patient, out bool Succeeded)
         {
             Succeeded = false;
-            if (patient.AccessPoints.IVs[_target] != null) //Cant Insert
+            if (patient.AccessPoints.IVs[_target].IsInserted) //Cant Insert
                 return false;
 
             WasteProduced = (_target == IVTargetLocation.CentralLine) ? DefaultWasteProduction.InsertCentralLine : DefaultWasteProduction.InsertIV;
@@ -106,10 +106,10 @@ namespace PatientManagementSystem.Patients.PatientInterventions
             if (patient.MagicRandomSeed > successThreshold) //Failed to Insert
             {
                 //LATER: Increase patient CurrentPain counter by DefaultPainCaused.InsertIV;
-                if (patient.MagicRandomSeed > 100f) //TODO: Implement placeholder infection chance
-                    patient.AccessPoints.IVs[_target].infection = new Infection(); //LATER: Create region and organ based look-up tables for to determine infection Type 
+                if (patient.MagicRandomSeed > DefaultInfectionValues.InsertIV)
+                    //patient.AccessPoints.IVs[_target].infection = new Infection(); //LATER: Create region and organ based look-up tables for to determine infection Type 
 
-                patient.AccessPoints.IVs[_target] = new IVAccess();
+                    patient.AccessPoints.IVs[_target].IsInserted = true;
                 Succeeded = true;
             }
             else
@@ -133,11 +133,11 @@ namespace PatientManagementSystem.Patients.PatientInterventions
         public override bool Intervene(Patient patient, out bool Succeeded)
         {
             Succeeded = false;
-            if (patient.AccessPoints.IVs[_target] == null)
+            if (!patient.AccessPoints.IVs[_target].IsInserted)
                 return false;
 
             WasteProduced = (_target == IVTargetLocation.CentralLine) ? DefaultWasteProduction.RemoveCentralLine : DefaultWasteProduction.RemoveIV;
-            patient.AccessPoints.IVs[_target] = null;
+            patient.AccessPoints.IVs[_target].Remove();
             Succeeded = true;
             return true;
         }
@@ -155,13 +155,13 @@ namespace PatientManagementSystem.Patients.PatientInterventions
         public override bool Intervene(Patient patient, out bool Succeeded)
         {
             Succeeded = false;
-            if (patient.AccessPoints.artificialAirway != ArtificialAirway.None) //Cant Insert
+            if (patient.AccessPoints.ArtificialAirway != ArtificialAirway.None) //Cant Insert
                 return false;
 
             WasteProduced = DefaultWasteProduction.InsertAirway[_artificialAirway];
             if (patient.MagicRandomSeed > DefaultPlayerStatsTEMP.AirwayInsertionSuccess[_artificialAirway]) //Failed to Insert
             {
-                patient.AccessPoints.artificialAirway = _artificialAirway;
+                patient.AccessPoints.ArtificialAirway = _artificialAirway;
                 Succeeded = true;
             }
             else
@@ -177,11 +177,11 @@ namespace PatientManagementSystem.Patients.PatientInterventions
         public override bool Intervene(Patient patient, out bool Succeeded)
         {
             Succeeded = false;
-            if (patient.AccessPoints.artificialAirway == ArtificialAirway.None)
+            if (patient.AccessPoints.ArtificialAirway == ArtificialAirway.None)
                 return false;
 
-            WasteProduced = DefaultWasteProduction.RemoveAirway[patient.AccessPoints.artificialAirway];
-            patient.AccessPoints.artificialAirway = ArtificialAirway.None;
+            WasteProduced = DefaultWasteProduction.RemoveAirway[patient.AccessPoints.ArtificialAirway];
+            patient.AccessPoints.ArtificialAirway = ArtificialAirway.None;
             Succeeded = true;
             return true;
         }
@@ -193,13 +193,13 @@ namespace PatientManagementSystem.Patients.PatientInterventions
         public override bool Intervene(Patient patient, out bool Succeeded)
         {
             Succeeded = false;
-            if (patient.AccessPoints.HasUrinaryCatheter || patient.Body.Abdomen.UrinaryTract.Bladder.IsUrethraBlocked)//Cant insert
+            if (patient.AccessPoints.UrinaryCatheter.IsInserted || patient.Body.Abdomen.UrinaryTract.Bladder.IsUrethraBlocked)//Cant insert
                 return false;
 
             WasteProduced = DefaultWasteProduction.InsertUrinaryCatheter;
             if (patient.MagicRandomSeed >= DefaultPlayerStatsTEMP.InsertUrinaryCatheterSuccess) //Failed to insert
             {
-                patient.AccessPoints.HasUrinaryCatheter = true;
+                patient.AccessPoints.UrinaryCatheter.IsInserted = true;
                 Succeeded = true;
             }
             else
@@ -215,11 +215,11 @@ namespace PatientManagementSystem.Patients.PatientInterventions
         public override bool Intervene(Patient patient, out bool Succeeded)
         {
             Succeeded = false;
-            if (!patient.AccessPoints.HasUrinaryCatheter)
+            if (!patient.AccessPoints.UrinaryCatheter.IsInserted)
                 return false;
 
             WasteProduced += DefaultWasteProduction.RemoveUrinaryCatheter;
-            patient.AccessPoints.HasUrinaryCatheter = false;
+            patient.AccessPoints.UrinaryCatheter.Remove();
             Succeeded = true;
             return true;
         }
@@ -231,7 +231,7 @@ namespace PatientManagementSystem.Patients.PatientInterventions
         public override bool Intervene(Patient patient, out bool Succeeded)
         {
             Succeeded = false;
-            if (patient.AccessPoints.CerebralShunt != null)
+            if (patient.AccessPoints.CerebralShunt.IsInserted)
                 return false;
 
             WasteProduced = DefaultWasteProduction.InsertCerebralShunt;
@@ -242,7 +242,7 @@ namespace PatientManagementSystem.Patients.PatientInterventions
                 //patient.AccessPoints.CerebralShunt.infection = new Infection();
 
                 Succeeded = true;
-                patient.AccessPoints.CerebralShunt = new CerebralShunt();
+                patient.AccessPoints.CerebralShunt.IsInserted = true;
             }
             else
             {
@@ -257,11 +257,11 @@ namespace PatientManagementSystem.Patients.PatientInterventions
         public override bool Intervene(Patient patient, out bool Succeeded)
         {
             Succeeded = false;
-            if (patient.AccessPoints.CerebralShunt == null)
+            if (!patient.AccessPoints.CerebralShunt.IsInserted)
                 return false;
 
             WasteProduced = DefaultWasteProduction.RemoveCerebralShunt;
-            patient.AccessPoints.CerebralShunt = null;
+            patient.AccessPoints.CerebralShunt.Remove();
             Succeeded = true;
             return true;
         }
@@ -282,12 +282,12 @@ namespace PatientManagementSystem.Patients.PatientInterventions
             */
 
             //Lumbar Puncture. Pain and greater risk of causing CNS infection, High chance to fail
-            
+
             WasteProduced = DefaultWasteProduction.PerformLumbarPuncture;
 
             bool causedInfection = patient.MagicRandomSeed > DefaultInfectionValues.PerformLumbarPuncture;
 
-            if(patient.MagicRandomSeed > DefaultPlayerStatsTEMP.PerformLumbarPunctureSuccess)
+            if (patient.MagicRandomSeed > DefaultPlayerStatsTEMP.PerformLumbarPunctureSuccess)
             {
                 Succeeded = true;
             }

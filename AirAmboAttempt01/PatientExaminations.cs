@@ -73,7 +73,7 @@ namespace PatientManagementSystem.Patients.PatientExaminations
         private void XRayChest()
         {
             _results.XRays.Chest.bones = (Bone[])_patient.Body.Chest.Bones.Clone();
-            _results.XRays.Chest.HasIV = _patient.AccessPoints.IVs[IVTargetLocation.CentralLine] != null;
+            _results.XRays.Chest.HasIV = _patient.AccessPoints.IVs[IVTargetLocation.CentralLine].IsInserted;
         }
 
         private void XRayAbdomen()
@@ -87,19 +87,19 @@ namespace PatientManagementSystem.Patients.PatientExaminations
             {
                 case BodyRegion.LeftArm:
                     _results.XRays.LeftArm.bones = (Bone[])_patient.Body.Limbs.Arms.LeftArm.Bones.Clone();
-                    _results.XRays.LeftArm.HasIV = _patient.AccessPoints.IVs[IVTargetLocation.ArmLeft] != null;
+                    _results.XRays.LeftArm.HasIV = _patient.AccessPoints.IVs[IVTargetLocation.ArmLeft].IsInserted;
                     break;
                 case BodyRegion.RightArm:
                     _results.XRays.RightArm.bones = (Bone[])_patient.Body.Limbs.Arms.RightArm.Bones.Clone();
-                    _results.XRays.RightArm.HasIV = _patient.AccessPoints.IVs[IVTargetLocation.ArmRight] != null;
+                    _results.XRays.RightArm.HasIV = _patient.AccessPoints.IVs[IVTargetLocation.ArmRight].IsInserted;
                     break;
                 case BodyRegion.LeftLeg:
                     _results.XRays.LeftLeg.bones = (Bone[])_patient.Body.Limbs.Legs.LeftLeg.Bones.Clone();
-                    _results.XRays.LeftLeg.HasIV = _patient.AccessPoints.IVs[IVTargetLocation.LegLeft] != null;
+                    _results.XRays.LeftLeg.HasIV = _patient.AccessPoints.IVs[IVTargetLocation.LegLeft].IsInserted;
                     break;
                 case BodyRegion.RightLeg:
                     _results.XRays.RightLeg.bones = (Bone[])_patient.Body.Limbs.Legs.RightLeg.Bones.Clone();
-                    _results.XRays.RightLeg.HasIV = _patient.AccessPoints.IVs[IVTargetLocation.LegRight] != null;
+                    _results.XRays.RightLeg.HasIV = _patient.AccessPoints.IVs[IVTargetLocation.LegRight].IsInserted;
                     break;
                 case BodyRegion.None:
                 case BodyRegion.Head:
@@ -283,7 +283,7 @@ namespace PatientManagementSystem.Patients.PatientExaminations
     {
         public override bool Examine(Patient patient, PatientExamResults results) //TODO: Implement infection chance
         {
-            if (patient.AccessPoints.CerebralShunt != null)
+            if (patient.AccessPoints.CerebralShunt.IsInserted && !patient.AccessPoints.CerebralShunt.IsBlocked)
             {
                 //Take from shunt. Small chance to infect Cerebral Shunt?
                 //results.Brain.latestCSFResults = new CSFProfile(patient.Body.Head.Brain.CurrentInfection);//TODO: Redo with new Infections Object in Patient.Physical
@@ -425,7 +425,7 @@ namespace PatientManagementSystem.Patients.PatientExaminations
     {
         public override bool Examine(Patient patient, PatientExamResults results)
         {
-            if (!patient.AccessPoints.HasUrinaryCatheter || patient.Body.Abdomen.UrinaryTract.Bladder.IsUrethraBlocked)
+            if (!patient.AccessPoints.UrinaryCatheter.IsInserted || patient.Body.Abdomen.UrinaryTract.Bladder.IsUrethraBlocked)
                 return false;
             //Update results a urine sample result
             return true;

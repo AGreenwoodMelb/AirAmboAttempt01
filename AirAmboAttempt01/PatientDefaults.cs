@@ -202,6 +202,15 @@ namespace PatientManagementSystem.Patients.PatientDefaults
             (InfectionTreatmentResistance.Immune, 0f),
         };
 
+        public static readonly (InfectionSeverity, float)[] SepticaemiaChanceLookup = new (InfectionSeverity, float)[]
+        {
+            (InfectionSeverity.None, 0f),
+            (InfectionSeverity.Mild, 0.1f),
+            (InfectionSeverity.Moderate, 0.3f),
+            (InfectionSeverity.Severe, 0.6f),
+            (InfectionSeverity.Extreme, 0.9f),
+        };
+
         //Cant remember the other values needed;
         #region Interventions
         public static readonly float InsertIV = 0f;

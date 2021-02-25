@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using PatientManagementSystem.Patients.PatientAccessPoints;
 using PatientManagementSystem.Patients.PatientDefaults;
 
 namespace PatientManagementSystem.Patients.PatientInfection
@@ -90,19 +93,22 @@ namespace PatientManagementSystem.Patients.PatientInfection
     public class Infections
     {
         #region Props
-        public HeadContainer Head { get; set; }
-
+        public HeadContainer Head  { get; set; }
         public ChestContainer Chest { get; set; }
-
         public AbdomenContainer Abdomen { get; set; }
+        public AccessPointsContainer AccessPoints { get; set; }
 
-        //AccessPoints
+        public bool HasSepticaemia; 
         #endregion
 
         #region Constructors
         public Infections()
         {
-
+            Head = new HeadContainer();
+            Chest = new ChestContainer();
+            Abdomen = new AbdomenContainer();
+            AccessPoints = new AccessPointsContainer();
+            HasSepticaemia = false;
         }//Default Constructor
 
         public Infections(Infections infections)
@@ -110,9 +116,8 @@ namespace PatientManagementSystem.Patients.PatientInfection
             Head = infections.Head;
             Chest = infections.Chest;
             Abdomen = infections.Abdomen;
-        }//Copy Constructor?
+        }//Copy Constructor? I dont think this will actually decouple the references because infections.Head is a class reference, although does it matter? Am I going to return an Infections object or an Infection struct object?
         #endregion
-
 
         public Infection GetStrongestInfection()
         {
@@ -156,8 +161,11 @@ namespace PatientManagementSystem.Patients.PatientInfection
         }
         public void TreatInfection(InfectionPathogenType infectionType)
         {
-            Infection[] infections = GetInfectionsArray();
+            if (infectionType == InfectionPathogenType.None)
+                return;
 
+            Infection[] infections = GetInfectionsArray().Concat(AccessPoints.GetInfections()).ToArray();
+            
             foreach (Infection infection in infections)
             {
                 if (infection.PathogenType == infectionType)
@@ -166,19 +174,21 @@ namespace PatientManagementSystem.Patients.PatientInfection
                     //infection.DecreaseInfection();
                 }
             }
+
         }//LATER: Implement second parameter of DrugType for resistance calc
-        private Infection[] GetInfectionsArray()
+        public Infection[] GetInfectionsArray()
         {
-            Infection[] head = Head.GetInfections();
-            Infection[] chest = Chest.GetInfections();
-            Infection[] abdomen = Abdomen.GetInfections();
+            //Infection[] head = Head.GetInfections();
+            //Infection[] chest = Chest.GetInfections();
+            //Infection[] abdomen = Abdomen.GetInfections();
 
-            Infection[] result = new Infection[head.Length + chest.Length + abdomen.Length];
+            //Infection[] result = new Infection[head.Length + chest.Length + abdomen.Length];
 
-            head.CopyTo(result, 0);
-            chest.CopyTo(result, head.Length);
-            abdomen.CopyTo(result, (head.Length + chest.Length));
-            return result;
+            //head.CopyTo(result, 0);
+            //chest.CopyTo(result, head.Length);
+            //abdomen.CopyTo(result, (head.Length + chest.Length));
+
+            return Head.GetInfections().Concat(Chest.GetInfections().Concat(Abdomen.GetInfections())).ToArray();
 
             //return new Infection[]
             //{
@@ -264,11 +274,38 @@ namespace PatientManagementSystem.Patients.PatientInfection
                     LeftKidney,
                     RightKidney,
                     Bladder,
-                    Reproductives
+                    Reproductives,
+                };
+            }
+        }
+        public class AccessPointsContainer
+        {
+            public Infection IVLeftArm;
+            public Infection IVRightArm;
+            public Infection IVLeftLeg;
+            public Infection IVRightLeg;
+            public Infection IVCentralLine;
+
+            public Infection CerebralShunt;
+
+            public Infection UrinaryCatheter;
+
+            public Infection[] GetInfections()
+            {
+                return new Infection[]{
+                    IVLeftArm,
+                    IVRightArm,
+                    IVLeftLeg,
+                    IVRightLeg,
+                    IVCentralLine,
+                    CerebralShunt,
+                    UrinaryCatheter,
                 };
             }
         }
         #endregion
+
+
     }
 
 
