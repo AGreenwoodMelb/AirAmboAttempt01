@@ -1,4 +1,5 @@
 ﻿using System;
+using PatientManagementSystem.Patients.PatientDefaults;
 
 namespace PatientManagementSystem.Patients.PatientInfection
 {
@@ -10,7 +11,7 @@ namespace PatientManagementSystem.Patients.PatientInfection
         Severe,
         Extreme
     }
-    public enum InfectionType
+    public enum InfectionPathogenType
     {
         None,
         Bacterial,
@@ -18,7 +19,7 @@ namespace PatientManagementSystem.Patients.PatientInfection
         Prion,
         Other
     }
-    public enum InfectionResistance
+    public enum InfectionTreatmentResistance
     {
         None,
         Susceptible,
@@ -28,31 +29,62 @@ namespace PatientManagementSystem.Patients.PatientInfection
     }
     public struct Infection
     {
-        public InfectionType pathogenType;
-        public InfectionSeverity Severity;
-        public InfectionResistance TreatmentResistance; //Should this value automatically increase itself?
+        public InfectionPathogenType PathogenType;
 
-        public void IncreaseInfection()
+        private float _infectionLevel;
+        public float InfectionLevel
         {
-            if (Severity != InfectionSeverity.Extreme)
-                Severity += 1;
-        }
-
-        public void DecreaseInfection()
-        {
-            if (Severity != InfectionSeverity.None)
-                Severity -= 1;
-            else
+            get
             {
-                CureInfection();
+                return _infectionLevel;
+            }
+            set
+            {
+                _infectionLevel = Math.Clamp(value, 0f, 1f);
+                if(Severity == InfectionSeverity.None)
+                {
+                    CureInfection();
+                }
             }
         }
+        public InfectionSeverity Severity
+        {
+            get
+            {
+                InfectionSeverity severity = InfectionSeverity.None;
+                for (int i = DefaultInfectionValues.SeverityLookup.Length - 1; i >= 0; i--)
+                {
+                    if (InfectionLevel <= DefaultInfectionValues.SeverityLookup[i].Item2)
+                    {
+                        severity = DefaultInfectionValues.SeverityLookup[i].Item1;
+                    }
+                }
+                return severity;
+            }
+        } //Because if it worked by luck and chance in the Organ class why not do it again.....
+        public InfectionTreatmentResistance TreatmentResistance;//LATER: Implement Drug specific resistances //Should this value automatically increase itself? //When should this be used? //This should eventually be broken out into a drug specific resistance
 
         public void CureInfection()
         {
-            pathogenType = InfectionType.None;
-            TreatmentResistance = InfectionResistance.None;
+            PathogenType = InfectionPathogenType.None;
+            TreatmentResistance = InfectionTreatmentResistance.None;
         }
+
+        //public void IncreaseInfection()
+        //{
+        //    if (Severity != InfectionSeverity.Extreme)
+        //        Severity += 1;
+        //}
+
+        //public void DecreaseInfection()
+        //{
+        //    if (Severity != InfectionSeverity.None)
+        //        Severity -= 1;
+        //    else
+        //    {
+        //        CureInfection();
+        //    }
+        //}
     }
 
     public class Infections
@@ -63,6 +95,8 @@ namespace PatientManagementSystem.Patients.PatientInfection
         public ChestContainer Chest { get; set; }
 
         public AbdomenContainer Abdomen { get; set; }
+
+        //AccessPoints
         #endregion
 
         #region Constructors
@@ -76,7 +110,7 @@ namespace PatientManagementSystem.Patients.PatientInfection
             Head = infections.Head;
             Chest = infections.Chest;
             Abdomen = infections.Abdomen;
-        } //Copy Constructor?
+        }//Copy Constructor?
         #endregion
 
 
@@ -99,7 +133,7 @@ namespace PatientManagementSystem.Patients.PatientInfection
                     result = infection;
             }
             return result;
-        } //I think this will be useful for the ExamineBrainCT PatientExamination
+        }//I think this will be useful for the ExamineBrainCT PatientExamination
         public Infection GetStrongestInfectionChest()
         {
             Infection result = new Infection();
@@ -120,19 +154,19 @@ namespace PatientManagementSystem.Patients.PatientInfection
             }
             return result;
         }
-        public bool TreatInfection(InfectionType infectionType)
+        public void TreatInfection(InfectionPathogenType infectionType)
         {
             Infection[] infections = GetInfectionsArray();
 
             foreach (Infection infection in infections)
             {
-                if (infection.pathogenType == infectionType)
+                if (infection.PathogenType == infectionType)
                 {
-                    infection.DecreaseInfection();
+                    //Handle Resistance thing here?
+                    //infection.DecreaseInfection();
                 }
             }
-            return true;
-        }//Why return a bool???
+        }//LATER: Implement second parameter of DrugType for resistance calc
         private Infection[] GetInfectionsArray()
         {
             Infection[] head = Head.GetInfections();

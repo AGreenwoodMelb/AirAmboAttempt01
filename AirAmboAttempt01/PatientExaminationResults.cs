@@ -106,22 +106,22 @@ namespace PatientManagementSystem.Patients.ExaminationResults
 
         private void ConfigureValues()
         {
-            switch (Infection.pathogenType)
+            switch (Infection.PathogenType)
             {
-                case InfectionType.None:
+                case InfectionPathogenType.None:
                     break;
-                case InfectionType.Bacterial:
+                case InfectionPathogenType.Bacterial:
                     break;
-                case InfectionType.Viral:
+                case InfectionPathogenType.Viral:
                     break;
-                case InfectionType.Prion:
+                case InfectionPathogenType.Prion:
                     break;
-                case InfectionType.Other:
+                case InfectionPathogenType.Other:
                     //TODO: Implement way of passing in CSFProfile values when InfectionType is Other
                     break;
                 default:
                     throw new ArgumentException(
-                         message: $"CSFProfile::ConfigureValues Unhandled infectionType: {nameof(Infection.pathogenType)}"
+                         message: $"CSFProfile::ConfigureValues Unhandled infectionType: {nameof(Infection.PathogenType)}"
                          );
             } //TODO: Finish implemented the configuration of CSF values
         }

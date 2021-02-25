@@ -10,6 +10,7 @@ namespace PatientManagementSystem.Patients.PatientInterventions
     public abstract class PatientIntervention
     {
         public float WasteProduced { get; protected set; }
+        public float InfectionChance { get; protected set; }
         public abstract bool Intervene(Patient patient, out bool Succeeded);
     }
 
@@ -283,10 +284,19 @@ namespace PatientManagementSystem.Patients.PatientInterventions
             //Lumbar Puncture. Pain and greater risk of causing CNS infection, High chance to fail
             
             WasteProduced = DefaultWasteProduction.PerformLumbarPuncture;
+
+            bool causedInfection = patient.MagicRandomSeed > DefaultInfectionValues.PerformLumbarPuncture;
+
             if(patient.MagicRandomSeed > DefaultPlayerStatsTEMP.PerformLumbarPunctureSuccess)
             {
                 Succeeded = true;
             }
+
+            if (causedInfection)
+            {
+                //Handle Infection
+            }
+
             return true;
         }
     }

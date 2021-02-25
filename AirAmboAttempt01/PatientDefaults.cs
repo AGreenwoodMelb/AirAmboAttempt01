@@ -2,6 +2,7 @@
 using PatientManagementSystem.Patients.PatientBlood;
 using PatientManagementSystem.Patients.PatientBones;
 using PatientManagementSystem.Patients.PatientOrgans; //Hopefully this wont last
+using PatientManagementSystem.Patients.PatientInfection;
 
 using System.Collections.Generic;
 
@@ -128,16 +129,16 @@ namespace PatientManagementSystem.Patients.PatientDefaults
         #endregion
 
         #region UrinaryCatheter
-        public static float InsertUrinaryCatheter = 0f;
-        public static float RemoveUrinaryCatheter = 0f;
+        public static readonly float InsertUrinaryCatheter = 0f;
+        public static readonly float RemoveUrinaryCatheter = 0f;
         #endregion
 
         #region CerebralShunt
-        public static float InsertCerebralShunt = 0f;
-        public static float RemoveCerebralShunt = 0f;
+        public static readonly float InsertCerebralShunt = 0f;
+        public static readonly float RemoveCerebralShunt = 0f;
         #endregion
 
-        public static float PerformLumbarPuncture = 0f;
+        public static readonly float PerformLumbarPuncture = 0f;
 
         #region DrugAdministration
         //Meow
@@ -179,5 +180,41 @@ namespace PatientManagementSystem.Patients.PatientDefaults
             (OrganState.Impaired,0.70f),
             (OrganState.Normal,1.0f),
         };
+    }
+
+    public static class DefaultInfectionValues
+    {
+        public static readonly (InfectionSeverity, float)[] SeverityLookup = new (InfectionSeverity, float)[]
+        {
+            (InfectionSeverity.None, 0f),
+            (InfectionSeverity.Mild, 0.1f),
+            (InfectionSeverity.Moderate, 0.3f),
+            (InfectionSeverity.Severe, 0.6f),
+            (InfectionSeverity.Extreme, 0.9f),
+        };
+
+        public static readonly (InfectionTreatmentResistance, float)[] ResitanceLookup = new (InfectionTreatmentResistance, float)[]
+        {
+            (InfectionTreatmentResistance.None, 1f),
+            (InfectionTreatmentResistance.Susceptible, 0.75f),
+            (InfectionTreatmentResistance.Stardard, 0.5f),
+            (InfectionTreatmentResistance.Resistant, 0.25f),
+            (InfectionTreatmentResistance.Immune, 0f),
+        };
+
+        //Cant remember the other values needed;
+        #region Interventions
+        public static readonly float InsertIV = 0f;
+        public static readonly float InsertCentralLine = 0f;
+
+        public static readonly Dictionary<ArtificialAirway, float> InsertAirway = new Dictionary<ArtificialAirway, float>()
+        {
+            {ArtificialAirway.FaceMask, 0f },
+            {ArtificialAirway.LaryngealMask, 0f },
+        };
+        public static readonly float InsertUrinaryCatheter = 0f;
+        public static readonly float InsertCerebralShunt = 0f;
+        public static readonly float PerformLumbarPuncture = 0f;
+        #endregion
     }
 }
