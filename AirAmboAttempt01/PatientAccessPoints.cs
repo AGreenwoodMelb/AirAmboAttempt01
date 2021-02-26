@@ -22,9 +22,9 @@ namespace PatientManagementSystem.Patients.PatientAccessPoints
 
     public class AccessPoints
     {
-        public CerebralShunt CerebralShunt;
-        public ArtificialAirway ArtificialAirway;
-        public UrinaryCatheter UrinaryCatheter;
+        public CerebralShunt CerebralShunt = new CerebralShunt();
+        public ArtificialAirway ArtificialAirway = new ArtificialAirway();
+        public UrinaryCatheter UrinaryCatheter = new UrinaryCatheter();
 
         public bool HasIVAccess => CheckForIVAccess();
 

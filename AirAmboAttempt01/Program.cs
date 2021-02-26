@@ -27,9 +27,14 @@ namespace PatientManagementSystem.Patients
 
             Pod.TryAddPatient(pt);
 
-            Drug drug = new DrugStim1();
-            drug.Administer(pt, AdministrationRoute.Intramuscular);
-            Console.WriteLine(drug.WasteProduced);
+            PatientIntervention inter = new PerformLumbarPuncture();
+            Pod.PerformIntervention(inter, out bool meow);
+            PatientIntervention inter2 = new InsertIV(IVTargetLocation.ArmLeft);
+            Pod.PerformIntervention(inter2, out meow);
+            PatientExamination a = new ExamineBloodType();
+            Pod.PerformIntervention(a, out meow);
+
+            Console.WriteLine(meow);
 
             Console.ReadLine();
         }

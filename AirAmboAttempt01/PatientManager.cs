@@ -73,7 +73,7 @@ namespace PatientManagementSystem
 
         public bool PerformIntervention(PatientIntervention patientIntervention, out bool Succeeded)
         {
-            if (patientIntervention.Intervene(CurrentPatient, out Succeeded))
+            if (patientIntervention.Intervene(CurrentPatient, PatientResults, out Succeeded))
             {
                 TotalWasteProduced += patientIntervention.WasteProduced;
                 return true;
@@ -81,21 +81,13 @@ namespace PatientManagementSystem
             return false;
         }
 
-        public bool PerformExamination(PatientExamination patientExamination)
-        {
-            //TotalWasteProduced += patientIntervention.WasteProduced //FOR LATER - May not be needed
-            patientExamination.Examine(CurrentPatient, _patientResults);
-            return true;
-        }
-
-        public bool PerformProceedure(PatientProceedure patientProceedure, out bool Succeeded)
-        {
-            if (patientProceedure.Perform(CurrentPatient, _patientResults, out Succeeded))
-            {
-                TotalWasteProduced += patientProceedure.WasteProduced;
-            }
-            return true;
-        }
+        //public bool PerformExamination(PatientExamination patientExamination)
+        //{
+        //    //TotalWasteProduced += patientIntervention.WasteProduced //FOR LATER - May not be needed
+        //    patientExamination.Examine(CurrentPatient, _patientResults);
+        //    return true;
+        //}
+        
 
         #region NOT_IMPLEMENTED_YET
         public float TotalWasteProduced { get; private set; }
@@ -108,26 +100,6 @@ namespace PatientManagementSystem
         #endregion
     }
 
-    public abstract class PatientProceedure
-    {
-        public float WasteProduced { get; protected set; }
-        public abstract bool Perform(Patient patient, PatientExamResults results, out bool Succeeded);
-    }
+ 
 
-    public class PerformLumbarPunctureSample : PatientProceedure
-    {
-        public override bool Perform(Patient patient, PatientExamResults results, out bool Succeeded)
-        {
-            var temp = new LumbarPuncture();
-            temp.Intervene(patient, out Succeeded);
-            WasteProduced = temp.WasteProduced;
-
-            if (Succeeded)
-            {
-                new ExamineLumbarPunctureCSF().Examine(patient, results);
-                return true;
-            }
-            return false;
-        }
-    }
 }

@@ -4,17 +4,26 @@ using PatientManagementSystem.Patients.PatientDrugs;
 using PatientManagementSystem.Patients.PatientInfection;
 using PatientManagementSystem.Patients.PatientAccessPoints;
 using PatientManagementSystem.Patients.PatientDefaults;
+using PatientManagementSystem.Patients.ExaminationResults;
+using PatientManagementSystem.Patients.PatientExaminations;
 
 namespace PatientManagementSystem.Patients.PatientInterventions
 {
     public abstract class PatientIntervention
     {
         public float WasteProduced { get; protected set; }
-        public abstract bool Intervene(Patient patient, out bool Succeeded);
+        public virtual bool Intervene(Patient patient, out bool Succeeded)
+        {
+            throw new NotImplementedException();
+        }
+        public virtual bool Intervene(Patient patient, PatientExamResults results, out bool Succeeded)
+        {
+            return Intervene(patient, out Succeeded);
+        }
     }
 
     #region Fluids?  //Steamy trash lives in here
-    public class Transfuse : PatientIntervention 
+    public class Transfuse : PatientIntervention
     {
         private Fluid _fluid;
         private Patient _patient;
@@ -69,7 +78,7 @@ namespace PatientManagementSystem.Patients.PatientInterventions
         private Drug _drug;
         private AdministrationRoute _route;
 
-        public AdministerDrug(Drug drug, AdministrationRoute route) 
+        public AdministerDrug(Drug drug, AdministrationRoute route)
         {
             _drug = drug;
             _route = route;
@@ -125,7 +134,7 @@ namespace PatientManagementSystem.Patients.PatientInterventions
             Succeeded = false;
             if (patient.AccessPoints.IVs[_target].IsInserted) //Cant Insert
                 return false;
-          
+
             float successThreshold = (_target == IVTargetLocation.CentralLine) ? DefaultPlayerStatsTEMP.InsertCentralLineSuccess : DefaultPlayerStatsTEMP.InsertIVSuccess;
             float infectionThreshold = (_target == IVTargetLocation.CentralLine) ? DefaultInfectionValues.InsertCentralLine : DefaultInfectionValues.InsertIV;
             WasteProduced = (_target == IVTargetLocation.CentralLine) ? DefaultWasteProduction.InsertCentralLine : DefaultWasteProduction.InsertIV;
@@ -193,7 +202,7 @@ namespace PatientManagementSystem.Patients.PatientInterventions
                 {
                     patient.Body.Infections.AccessPoints.ArtificialAirway.Infect(new Infection()); //REVIEW: PLACEHOLDER INFECTION
                 }
-                patient.AccessPoints.ArtificialAirway.Insert( _artificialAirway);
+                patient.AccessPoints.ArtificialAirway.Insert(_artificialAirway);
                 Succeeded = true;
             }
             else
@@ -305,24 +314,48 @@ namespace PatientManagementSystem.Patients.PatientInterventions
     #endregion
     #endregion
 
-    public class LumbarPuncture : PatientIntervention //TODO: Finish implementing and testing 
+    public class SampleShuntCSF : PatientIntervention
     {
         public override bool Intervene(Patient patient, out bool Succeeded)
         {
             Succeeded = false;
+            if (!patient.AccessPoints.CerebralShunt.IsInserted || patient.AccessPoints.CerebralShunt.IsBlocked)
+                return false;
+
+            WasteProduced = DefaultWasteProduction.SampleShuntCSF;
+
+            if (patient.MagicRandomSeed > DefaultInfectionValues.SampleShuntCSF)
+            {
+                patient.Body.Infections.AccessPoints.CerebralShunt.Infect(new Infection()); //PLACEHOLDER INFECTION
+            }
+
+            patient.Flags.hasCSFSample = true;
+            Succeeded = true;
+            return true;
+        }
+    }
+
+    public class PerformLumbarPuncture : PatientIntervention
+    {
+        //Lumbar Puncture. Pain and greater risk of causing CNS infection, High chance to fail
+        public override bool Intervene(Patient patient, PatientExamResults results, out bool Succeeded)
+        {
+            Succeeded = false;
 
             /*
-            if (condition)
+            if(reasonYouCantPerform)
                 return false;
             */
-
-            //Lumbar Puncture. Pain and greater risk of causing CNS infection, High chance to fail
 
             WasteProduced = DefaultWasteProduction.PerformLumbarPuncture;
 
             if (patient.MagicRandomSeed > DefaultPlayerStatsTEMP.PerformLumbarPunctureSuccess)
             {
+                patient.Flags.hasCSFSample = true;
                 Succeeded = true;
+                ExamineCSF examineCSF = new ExamineCSF();
+                examineCSF.Examine(patient, results);
+                WasteProduced += examineCSF.WasteProduced;
             }
 
             if (patient.MagicRandomSeed > DefaultInfectionValues.PerformLumbarPuncture)
@@ -332,4 +365,5 @@ namespace PatientManagementSystem.Patients.PatientInterventions
             return true;
         }
     }
+
 }

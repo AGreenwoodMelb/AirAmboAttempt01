@@ -120,11 +120,43 @@ namespace PatientManagementSystem.Patients.PatientOrgans
             get { return _isBrainDead; }
             set { _isBrainDead = value; }
         }
+        private CSFProfile _csf;
+
+        public CSFProfile CSF
+        {
+            get { return _csf; }
+            set { _csf = value; }
+        }
         #endregion
 
         public Brain() : base(DefaultBloodLossBaseRates.Brain)
         {
 
+        }
+
+        public struct CSFProfile
+        {
+            public CSFAppearance Appearance;
+            public RelativeLevel OpeningPressure;
+            public RelativeLevel Glucose;
+            public RelativeLevel Protein;
+            public RelativeLevel WhiteBloodCells;
+            public RelativeLevel RedBloodCells;
+
+            public enum RelativeLevel
+            {
+                Normal,
+                Low,
+                High,
+                VeryHigh,
+            }
+            public enum CSFAppearance
+            {
+                Clear,
+                Cloudy,
+                Bloody,
+                Yellow,
+            }
         }
     }
     #endregion

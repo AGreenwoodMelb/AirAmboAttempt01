@@ -10,9 +10,10 @@ namespace PatientManagementSystem.Patients.ExaminationResults
     public class PatientExamResults
     {
         public string tempOutput; //Default dumping variable
-        public float latestBloodVolumeRatio; //TODO: Replace with blood pressure
+        
 
         //General
+        public PatientExamResultsVitals Vitals = new PatientExamResultsVitals();
         public PatientExamResultsBlood Blood = new PatientExamResultsBlood();
         public PatientExamResultsXRays XRays = new PatientExamResultsXRays();
 
@@ -34,6 +35,7 @@ namespace PatientManagementSystem.Patients.ExaminationResults
         public AccessPoints AccessPoints = new AccessPoints(); //No use current reason not to use the base version? Reference objects could be a problem here and anywhere using infection
     } //TODO: Expand and complete all OrganResult classes
 
+    
     #region XRaysResults
     public class PatientExamResultsXRays
     {
@@ -84,56 +86,22 @@ namespace PatientManagementSystem.Patients.ExaminationResults
         public bool isIschaemic;
         public BleedingSeverity isBleeding;
 
-        public Infection currentInfection; //Should this be allowed? Or should the player have to determine it from the CSF?
-        public CSFProfile latestCSFResults;
+        public Brain.CSFProfile CSF;
+        public Brain.CSFProfile latestCSFResults;
+        public bool hasCSFSample;
 
+        public Infection currentInfection; //Should this be allowed? Or should the player have to determine it from the CSF?
         public float currentPressure;
     }
 
-    public class CSFProfile //Perhaps invert this so that CSF is a part of the Infection or Brain Object or Fluid class? 
-    {
-        public Infection Infection { get; }
-        public float Glucose { get; }
-        public float Protein { get; }
-        public float WhiteCellCount { get; }
-        public float RedCellCount { get; }
-
-        public CSFProfile(Infection infection)
-        {
-            Infection = infection;
-            ConfigureValues();
-        }
-
-        private void ConfigureValues()
-        {
-            switch (Infection.PathogenType)
-            {
-                case InfectionPathogenType.None:
-                    break;
-                case InfectionPathogenType.Bacterial:
-                    break;
-                case InfectionPathogenType.Viral:
-                    break;
-                case InfectionPathogenType.Prion:
-                    break;
-                case InfectionPathogenType.Other:
-                    //TODO: Implement way of passing in CSFProfile values when InfectionType is Other
-                    break;
-                default:
-                    throw new ArgumentException(
-                         message: $"CSFProfile::ConfigureValues Unhandled infectionType: {nameof(Infection.PathogenType)}"
-                         );
-            } //TODO: Finish implemented the configuration of CSF values
-        }
-
-    }
+   
     #endregion
 
     #region HeartResults
     public class PatientExamResultsHeart
     {
         //ECG Results:
-        public int BeatsPerMinute;
+        public int BeatsPerMinute; //Should this be moved to a Vitals object?
         public bool IsBeating = true;
         public bool IsArrythmic;
         public bool HasPacemaker;
@@ -149,8 +117,8 @@ namespace PatientManagementSystem.Patients.ExaminationResults
     #region LungsResults
     public class PatientExamResultsLungs
     {
-        public float RespirationRate;
-        public float OxygenSaturation;
+        public float RespirationRate;//Should this be moved to a Vitals object?
+        public float OxygenSaturation;//Should this be moved to a Vitals object?
 
         public PatientExamResultsLung LeftLung = new PatientExamResultsLung();
         public PatientExamResultsLung RightLung = new PatientExamResultsLung();
@@ -234,6 +202,16 @@ namespace PatientManagementSystem.Patients.ExaminationResults
     {
         public BloodType BloodType;
         public float ClottingFactors;
+    }
+    #endregion
+
+    #region GeneralResults
+    public class PatientExamResultsVitals
+    {
+        public float? RespiratoryRate = null;
+        public float? OxygenSaturation = null;
+        public float? HeartRate = null;
+        public float? BloodPressure = null;
     }
     #endregion
 }

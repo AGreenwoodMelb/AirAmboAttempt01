@@ -26,7 +26,7 @@ namespace PatientManagementSystem.Patients.PatientDrugs
         /* NOTE:
          * Players can administer drugs via the incorrect route with varying outcomes
          * 
-         * Are Checks for Valid route handled above?
+         * Are Checks for Valid route handled else where?
          */
 
         protected Patient _patient;

@@ -1,7 +1,5 @@
-﻿
-#region URGENTS
-//URGENT: This feels like it has turned into my usual clusterfuck. STOP ADDING NEW SHIT AND FIX THE EXISTING PILE OF SHIT
-//URGENT: (Started) Build combined Examination+Intervention system. 
+﻿#region URGENTS
+
 #endregion
 
 #region TODOS

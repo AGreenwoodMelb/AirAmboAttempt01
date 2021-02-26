@@ -44,9 +44,10 @@ namespace PatientManagementSystem.Patients.PatientInfection
             set
             {
                 _infectionLevel = Math.Clamp(value, 0f, 1f);
-                if(Severity == InfectionSeverity.None)
+                if(_infectionLevel == 0)
                 {
-                    CureInfection();
+                    PathogenType = InfectionPathogenType.None;
+                    TreatmentResistance = InfectionTreatmentResistance.None;
                 }
             }
         }
@@ -69,8 +70,6 @@ namespace PatientManagementSystem.Patients.PatientInfection
 
         public void CureInfection()
         {
-            PathogenType = InfectionPathogenType.None;
-            TreatmentResistance = InfectionTreatmentResistance.None;
             InfectionLevel = 0f;
         }
 

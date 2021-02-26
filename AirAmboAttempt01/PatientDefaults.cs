@@ -138,6 +138,7 @@ namespace PatientManagementSystem.Patients.PatientDefaults
         #region CerebralShunt
         public static readonly float InsertCerebralShunt = 0f;
         public static readonly float RemoveCerebralShunt = 0f;
+        public static readonly float SampleShuntCSF = 0f;
         #endregion
 
         #region General
@@ -166,8 +167,8 @@ namespace PatientManagementSystem.Patients.PatientDefaults
     public static class DefaultPlayerStatsTEMP
     {
         #region IVs
-        public static float InsertIVSuccess = 100f;
-        public static float InsertCentralLineSuccess = 100f;
+        public static float InsertIVSuccess = 0f;
+        public static float InsertCentralLineSuccess = 0f;
         #endregion
         #region Airways
         public static readonly Dictionary<ArtificialAirwayType, float> AirwayInsertionSuccess = new Dictionary<ArtificialAirwayType, float>()
@@ -177,7 +178,7 @@ namespace PatientManagementSystem.Patients.PatientDefaults
         };
         #endregion
         #region UrinaryCatheter
-        public static float InsertUrinaryCatheterSuccess = 100f;
+        public static float InsertUrinaryCatheterSuccess = 0f;
         #endregion
 
         #region CerebralShunt
@@ -239,8 +240,10 @@ namespace PatientManagementSystem.Patients.PatientDefaults
             {ArtificialAirwayType.FaceMask, 0f },
             {ArtificialAirwayType.LaryngealMask, 0f },
         };
+
         public static readonly float InsertUrinaryCatheter = 0f;
         public static readonly float InsertCerebralShunt = 0f;
+        public static readonly float SampleShuntCSF = 0f;
         public static readonly float PerformLumbarPuncture = 0f;
         #endregion
     }

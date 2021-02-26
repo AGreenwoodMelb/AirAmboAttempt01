@@ -9,6 +9,7 @@ namespace PatientManagementSystem.Patients
     {
         #region Props
         public int _randomSeed { get;} //UNITY: For Unity stuff
+        public PatientFlags Flags { get; set; }
 
         private Biography _biography;
         public Biography Biography
@@ -45,8 +46,8 @@ namespace PatientManagementSystem.Patients
             set { _accessPoints = value; }
         }
 
-        private int _magicRandomSeed = 1; //UNITY: Replace later with random using _randomSeed
-        public int MagicRandomSeed
+        private float _magicRandomSeed = 1f; //UNITY: Replace later with random using _randomSeed
+        public float MagicRandomSeed
         {
             get { return _magicRandomSeed; }
             set { _magicRandomSeed = value; }
@@ -60,7 +61,14 @@ namespace PatientManagementSystem.Patients
             Body = body ?? new Physical();
             Mind = mind ?? new Mental();
             AccessPoints = new AccessPoints();
+
+            Flags = new PatientFlags();
             //_randomSeed = MagicRandomStaticThingy;
         }
+    }
+
+    public class PatientFlags
+    {
+        public bool hasCSFSample;
     }
 }
