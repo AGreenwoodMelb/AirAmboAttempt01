@@ -5,6 +5,7 @@ using PatientManagementSystem.Patients.PatientOrgans; //Hopefully this wont last
 using PatientManagementSystem.Patients.PatientInfection;
 
 using System.Collections.Generic;
+using PatientManagementSystem.Patients.PatientDrugs;
 
 namespace PatientManagementSystem.Patients.PatientDefaults
 {
@@ -106,6 +107,7 @@ namespace PatientManagementSystem.Patients.PatientDefaults
 
     public static class DefaultWasteProduction
     {
+        #region Interventions
         #region IVs
         public static readonly float InsertIV = 10f;
         public static readonly float RemoveIV = 0f;
@@ -138,13 +140,26 @@ namespace PatientManagementSystem.Patients.PatientDefaults
         public static readonly float RemoveCerebralShunt = 0f;
         #endregion
 
+        #region General
         public static readonly float PerformLumbarPuncture = 0f;
+        #endregion
 
         #region DrugAdministration
+        public static readonly Dictionary<AdministrationRoute, float> AdministerRoute = new Dictionary<AdministrationRoute, float>()
+        {
+            {AdministrationRoute.None, 0f },
+            {AdministrationRoute.Intramuscular, 2f },
+            {AdministrationRoute.Oral, 1f },
+            {AdministrationRoute.IV, 2f },
+            {AdministrationRoute.Inhaled, 1f },
+            {AdministrationRoute.Other, 1f },
+        };
+
         public static readonly Dictionary<string, float> AdministerDrug = new Dictionary<string, float>() //Careful when adding new drugs that the string = TargetDrugClass.GetName;
         {
             { "DrugStim1", 10f},
         };
+        #endregion
         #endregion
     }
 

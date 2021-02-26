@@ -28,8 +28,8 @@ namespace PatientManagementSystem.Patients
             Pod.TryAddPatient(pt);
 
             Drug drug = new DrugStim1();
-
             drug.Administer(pt, AdministrationRoute.Intramuscular);
+            Console.WriteLine(drug.WasteProduced);
 
             Console.ReadLine();
         }

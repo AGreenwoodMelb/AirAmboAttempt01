@@ -11,6 +11,7 @@ namespace PatientManagementSystem.Patients.PatientExaminations
 {
     public abstract class PatientExamination
     {
+        public float WasteProduced { get; protected set; }
         public abstract bool Examine(Patient patient, PatientExamResults results);
     }
 
@@ -110,7 +111,7 @@ namespace PatientManagementSystem.Patients.PatientExaminations
             }
         }
 
-    } //TODO: What way I dont have to report gallstones or other organ abnormalities commonly found on XRays
+    } //TODO: Rename BoneScan that way I dont have to report gallstones or other organ abnormalities commonly found on XRays
 
     public class ExamineOrgan : PatientExamination
     {
@@ -271,10 +272,10 @@ namespace PatientManagementSystem.Patients.PatientExaminations
     {
         public override bool Examine(Patient patient, PatientExamResults results)
         {
-            results.Brain.isIschaemic = patient.Body.Head.Brain.IsIschaemic;
-            results.Brain.isBleeding = patient.Body.Head.Brain.IsBleeding;
+            results.Brain.isIschaemic = patient.Body.Head.Brain.IsIschaemic; //Eventually replace with Vessels related stuff
+            results.Brain.isBleeding = patient.Body.Head.Brain.IsBleeding; 
             results.Brain.currentPressure = patient.Body.Head.Brain.CurrentPressure;
-            //results.Brain.currentInfection.infectionSeverity = patient.Body.Head.Brain.CurrentInfection.infectionSeverity; //TODO: Redo with new Infections Object in Patient.Physical
+            results.Brain.currentInfection.InfectionLevel = patient.Body.Infections.Head.Brain.InfectionLevel;
             return true;
         }
     } //Checks for Hyper/hypo perfused areas as well as extravascular blood, also shows inflammation

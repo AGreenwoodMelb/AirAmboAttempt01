@@ -64,22 +64,21 @@ namespace PatientManagementSystem.Patients.PatientInterventions
             return _patient.Body.Blood.AddFluid(_fluid);
         }
     }//This seems awful
-    public class AdministerDrug : PatientIntervention //Maybe redo? Or Should this represent an IM or bolus via IVAccess
+    public class AdministerDrug : PatientIntervention //TODO: Finish implementing the CheckValidRoute approach
     {
         private Drug _drug;
         private AdministrationRoute _route;
 
         public AdministerDrug(Drug drug, AdministrationRoute route) 
         {
-            WasteProduced = drug.WasteProduced;
             _drug = drug;
             _route = route;
         }
 
         public override bool Intervene(Patient patient, out bool Succeeded)
         {
-
             _drug.Administer(patient, _route);
+            WasteProduced = _drug.WasteProduced;
             Succeeded = false;
             return true;
         }

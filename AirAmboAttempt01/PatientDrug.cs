@@ -1,15 +1,10 @@
 ﻿using System;
-using PatientManagementSystem.Patients.PatientInterventions;
+using PatientManagementSystem.Patients.PatientDefaults;
 
 namespace PatientManagementSystem.Patients.PatientDrugs
 {
-
     public enum AdministrationRoute
     {
-        /* NOTE:
-         * Players can administer drugs via the incorrect route with varying outcomes
-         * 
-         */
         None,
         Intramuscular,
         Oral,
@@ -28,6 +23,12 @@ namespace PatientManagementSystem.Patients.PatientDrugs
 
     public abstract class Drug
     {
+        /* NOTE:
+         * Players can administer drugs via the incorrect route with varying outcomes
+         * 
+         * Are Checks for Valid route handled above?
+         */
+
         protected Patient _patient;
         protected DrugProfile drugProfile;
         public float WasteProduced { get; protected set; }
@@ -35,35 +36,38 @@ namespace PatientManagementSystem.Patients.PatientDrugs
 
         public bool Administer(Patient patient, AdministrationRoute route)
         {
+            WasteProduced = DefaultWasteProduction.AdministerDrug[DrugName] * DefaultWasteProduction.AdministerRoute[route];
             _patient = patient;
-            bool output = false;
+            bool AdministrationSuccessful = false;
             switch (route)
             {
                 case AdministrationRoute.None:
                     break;
                 case AdministrationRoute.Intramuscular:
-                    output = AdministerIntramuscular(patient, route);
+                    AdministrationSuccessful = AdministerIntramuscular();
                     break;
                 case AdministrationRoute.Oral:
-                    output = AdministerOral(patient, route);
+                    //Check PT is conscious and compliant
+                    AdministrationSuccessful = AdministerOral();
                     break;
                 case AdministrationRoute.IV:
-                    output = AdministerIV(patient, route);
+                    AdministrationSuccessful = AdministerIV();
                     break;
                 case AdministrationRoute.Inhaled:
-                    output = AdministerInhaled(patient, route);
+                    AdministrationSuccessful = AdministerInhaled();
                     break;
                 case AdministrationRoute.Other:
-                    //LUXURY: FOR EXPANSION
-                    break;
                 default:
+                    AdministerNotSpecified(route);//LUXURY: FOR EXPANSION
                     break;
             }
-            UpdatePatientDrugProfile();
-            return output;
+
+            if(AdministrationSuccessful) //If you failed to administer then the drugProfile doesnt change
+                UpdatePatientDrugProfile();
+
+            return AdministrationSuccessful;
         }
-        
-        public void UpdatePatientDrugProfile()
+        private void UpdatePatientDrugProfile()
         {
             DrugProfile targetProfile = _patient.Body.Blood.DrugsProfile;
 
@@ -74,46 +78,52 @@ namespace PatientManagementSystem.Patients.PatientDrugs
 
             _patient.Body.Blood.DrugsProfile = targetProfile;
         }
-
-        protected abstract bool AdministerIntramuscular(Patient patient, AdministrationRoute route);
-        protected abstract bool AdministerOral(Patient patient, AdministrationRoute route);
-        protected abstract bool AdministerIV(Patient patient, AdministrationRoute route);
-        protected abstract bool AdministerInhaled(Patient patient, AdministrationRoute route);
+        protected abstract bool AdministerIntramuscular();
+        protected abstract bool AdministerOral();
+        protected abstract bool AdministerIV();
+        protected abstract bool AdministerInhaled();
+        protected virtual bool AdministerNotSpecified(AdministrationRoute route) 
+        {
+            throw new NotImplementedException();
+        }//Virtual because this is a luxury task for use if modding becomes a thing (hahahahha)
     }
 
     public class DrugStim1 : Drug
     {
         public DrugStim1()
         {
-            WasteProduced = PatientDefaults.DefaultWasteProduction.AdministerDrug[DrugName];
             drugProfile.IsStimulant = true;
         }
 
-        protected override bool AdministerIntramuscular(Patient patient, AdministrationRoute route)
+        protected override bool AdministerIntramuscular()
         {
             return true; //Testing here 
         }
-        protected override bool AdministerOral(Patient patient, AdministrationRoute route)
+        protected override bool AdministerOral()
         {
             throw new NotImplementedException();
         }
-        protected override bool AdministerInhaled(Patient patient, AdministrationRoute route)
+        protected override bool AdministerInhaled()
         {
             throw new NotImplementedException();
         }
-        protected override bool AdministerIV(Patient patient, AdministrationRoute route)
+        protected override bool AdministerIV()
         {
             throw new NotImplementedException();
         }
     }
 
-    //public class DrugDetoxer : Drug
-    //{
-    //    public override bool Administer(Patient target, AdministrationRoute route)
-    //    {
-    //        Target = target;
-    //        Target.Body.Blood.DrugsProfile = new DrugProfile();
-    //        return true;
-    //    }
-    //}
+    public class DrugDetoxer : Drug
+    {
+        protected override bool AdministerInhaled() => DefaultAdminister();
+        protected override bool AdministerIntramuscular() => DefaultAdminister();
+        protected override bool AdministerIV() => DefaultAdminister();
+        protected override bool AdministerOral() => DefaultAdminister();
+
+        private bool DefaultAdminister()
+        {
+            _patient.Body.Blood.DrugsProfile = new DrugProfile();
+            return true;
+        }
+    }
 }
