@@ -81,14 +81,6 @@ namespace PatientManagementSystem
             return false;
         }
 
-        //public bool PerformExamination(PatientExamination patientExamination)
-        //{
-        //    //TotalWasteProduced += patientIntervention.WasteProduced //FOR LATER - May not be needed
-        //    patientExamination.Examine(CurrentPatient, _patientResults);
-        //    return true;
-        //}
-        
-
         #region NOT_IMPLEMENTED_YET
         public float TotalWasteProduced { get; private set; }
         public void DumpWasteIntoStorage(object TEMP_wasteStorageObj)
@@ -96,7 +88,7 @@ namespace PatientManagementSystem
             TotalWasteProduced = 0; //Temp
             //TEMP_wasteStorageObj.WasteContained += WasteProduced;
             //Dump to WasteStorage object
-        }//TODO: Implement once the waste system is in production
+        }//LATER: Implement once the waste system is in production
         #endregion
     }
 

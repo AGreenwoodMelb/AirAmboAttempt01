@@ -296,7 +296,7 @@ namespace PatientManagementSystem.Patients.PatientExaminations
             return true;
         }
     }
-        #endregion
+    #endregion
 
     #region HeartExams
     public class ExamineHeartRate : PatientExamination
@@ -592,8 +592,6 @@ namespace PatientManagementSystem.Patients.PatientExaminations
     #endregion
     #endregion
 
-
-    //TODO: Finishing adding Examinations of AccessPoints for signs of infection
     #region AccessPointsExams
     public class ExamineIV : PatientExamination
     {
@@ -606,27 +604,47 @@ namespace PatientManagementSystem.Patients.PatientExaminations
 
         public override bool Examine(Patient patient, PatientExamResults results)
         {
-            //TODO: Create PatientExamResultsAccessPoint class and update appropriate AccessPoint here;
+            if (!patient.AccessPoints.IVs[_target].IsInserted)
+                return false;
+
+
+            results.AccessPoints.IVs[_target].Infection = patient.Body.Infections.AccessPoints.IVs[_target].Severity;
             return true;
         }
     }
-
     public class ExamineUrinaryCatheter : PatientExamination
     {
         public override bool Examine(Patient patient, PatientExamResults results)
         {
-            //See ExamineIV TODO:
+            if (!patient.AccessPoints.UrinaryCatheter.IsInserted)
+                return false;
+
+            results.AccessPoints.UrinaryCatheter.Infection = patient.Body.Infections.AccessPoints.UrinaryCatheter.Severity;
             return true;
         }
     }
-
     public class ExamineCerebralShunt : PatientExamination
     {
         public override bool Examine(Patient patient, PatientExamResults results)
         {
-            //See ExamineIV TODO:
+            if (!patient.AccessPoints.CerebralShunt.IsInserted)
+                return false;
+
+            results.AccessPoints.CerebralShunt.Infection = patient.Body.Infections.AccessPoints.CerebralShunt.Severity;
             return true;
         }
     }
+    public class ExamineArtificialAirway : PatientExamination
+    {
+        public override bool Examine(Patient patient, PatientExamResults results)
+        {
+            if (!patient.AccessPoints.ArtificialAirway.IsInserted)
+                return false;
+
+            results.AccessPoints.ArtificialAirway.Infection = patient.Body.Infections.AccessPoints.ArtificialAirway.Severity;
+            return true;
+        }
+    }
+
     #endregion
 }

@@ -24,17 +24,8 @@ namespace PatientManagementSystem.Patients
             Physical body = new Physical(blood: blood, abdomen: abs);
             Patient pt = new Patient(body: body);
             #endregion //This sucks
-
             Pod.TryAddPatient(pt);
 
-            PatientIntervention inter = new PerformLumbarPuncture();
-            Pod.PerformIntervention(inter, out bool meow);
-            PatientIntervention inter2 = new InsertIV(IVTargetLocation.ArmLeft);
-            Pod.PerformIntervention(inter2, out meow);
-            PatientExamination a = new ExamineBloodType();
-            Pod.PerformIntervention(a, out meow);
-
-            Console.WriteLine(meow);
 
             Console.ReadLine();
         }

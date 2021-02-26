@@ -3,18 +3,20 @@ using PatientManagementSystem.Patients.PatientBones;
 using PatientManagementSystem.Patients.PatientInfection;
 using PatientManagementSystem.Patients.PatientAccessPoints;
 using PatientManagementSystem.Patients.PatientOrgans;
-using System; //Only being used when throwing exception
+using System.Collections.Generic;
 
 namespace PatientManagementSystem.Patients.ExaminationResults
 {
     public class PatientExamResults
     {
-        public string tempOutput; //Default dumping variable
-        
+        public object tempOutput; //Default dumping variable
 
         //General
         public PatientExamResultsVitals Vitals = new PatientExamResultsVitals();
         public PatientExamResultsBlood Blood = new PatientExamResultsBlood();
+        public PatientExamResultsAccessPoints AccessPoints = new PatientExamResultsAccessPoints();
+
+        //Skeletal
         public PatientExamResultsXRays XRays = new PatientExamResultsXRays();
 
         //Head
@@ -31,11 +33,9 @@ namespace PatientManagementSystem.Patients.ExaminationResults
         public PatientExamResultsGastrointestinalTract GastrointestinalTract = new PatientExamResultsGastrointestinalTract();
         public PatientExamResultsUrinaryTract UrinaryTract = new PatientExamResultsUrinaryTract();
         public PatientExamResultsReproductives Reproductives = new PatientExamResultsReproductives();
-
-        public AccessPoints AccessPoints = new AccessPoints(); //No use current reason not to use the base version? Reference objects could be a problem here and anywhere using infection
     } //TODO: Expand and complete all OrganResult classes
 
-    
+
     #region XRaysResults
     public class PatientExamResultsXRays
     {
@@ -94,7 +94,7 @@ namespace PatientManagementSystem.Patients.ExaminationResults
         public float currentPressure;
     }
 
-   
+
     #endregion
 
     #region HeartResults
@@ -212,6 +212,48 @@ namespace PatientManagementSystem.Patients.ExaminationResults
         public float? OxygenSaturation = null;
         public float? HeartRate = null;
         public float? BloodPressure = null;
+    }
+    #endregion
+
+    #region AccesPoints
+    public class PatientExamResultsAccessPoints
+    {
+        public PatientExamResultsCerebralShunt CerebralShunt = new PatientExamResultsCerebralShunt();
+        public PatientExamResultsArtificialAirway ArtificialAirway = new PatientExamResultsArtificialAirway();
+        public Dictionary<IVTargetLocation, PatientExamResultsIV> IVs = new Dictionary<IVTargetLocation, PatientExamResultsIV>()
+            {
+                {IVTargetLocation.ArmLeft, new PatientExamResultsIV() },
+                {IVTargetLocation.ArmRight, new PatientExamResultsIV() },
+                {IVTargetLocation.LegLeft, new PatientExamResultsIV() },
+                {IVTargetLocation.LegRight, new PatientExamResultsIV() },
+                {IVTargetLocation.CentralLine, new PatientExamResultsIV() },
+            };
+        public PatientExamResultsUrinaryCatheter UrinaryCatheter = new PatientExamResultsUrinaryCatheter();
+
+        public abstract class PatientExamResultsAccessPoint
+        {
+            public bool IsInserted;
+            public bool IsBlocked;
+
+            public InfectionSeverity Infection;
+        }
+
+        public class PatientExamResultsCerebralShunt : PatientExamResultsAccessPoint
+        {
+
+        }
+        public class PatientExamResultsArtificialAirway : PatientExamResultsAccessPoint
+        {
+
+        }
+        public class PatientExamResultsIV : PatientExamResultsAccessPoint
+        {
+
+        }
+        public class PatientExamResultsUrinaryCatheter : PatientExamResultsAccessPoint
+        {
+
+        }
     }
     #endregion
 }

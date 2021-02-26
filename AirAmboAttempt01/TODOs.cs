@@ -19,4 +19,6 @@
 //LATER: Break Vessels(Arteries?) into its own System mirroring Infections
 //LATER: Rebuild the Bleeding system to mirror the infections system?
 //LATER: Rebuild the Bones System to mirror the Infections system
+//LATER: Rebuild Lung System because its trash
+//LATER: Implement AscultateLungs, AscultateLung, AsculateLobe for breath sounds - enum BreathSounds Normal, Wheeze, Bubbling, None. if RespRate = 0 then BreathSounds = none
 #endregion
