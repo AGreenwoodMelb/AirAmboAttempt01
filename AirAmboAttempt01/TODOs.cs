@@ -20,6 +20,3 @@
 #region LATERS
 //LATER: Implement Pain and infection mechanics
 #endregion
-
-
-

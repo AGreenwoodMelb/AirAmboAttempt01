@@ -2,6 +2,7 @@
 using PatientManagementSystem.Patients.PatientBones;
 using PatientManagementSystem.Patients.PatientOrgans;
 using PatientManagementSystem.Patients.PatientDefaults;
+using PatientManagementSystem.Patients.PatientInfection;
 
 namespace PatientManagementSystem.Patients.PatientPhysical
 {
@@ -46,15 +47,28 @@ namespace PatientManagementSystem.Patients.PatientPhysical
             get { return _abdomen; }
             set { _abdomen = value; }
         }
+
+        private Infections _infections;
+        public Infections Infections
+        {
+            get { return _infections; }
+            set { _infections = value; }
+        }
         #endregion
 
-        public Physical(Head head = null, Chest chest = null, Abdomen abdomen = null, BloodSystem blood = null, Limbs limbs = null)
+        public Physical(Head head = null, Chest chest = null, Abdomen abdomen = null, BloodSystem blood = null, Limbs limbs = null, Infections infections = null)
         {
-            Head = (head == null) ? new Head() : head;
-            Chest = (chest == null) ? new Chest() : chest;
-            Abdomen = (abdomen == null) ? new Abdomen() : abdomen;
-            Blood = (blood == null) ? new BloodSystem() : blood;
-            Limbs = (limbs == null) ? new Limbs() : limbs;
+            //Head = (head == null) ? new Head() : head;
+            Head = head ?? new Head();
+            //Chest = (chest == null) ? new Chest() : chest;
+            Chest = chest ?? new Chest();
+            //Abdomen = (abdomen == null) ? new Abdomen() : abdomen;
+            Abdomen = abdomen ?? new Abdomen();
+            //Blood = (blood == null) ? new BloodSystem() : blood;
+            Blood = blood ?? new BloodSystem();
+            //Limbs = (limbs == null) ? new Limbs() : limbs;
+            Limbs = limbs ?? new Limbs();
+            Infections = infections ?? new Infections();
         }
     }
 

@@ -115,16 +115,16 @@ namespace PatientManagementSystem.Patients.PatientDefaults
         #endregion
 
         #region Airways
-        public static readonly Dictionary<ArtificialAirway, float> InsertAirway = new Dictionary<ArtificialAirway, float>()
+        public static readonly Dictionary<ArtificialAirwayType, float> InsertAirway = new Dictionary<ArtificialAirwayType, float>()
         {
-            {ArtificialAirway.FaceMask, 0f },
-            {ArtificialAirway.LaryngealMask, 0f },
+            {ArtificialAirwayType.FaceMask, 0f },
+            {ArtificialAirwayType.LaryngealMask, 0f },
         };
 
-        public static readonly Dictionary<ArtificialAirway, float> RemoveAirway = new Dictionary<ArtificialAirway, float>()
+        public static readonly Dictionary<ArtificialAirwayType, float> RemoveAirway = new Dictionary<ArtificialAirwayType, float>()
         {
-            {ArtificialAirway.FaceMask, 0f },
-            {ArtificialAirway.LaryngealMask, 0f },
+            {ArtificialAirwayType.FaceMask, 0f },
+            {ArtificialAirwayType.LaryngealMask, 0f },
         };
         #endregion
 
@@ -152,10 +152,10 @@ namespace PatientManagementSystem.Patients.PatientDefaults
         public static float InsertCentralLineSuccess = 100f;
         #endregion
         #region Airways
-        public static readonly Dictionary<ArtificialAirway, float> AirwayInsertionSuccess = new Dictionary<ArtificialAirway, float>()
+        public static readonly Dictionary<ArtificialAirwayType, float> AirwayInsertionSuccess = new Dictionary<ArtificialAirwayType, float>()
         {
-            {ArtificialAirway.FaceMask, 1f },
-            {ArtificialAirway.LaryngealMask,0f },
+            {ArtificialAirwayType.FaceMask, 1f },
+            {ArtificialAirwayType.LaryngealMask,0f },
         };
         #endregion
         #region UrinaryCatheter
@@ -216,10 +216,10 @@ namespace PatientManagementSystem.Patients.PatientDefaults
         public static readonly float InsertIV = 0f;
         public static readonly float InsertCentralLine = 0f;
 
-        public static readonly Dictionary<ArtificialAirway, float> InsertAirway = new Dictionary<ArtificialAirway, float>()
+        public static readonly Dictionary<ArtificialAirwayType, float> InsertAirway = new Dictionary<ArtificialAirwayType, float>()
         {
-            {ArtificialAirway.FaceMask, 0f },
-            {ArtificialAirway.LaryngealMask, 0f },
+            {ArtificialAirwayType.FaceMask, 0f },
+            {ArtificialAirwayType.LaryngealMask, 0f },
         };
         public static readonly float InsertUrinaryCatheter = 0f;
         public static readonly float InsertCerebralShunt = 0f;

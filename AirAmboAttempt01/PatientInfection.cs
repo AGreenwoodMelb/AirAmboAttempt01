@@ -71,6 +71,14 @@ namespace PatientManagementSystem.Patients.PatientInfection
         {
             PathogenType = InfectionPathogenType.None;
             TreatmentResistance = InfectionTreatmentResistance.None;
+            InfectionLevel = 0f;
+        }
+
+        public void Infect(Infection infection)
+        {
+            InfectionLevel = infection.InfectionLevel;
+            PathogenType = infection.PathogenType;
+            TreatmentResistance = infection.TreatmentResistance;
         }
 
         //public void IncreaseInfection()
@@ -176,6 +184,7 @@ namespace PatientManagementSystem.Patients.PatientInfection
             }
 
         }//LATER: Implement second parameter of DrugType for resistance calc
+     
         public Infection[] GetInfectionsArray()
         {
             //Infection[] head = Head.GetInfections();
@@ -280,11 +289,21 @@ namespace PatientManagementSystem.Patients.PatientInfection
         }
         public class AccessPointsContainer
         {
-            public Infection IVLeftArm;
-            public Infection IVRightArm;
-            public Infection IVLeftLeg;
-            public Infection IVRightLeg;
-            public Infection IVCentralLine;
+            /* NOTES:
+             * These do not directly contribute to patient health but have an increased risk of infecting their associated systems (e.g) IVs - Blood, Shunt - Brain, Catheter - bladder
+             * Treating the Patient does not treat the Access Point unless the treatment is directly given through that AccessPoint 
+             */
+
+            public Dictionary<IVTargetLocation, Infection> IVs = new Dictionary<IVTargetLocation, Infection>()
+            {
+                {IVTargetLocation.ArmLeft, new Infection() },
+                {IVTargetLocation.ArmRight, new Infection() },
+                {IVTargetLocation.LegLeft, new Infection() },
+                {IVTargetLocation.LegRight, new Infection() },
+                {IVTargetLocation.CentralLine, new Infection() },
+            };
+
+            public Infection ArtificialAirway;
 
             public Infection CerebralShunt;
 
@@ -293,11 +312,11 @@ namespace PatientManagementSystem.Patients.PatientInfection
             public Infection[] GetInfections()
             {
                 return new Infection[]{
-                    IVLeftArm,
-                    IVRightArm,
-                    IVLeftLeg,
-                    IVRightLeg,
-                    IVCentralLine,
+                    IVs[IVTargetLocation.ArmLeft],
+                    IVs[IVTargetLocation.ArmRight],
+                    IVs[IVTargetLocation.LegLeft],
+                    IVs[IVTargetLocation.LegRight],
+                    IVs[IVTargetLocation.CentralLine],
                     CerebralShunt,
                     UrinaryCatheter,
                 };

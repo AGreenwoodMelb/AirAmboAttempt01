@@ -13,7 +13,7 @@ namespace PatientManagementSystem.Patients.PatientAccessPoints
         LegRight,
         CentralLine
     }
-    public enum ArtificialAirway
+    public enum ArtificialAirwayType
     {
         None,
         FaceMask,
@@ -36,6 +36,7 @@ namespace PatientManagementSystem.Patients.PatientAccessPoints
             {IVTargetLocation.LegRight, new IV() },
             {IVTargetLocation.CentralLine, new IV() },
         };
+
         private bool CheckForIVAccess()
         {
             foreach (KeyValuePair<IVTargetLocation, IV> IVPoint in IVs)
@@ -62,16 +63,6 @@ namespace PatientManagementSystem.Patients.PatientAccessPoints
     }
     public class IV : AccessPoint
     {
-        //public bool IsInserted;
-        //public bool IsBlocked;
-
-
-        //public void Remove()
-        //{
-        //    IsInserted = false;
-        //    IsBlocked = false;
-        //}
-
         //public Infection infection; //Should remove to Infections class
         //public Fluid CurrentFluid { get; set; } //Move to IVPole system?
         //public float FlowRate { get; set; } //Move to IVPole system?
@@ -80,9 +71,6 @@ namespace PatientManagementSystem.Patients.PatientAccessPoints
 
     public class CerebralShunt : AccessPoint
     {
-        //public Infection infection; //Should remove to Infections class
-        //public bool IsInserted;
-        //public bool IsBlocked;
         public float OpeningCerebralPressure; //This is probably useless but is intended to be the cerebral pressure at which the drain opens. May actually have some use.
         public override void Remove()
         {
@@ -96,5 +84,20 @@ namespace PatientManagementSystem.Patients.PatientAccessPoints
 
     }
 
+    public class ArtificialAirway : AccessPoint
+    {
+        public ArtificialAirwayType AirwayType { get; private set; }
+
+        public override void Remove()
+        {
+            base.Remove();
+            AirwayType = ArtificialAirwayType.None;
+        }
+
+        public void Insert(ArtificialAirwayType artificialAirwayType)
+        {
+            AirwayType = artificialAirwayType;
+        }
+    }
    
 }

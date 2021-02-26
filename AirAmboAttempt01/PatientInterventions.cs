@@ -10,7 +10,6 @@ namespace PatientManagementSystem.Patients.PatientInterventions
     public abstract class PatientIntervention
     {
         public float WasteProduced { get; protected set; }
-        public float InfectionChance { get; protected set; }
         public abstract bool Intervene(Patient patient, out bool Succeeded);
     }
 
@@ -100,27 +99,29 @@ namespace PatientManagementSystem.Patients.PatientInterventions
             Succeeded = false;
             if (patient.AccessPoints.IVs[_target].IsInserted) //Cant Insert
                 return false;
-
-            WasteProduced = (_target == IVTargetLocation.CentralLine) ? DefaultWasteProduction.InsertCentralLine : DefaultWasteProduction.InsertIV;
+          
             float successThreshold = (_target == IVTargetLocation.CentralLine) ? DefaultPlayerStatsTEMP.InsertCentralLineSuccess : DefaultPlayerStatsTEMP.InsertIVSuccess;
+            float infectionThreshold = (_target == IVTargetLocation.CentralLine) ? DefaultInfectionValues.InsertCentralLine : DefaultInfectionValues.InsertIV;
+            WasteProduced = (_target == IVTargetLocation.CentralLine) ? DefaultWasteProduction.InsertCentralLine : DefaultWasteProduction.InsertIV;
+
             if (patient.MagicRandomSeed > successThreshold) //Failed to Insert
             {
                 //LATER: Increase patient CurrentPain counter by DefaultPainCaused.InsertIV;
-                if (patient.MagicRandomSeed > DefaultInfectionValues.InsertIV)
-                    //patient.AccessPoints.IVs[_target].infection = new Infection(); //LATER: Create region and organ based look-up tables for to determine infection Type 
-
-                    patient.AccessPoints.IVs[_target].IsInserted = true;
+                if (patient.MagicRandomSeed > infectionThreshold)
+                {
+                    patient.Body.Infections.AccessPoints.IVs[_target].Infect(new Infection()); //LATER: PLACEHOLDER INFECTION Create region and organ based look-up tables for to determine infection Type 
+                }
+                patient.AccessPoints.IVs[_target].IsInserted = true;
                 Succeeded = true;
             }
             else
             {
                 //Additional pain caused in failure?
-                WasteProduced += (_target == IVTargetLocation.CentralLine) ? DefaultWasteProduction.RemoveCentralLine : DefaultWasteProduction.RemoveIV; //This is because you have to throw away the used IV when you fail
+                WasteProduced += (_target == IVTargetLocation.CentralLine) ? DefaultWasteProduction.RemoveCentralLine : DefaultWasteProduction.RemoveIV;
             }
             return true;
         }
     }
-
     public class RemoveIV : PatientIntervention
     {
         private IVTargetLocation _target;
@@ -137,6 +138,7 @@ namespace PatientManagementSystem.Patients.PatientInterventions
                 return false;
 
             WasteProduced = (_target == IVTargetLocation.CentralLine) ? DefaultWasteProduction.RemoveCentralLine : DefaultWasteProduction.RemoveIV;
+            patient.Body.Infections.AccessPoints.IVs[_target].CureInfection();
             patient.AccessPoints.IVs[_target].Remove();
             Succeeded = true;
             return true;
@@ -146,8 +148,8 @@ namespace PatientManagementSystem.Patients.PatientInterventions
     #region Airways
     public class InsertArtificalAirway : PatientIntervention
     {
-        private ArtificialAirway _artificialAirway;
-        public InsertArtificalAirway(ArtificialAirway artificialAirway)
+        private ArtificialAirwayType _artificialAirway;
+        public InsertArtificalAirway(ArtificialAirwayType artificialAirway)
         {
             _artificialAirway = artificialAirway;
         }
@@ -155,13 +157,17 @@ namespace PatientManagementSystem.Patients.PatientInterventions
         public override bool Intervene(Patient patient, out bool Succeeded)
         {
             Succeeded = false;
-            if (patient.AccessPoints.ArtificialAirway != ArtificialAirway.None) //Cant Insert
+            if (patient.AccessPoints.ArtificialAirway.IsInserted)
                 return false;
 
             WasteProduced = DefaultWasteProduction.InsertAirway[_artificialAirway];
-            if (patient.MagicRandomSeed > DefaultPlayerStatsTEMP.AirwayInsertionSuccess[_artificialAirway]) //Failed to Insert
+            if (patient.MagicRandomSeed > DefaultPlayerStatsTEMP.AirwayInsertionSuccess[_artificialAirway])
             {
-                patient.AccessPoints.ArtificialAirway = _artificialAirway;
+                if (patient.MagicRandomSeed > DefaultInfectionValues.InsertAirway[_artificialAirway])
+                {
+                    patient.Body.Infections.AccessPoints.ArtificialAirway.Infect(new Infection()); //REVIEW: PLACEHOLDER INFECTION
+                }
+                patient.AccessPoints.ArtificialAirway.Insert( _artificialAirway);
                 Succeeded = true;
             }
             else
@@ -171,17 +177,17 @@ namespace PatientManagementSystem.Patients.PatientInterventions
             return true;
         }
     }
-
     public class RemoveArtificialAirway : PatientIntervention
     {
         public override bool Intervene(Patient patient, out bool Succeeded)
         {
             Succeeded = false;
-            if (patient.AccessPoints.ArtificialAirway == ArtificialAirway.None)
+            if (!patient.AccessPoints.ArtificialAirway.IsInserted)
                 return false;
 
-            WasteProduced = DefaultWasteProduction.RemoveAirway[patient.AccessPoints.ArtificialAirway];
-            patient.AccessPoints.ArtificialAirway = ArtificialAirway.None;
+            WasteProduced = DefaultWasteProduction.RemoveAirway[patient.AccessPoints.ArtificialAirway.AirwayType];
+            patient.Body.Infections.AccessPoints.ArtificialAirway.CureInfection();
+            patient.AccessPoints.ArtificialAirway.Remove();
             Succeeded = true;
             return true;
         }
@@ -197,8 +203,12 @@ namespace PatientManagementSystem.Patients.PatientInterventions
                 return false;
 
             WasteProduced = DefaultWasteProduction.InsertUrinaryCatheter;
-            if (patient.MagicRandomSeed >= DefaultPlayerStatsTEMP.InsertUrinaryCatheterSuccess) //Failed to insert
+            if (patient.MagicRandomSeed > DefaultPlayerStatsTEMP.InsertUrinaryCatheterSuccess) //Failed to insert
             {
+                if (patient.MagicRandomSeed > DefaultInfectionValues.InsertUrinaryCatheter)
+                {
+                    patient.Body.Infections.AccessPoints.UrinaryCatheter.Infect(new Infection()); //REVIEW: PLACEHOLDER INFECTION
+                }
                 patient.AccessPoints.UrinaryCatheter.IsInserted = true;
                 Succeeded = true;
             }
@@ -209,7 +219,6 @@ namespace PatientManagementSystem.Patients.PatientInterventions
             return true;
         }
     }
-
     public class RemoveUrinaryCatheter : PatientIntervention
     {
         public override bool Intervene(Patient patient, out bool Succeeded)
@@ -219,12 +228,13 @@ namespace PatientManagementSystem.Patients.PatientInterventions
                 return false;
 
             WasteProduced += DefaultWasteProduction.RemoveUrinaryCatheter;
+            patient.Body.Infections.AccessPoints.UrinaryCatheter.CureInfection();
             patient.AccessPoints.UrinaryCatheter.Remove();
             Succeeded = true;
             return true;
         }
     }
-    #endregion;
+    #endregion
     #region CerebralShunt
     public class InsertCerebralShunt : PatientIntervention
     {
@@ -237,12 +247,12 @@ namespace PatientManagementSystem.Patients.PatientInterventions
             WasteProduced = DefaultWasteProduction.InsertCerebralShunt;
             if (patient.MagicRandomSeed > DefaultPlayerStatsTEMP.InsertCerebralShuntSuccess)
             {
-                //Check to Infect
-                //if (patient.MagicRandomSeed > 100f) // NOT DONE
-                //patient.AccessPoints.CerebralShunt.infection = new Infection();
-
-                Succeeded = true;
+                if (patient.MagicRandomSeed > DefaultInfectionValues.InsertCerebralShunt)
+                {
+                    patient.Body.Infections.Head.Brain.Infect(new Infection()); //REVIEW: PLACEHOLDER INFECTION
+                }
                 patient.AccessPoints.CerebralShunt.IsInserted = true;
+                Succeeded = true;
             }
             else
             {
@@ -251,7 +261,6 @@ namespace PatientManagementSystem.Patients.PatientInterventions
             return true;
         }
     }
-
     public class RemoveCerebralShunt : PatientIntervention
     {
         public override bool Intervene(Patient patient, out bool Succeeded)
@@ -261,6 +270,7 @@ namespace PatientManagementSystem.Patients.PatientInterventions
                 return false;
 
             WasteProduced = DefaultWasteProduction.RemoveCerebralShunt;
+            patient.Body.Infections.AccessPoints.CerebralShunt.CureInfection();
             patient.AccessPoints.CerebralShunt.Remove();
             Succeeded = true;
             return true;
@@ -269,8 +279,7 @@ namespace PatientManagementSystem.Patients.PatientInterventions
     #endregion
     #endregion
 
-
-    public class LumbarPuncture : PatientIntervention //Will 
+    public class LumbarPuncture : PatientIntervention //TODO: Finish implementing and testing 
     {
         public override bool Intervene(Patient patient, out bool Succeeded)
         {
@@ -285,18 +294,15 @@ namespace PatientManagementSystem.Patients.PatientInterventions
 
             WasteProduced = DefaultWasteProduction.PerformLumbarPuncture;
 
-            bool causedInfection = patient.MagicRandomSeed > DefaultInfectionValues.PerformLumbarPuncture;
-
             if (patient.MagicRandomSeed > DefaultPlayerStatsTEMP.PerformLumbarPunctureSuccess)
             {
                 Succeeded = true;
             }
 
-            if (causedInfection)
+            if (patient.MagicRandomSeed > DefaultInfectionValues.PerformLumbarPuncture)
             {
-                //Handle Infection
+                patient.Body.Infections.Head.Brain.Infect(new Infection());
             }
-
             return true;
         }
     }
