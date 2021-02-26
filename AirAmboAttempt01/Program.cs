@@ -15,29 +15,22 @@ namespace PatientManagementSystem.Patients
     {
         static void Main(string[] args)
         {
-            //PatientManager Pod = new PatientManager();
+            PatientManager Pod = new PatientManager();
 
-            //#region SetupPatient 
-            //Blood bs = new Blood(new BloodType() { ABO = BloodABO.AB, Rhesus = BloodRhesus.Positive });
-            //BloodSystem blood = new BloodSystem(bs);
-            //Abdomen abs = new Abdomen(reproductives: new Reproductive_Male());
-            //Physical body = new Physical(blood: blood, abdomen: abs);
-            //Patient pt = new Patient(body: body);
-            //#endregion //This sucks
+            #region SetupPatient 
+            Blood bs = new Blood(new BloodType() { ABO = BloodABO.AB, Rhesus = BloodRhesus.Positive });
+            BloodSystem blood = new BloodSystem(bs);
+            Abdomen abs = new Abdomen(reproductives: new Reproductive_Male());
+            Physical body = new Physical(blood: blood, abdomen: abs);
+            Patient pt = new Patient(body: body);
+            #endregion //This sucks
 
-            //Pod.TryAddPatient(pt);
+            Pod.TryAddPatient(pt);
 
-            ////Pod.PerformIntervention(new InsertIV(IVTargetLocation.ArmLeft), out bool Succeeded); //This Succeeded thing is already starting to wear thin
-            ////Console.WriteLine(Pod.TotalWasteProduced);
-            ////Console.WriteLine(Pod.PatientResults.Blood.BloodType.ToString());
+            Drug drug = new DrugStim1();
 
-            //Console.WriteLine(pt.Body.Abdomen.Liver.OrganState);
+            drug.Administer(pt, AdministrationRoute.Intramuscular);
 
-            Infections infections = new Infections();
-
-            Infection[] meh = infections.GetInfectionsArray();
-
-            infections.TreatInfection(InfectionPathogenType.Bacterial);
             Console.ReadLine();
         }
     }

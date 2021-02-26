@@ -22,12 +22,12 @@ namespace PatientManagementSystem.Patients.PatientAccessPoints
 
     public class AccessPoints
     {
-        public CerebralShunt CerebralShunt; 
+        public CerebralShunt CerebralShunt;
         public ArtificialAirway ArtificialAirway;
         public UrinaryCatheter UrinaryCatheter;
 
         public bool HasIVAccess => CheckForIVAccess();
-        
+
         public Dictionary<IVTargetLocation, IV> IVs = new Dictionary<IVTargetLocation, IV>()
         {
             {IVTargetLocation.ArmLeft, new IV() },
@@ -99,5 +99,5 @@ namespace PatientManagementSystem.Patients.PatientAccessPoints
             AirwayType = artificialAirwayType;
         }
     }
-   
+
 }

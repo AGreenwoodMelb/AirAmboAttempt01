@@ -3,6 +3,21 @@ using PatientManagementSystem.Patients.PatientInterventions;
 
 namespace PatientManagementSystem.Patients.PatientDrugs
 {
+
+    public enum AdministrationRoute
+    {
+        /* NOTE:
+         * Players can administer drugs via the incorrect route with varying outcomes
+         * 
+         */
+        None,
+        Intramuscular,
+        Oral,
+        IV,
+        Inhaled,
+        Other,
+    }
+
     public struct DrugProfile
     {
         public bool IsStimulant;
@@ -13,53 +28,92 @@ namespace PatientManagementSystem.Patients.PatientDrugs
 
     public abstract class Drug
     {
-        public Patient Target { get; protected set; }
-        public DrugProfile drugProfile;
+        protected Patient _patient;
+        protected DrugProfile drugProfile;
+        public float WasteProduced { get; protected set; }
+        public string DrugName => this.GetType().Name;
 
-
-        public virtual bool Administer(Patient target)
+        public bool Administer(Patient patient, AdministrationRoute route)
         {
-            throw new NotImplementedException(message: "Drug::Administer not implements");
+            _patient = patient;
+            bool output = false;
+            switch (route)
+            {
+                case AdministrationRoute.None:
+                    break;
+                case AdministrationRoute.Intramuscular:
+                    output = AdministerIntramuscular(patient, route);
+                    break;
+                case AdministrationRoute.Oral:
+                    output = AdministerOral(patient, route);
+                    break;
+                case AdministrationRoute.IV:
+                    output = AdministerIV(patient, route);
+                    break;
+                case AdministrationRoute.Inhaled:
+                    output = AdministerInhaled(patient, route);
+                    break;
+                case AdministrationRoute.Other:
+                    //LUXURY: FOR EXPANSION
+                    break;
+                default:
+                    break;
+            }
+            UpdatePatientDrugProfile();
+            return output;
         }
-
+        
         public void UpdatePatientDrugProfile()
         {
-            DrugProfile targetProfile = Target.Body.Blood.DrugsProfile;
+            DrugProfile targetProfile = _patient.Body.Blood.DrugsProfile;
 
             targetProfile.IsStimulant = drugProfile.IsStimulant || targetProfile.IsStimulant;
             targetProfile.IsSedative = drugProfile.IsSedative || targetProfile.IsSedative;
             targetProfile.IsOpiod = drugProfile.IsOpiod || targetProfile.IsOpiod;
             targetProfile.IsHallucinogen = drugProfile.IsHallucinogen || targetProfile.IsHallucinogen;
 
-            Target.Body.Blood.DrugsProfile = targetProfile;
+            _patient.Body.Blood.DrugsProfile = targetProfile;
         }
 
+        protected abstract bool AdministerIntramuscular(Patient patient, AdministrationRoute route);
+        protected abstract bool AdministerOral(Patient patient, AdministrationRoute route);
+        protected abstract bool AdministerIV(Patient patient, AdministrationRoute route);
+        protected abstract bool AdministerInhaled(Patient patient, AdministrationRoute route);
     }
 
     public class DrugStim1 : Drug
     {
         public DrugStim1()
         {
+            WasteProduced = PatientDefaults.DefaultWasteProduction.AdministerDrug[DrugName];
             drugProfile.IsStimulant = true;
         }
 
-
-        public override bool Administer(Patient target)
+        protected override bool AdministerIntramuscular(Patient patient, AdministrationRoute route)
         {
-            Target = target;
-            //Do the action of the drug
-            UpdatePatientDrugProfile();
-            return true;
+            return true; //Testing here 
+        }
+        protected override bool AdministerOral(Patient patient, AdministrationRoute route)
+        {
+            throw new NotImplementedException();
+        }
+        protected override bool AdministerInhaled(Patient patient, AdministrationRoute route)
+        {
+            throw new NotImplementedException();
+        }
+        protected override bool AdministerIV(Patient patient, AdministrationRoute route)
+        {
+            throw new NotImplementedException();
         }
     }
 
-    public class DrugDetoxer : Drug
-    {
-        public override bool Administer(Patient target)
-        {
-            Target = target;
-            Target.Body.Blood.DrugsProfile = new DrugProfile();
-            return true;
-        }
-    }
+    //public class DrugDetoxer : Drug
+    //{
+    //    public override bool Administer(Patient target, AdministrationRoute route)
+    //    {
+    //        Target = target;
+    //        Target.Body.Blood.DrugsProfile = new DrugProfile();
+    //        return true;
+    //    }
+    //}
 }

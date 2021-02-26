@@ -13,8 +13,8 @@ namespace PatientManagementSystem.Patients.PatientInterventions
         public abstract bool Intervene(Patient patient, out bool Succeeded);
     }
 
-    #region Fluids?
-    public class Transfuse : PatientIntervention
+    #region Fluids?  //Steamy trash lives in here
+    public class Transfuse : PatientIntervention 
     {
         private Fluid _fluid;
         private Patient _patient;
@@ -63,22 +63,49 @@ namespace PatientManagementSystem.Patients.PatientInterventions
             }
             return _patient.Body.Blood.AddFluid(_fluid);
         }
-    }
+    }//This seems awful
     public class AdministerDrug : PatientIntervention //Maybe redo? Or Should this represent an IM or bolus via IVAccess
     {
         private Drug _drug;
-        public AdministerDrug(Drug drug)
+        private AdministrationRoute _route;
+
+        public AdministerDrug(Drug drug, AdministrationRoute route) 
         {
-            WasteProduced = 0; //LATER: Replace with relevant value from a defaults file.
+            WasteProduced = drug.WasteProduced;
             _drug = drug;
+            _route = route;
         }
 
         public override bool Intervene(Patient patient, out bool Succeeded)
         {
-            _drug.Administer(patient);
+
+            _drug.Administer(patient, _route);
             Succeeded = false;
-            //throw new NotImplementedException(message: "AdministerDrug:: No Intervene method implemented");
             return true;
+        }
+
+        private bool CheckRouteValid(Patient patient)
+        {
+            switch (_route)
+            {
+                case AdministrationRoute.None:
+                    break;
+                case AdministrationRoute.Intramuscular:
+                    break;
+                case AdministrationRoute.Oral:
+                    break;
+                case AdministrationRoute.IV:
+                    // patient.AccessPoints.HasIVAccess;
+                    //Check if has Open and Patent IV
+                    break;
+                case AdministrationRoute.Inhaled:
+                    break;
+                case AdministrationRoute.Other:
+                    break;
+                default:
+                    break;
+            }
+            return false; //PLACEHOLDER
         }
     }
     #endregion

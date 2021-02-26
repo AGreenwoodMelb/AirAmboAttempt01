@@ -141,7 +141,10 @@ namespace PatientManagementSystem.Patients.PatientDefaults
         public static readonly float PerformLumbarPuncture = 0f;
 
         #region DrugAdministration
-        //Meow
+        public static readonly Dictionary<string, float> AdministerDrug = new Dictionary<string, float>() //Careful when adding new drugs that the string = TargetDrugClass.GetName;
+        {
+            { "DrugStim1", 10f},
+        };
         #endregion
     }
 
