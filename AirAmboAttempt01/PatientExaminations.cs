@@ -380,7 +380,7 @@ namespace PatientManagementSystem.Patients.PatientExaminations
     {
         public override bool Examine(Patient patient, PatientExamResults results)
         {
-            //This should return an average picture of the lungs infection state
+            //This should return an average picture of the lungs infection state. Perhaps just give the most dominant infection
             throw new NotImplementedException();
         }
     }//TODO: Implement all the required background fields
@@ -388,7 +388,7 @@ namespace PatientManagementSystem.Patients.PatientExaminations
     public class ExamineBronchoscopySample : PatientExamination
     {
         private bool _targetLeftLung;
-        private string _targetLobeLocation; //TODO: Replace type with appropriate enum?
+        private string _targetLobeLocation; //TODO: ExamineBronchoscopySample: Replace _targetLobeLocation type with appropriate enum?
         public ExamineBronchoscopySample(bool targetLeftLung, string temp_targetLobeLocation)
         {
             _targetLeftLung = targetLeftLung;

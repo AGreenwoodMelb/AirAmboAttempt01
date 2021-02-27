@@ -186,42 +186,8 @@ namespace PatientManagementSystem.Patients.PatientInfection
      
         public Infection[] GetInfectionsArray()
         {
-            //Infection[] head = Head.GetInfections();
-            //Infection[] chest = Chest.GetInfections();
-            //Infection[] abdomen = Abdomen.GetInfections();
-
-            //Infection[] result = new Infection[head.Length + chest.Length + abdomen.Length];
-
-            //head.CopyTo(result, 0);
-            //chest.CopyTo(result, head.Length);
-            //abdomen.CopyTo(result, (head.Length + chest.Length));
-
             return Head.GetInfections().Concat(Chest.GetInfections().Concat(Abdomen.GetInfections())).ToArray();
-
-            //return new Infection[]
-            //{
-            //    //Head
-            //    Head.Surface,
-            //    Head.Brain,
-
-            //    //Chest
-            //    Chest.Surface,
-            //    Chest.Heart,
-            //    Chest.LeftLung,
-            //    Chest.RightLung,
-
-            //    //Abdomen
-            //    Abdomen.Surface,
-            //    Abdomen.GastrointestinalTract,
-            //    Abdomen.Liver,
-            //    Abdomen.Spleen,
-            //    Abdomen.Pancreas,
-            //    Abdomen.LeftKidney,
-            //    Abdomen.RightKidney,
-            //    Abdomen.Bladder,
-            //    Abdomen.Reproductives,
-            //};
-        }//This is atrocious
+        }//Still pretty bad
 
         #region ContainerClasses
         public abstract class DefaultContainer
@@ -245,7 +211,7 @@ namespace PatientManagementSystem.Patients.PatientInfection
         public class ChestContainer : DefaultContainer
         {
             public Infection Heart;
-            public Infection LeftLung;
+            public Infection LeftLung; 
             public Infection RightLung;
 
             public override Infection[] GetInfections()
@@ -258,7 +224,7 @@ namespace PatientManagementSystem.Patients.PatientInfection
                     RightLung,
                 };
             }
-        }
+        }//TODO: Lung infections need to be broken down further into lobes
         public class AbdomenContainer : DefaultContainer
         {
             public Infection GastrointestinalTract;
@@ -289,7 +255,7 @@ namespace PatientManagementSystem.Patients.PatientInfection
         public class AccessPointsContainer
         {
             /* NOTES:
-             * These do not directly contribute to patient health but have an increased risk of infecting their associated systems (e.g) IVs - Blood, Shunt - Brain, Catheter - bladder
+             * These do not directly contribute to patient health but have an increased risk of infecting their associated systems (e.g) IVs - Blood, Shunt - Brain, Catheter - bladder, Airway - Lung
              * Treating the Patient does not treat the Access Point unless the treatment is directly given through that AccessPoint 
              */
 

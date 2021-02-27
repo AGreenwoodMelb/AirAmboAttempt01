@@ -1,6 +1,5 @@
 ﻿namespace PatientManagementSystem.Patients.PatientOrgans
 {
-
     public enum VesselState
     {
         Normal,

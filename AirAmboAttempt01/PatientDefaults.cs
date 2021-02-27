@@ -3,9 +3,8 @@ using PatientManagementSystem.Patients.PatientBlood;
 using PatientManagementSystem.Patients.PatientBones;
 using PatientManagementSystem.Patients.PatientOrgans; //Hopefully this wont last
 using PatientManagementSystem.Patients.PatientInfection;
-
-using System.Collections.Generic;
 using PatientManagementSystem.Patients.PatientDrugs;
+using System.Collections.Generic;
 
 namespace PatientManagementSystem.Patients.PatientDefaults
 {
