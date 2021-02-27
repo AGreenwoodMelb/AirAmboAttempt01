@@ -210,7 +210,7 @@ namespace PatientManagementSystem.Patients.PatientExaminations
             //POOOOOOOOO
         }
 
-        private void ExamineLung(bool isLeft)
+        private void ExamineLung(bool isLeft) //LATER: Update once Lung reworked
         {
             if (isLeft)
             {
@@ -251,6 +251,7 @@ namespace PatientManagementSystem.Patients.PatientExaminations
         private void ExamineBladder()
         {
             _results.UrinaryTract.Bladder.CurrentBladderVolume = _patient.Body.Abdomen.UrinaryTract.Bladder.CurrentVolume;
+            //Should show stones too
         }
 
         private void ExamineReproductives()
@@ -303,7 +304,7 @@ namespace PatientManagementSystem.Patients.PatientExaminations
     {
         public override bool Examine(Patient patient, PatientExamResults results)
         {
-            results.Heart.BeatsPerMinute = patient.Body.Chest.Heart.BeatsPerMinute;
+            results.Vitals.HeartRate = patient.Body.Chest.Heart.BeatsPerMinute;
             return true;
         }
     }
@@ -361,7 +362,7 @@ namespace PatientManagementSystem.Patients.PatientExaminations
     {
         public override bool Examine(Patient patient, PatientExamResults results)
         {
-            results.Lungs.RespirationRate = patient.Body.Chest.Lungs.RespiratoryRate;
+            results.Vitals.RespiratoryRate = patient.Body.Chest.Lungs.RespiratoryRate;
             return true;
         }
     }
@@ -370,7 +371,7 @@ namespace PatientManagementSystem.Patients.PatientExaminations
     {
         public override bool Examine(Patient patient, PatientExamResults results)
         {
-            results.Lungs.OxygenSaturation = patient.Body.Chest.Lungs.OxygenSaturation;
+            results.Vitals.OxygenSaturation = patient.Body.Chest.Lungs.OxygenSaturation;
             return true;
         }
     }
@@ -400,6 +401,60 @@ namespace PatientManagementSystem.Patients.PatientExaminations
             throw new NotImplementedException();
         }
     } //TODO: Implement all the required bacground field and appropriate enum for _targetLobeLocation
+
+
+    #region Auscultation
+    public class ExamineLungsAuscultateLungs : PatientExamination
+    {
+        public override bool Examine(Patient patient, PatientExamResults results)
+        {
+            new ExamineLungsAuscultateLung(true);
+            new ExamineLungsAuscultateLung(false);
+            return true;
+        }
+    }
+
+    public class ExamineLungsAuscultateLung : PatientExamination
+    {
+        private bool _targetLeftLung;
+
+        public ExamineLungsAuscultateLung(bool targetLeftLung)
+        {
+            _targetLeftLung = targetLeftLung;
+        }
+
+        public override bool Examine(Patient patient, PatientExamResults results)
+        {
+            new ExamineLungsAuscultateLungLobe(_targetLeftLung, "UpperLobe").Examine(patient, results);
+            if (_targetLeftLung)
+                new ExamineLungsAuscultateLungLobe(_targetLeftLung, "MiddleLobe").Examine(patient, results);
+            new ExamineLungsAuscultateLungLobe(_targetLeftLung, "LowerLobe").Examine(patient, results);
+
+            return true;
+        }
+    }
+
+    public class ExamineLungsAuscultateLungLobe : PatientExamination
+    {
+        private bool _targetLeftLung;
+        private string _targetLobe; //Replace string with appropriate enum?
+
+        public ExamineLungsAuscultateLungLobe(bool targetLeftLung, string targetLobe) //Replace string with appropriate enum?
+        {
+            _targetLeftLung = targetLeftLung;
+            _targetLobe = targetLobe;
+        }
+
+        public override bool Examine(Patient patient, PatientExamResults results)
+        {
+            //results.Lungs.targetLung.targetLobe = patient.Body.Chest.Lungs.targetLung.targetLobe.GetBreathSounds()
+            //return true;
+            throw new NotImplementedException();
+        }
+    } //TODO: Finish Implementing ExamineLungAuscultateLungLobe once Lung has been reworked and PatientExamResultsLungs updated
+    #endregion
+
+
     #endregion
 
     #region TEMPNAME-LiverPancreas
@@ -414,6 +469,60 @@ namespace PatientManagementSystem.Patients.PatientExaminations
     #endregion
 
     #region UrinaryTractExams
+    public class ExamineKidneyScan : PatientExamination
+    {
+        private bool _isLeft;
+
+        public ExamineKidneyScan(bool isLeft)
+        {
+            _isLeft = isLeft;
+        }
+
+        public override bool Examine(Patient patient, PatientExamResults results)
+        {
+            if (_isLeft)
+            {
+                if (patient.Body.Abdomen.UrinaryTract.LeftKidney.OrganState == OrganState.Removed)
+                {
+                    results.UrinaryTract.LeftKidney.IsRemoved = true;
+                    return true;
+                }
+
+                results.UrinaryTract.LeftKidney.IsRemoved = false;
+                results.UrinaryTract.LeftKidney.HasStones = patient.Body.Abdomen.UrinaryTract.LeftKidney.HasStone;
+                results.UrinaryTract.LeftKidney.IsUreterBlocked = patient.Body.Abdomen.UrinaryTract.LeftKidney.IsUreterBlocked;
+                results.UrinaryTract.LeftKidney.Infection = patient.Body.Infections.Abdomen.LeftKidney.Severity;
+
+            }
+            else
+            {
+                if (patient.Body.Abdomen.UrinaryTract.RightKidney.OrganState == OrganState.Removed)
+                {
+                    results.UrinaryTract.RightKidney.IsRemoved = true;
+                    return true;
+                }
+
+                results.UrinaryTract.RightKidney.IsRemoved = false;
+                results.UrinaryTract.RightKidney.HasStones = patient.Body.Abdomen.UrinaryTract.RightKidney.HasStone;
+                results.UrinaryTract.RightKidney.IsUreterBlocked = patient.Body.Abdomen.UrinaryTract.RightKidney.IsUreterBlocked;
+                results.UrinaryTract.RightKidney.Infection = patient.Body.Infections.Abdomen.RightKidney.Severity;
+            }
+            return true;
+        }//REVIEW: There is probably a more succinct way of doing this
+    }
+    public class ExamineBladderScan : PatientExamination
+    {
+        public override bool Examine(Patient patient, PatientExamResults results)
+        {
+            results.UrinaryTract.Bladder.CurrentBladderVolume = patient.Body.Abdomen.UrinaryTract.Bladder.CurrentVolume;
+            results.UrinaryTract.Bladder.HasStones = patient.Body.Abdomen.UrinaryTract.Bladder.HasStones;
+            results.UrinaryTract.Bladder.IsUrethraBlocked = patient.Body.Abdomen.UrinaryTract.Bladder.IsUrethraBlocked;
+            results.AccessPoints.UrinaryCatheter.IsInserted = patient.AccessPoints.UrinaryCatheter.IsInserted;
+            //REVIEW: Does BladderScane need anything else?
+            return true;
+        }
+    } //TODO: Handle WasteProduction
+
     public class Urinalysis : PatientExamination
     {
         public override bool Examine(Patient patient, PatientExamResults results)
@@ -607,7 +716,7 @@ namespace PatientManagementSystem.Patients.PatientExaminations
             if (!patient.AccessPoints.IVs[_target].IsInserted)
                 return false;
 
-
+            results.AccessPoints.IVs[_target].IsBlocked = patient.AccessPoints.IVs[_target].IsBlocked;
             results.AccessPoints.IVs[_target].Infection = patient.Body.Infections.AccessPoints.IVs[_target].Severity;
             return true;
         }
@@ -619,6 +728,7 @@ namespace PatientManagementSystem.Patients.PatientExaminations
             if (!patient.AccessPoints.UrinaryCatheter.IsInserted)
                 return false;
 
+            results.AccessPoints.UrinaryCatheter.IsBlocked = patient.AccessPoints.UrinaryCatheter.IsBlocked;
             results.AccessPoints.UrinaryCatheter.Infection = patient.Body.Infections.AccessPoints.UrinaryCatheter.Severity;
             return true;
         }
@@ -630,6 +740,7 @@ namespace PatientManagementSystem.Patients.PatientExaminations
             if (!patient.AccessPoints.CerebralShunt.IsInserted)
                 return false;
 
+            results.AccessPoints.CerebralShunt.IsBlocked = patient.AccessPoints.CerebralShunt.IsBlocked;
             results.AccessPoints.CerebralShunt.Infection = patient.Body.Infections.AccessPoints.CerebralShunt.Severity;
             return true;
         }
@@ -641,6 +752,7 @@ namespace PatientManagementSystem.Patients.PatientExaminations
             if (!patient.AccessPoints.ArtificialAirway.IsInserted)
                 return false;
 
+            results.AccessPoints.ArtificialAirway.IsBlocked = patient.AccessPoints.ArtificialAirway.IsBlocked;
             results.AccessPoints.ArtificialAirway.Infection = patient.Body.Infections.AccessPoints.ArtificialAirway.Severity;
             return true;
         }

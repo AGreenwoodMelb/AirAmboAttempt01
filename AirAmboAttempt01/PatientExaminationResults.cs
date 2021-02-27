@@ -165,26 +165,25 @@ namespace PatientManagementSystem.Patients.ExaminationResults
     #region UrinaryTractResults
     public class PatientExamResultsUrinaryTract
     {
-        public bool HasUrinaryCatheter = false;
-        public bool IsUreterLeftBlocked = false;
-        public bool IsUreterRightBlocked = false;
-        public bool IsUrethraBlocked;
-
         public PatientResultsKidney LeftKidney = new PatientResultsKidney();
         public PatientResultsKidney RightKidney = new PatientResultsKidney();
 
         public PatientResultsBladder Bladder = new PatientResultsBladder();
 
         #region Classes
-        public class PatientResultsKidney
+        
+
+        public class PatientResultsKidney : StoneForming
         {
-            public string temp;
+            public bool IsUreterBlocked;
+            public bool IsRemoved;
         }
 
-        public class PatientResultsBladder
+        public class PatientResultsBladder : StoneForming
         {
             public float CurrentBladderVolume;
-            public FluidUrine UrineSample;
+            public bool IsUrethraBlocked;
+            public FluidUrine UrineSample; //Dont know about how to solve this one yet
         }
         #endregion
     }
@@ -254,6 +253,16 @@ namespace PatientManagementSystem.Patients.ExaminationResults
         {
 
         }
+    }
+    #endregion
+
+
+    #region Abstracts
+    //Pancreas, Liver, Kidney, Bladder, ??
+    public abstract class StoneForming
+    {
+        public bool HasStones;
+        public InfectionSeverity Infection; //May end up changing these to full infection objects later
     }
     #endregion
 }

@@ -4,12 +4,11 @@
 
 #region TODOS
 //TODO: (Started?) Rebuild OrganState enum, perhaps use a float to indicate organ health? another float for OrganFunctionEffectiveness (nice short variable name there) 
-//TODO: (Started) Drug class needs rethinking 
 //TODO: Reorganise files and class locations
 #endregion
 
 #region REVIEWS
-
+//REVIEW: Consider scrapping that awful HeartStructures/ HeartVessels crap
 #endregion
 
 #region LATERS
