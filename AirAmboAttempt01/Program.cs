@@ -21,10 +21,14 @@ namespace PatientManagementSystem.Patients
             Blood bs = new Blood(new BloodType() { ABO = BloodABO.AB, Rhesus = BloodRhesus.Positive });
             BloodSystem blood = new BloodSystem(bs);
             Abdomen abs = new Abdomen(reproductives: new Reproductive_Male());
+            Anthropometrics metrics = new Anthropometrics(21,181,120);
             Physical body = new Physical(blood: blood, abdomen: abs);
             Patient pt = new Patient(body: body);
             #endregion //This sucks
             Pod.TryAddPatient(pt);
+
+            Console.WriteLine(  pt.Body.Anthropometrics.Age);
+            Console.WriteLine(pt.Body.Anthropometrics.BMI);
 
 
             Console.ReadLine();

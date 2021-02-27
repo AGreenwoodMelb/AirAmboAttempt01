@@ -3,6 +3,7 @@ using PatientManagementSystem.Patients.PatientBones;
 using PatientManagementSystem.Patients.PatientOrgans;
 using PatientManagementSystem.Patients.PatientDefaults;
 using PatientManagementSystem.Patients.PatientInfection;
+using System;
 
 namespace PatientManagementSystem.Patients.PatientPhysical
 {
@@ -13,6 +14,13 @@ namespace PatientManagementSystem.Patients.PatientPhysical
     public class Physical
     {
         #region Props
+        private Anthropometrics _anthropometrics;
+        public Anthropometrics Anthropometrics
+        {
+            get { return _anthropometrics; }
+            set { _anthropometrics = value; }
+        }
+
         private BloodSystem _blood;
         public BloodSystem Blood
         {
@@ -56,8 +64,9 @@ namespace PatientManagementSystem.Patients.PatientPhysical
         }
         #endregion
 
-        public Physical(Head head = null, Chest chest = null, Abdomen abdomen = null, BloodSystem blood = null, Limbs limbs = null, Infections infections = null)
+        public Physical(Anthropometrics metrics = null, Head head = null, Chest chest = null, Abdomen abdomen = null, BloodSystem blood = null, Limbs limbs = null, Infections infections = null)
         {
+            _anthropometrics = metrics ?? new Anthropometrics();
             Head = head ?? new Head();
             Chest = chest ?? new Chest();
             Abdomen = abdomen ?? new Abdomen();
@@ -281,6 +290,28 @@ namespace PatientManagementSystem.Patients.PatientPhysical
         public Leg(Bone[] legBoneStructure = null)
         {
             Bones = legBoneStructure ?? DefaultBoneStructures.DefaultLegBones;
+        }
+    }
+
+    public class Anthropometrics
+    {
+        public readonly int Age;
+        public readonly float Height; //cm
+        public readonly float Weight; //kg
+        public float BMI => (float)Math.Round((Weight / (Height * Height)), 1);
+
+        public Anthropometrics()
+        {
+            Age = DefaultPatientMetrics.DefaultAge;
+            Height = DefaultPatientMetrics.DefaultHeight;
+            Weight = DefaultPatientMetrics.DefaultWeight;
+        }
+
+        public Anthropometrics(int age, float height, float weight)
+        {
+            Age = Math.Clamp(age, DefaultPatientMetrics.MinAge, DefaultPatientMetrics.MaxAge);
+            Height = Math.Clamp(height, DefaultPatientMetrics.MinHeight, DefaultPatientMetrics.MaxHeight);
+            Weight = Math.Clamp(weight, DefaultPatientMetrics.MinWeight, DefaultPatientMetrics.MaxWeight);
         }
     }
     #endregion

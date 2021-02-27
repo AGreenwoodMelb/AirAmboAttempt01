@@ -8,6 +8,25 @@ using System.Collections.Generic;
 
 namespace PatientManagementSystem.Patients.PatientDefaults
 {
+    public static class DefaultPatientMetrics
+    {
+        //Age (years)
+        public static readonly int DefaultAge = 21;
+        public static readonly int MinAge = 18;
+        public static readonly int MaxAge = 200;
+
+
+        //The below values are pretty much arbitrarily picked
+        //Height (cm)
+        public static readonly float DefaultHeight= 175;
+        public static readonly float MinHeight= 134;
+        public static readonly float MaxHeight = 200;
+
+        //Weight (kgs)
+        public static readonly float DefaultWeight = 70;
+        public static readonly float MinWeight = 30;
+        public static readonly float MaxWeight = 150;
+    }
     public static class DefaultBloodLossBaseRates
     {
         public static readonly float Superficial = 1f;

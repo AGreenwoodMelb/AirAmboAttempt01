@@ -19,13 +19,6 @@ namespace PatientManagementSystem.Patients.PatientSocials
             set { _lastName = value; }
         }
 
-        private int _age;
-        public int Age
-        {
-            get { return _age; }
-            set { _age = value; }
-        }
-
         private Gender _gender;
         public Gender Gender
         {
@@ -34,11 +27,10 @@ namespace PatientManagementSystem.Patients.PatientSocials
         }
         #endregion
 
-        public Biography(string firstName = "John", string lastName = "Doe", int age = 30, Gender gender = Gender.Other)
+        public Biography(string firstName = "John", string lastName = "Doe", Gender gender = Gender.Other)
         {
             FirstName = firstName;
             LastName = lastName;
-            Age = age;
             Gender = gender;
         }
     } 
