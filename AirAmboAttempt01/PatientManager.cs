@@ -59,7 +59,7 @@ namespace PatientManagementSystem
                     title = "Ms. ";
                     break;
             }
-            return $"{title} {CurrentPatient.Biography.LastName}, {CurrentPatient.Biography.FirstName} ({CurrentPatient.Biography.Age})";
+            return $"{title} {CurrentPatient.Biography.LastName}, {CurrentPatient.Biography.FirstName}";
         }
         public string GetPatientHead()
         {

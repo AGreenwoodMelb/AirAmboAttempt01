@@ -292,13 +292,14 @@ namespace PatientManagementSystem.Patients.PatientPhysical
             Bones = legBoneStructure ?? DefaultBoneStructures.DefaultLegBones;
         }
     }
+    #endregion
 
     public class Anthropometrics
     {
         public readonly int Age;
         public readonly float Height; //cm
         public readonly float Weight; //kg
-        public float BMI => (float)Math.Round((Weight / (Height * Height)), 1);
+        public float BMI => (float)Math.Round((Weight / Math.Pow((Height / 100), 2)), 1);
 
         public Anthropometrics()
         {
@@ -314,5 +315,4 @@ namespace PatientManagementSystem.Patients.PatientPhysical
             Weight = Math.Clamp(weight, DefaultPatientMetrics.MinWeight, DefaultPatientMetrics.MaxWeight);
         }
     }
-    #endregion
 }

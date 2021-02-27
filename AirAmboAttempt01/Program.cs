@@ -27,7 +27,7 @@ namespace PatientManagementSystem.Patients
             #endregion //This sucks
             Pod.TryAddPatient(pt);
 
-            Console.WriteLine(  pt.Body.Anthropometrics.Age);
+            
             Console.WriteLine(pt.Body.Anthropometrics.BMI);
 
 
