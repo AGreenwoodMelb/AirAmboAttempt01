@@ -40,8 +40,22 @@ namespace PatientManagementSystem.Patients.PatientOrgans
     public class Organ
     {
         #region Props
-        private float _organHealth = 1f;
-        public OrganState OrganState //This seems to work by chance, not design.
+        protected float _organHealth = 1f;
+
+        private float _organEfficiency;
+        public float OrganEfficiency
+        {
+            get
+            {
+                return _organEfficiency;
+            }
+            private set
+            {
+                _organEfficiency = value;
+            }
+        }//TODO: OrganEfficiency should be dynamically generated from _organHealth and Default file
+
+        public OrganState OrganState //REVIEW: This seems to work by chance, not design.
         {
             get
             {

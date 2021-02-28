@@ -213,7 +213,8 @@ namespace PatientManagementSystem.Patients.ExaminationResults
         public float? OxygenSaturation = null;
         public float? HeartRate = null;
         public float? BloodPressure = null;
-    }
+        public float? BodyTemperature = null;
+    }//REVIEW: What am I doing with nullable floats?
     #endregion
 
     #region AccesPoints

@@ -1,5 +1,4 @@
 ﻿using PatientManagementSystem.Patients.PatientDefaults;
-using PatientManagementSystem.Patients.PatientInfection;
 using System;
 
 namespace PatientManagementSystem.Patients.PatientOrgans
@@ -18,11 +17,11 @@ namespace PatientManagementSystem.Patients.PatientOrgans
     public enum PrecussionSounds
     {
         /* NOTES: 
-         * https://www.physio-pedia.com/Respiratory_Assessment-_Percussion
+         * [1]: https://www.physio-pedia.com/Respiratory_Assessment-_Percussion
          */
         Normal,
-        Dull, //"Likely indicating: atelectasis, tumour, plural effusion, lobar pneumonia"
-        Hyperresonant, //"Likely indicating: Emphysema or pneumothorax"
+        Dull, //"Likely indicating: atelectasis, tumour, plural effusion, lobar pneumonia" [1]
+        Hyperresonant, //"Likely indicating: Emphysema or pneumothorax" [1]
     }
 
 
@@ -83,19 +82,18 @@ namespace PatientManagementSystem.Patients.PatientOrgans
 
         public float GetLungEfficiency()
         {
-            //float average = 0f;
-            //average += DefaultLungs.LungFunctionValues[UpperLobe.LobeState];
-            //average += DefaultLungs.LungFunctionValues[LowerLobe.LobeState];
-            //if (IsLeft)
-            //{
-            //    return average / 2f;
-            //}
-            //else
-            //{
-            //    average += DefaultLungs.LungFunctionValues[MiddleLobe.LobeState];
-            //    return average / 3f;
-            //}
-            return 0;
+            float average = 0f;
+            average += UpperLobe.OrganEfficiency;
+            average += LowerLobe.OrganEfficiency;
+            if (IsLeft)
+            {
+                return average / 2f;
+            }
+            else
+            {
+                average += MiddleLobe.OrganEfficiency;
+                return average / 3f;
+            }
         }
 
     }

@@ -20,6 +20,18 @@ namespace PatientManagementSystem
 
         //LATER: Add the equivalent of IV poles for hagging fluid bags and infusions
 
+
+        public PatientPod()
+        {
+
+        } //LATER: Remove this contrutor once ambulance class is setup
+
+        public PatientPod(object ambulance)
+        {
+            MaximumWasteVolume = 100f; //TODO: Replace with Defaults value;
+        }//LATER: Replace parameter: ambulance type with appropriate class type
+
+
         public bool TryAddPatient(Patient newPatient)
         {
             if (CurrentPatient == null)
@@ -39,7 +51,6 @@ namespace PatientManagementSystem
             }
             return false;
         }
-
         public string GetPatientBio()
         {
             if (CurrentPatient == null)
@@ -62,11 +73,6 @@ namespace PatientManagementSystem
             }
             return $"{title} {CurrentPatient.Biography.LastName}, {CurrentPatient.Biography.FirstName}";
         }
-        public string GetPatientHead()
-        {
-            return "";
-        }
-
         public Patient TEMP_GetPatient()
         {
             return CurrentPatient;
@@ -74,6 +80,12 @@ namespace PatientManagementSystem
 
         public bool PerformIntervention(PatientIntervention patientIntervention, out bool Succeeded)
         {
+            if (false && TotalWasteProduced >= MaximumWasteVolume) //LATER: (Remove) Just to bypass this check for now
+            {
+                Succeeded = false;
+                return false;
+            }//LATER: Waste check in PerformIntervention needs tweaking
+
             if (patientIntervention.Intervene(CurrentPatient, PatientResults, out Succeeded))
             {
                 TotalWasteProduced += patientIntervention.WasteProduced;
@@ -84,6 +96,7 @@ namespace PatientManagementSystem
 
         #region NOT_IMPLEMENTED_YET
         public float TotalWasteProduced { get; private set; }
+        public readonly float MaximumWasteVolume; 
         public void DumpWasteIntoStorage(object Ambulance)
         {
             /*
@@ -95,7 +108,4 @@ namespace PatientManagementSystem
         }//LATER: Implement once the Ambulance waste system is in production
         #endregion
     }
-
-
-
 }

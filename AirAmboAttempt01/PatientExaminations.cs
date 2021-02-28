@@ -21,16 +21,7 @@ namespace PatientManagementSystem.Patients.PatientExaminations
         }
     }
 
-    public class ExamineBloodVolumeRatio : PatientExamination
-    {
-        public override bool Examine(Patient patient, PatientExamResults results)
-        {
-            results.Vitals.BloodPressure = patient.Body.Blood.Volume / patient.Body.Blood._defaultBloodSystemVolume;
-            return true;
-        }
-    } //TODO: Replace with Blood Pressure Examination calc
-
-    #region GeneralExams
+    #region DumbScans
     public class ExamineSkeleton : PatientExamination
     {
         private BodyRegion _target;
@@ -209,8 +200,7 @@ namespace PatientManagementSystem.Patients.PatientExaminations
 
             //POOOOOOOOO
         }
-
-        private void ExamineLung(bool isLeft) //LATER: Update once Lung reworked
+        private void ExamineLung(bool isLeft)
         {
             if (isLeft)
             {
@@ -251,7 +241,6 @@ namespace PatientManagementSystem.Patients.PatientExaminations
         private void ExamineBladder()
         {
             _results.UrinaryTract.Bladder.CurrentBladderVolume = _patient.Body.Abdomen.UrinaryTract.Bladder.CurrentVolume;
-            //Should show stones too
         }
 
         private void ExamineReproductives()
@@ -262,6 +251,26 @@ namespace PatientManagementSystem.Patients.PatientExaminations
         #endregion
     } //TODO: Slowly break each OrganExamination into specific Examinations of that particular part of the organ with the end goal of removing this method entirely.
     #endregion
+
+    #region GeneralExams
+    public class ExamineBloodPressure : PatientExamination
+    {
+        public override bool Examine(Patient patient, PatientExamResults results)
+        {
+            results.Vitals.BloodPressure = patient.Body.Blood.Volume / patient.Body.Blood._defaultBloodSystemVolume; //TODO: Setup BloodPressure calc
+            return true;
+        }
+    }
+
+    public class ExamineBodyTemperature : PatientExamination
+    {
+        public override bool Examine(Patient patient, PatientExamResults results)
+        {
+            throw new NotImplementedException();
+        }
+    }//TODO: Implement basic temperature fields for patient
+    #endregion
+
 
     #region HeadExams
     public class ExamineBrainEEG : PatientExamination
@@ -402,7 +411,6 @@ namespace PatientManagementSystem.Patients.PatientExaminations
         }
     } //TODO: Implement all the required bacground field and appropriate enum for _targetLobeLocation
 
-
     #region Auscultation
     public class ExamineLungsAuscultateLungs : PatientExamination
     {
@@ -447,14 +455,62 @@ namespace PatientManagementSystem.Patients.PatientExaminations
 
         public override bool Examine(Patient patient, PatientExamResults results)
         {
-            //results.Lungs.targetLung.targetLobe = patient.Body.Chest.Lungs.targetLung.targetLobe.GetBreathSounds()
+            //results.Lungs.targetLung.targetLobe.BreathSounds = patient.Body.Chest.Lungs.targetLung.targetLobe.BreathSounds;
             //return true;
             throw new NotImplementedException();
         }
     } //TODO: Finish Implementing ExamineLungAuscultateLungLobe once Lung has been reworked and PatientExamResultsLungs updated
     #endregion
+    #region Precussion
+    public class ExamineLungsPrecussLungs : PatientExamination
+    {
+        public override bool Examine(Patient patient, PatientExamResults results)
+        {
+            new ExamineLungsPrecussLung(true);
+            new ExamineLungsPrecussLung(false);
+            return true;
+        }
+    }
 
+    public class ExamineLungsPrecussLung : PatientExamination
+    {
+        private bool _targetLeftLung;
 
+        public ExamineLungsPrecussLung(bool targetLeftLung)
+        {
+            _targetLeftLung = targetLeftLung;
+        }
+
+        public override bool Examine(Patient patient, PatientExamResults results)
+        {
+            new ExamineLungsPrecussLungLobe(_targetLeftLung, "UpperLobe").Examine(patient, results);
+            if (_targetLeftLung)
+                new ExamineLungsPrecussLungLobe(_targetLeftLung, "MiddleLobe").Examine(patient, results);
+            new ExamineLungsPrecussLungLobe(_targetLeftLung, "LowerLobe").Examine(patient, results);
+
+            return true;
+        }
+    }
+
+    public class ExamineLungsPrecussLungLobe : PatientExamination
+    {
+        private bool _targetLeftLung;
+        private string _targetLobe; //Replace string with appropriate enum?
+
+        public ExamineLungsPrecussLungLobe(bool targetLeftLung, string targetLobe) //Replace string with appropriate enum?
+        {
+            _targetLeftLung = targetLeftLung;
+            _targetLobe = targetLobe;
+        }
+
+        public override bool Examine(Patient patient, PatientExamResults results)
+        {
+            //results.Lungs.targetLung.targetLobe.PrecussionSounds = patient.Body.Chest.Lungs.targetLung.targetLobe.PrecussionSounds;
+            //return true;
+            throw new NotImplementedException();
+        }
+    } //TODO: Finish Implementing ExamineLungPrecussLungLobe once Lung has been reworked and PatientExamResultsLungs updated
+    #endregion
     #endregion
 
     #region TEMPNAME-LiverPancreas
@@ -469,6 +525,25 @@ namespace PatientManagementSystem.Patients.PatientExaminations
     #endregion
 
     #region UrinaryTractExams
+    public class ExamineUrinaryTract : PatientExamination
+    {
+        public override bool Examine(Patient patient, PatientExamResults results)
+        {
+            new ExamineKidneysScan().Examine(patient, results);
+            new ExamineBladderScan().Examine(patient, results);
+            return true;
+        }
+    }
+
+    public class ExamineKidneysScan : PatientExamination
+    {
+        public override bool Examine(Patient patient, PatientExamResults results)
+        {
+            new ExamineKidneyScan(true).Examine(patient, results);
+            new ExamineKidneyScan(false).Examine(patient, results);
+            return true;
+        }
+    }
     public class ExamineKidneyScan : PatientExamination
     {
         private bool _isLeft;

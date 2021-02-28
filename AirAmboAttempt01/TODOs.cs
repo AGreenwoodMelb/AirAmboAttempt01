@@ -1,5 +1,6 @@
 ﻿#region URGENTS
-//URGENT: Rebuild Lung System because its trash 
+//URGENT: Make the README.md look decent
+//URGENT: (Started) Rebuild Lung System because its trash 
 #endregion
 
 #region TODOS
