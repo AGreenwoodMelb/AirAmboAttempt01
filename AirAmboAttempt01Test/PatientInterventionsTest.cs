@@ -11,7 +11,7 @@ namespace PatientManagementSystemTest
         [Fact]
         public void CheckPatientIV()
         {
-            PatientManager pod = new PatientManager();
+            PatientPod pod = new PatientPod();
             pod.TryAddPatient(new Patient());
 
             Patient patient = pod.TEMP_GetPatient();
@@ -22,7 +22,7 @@ namespace PatientManagementSystemTest
         [Fact]
         public void InsertIValid()
         {
-            PatientManager pod = new PatientManager();
+            PatientPod pod = new PatientPod();
             pod.TryAddPatient(new Patient());
 
             Assert.True(pod.PerformIntervention(new InsertIV(IVTargetLocation.ArmLeft), out bool Succeeded));

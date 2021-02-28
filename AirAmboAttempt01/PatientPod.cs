@@ -5,7 +5,7 @@ using PatientManagementSystem.Patients.ExaminationResults;
 
 namespace PatientManagementSystem
 {
-    public class PatientManager
+    public class PatientPod
     {
         #region Props
         private Patient CurrentPatient { get; set; }//This should be private to prevent direct access and manipulation of the patient.
@@ -25,6 +25,7 @@ namespace PatientManagementSystem
             if (CurrentPatient == null)
             {
                 CurrentPatient = newPatient;
+                PatientResults.Anthropometrics = CurrentPatient.Body.Anthropometrics;
                 return true;
             }
             return false;
@@ -83,15 +84,18 @@ namespace PatientManagementSystem
 
         #region NOT_IMPLEMENTED_YET
         public float TotalWasteProduced { get; private set; }
-        public void DumpWasteIntoStorage(object TEMP_wasteStorageObj)
+        public void DumpWasteIntoStorage(object Ambulance)
         {
-            TotalWasteProduced = 0; //Temp
-            //TEMP_wasteStorageObj.WasteContained += WasteProduced;
-            //Dump to WasteStorage object
-        }//LATER: Implement once the waste system is in production
+            /*
+            float WasteToDump = TotalWasteProduced;
+            WasteToDump = (Ambulance.WasteSystem.RemainingWasteSpace >= TotalWasteProduced) ? TotalWasteProduced : Ambulance.WasteSystem.RemainingWasteSpace;
+            TotalWasteProduced -= WasteToDump;
+            Ambulance.WasteSystem.CurrentWasteContained += WasteToDump;
+            */
+        }//LATER: Implement once the Ambulance waste system is in production
         #endregion
     }
 
- 
+
 
 }

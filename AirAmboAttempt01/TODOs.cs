@@ -6,6 +6,7 @@
 //TODO: Finish implementing AscultateLungs, AscultateLung, AsculateLobe for breath sounds once Lung Reworked
 //TODO: (Started?) Rebuild OrganState enum, perhaps use a float to indicate organ health? another float for OrganFunctionEffectiveness (nice short variable name there) 
 //TODO: (Started) Reorganise files and class locations
+
 #endregion
 
 #region REVIEWS
@@ -19,6 +20,8 @@
 //LATER: Break Vessels(Arteries?) into its own System mirroring Infections
 //LATER: Rebuild the Bleeding system to mirror the infections system?
 //LATER: Rebuild the Bones System to mirror the Infections system
+//LATER: Add Pod Atmosphere System
+//LATER: Add Pod IV poles and fluid transfusions systems
 #endregion
 
 #region LUXURYs

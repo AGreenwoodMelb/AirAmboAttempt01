@@ -13,6 +13,13 @@ namespace PatientManagementSystem.Patients.PatientDrugs
         Other,
     }
 
+    public enum ExcretionRoute
+    {
+        Urine,
+        Respiration,
+        Faeces
+    }
+
     public struct DrugProfile
     {
         public bool IsStimulant;
@@ -33,6 +40,9 @@ namespace PatientManagementSystem.Patients.PatientDrugs
         protected DrugProfile drugProfile;
         public float WasteProduced { get; protected set; }
         public string DrugName => this.GetType().Name;
+
+        public abstract bool UndergoesHepaticMetabolism { get; }
+        public abstract ExcretionRoute ExcretionRoute { get; }
 
         public bool Administer(Patient patient, AdministrationRoute route)
         {
@@ -62,7 +72,7 @@ namespace PatientManagementSystem.Patients.PatientDrugs
                     break;
             }
 
-            if(AdministrationSuccessful) //If you failed to administer then the drugProfile doesnt change
+            if (AdministrationSuccessful) //If you failed to administer then the drugProfile doesnt change
                 UpdatePatientDrugProfile();
 
             return AdministrationSuccessful;
@@ -82,7 +92,7 @@ namespace PatientManagementSystem.Patients.PatientDrugs
         protected abstract bool AdministerOral();
         protected abstract bool AdministerIV();
         protected abstract bool AdministerInhaled();
-        protected virtual bool AdministerNotSpecified(AdministrationRoute route) 
+        protected virtual bool AdministerNotSpecified(AdministrationRoute route)
         {
             throw new NotImplementedException();
         }//Virtual because this is a luxury task for use if modding becomes a thing (hahahahha)
@@ -90,6 +100,9 @@ namespace PatientManagementSystem.Patients.PatientDrugs
 
     public class DrugStim1 : Drug
     {
+        public override bool UndergoesHepaticMetabolism => false;
+        public override ExcretionRoute ExcretionRoute => ExcretionRoute.Urine;
+
         public DrugStim1()
         {
             drugProfile.IsStimulant = true;
@@ -115,6 +128,9 @@ namespace PatientManagementSystem.Patients.PatientDrugs
 
     public class DrugDetoxer : Drug
     {
+        public override bool UndergoesHepaticMetabolism => true;
+        public override ExcretionRoute ExcretionRoute => ExcretionRoute.Faeces;
+
         protected override bool AdministerInhaled() => DefaultAdminister();
         protected override bool AdministerIntramuscular() => DefaultAdminister();
         protected override bool AdministerIV() => DefaultAdminister();

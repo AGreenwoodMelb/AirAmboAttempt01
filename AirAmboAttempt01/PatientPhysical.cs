@@ -296,6 +296,11 @@ namespace PatientManagementSystem.Patients.PatientPhysical
 
     public class Anthropometrics
     {
+        /* NOTES:
+         * Currently this class should only contain readonly values as it is passed as a reference to the PatientResults object hat players have access to.
+         * 
+         */
+
         public readonly int Age;
         public readonly float Height; //cm
         public readonly float Weight; //kg
@@ -307,7 +312,6 @@ namespace PatientManagementSystem.Patients.PatientPhysical
             Height = DefaultPatientMetrics.DefaultHeight;
             Weight = DefaultPatientMetrics.DefaultWeight;
         }
-
         public Anthropometrics(int age, float height, float weight)
         {
             Age = Math.Clamp(age, DefaultPatientMetrics.MinAge, DefaultPatientMetrics.MaxAge);

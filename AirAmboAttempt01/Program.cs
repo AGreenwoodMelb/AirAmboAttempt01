@@ -15,7 +15,7 @@ namespace PatientManagementSystem.Patients
     {
         static void Main(string[] args)
         {
-            PatientManager Pod = new PatientManager();
+            PatientPod Pod = new PatientPod();
 
             #region SetupPatient 
             Blood bs = new Blood(new BloodType() { ABO = BloodABO.AB, Rhesus = BloodRhesus.Positive });

@@ -4,6 +4,7 @@ using PatientManagementSystem.Patients.PatientInfection;
 using PatientManagementSystem.Patients.PatientAccessPoints;
 using PatientManagementSystem.Patients.PatientOrgans;
 using System.Collections.Generic;
+using PatientManagementSystem.Patients.PatientPhysical;
 
 namespace PatientManagementSystem.Patients.ExaminationResults
 {
@@ -12,6 +13,7 @@ namespace PatientManagementSystem.Patients.ExaminationResults
         public object tempOutput; //Default dumping variable
 
         //General
+        public Anthropometrics Anthropometrics;
         public PatientExamResultsVitals Vitals = new PatientExamResultsVitals();
         public PatientExamResultsBlood Blood = new PatientExamResultsBlood();
         public PatientExamResultsAccessPoints AccessPoints = new PatientExamResultsAccessPoints();
