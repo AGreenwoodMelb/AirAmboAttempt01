@@ -129,19 +129,19 @@ namespace PatientManagementSystem.Patients.PatientPhysical
             set { _heart = value; }
         }
 
-        private Lungs _lungs;
-        public Lungs Lungs
+        private RespiratorySystem _lungs;
+        public RespiratorySystem Lungs
         {
             get { return _lungs; }
             set { _lungs = value; }
         }
         #endregion
 
-        public Chest(Bone[] chestBoneStructure = null, Heart heart = null, Lungs lungs = null)
+        public Chest(Bone[] chestBoneStructure = null, Heart heart = null, RespiratorySystem lungs = null)
         {
             Bones = chestBoneStructure ?? DefaultBoneStructures.DefaultChestBones;
             Heart = heart ?? new Heart();
-            Lungs = lungs ?? new Lungs();
+            Lungs = lungs ?? new RespiratorySystem();
         }
     }
 

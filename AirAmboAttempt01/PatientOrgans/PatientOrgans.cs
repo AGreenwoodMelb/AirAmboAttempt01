@@ -40,14 +40,7 @@ namespace PatientManagementSystem.Patients.PatientOrgans
     public class Organ
     {
         #region Props
-        //private OrganState _organState;
-        //public OrganState OrganState
-        //{
-        //    get { return _organState; }
-        //    set { _organState = value; }
-        //}
-
-        private float _organHealth = 0.96f;
+        private float _organHealth = 1f;
         public OrganState OrganState //This seems to work by chance, not design.
         {
             get
@@ -62,7 +55,6 @@ namespace PatientManagementSystem.Patients.PatientOrgans
             }
         }
 
-
         private BleedingSeverity _isBleeding = BleedingSeverity.None;
         public BleedingSeverity IsBleeding
         {
@@ -71,18 +63,10 @@ namespace PatientManagementSystem.Patients.PatientOrgans
         }
         public readonly float BaseBloodLossRate;
 
-        //private Infection _currentInfection;
-        //public Infection CurrentInfection
-        //{
-        //    get { return _currentInfection; }
-        //    set { _currentInfection = value; }
-        //}
-
         #endregion
         public Organ(float bloodLossRate)
         {
             BaseBloodLossRate = bloodLossRate;
-            //   OrganState = OrganState.Normal;
         }
     }
 

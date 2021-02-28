@@ -26,9 +26,10 @@ namespace PatientManagementSystem.Patients.PatientPharmacology
         }
     }
 
-    //Add PatientPharmacology(bad name) System which contains a list of drugs in the system, their currentLevels(pre and post-metabolism if applicable),their ExcretionRate(or something like that), their AddictionLevel(If Applicable), SensitivityLevel
+    
     public class PatientDrug //Also bad name
     {
+        //Add PatientPharmacology(bad name) System which contains a list of drugs in the system, their currentLevels(pre and post-metabolism if applicable),their ExcretionRate(or something like that), their AddictionLevel(If Applicable), SensitivityLevel
         public readonly Drug Drug;
         public readonly AdministrationRoute AdministrationRoute;
         public float CurrentDose { get; private set; }

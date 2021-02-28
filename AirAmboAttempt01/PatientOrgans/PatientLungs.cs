@@ -6,32 +6,49 @@ namespace PatientManagementSystem.Patients.PatientOrgans
 {
     public enum BreathSounds
     {
+        /* NOTES:
+         * Consider redoing / expanding using the follow info: https://medlineplus.gov/ency/article/007535.htm
+         */
         None,
         Normal,
-        Wheezing,
-        Bubbling
+        Wheezing, //Inflammation - Infection / other
+        Bubbling //Fluid - Bleeding / infection / Aspiration
     } // if RespRate = 0 then BreathSounds = none
 
-    public class LungLobe
+    public enum PrecussionSounds
+    {
+        /* NOTES: 
+         * https://www.physio-pedia.com/Respiratory_Assessment-_Percussion
+         */
+        Normal,
+        Dull, //"Likely indicating: atelectasis, tumour, plural effusion, lobar pneumonia"
+        Hyperresonant, //"Likely indicating: Emphysema or pneumothorax"
+    }
+
+
+    public class LungLobe : Organ
     {
         #region Props
-        private Infection _infection;
-        public Infection Infection
+        private BreathSounds _breathSounds;
+        public BreathSounds BreathSounds
         {
-            get { return _infection; }
-            set { _infection = value; }
+            get { return _breathSounds; }
+            set { _breathSounds = value; }
         }
 
-        private OrganState _lobeState = OrganState.Normal;
-        public OrganState LobeState
+        private PrecussionSounds _precussionSounds;
+        public PrecussionSounds PrecussionSounds
         {
-            get { return _lobeState; }
-            set { _lobeState = value; }
+            get { return _precussionSounds; }
+            set { _precussionSounds = value; }
         }
-
         #endregion
+
+        public LungLobe():base(DefaultBloodLossBaseRates.Lung)
+        {
+        }
     }
-    public class Lung : Organ
+    public class Lung 
     {
         public readonly bool IsLeft;
         #region Props
@@ -57,7 +74,7 @@ namespace PatientManagementSystem.Patients.PatientOrgans
         }
         #endregion
 
-        public Lung(bool isLeft) : base(DefaultBloodLossBaseRates.Lung)
+        public Lung(bool isLeft)
         {
             IsLeft = isLeft;
             if (IsLeft)
@@ -82,7 +99,7 @@ namespace PatientManagementSystem.Patients.PatientOrgans
         }
 
     }
-    public class Lungs
+    public class RespiratorySystem
     {
         #region Props
         private Lung _leftLung;
@@ -115,7 +132,7 @@ namespace PatientManagementSystem.Patients.PatientOrgans
         }
         #endregion
 
-        public Lungs(Lung leftLung = null, Lung rightLung = null, int? respiratoryRate = null)
+        public RespiratorySystem(Lung leftLung = null, Lung rightLung = null, int? respiratoryRate = null)
         {
             RespiratoryRate = respiratoryRate ?? DefaultLungs.RespirationRate;
             if (leftLung == null || !leftLung.IsLeft)

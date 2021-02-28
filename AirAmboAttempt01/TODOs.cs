@@ -6,7 +6,6 @@
 //TODO: Finish implementing AscultateLungs, AscultateLung, AsculateLobe for breath sounds once Lung Reworked
 //TODO: (Started?) Rebuild OrganState enum, perhaps use a float to indicate organ health? another float for OrganFunctionEffectiveness (nice short variable name there) 
 //TODO: (Started) Reorganise files and class locations
-
 #endregion
 
 #region REVIEWS
@@ -22,7 +21,7 @@
 //LATER: Rebuild the Bones System to mirror the Infections system
 //LATER: Add Pod Atmosphere System
 //LATER: Add Pod IV poles and fluid transfusions systems
-//LATER: Add PatientPharmacology (bad name) System which contains a list(search by Drug.GetName, Maybe a Dictionary?(but those dont like frequent changes)) of drugs in the system, their currentLevels (pre and post-metabolism if applicable),their ExcretionRate(or something like that), their AddictionLevel(If Applicable), SensitivityLevel
+//LATER: Unfuck the PatientDrug classes and fix (and rename) the PatientPharmacology nightmare
 #endregion
 
 #region LUXURYs

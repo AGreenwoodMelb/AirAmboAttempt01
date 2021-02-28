@@ -11,7 +11,7 @@ namespace PatientManagementSystemTest
         [Fact]
         public void CreateDefaultLungs()
         {
-            Lungs lungs = new Lungs();
+            RespiratorySystem lungs = new RespiratorySystem();
 
             Assert.True(lungs.LeftLung != null && lungs.RightLung != null);
         }
