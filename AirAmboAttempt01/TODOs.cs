@@ -1,5 +1,5 @@
 ﻿#region URGENTS
-//URGENT: Make the README.md look decent
+
 
 #endregion
 
@@ -7,6 +7,7 @@
 //TODO: (Started?) Rebuild OrganState enum, perhaps use a float to indicate organ health? another float for OrganFunctionEffectiveness (nice short variable name there) 
 //TODO: (Started) Reorganise files and class locations
 //TODO: (Started) Finish building Lung System
+//TODO: Continue to add to the README.md and try to provide Implementation details on stable classes as well as code snippets.
 #endregion
 
 #region REVIEWS

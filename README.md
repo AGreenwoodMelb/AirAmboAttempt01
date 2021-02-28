@@ -37,3 +37,9 @@ Initially I attempted to follow a TDD workflow but quickly found myself spending
 This led me to abbandoning the Unit Testing and TDD approach fairly early on with only remanants of my previous attempt surviving.
 
 It is my intention to return and setup appropriate Unit Tests once the code becomes more stable (arguably some parts are stable enough and I should setup tests for those).
+
+
+## To Be Done
+- Figure out how to rename that damn folder from AirAmboAttempt01 to PatientManagementSystem without destroying everything.
+- (Too many things)
+- Expand this list with //TODO:'s and things from the CherryTree file
