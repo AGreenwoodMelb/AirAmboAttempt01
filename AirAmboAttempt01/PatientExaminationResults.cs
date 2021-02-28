@@ -25,7 +25,7 @@ namespace PatientManagementSystem.Patients.ExaminationResults
         public PatientExamResultsBrain Brain = new PatientExamResultsBrain();
 
         //Chest
-        public PatientExamResultsLungs Lungs = new PatientExamResultsLungs();
+        public PatientExamResultsRespiratorySystem RespiratorySystem = new PatientExamResultsRespiratorySystem();
         public PatientExamResultsHeart Heart = new PatientExamResultsHeart();
 
         //Abdo
@@ -117,20 +117,53 @@ namespace PatientManagementSystem.Patients.ExaminationResults
     #endregion
 
     #region LungsResults
-    public class PatientExamResultsLungs
+    public class PatientExamResultsRespiratorySystem
     {
         public float RespirationRate;//Should this be moved to a Vitals object?
         public float OxygenSaturation;//Should this be moved to a Vitals object?
 
-        public PatientExamResultsLung LeftLung = new PatientExamResultsLung();
-        public PatientExamResultsLung RightLung = new PatientExamResultsLung();
+        public PatientExamResultLeftLung LeftLung = new PatientExamResultLeftLung();
+        public PatientExamResultRightLung RightLung = new PatientExamResultRightLung();
 
         public string tempSputumSample;
 
         #region Classes
-        public class PatientExamResultsLung
+        public abstract class PatientExamResultsLung
         {
-            public string tempAppearance;
+            //infection stuff
+            //Bleeding stuff?
+        }
+
+        public class PatientExamResultLeftLung : PatientExamResultsLung
+        {
+            public Dictionary<LungLobeLocation, LungBreathSounds> BreathSounds = new Dictionary<LungLobeLocation, LungBreathSounds>()
+            {
+                {LungLobeLocation.Upper,LungBreathSounds.Unknown },
+                {LungLobeLocation.Middle,LungBreathSounds.Unknown },
+                {LungLobeLocation.Lower,LungBreathSounds.Unknown },
+            };
+
+            public Dictionary<LungLobeLocation, LungPrecussionSounds> PrecussionSounds = new Dictionary<LungLobeLocation, LungPrecussionSounds>()
+            {
+                {LungLobeLocation.Upper,LungPrecussionSounds.Unknown },
+                {LungLobeLocation.Middle,LungPrecussionSounds.Unknown },
+                {LungLobeLocation.Lower,LungPrecussionSounds.Unknown },
+            };
+        }
+
+        public class PatientExamResultRightLung : PatientExamResultsLung
+        {
+            public Dictionary<LungLobeLocation, LungBreathSounds> BreathSounds = new Dictionary<LungLobeLocation, LungBreathSounds>()
+            {
+                {LungLobeLocation.Upper,LungBreathSounds.Unknown },
+                {LungLobeLocation.Lower,LungBreathSounds.Unknown },
+            };
+
+            public Dictionary<LungLobeLocation, LungPrecussionSounds> PrecussionSounds = new Dictionary<LungLobeLocation, LungPrecussionSounds>()
+            {
+                {LungLobeLocation.Upper,LungPrecussionSounds.Unknown },
+                {LungLobeLocation.Lower,LungPrecussionSounds.Unknown },
+            };
         }
         #endregion
     }
@@ -173,7 +206,7 @@ namespace PatientManagementSystem.Patients.ExaminationResults
         public PatientResultsBladder Bladder = new PatientResultsBladder();
 
         #region Classes
-        
+
 
         public class PatientResultsKidney : StoneForming
         {

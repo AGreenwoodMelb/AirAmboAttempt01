@@ -27,11 +27,25 @@ namespace PatientManagementSystem.Patients
             #endregion //This sucks
             Pod.TryAddPatient(pt);
 
-            
-            Console.WriteLine(pt.Body.Anthropometrics.BMI);
+
+            //Console.WriteLine(pt.Body.Anthropometrics.BMI);
+            LeftLung left = new LeftLung();
+            RightLung right = new RightLung();
+
+            RespiratorySystem respiratorySystem = new RespiratorySystem(left, right);
+
+            //respiratorySystem.RemoveLung(true, out Lung temp);
+            //respiratorySystem.InsertLung(left);
+
+            PatientExamination exam = new ExamineLungsAuscultateLungs();
+            Pod.PerformIntervention(exam, out bool _);
+
+            exam = new ExamineLungsPrecussLungs();
+            Pod.PerformIntervention(exam, out bool _);
 
 
-            Console.ReadLine();
+
+            bool t = true;
         }
     }
 }

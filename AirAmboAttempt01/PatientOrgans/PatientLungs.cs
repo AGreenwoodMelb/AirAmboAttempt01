@@ -1,114 +1,115 @@
 ﻿using PatientManagementSystem.Patients.PatientDefaults;
 using System;
+using System.Collections.Generic;
 
 namespace PatientManagementSystem.Patients.PatientOrgans
 {
-    public enum BreathSounds
+    public enum LungBreathSounds
     {
         /* NOTES:
          * Consider redoing / expanding using the follow info: https://medlineplus.gov/ency/article/007535.htm
          */
+        Unknown, //Player hasnt checked yet
         None,
         Normal,
         Wheezing, //Inflammation - Infection / other
-        Bubbling //Fluid - Bleeding / infection / Aspiration
-    } // if RespRate = 0 then BreathSounds = none
+        Bubbling, //Fluid - Bleeding / infection / Aspiration
 
-    public enum PrecussionSounds
+    }
+    public enum LungPrecussionSounds
     {
         /* NOTES: 
          * [1]: https://www.physio-pedia.com/Respiratory_Assessment-_Percussion
          */
+        Unknown, //Player hasnt checked yet
         Normal,
         Dull, //"Likely indicating: atelectasis, tumour, plural effusion, lobar pneumonia" [1]
         Hyperresonant, //"Likely indicating: Emphysema or pneumothorax" [1]
     }
-
+    public enum LungLobeLocation
+    {
+        Upper,
+        Middle,
+        Lower
+    }
 
     public class LungLobe : Organ
     {
         #region Props
-        private BreathSounds _breathSounds;
-        public BreathSounds BreathSounds
+        private LungBreathSounds _breathSounds = LungBreathSounds.Normal;
+        public LungBreathSounds BreathSounds
         {
             get { return _breathSounds; }
             set { _breathSounds = value; }
         }
 
-        private PrecussionSounds _precussionSounds;
-        public PrecussionSounds PrecussionSounds
+        private LungPrecussionSounds _precussionSounds = LungPrecussionSounds.Normal;
+        public LungPrecussionSounds PrecussionSounds
         {
             get { return _precussionSounds; }
             set { _precussionSounds = value; }
         }
         #endregion
 
-        public LungLobe():base(DefaultBloodLossBaseRates.Lung)
+        public LungLobe() : base(DefaultBloodLossBaseRates.Lung)
         {
         }
     }
-    public class Lung 
+
+    public abstract class Lung
     {
-        public readonly bool IsLeft;
-        #region Props
-        private LungLobe _upperLobe = new LungLobe();
-        public LungLobe UpperLobe
-        {
-            get { return _upperLobe; }
-            set { _upperLobe = value; }
-        }
+        public abstract Dictionary<LungLobeLocation, LungLobe> Lobes { get; }
+        public abstract float GetLungEfficiency();
+    }
 
-        private LungLobe _middleLobe = new LungLobe();
-        public LungLobe MiddleLobe
+    public class LeftLung : Lung
+    {
+        public override Dictionary<LungLobeLocation, LungLobe> Lobes { get; } = new Dictionary<LungLobeLocation, LungLobe>()
         {
-            get { return _middleLobe; }
-            set { _middleLobe = IsLeft ? null : value; }
-        }
+            { LungLobeLocation.Upper, new LungLobe() },
+            { LungLobeLocation.Middle, new LungLobe() },
+            { LungLobeLocation.Lower, new LungLobe() },
+        };
 
-        private LungLobe _lowerLobe = new LungLobe();
-        public LungLobe LowerLobe
-        {
-            get { return _lowerLobe; }
-            set { _lowerLobe = value; }
-        }
-        #endregion
-
-        public Lung(bool isLeft)
-        {
-            IsLeft = isLeft;
-            if (IsLeft)
-                MiddleLobe = null;
-        }
-
-        public float GetLungEfficiency()
+        public override float GetLungEfficiency()
         {
             float average = 0f;
-            average += UpperLobe.OrganEfficiency;
-            average += LowerLobe.OrganEfficiency;
-            if (IsLeft)
-            {
-                return average / 2f;
-            }
-            else
-            {
-                average += MiddleLobe.OrganEfficiency;
-                return average / 3f;
-            }
+            average += Lobes[LungLobeLocation.Upper].OrganEfficiency;
+            average += Lobes[LungLobeLocation.Middle].OrganEfficiency;
+            average += Lobes[LungLobeLocation.Lower].OrganEfficiency;
+            return average / 3f;
         }
-
     }
+
+    public class RightLung : Lung
+    {
+        public override Dictionary<LungLobeLocation, LungLobe> Lobes { get; } = new Dictionary<LungLobeLocation, LungLobe>()
+        {
+            { LungLobeLocation.Upper, new LungLobe() },
+            { LungLobeLocation.Lower, new LungLobe() },
+        };
+
+        public override float GetLungEfficiency()
+        {
+            float average = 0f;
+            average += Lobes[LungLobeLocation.Upper].OrganEfficiency;
+            average += Lobes[LungLobeLocation.Lower].OrganEfficiency;
+            return average / 2f;
+        }
+    }
+
     public class RespiratorySystem
     {
         #region Props
-        private Lung _leftLung;
-        public Lung LeftLung
+        private LeftLung _leftLung;
+        public LeftLung LeftLung
         {
             get { return _leftLung; }
-            private set { _leftLung = value.IsLeft ? value : _leftLung; }
+            private set { _leftLung = value; }
         }
 
-        private Lung _rightLung;
-        public Lung RightLung
+        private RightLung _rightLung;
+        public RightLung RightLung
         {
             get { return _rightLung; }
             private set { _rightLung = value; }
@@ -130,26 +131,11 @@ namespace PatientManagementSystem.Patients.PatientOrgans
         }
         #endregion
 
-        public RespiratorySystem(Lung leftLung = null, Lung rightLung = null, int? respiratoryRate = null)
+        public RespiratorySystem(LeftLung leftLung = null, RightLung rightLung = null, int? respiratoryRate = null)
         {
             RespiratoryRate = respiratoryRate ?? DefaultLungs.RespirationRate;
-            if (leftLung == null || !leftLung.IsLeft)
-            {
-                LeftLung = new Lung(true);
-            }
-            else
-            {
-                LeftLung = leftLung;
-            }
-
-            if (rightLung == null || rightLung.IsLeft)
-            {
-                RightLung = new Lung(false);
-            }
-            else
-            {
-                RightLung = rightLung;
-            }
+            LeftLung = leftLung ?? new LeftLung();
+            RightLung = rightLung ?? new RightLung();
         }
 
         public float GetLungFunction()
@@ -163,38 +149,48 @@ namespace PatientManagementSystem.Patients.PatientOrgans
             return average / 2;
         }
 
-        public bool RemoveLung(bool isTargetLeft)
+        public bool RemoveLung(bool isTargetLeft, out Lung RemovedLung)
         {
             if (isTargetLeft && LeftLung != null)
             {
+                RemovedLung = LeftLung;
                 LeftLung = null;
                 return true;
             }
 
             if (!isTargetLeft && RightLung != null)
             {
+                RemovedLung = RightLung;
                 RightLung = null;
                 return true;
             }
 
+            RemovedLung = null;
             return false;
         }
 
         public bool InsertLung(Lung newLung)
         {
-            if ((newLung.IsLeft && LeftLung != null) || (!newLung.IsLeft && RightLung != null)) //There is a lung in target location or you are trying to assign a lung to the wrong side
-                return false;
-
-            if (newLung.IsLeft)
+            switch (newLung)
             {
-                LeftLung = newLung;
+                case LeftLung leftLung:
+                    if (LeftLung == null)
+                    {
+                        LeftLung = leftLung;
+                        return true;
+                    }
+                    break;
+                case RightLung rightLung:
+                    if (RightLung == null)
+                    {
+                        RightLung = rightLung;
+                        return true;
+                    }
+                    break;
+                default:
+                    throw new ArgumentException(message: $"Unrecognised Lung Type: {newLung.GetType().Name}");
             }
-            else
-            {
-                RightLung = newLung;
-            }
-
-            return true;
+            return false;
         }
     }
 }
