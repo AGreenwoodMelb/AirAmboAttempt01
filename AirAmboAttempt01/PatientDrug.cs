@@ -34,6 +34,8 @@ namespace PatientManagementSystem.Patients.PatientDrugs
          * Players can administer drugs via the incorrect route with varying outcomes
          * 
          * Are Checks for Valid route handled else where?
+         * This is all wrong now. Shit.
+         * None of this will be used 
          */
 
         protected Patient _patient;
@@ -46,37 +48,44 @@ namespace PatientManagementSystem.Patients.PatientDrugs
 
         public bool Administer(Patient patient, AdministrationRoute route)
         {
-            WasteProduced = DefaultWasteProduction.AdministerDrug[DrugName] * DefaultWasteProduction.AdministerRoute[route];
+            WasteProduced = DefaultWasteProduction.AdministerDrug[DrugName] * DefaultWasteProduction.AdministerRoute[route]; //keep
             _patient = patient;
-            bool AdministrationSuccessful = false;
+            bool AdministrationSuccessful = false; //Keep
+
+            //AdministrationSuccessful = TEMP_Action(route, AdministrationSuccessful);
+
+            if (AdministrationSuccessful) //If you failed to administer then the drugProfile doesnt change
+                UpdatePatientDrugProfile(); //BIN
+
+            return AdministrationSuccessful;
+        }
+
+        private void TEMP_Action(AdministrationRoute route)
+        {
             switch (route)
             {
                 case AdministrationRoute.None:
                     break;
                 case AdministrationRoute.Intramuscular:
-                    AdministrationSuccessful = AdministerIntramuscular();
+                    AdministerIntramuscular();
                     break;
                 case AdministrationRoute.Oral:
                     //Check PT is conscious and compliant
-                    AdministrationSuccessful = AdministerOral();
+                    AdministerOral();
                     break;
                 case AdministrationRoute.IV:
-                    AdministrationSuccessful = AdministerIV();
+                    AdministerIV();
                     break;
                 case AdministrationRoute.Inhaled:
-                    AdministrationSuccessful = AdministerInhaled();
+                    AdministerInhaled();
                     break;
                 case AdministrationRoute.Other:
                 default:
                     AdministerNotSpecified(route);//LUXURY: FOR EXPANSION
                     break;
             }
-
-            if (AdministrationSuccessful) //If you failed to administer then the drugProfile doesnt change
-                UpdatePatientDrugProfile();
-
-            return AdministrationSuccessful;
         }
+
         private void UpdatePatientDrugProfile()
         {
             DrugProfile targetProfile = _patient.Body.Blood.DrugsProfile;
@@ -87,7 +96,7 @@ namespace PatientManagementSystem.Patients.PatientDrugs
             targetProfile.IsHallucinogen = drugProfile.IsHallucinogen || targetProfile.IsHallucinogen;
 
             _patient.Body.Blood.DrugsProfile = targetProfile;
-        }
+        } //BIN
         protected abstract bool AdministerIntramuscular();
         protected abstract bool AdministerOral();
         protected abstract bool AdministerIV();

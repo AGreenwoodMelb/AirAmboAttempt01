@@ -22,6 +22,7 @@
 //LATER: Rebuild the Bones System to mirror the Infections system
 //LATER: Add Pod Atmosphere System
 //LATER: Add Pod IV poles and fluid transfusions systems
+//LATER: Add PatientPharmacology (bad name) System which contains a list(search by Drug.GetName, Maybe a Dictionary?(but those dont like frequent changes)) of drugs in the system, their currentLevels (pre and post-metabolism if applicable),their ExcretionRate(or something like that), their AddictionLevel(If Applicable), SensitivityLevel
 #endregion
 
 #region LUXURYs
