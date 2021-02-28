@@ -4,17 +4,17 @@ The aim is to provide a system for creating / examining / interacting with a vir
 
 Currently this project is setup as a Console App as it is still very early in development but is intended to be a class library for use in another project.
 
-###Side Note:
+### Side Note:
 This project is primarily a C# learning experience and it contains examples of stunning bad coding because I truely did't know how to do it better.
 I am constantly changing and reworking the entire code base and therefore this code should not be used or relied upon in any other personal or commercial projects as ALL functionality is subject to change.
 
 
-##Getting Started
+## Getting Started
 At the moment there is no good way of using this code out the box.
 Running this program as a console app will get varied results (or errors) based on the current commit as the Program.cs:Main is used for testing and debugging purposes.
 All usage other usage should be done using a PatientPod object as this is designed to be the only point of contact for the player, although depending on the current commit other functionality may be temporarily exposed.
 
-###Usage
+### Usage
 For now the best way of using this code is:
 
 1. Create a new instance of PatientPod (Use default constructor)
