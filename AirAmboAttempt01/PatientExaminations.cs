@@ -386,11 +386,11 @@ namespace PatientManagementSystem.Patients.PatientExaminations
     public class ExamineBronchoscopySample : PatientExamination
     {
         private bool _targetLeftLung;
-        private string _targetLobeLocation; //TODO: ExamineBronchoscopySample: Replace _targetLobeLocation type with appropriate enum?
-        public ExamineBronchoscopySample(bool targetLeftLung, string temp_targetLobeLocation)
+        private LungLobeLocation _targetLobe; 
+        public ExamineBronchoscopySample(bool targetLeftLung, LungLobeLocation targetLobe)
         {
             _targetLeftLung = targetLeftLung;
-            _targetLobeLocation = temp_targetLobeLocation;
+            _targetLobe = targetLobe;
         }
 
         public override bool Examine(Patient patient, PatientExamResults results)
@@ -398,7 +398,7 @@ namespace PatientManagementSystem.Patients.PatientExaminations
             //This should return a picture of the specific target lobe's infection state
             throw new NotImplementedException();
         }
-    } //TODO: Implement all the required bacground field and appropriate enum for _targetLobeLocation
+    } //TODO: Implement all the required background field 
     #endregion
     #region Auscultation
     public class ExamineLungsAuscultateLungs : PatientExamination
@@ -423,7 +423,7 @@ namespace PatientManagementSystem.Patients.PatientExaminations
         public override bool Examine(Patient patient, PatientExamResults results)
         {
             new ExamineLungsAuscultateLungLobe(_targetLeftLung, LungLobeLocation.Upper).Examine(patient, results);
-            if (_targetLeftLung)
+            if (!_targetLeftLung)
                 new ExamineLungsAuscultateLungLobe(_targetLeftLung, LungLobeLocation.Middle).Examine(patient, results);
             new ExamineLungsAuscultateLungLobe(_targetLeftLung, LungLobeLocation.Lower).Examine(patient, results);
 
@@ -456,7 +456,7 @@ namespace PatientManagementSystem.Patients.PatientExaminations
                 targetLung = patient.Body.Chest.Lungs.RightLung;;
             }
 
-            if (targetLung == null || patient.Body.Chest.Lungs.RespiratoryRate == 0) //LUXURY: Perhaps have a way of setting how long the player listens for and check if breaths are likely to be heard in that time frame?
+            if (targetLung == null || patient.Body.Chest.Lungs.RespiratoryRate == 0) //LUXURY: Perhaps have a way of setting how long the player listens for and check if breaths are likely to be heard in that time frame? Maybe too mean
             {
                 outputLocation[_targetLobe] = LungBreathSounds.None;
             }
@@ -467,8 +467,6 @@ namespace PatientManagementSystem.Patients.PatientExaminations
 
             return true;
         }
-
-
     }
     #endregion
     #region Precussion
@@ -494,7 +492,7 @@ namespace PatientManagementSystem.Patients.PatientExaminations
         public override bool Examine(Patient patient, PatientExamResults results)
         {
             new ExamineLungsPrecussLungLobe(_targetLeftLung, LungLobeLocation.Upper).Examine(patient, results);
-            if (_targetLeftLung)
+            if (!_targetLeftLung)
                 new ExamineLungsPrecussLungLobe(_targetLeftLung, LungLobeLocation.Middle).Examine(patient, results);
             new ExamineLungsPrecussLungLobe(_targetLeftLung, LungLobeLocation.Lower).Examine(patient, results);
 

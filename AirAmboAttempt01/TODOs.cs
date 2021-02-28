@@ -1,12 +1,12 @@
 ﻿#region URGENTS
 //URGENT: Make the README.md look decent
-//URGENT: (Started) Rebuild Lung System because its trash 
+
 #endregion
 
 #region TODOS
-//TODO: Finish implementing AscultateLungs, AscultateLung, AsculateLobe for breath sounds once Lung Reworked
 //TODO: (Started?) Rebuild OrganState enum, perhaps use a float to indicate organ health? another float for OrganFunctionEffectiveness (nice short variable name there) 
 //TODO: (Started) Reorganise files and class locations
+//TODO: (Started) Finish building Lung System
 #endregion
 
 #region REVIEWS

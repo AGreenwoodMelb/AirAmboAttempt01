@@ -44,8 +44,10 @@ namespace PatientManagementSystem.Patients
             Pod.PerformIntervention(exam, out bool _);
 
 
+            var t = pt.Body.Infections.Chest.GetInfections();
 
-            bool t = true;
+
+            bool FOR_DEBUGGING = true;
         }
     }
 }

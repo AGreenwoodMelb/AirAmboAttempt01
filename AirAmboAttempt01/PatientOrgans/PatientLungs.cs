@@ -62,7 +62,7 @@ namespace PatientManagementSystem.Patients.PatientOrgans
         public abstract float GetLungEfficiency();
     }
 
-    public class LeftLung : Lung
+    public class RightLung : Lung
     {
         public override Dictionary<LungLobeLocation, LungLobe> Lobes { get; } = new Dictionary<LungLobeLocation, LungLobe>()
         {
@@ -81,7 +81,7 @@ namespace PatientManagementSystem.Patients.PatientOrgans
         }
     }
 
-    public class RightLung : Lung
+    public class LeftLung : Lung
     {
         public override Dictionary<LungLobeLocation, LungLobe> Lobes { get; } = new Dictionary<LungLobeLocation, LungLobe>()
         {

@@ -119,9 +119,6 @@ namespace PatientManagementSystem.Patients.ExaminationResults
     #region LungsResults
     public class PatientExamResultsRespiratorySystem
     {
-        public float RespirationRate;//Should this be moved to a Vitals object?
-        public float OxygenSaturation;//Should this be moved to a Vitals object?
-
         public PatientExamResultLeftLung LeftLung = new PatientExamResultLeftLung();
         public PatientExamResultRightLung RightLung = new PatientExamResultRightLung();
 
@@ -130,8 +127,8 @@ namespace PatientManagementSystem.Patients.ExaminationResults
         #region Classes
         public abstract class PatientExamResultsLung
         {
-            //infection stuff
-            //Bleeding stuff?
+            //infection stuff //This should be in a base PatientExamResultsOrgan class
+            //Bleeding stuff? //This should be in a base PatientExamResultsOrgan class
         }
 
         public class PatientExamResultLeftLung : PatientExamResultsLung
@@ -142,7 +139,6 @@ namespace PatientManagementSystem.Patients.ExaminationResults
                 {LungLobeLocation.Middle,LungBreathSounds.Unknown },
                 {LungLobeLocation.Lower,LungBreathSounds.Unknown },
             };
-
             public Dictionary<LungLobeLocation, LungPrecussionSounds> PrecussionSounds = new Dictionary<LungLobeLocation, LungPrecussionSounds>()
             {
                 {LungLobeLocation.Upper,LungPrecussionSounds.Unknown },
@@ -198,7 +194,7 @@ namespace PatientManagementSystem.Patients.ExaminationResults
     #endregion
 
     #region UrinaryTractResults
-    public class PatientExamResultsUrinaryTract
+    public class PatientExamResultsUrinaryTract 
     {
         public PatientResultsKidney LeftKidney = new PatientResultsKidney();
         public PatientResultsKidney RightKidney = new PatientResultsKidney();
@@ -247,7 +243,7 @@ namespace PatientManagementSystem.Patients.ExaminationResults
         public float? HeartRate = null;
         public float? BloodPressure = null;
         public float? BodyTemperature = null;
-    }//REVIEW: What am I doing with nullable floats?
+    } //REVIEW: What am I doing with nullable floats?
     #endregion
 
     #region AccesPoints
@@ -291,7 +287,6 @@ namespace PatientManagementSystem.Patients.ExaminationResults
         }
     }
     #endregion
-
 
     #region Abstracts
     //Pancreas, Liver, Kidney, Bladder, ??

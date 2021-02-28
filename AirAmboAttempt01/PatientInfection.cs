@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using PatientManagementSystem.Patients.PatientAccessPoints;
 using PatientManagementSystem.Patients.PatientDefaults;
+using PatientManagementSystem.Patients.PatientOrgans;
 
 namespace PatientManagementSystem.Patients.PatientInfection
 {
@@ -30,6 +31,7 @@ namespace PatientManagementSystem.Patients.PatientInfection
         Resistant,
         Immune
     }
+
     public struct Infection
     {
         public InfectionPathogenType PathogenType;
@@ -44,7 +46,7 @@ namespace PatientManagementSystem.Patients.PatientInfection
             set
             {
                 _infectionLevel = Math.Clamp(value, 0f, 1f);
-                if(_infectionLevel == 0)
+                if (_infectionLevel == 0)
                 {
                     PathogenType = InfectionPathogenType.None;
                     TreatmentResistance = InfectionTreatmentResistance.None;
@@ -80,32 +82,17 @@ namespace PatientManagementSystem.Patients.PatientInfection
             TreatmentResistance = infection.TreatmentResistance;
         }
 
-        //public void IncreaseInfection()
-        //{
-        //    if (Severity != InfectionSeverity.Extreme)
-        //        Severity += 1;
-        //}
-
-        //public void DecreaseInfection()
-        //{
-        //    if (Severity != InfectionSeverity.None)
-        //        Severity -= 1;
-        //    else
-        //    {
-        //        CureInfection();
-        //    }
-        //}
     }
 
     public class Infections
     {
         #region Props
-        public HeadContainer Head  { get; set; }
+        public HeadContainer Head { get; set; }
         public ChestContainer Chest { get; set; }
         public AbdomenContainer Abdomen { get; set; }
         public AccessPointsContainer AccessPoints { get; set; }
 
-        public bool HasSepticaemia; 
+        public bool HasSepticaemia;
         #endregion
 
         #region Constructors
@@ -172,7 +159,7 @@ namespace PatientManagementSystem.Patients.PatientInfection
                 return;
 
             Infection[] infections = GetInfectionsArray().Concat(AccessPoints.GetInfections()).ToArray();
-            
+
             foreach (Infection infection in infections)
             {
                 if (infection.PathogenType == infectionType)
@@ -183,7 +170,7 @@ namespace PatientManagementSystem.Patients.PatientInfection
             }
 
         }//LATER: Implement second parameter of DrugType for resistance calc
-     
+
         public Infection[] GetInfectionsArray()
         {
             return Head.GetInfections().Concat(Chest.GetInfections().Concat(Abdomen.GetInfections())).ToArray();
@@ -211,20 +198,31 @@ namespace PatientManagementSystem.Patients.PatientInfection
         public class ChestContainer : DefaultContainer
         {
             public Infection Heart;
-            public Infection LeftLung; 
-            public Infection RightLung;
+            public Dictionary<LungLobeLocation, Infection> LeftLung = new Dictionary<LungLobeLocation, Infection>()
+            {
+                {LungLobeLocation.Upper, new Infection() },
+                {LungLobeLocation.Lower, new Infection() },
+
+            };
+            public Dictionary<LungLobeLocation, Infection> RightLung = new Dictionary<LungLobeLocation, Infection>()
+            {
+                {LungLobeLocation.Upper, new Infection() },
+                {LungLobeLocation.Middle, new Infection() },
+                {LungLobeLocation.Lower, new Infection() },
+            };
 
             public override Infection[] GetInfections()
             {
-                return new Infection[]
-                {
-                    Surface,
-                    Heart,
-                    LeftLung,
-                    RightLung,
-                };
+                Infection[] others = new Infection[] { Surface, Heart };
+                Infection [] leftLung = LeftLung.Values.ToArray();
+                Infection [] rightLung = RightLung.Values.ToArray();
+
+                Infection[] result = others.Concat(leftLung.Concat(rightLung)).ToArray();
+                //return  (new Infection[] { Surface, Heart }).Concat(LeftLung.Values.Concat(RightLung.Values)).ToArray(); //Ugly ass code but technically does the same thing.
+                
+                return result;
             }
-        }//TODO: Lung infections need to be broken down further into lobes
+        }
         public class AbdomenContainer : DefaultContainer
         {
             public Infection GastrointestinalTract;
@@ -291,8 +289,5 @@ namespace PatientManagementSystem.Patients.PatientInfection
 
 
     }
-
-
-
 }
 
