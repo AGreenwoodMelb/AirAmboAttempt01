@@ -6,12 +6,15 @@ Currently this project is setup as a Console App as it is still very early in de
 
 ### Side Note:
 This project is primarily a C# learning experience and it contains examples of stunning bad coding because I truely did't know how to do it better.
+
 I am constantly changing and reworking the entire code base and therefore this code should not be used or relied upon in any other personal or commercial projects as ALL functionality is subject to change.
 
 
 ## Getting Started
 At the moment there is no good way of using this code out the box.
+
 Running this program as a console app will get varied results (or errors) based on the current commit as the Program.cs:Main is used for testing and debugging purposes.
+
 All usage other usage should be done using a PatientPod object as this is designed to be the only point of contact for the player, although depending on the current commit other functionality may be temporarily exposed.
 
 ### Usage
@@ -30,5 +33,7 @@ For now the best way of using this code is:
 
 ## Where is the Unit Testing?
 Initially I attempted to follow a TDD workflow but quickly found myself spending more time rewriting the entire test class once I discovered that my previous approach to a problem had failed.
+
 This led me to abbandoning the Unit Testing and TDD approach fairly early on with only remanants of my previous attempt surviving.
+
 It is my intention to return and setup appropriate Unit Tests once the code becomes more stable (arguably some parts are stable enough and I should setup tests for those).
