@@ -1,13 +1,7 @@
-﻿using System;
-using PatientManagementSystem.Patients.PatientBlood;
+﻿using PatientManagementSystem.Patients.PatientBlood;
+using PatientManagementSystem.Patients.PatientExaminations;
 using PatientManagementSystem.Patients.PatientOrgans;
 using PatientManagementSystem.Patients.PatientPhysical;
-using PatientManagementSystem.Patients.PatientDrugs;
-using PatientManagementSystem.Patients.PatientInterventions;
-using PatientManagementSystem.Patients.PatientExaminations;
-using PatientManagementSystem.Patients.ExaminationResults;
-using PatientManagementSystem.Patients.PatientAccessPoints;
-using PatientManagementSystem.Patients.PatientInfection;
 
 namespace PatientManagementSystem.Patients
 {

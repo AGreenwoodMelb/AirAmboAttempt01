@@ -1,6 +1,6 @@
-﻿using PatientManagementSystem.Patients.PatientPhysical;
+﻿using PatientManagementSystem.Patients.PatientAccessPoints;
 using PatientManagementSystem.Patients.PatientMental;
-using PatientManagementSystem.Patients.PatientAccessPoints;
+using PatientManagementSystem.Patients.PatientPhysical;
 using PatientManagementSystem.Patients.PatientSocials;
 
 namespace PatientManagementSystem.Patients

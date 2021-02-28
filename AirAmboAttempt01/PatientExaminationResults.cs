@@ -1,10 +1,10 @@
-﻿using PatientManagementSystem.Patients.PatientBlood;
+﻿using PatientManagementSystem.Patients.PatientAccessPoints;
+using PatientManagementSystem.Patients.PatientBlood;
 using PatientManagementSystem.Patients.PatientBones;
 using PatientManagementSystem.Patients.PatientInfection;
-using PatientManagementSystem.Patients.PatientAccessPoints;
 using PatientManagementSystem.Patients.PatientOrgans;
-using System.Collections.Generic;
 using PatientManagementSystem.Patients.PatientPhysical;
+using System.Collections.Generic;
 
 namespace PatientManagementSystem.Patients.ExaminationResults
 {

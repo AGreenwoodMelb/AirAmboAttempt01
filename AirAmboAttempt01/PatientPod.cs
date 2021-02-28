@@ -96,7 +96,7 @@ namespace PatientManagementSystem
 
         #region NOT_IMPLEMENTED_YET
         public float TotalWasteProduced { get; private set; }
-        public readonly float MaximumWasteVolume; 
+        public readonly float MaximumWasteVolume = 100f; 
         public void DumpWasteIntoStorage(object Ambulance)
         {
             /*

@@ -1,12 +1,9 @@
-﻿using System;
-using PatientManagementSystem.Patients.PatientBlood;
-using PatientManagementSystem.Patients.PatientInfection;
+﻿using PatientManagementSystem.Patients.ExaminationResults;
+using PatientManagementSystem.Patients.PatientAccessPoints;
 using PatientManagementSystem.Patients.PatientBones;
 using PatientManagementSystem.Patients.PatientInterventions;
 using PatientManagementSystem.Patients.PatientOrgans;
-using PatientManagementSystem.Patients.ExaminationResults;
-using PatientManagementSystem.Patients.PatientAccessPoints;
-using PatientManagementSystem.Patients.PatientDefaults;
+using System;
 using System.Collections.Generic;
 
 namespace PatientManagementSystem.Patients.PatientExaminations
@@ -255,9 +252,10 @@ namespace PatientManagementSystem.Patients.PatientExaminations
     {
         public override bool Examine(Patient patient, PatientExamResults results)
         {
-            throw new NotImplementedException();
+            results.Vitals.BodyTemperature = patient.Body.BodyTemperature;
+            return true;
         }
-    }//TODO: Implement basic temperature fields for patient
+    }
     #endregion
 
     #region HeadExams

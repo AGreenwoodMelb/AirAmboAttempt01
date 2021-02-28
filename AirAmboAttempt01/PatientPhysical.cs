@@ -1,8 +1,8 @@
 ﻿using PatientManagementSystem.Patients.PatientBlood;
 using PatientManagementSystem.Patients.PatientBones;
-using PatientManagementSystem.Patients.PatientOrgans;
 using PatientManagementSystem.Patients.PatientDefaults;
 using PatientManagementSystem.Patients.PatientInfection;
+using PatientManagementSystem.Patients.PatientOrgans;
 using System;
 
 namespace PatientManagementSystem.Patients.PatientPhysical
@@ -14,6 +14,13 @@ namespace PatientManagementSystem.Patients.PatientPhysical
     public class Physical
     {
         #region Props
+        private float _bodyTemperature;//Centigrade 
+        public float BodyTemperature//May change this later
+        {
+            get { return (float) Math.Round(_bodyTemperature, 1); }
+            set { _bodyTemperature = value; }
+        }
+
         private Anthropometrics _anthropometrics;
         public Anthropometrics Anthropometrics
         {
