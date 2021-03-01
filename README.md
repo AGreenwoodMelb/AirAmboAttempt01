@@ -10,14 +10,14 @@ This project is primarily a C# learning experience and it contains examples of s
 I am constantly changing and reworking the entire code base and therefore this code should not be used or relied upon in any other personal or commercial projects as ALL functionality is subject to change.
 
 ## Table of Contents
-- [Getting Started] 
-- [Usage]
-  - [Example]
-- [Questions]
-- [To Be Done]
-  - [Short Term]
-  - [Medium Term]
-  - [Long Term]
+- [Getting Started](#getting-started)
+- [Usage](#usage)
+  - [Example](#example)
+- [Questions](#questions)
+- [To Be Done](#to-be-done)
+  - [Short Term](#short-term)
+  - [Medium Term](#medium-term)
+  - [Long Term](#long-term)
 
 
 ## Getting Started
