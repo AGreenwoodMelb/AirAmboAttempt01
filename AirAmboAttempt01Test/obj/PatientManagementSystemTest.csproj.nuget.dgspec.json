@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Users\\Alex\\source\\repos\\GameDev\\AirAmbo\\AirAmboAttempt01\\AirAmboAttempt01Test\\PatientManagementSystemTest.csproj": {}
+    "D:\\Users\\Alex\\source\\repos\\GameDev\\AirAmbo\\PatientManagementSystem\\AirAmboAttempt01Test\\PatientManagementSystemTest.csproj": {}
   },
   "projects": {
-    "D:\\Users\\Alex\\source\\repos\\GameDev\\AirAmbo\\AirAmboAttempt01\\AirAmboAttempt01Test\\PatientManagementSystemTest.csproj": {
+    "D:\\Users\\Alex\\source\\repos\\GameDev\\AirAmbo\\PatientManagementSystem\\AirAmboAttempt01Test\\PatientManagementSystemTest.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Users\\Alex\\source\\repos\\GameDev\\AirAmbo\\AirAmboAttempt01\\AirAmboAttempt01Test\\PatientManagementSystemTest.csproj",
+        "projectUniqueName": "D:\\Users\\Alex\\source\\repos\\GameDev\\AirAmbo\\PatientManagementSystem\\AirAmboAttempt01Test\\PatientManagementSystemTest.csproj",
         "projectName": "PatientManagementSystemTest",
-        "projectPath": "D:\\Users\\Alex\\source\\repos\\GameDev\\AirAmbo\\AirAmboAttempt01\\AirAmboAttempt01Test\\PatientManagementSystemTest.csproj",
+        "projectPath": "D:\\Users\\Alex\\source\\repos\\GameDev\\AirAmbo\\PatientManagementSystem\\AirAmboAttempt01Test\\PatientManagementSystemTest.csproj",
         "packagesPath": "C:\\Users\\Alex\\.nuget\\packages\\",
-        "outputPath": "D:\\Users\\Alex\\source\\repos\\GameDev\\AirAmbo\\AirAmboAttempt01\\AirAmboAttempt01Test\\obj\\",
+        "outputPath": "D:\\Users\\Alex\\source\\repos\\GameDev\\AirAmbo\\PatientManagementSystem\\AirAmboAttempt01Test\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Alex\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -28,8 +28,8 @@
           "netcoreapp3.1": {
             "targetAlias": "netcoreapp3.1",
             "projectReferences": {
-              "D:\\Users\\Alex\\source\\repos\\GameDev\\AirAmbo\\AirAmboAttempt01\\AirAmboAttempt01\\PatientManagementSystem.csproj": {
-                "projectPath": "D:\\Users\\Alex\\source\\repos\\GameDev\\AirAmbo\\AirAmboAttempt01\\AirAmboAttempt01\\PatientManagementSystem.csproj"
+              "D:\\Users\\Alex\\source\\repos\\GameDev\\AirAmbo\\PatientManagementSystem\\AirAmboAttempt01\\PatientManagementSystem.csproj": {
+                "projectPath": "D:\\Users\\Alex\\source\\repos\\GameDev\\AirAmbo\\PatientManagementSystem\\AirAmboAttempt01\\PatientManagementSystem.csproj"
               }
             }
           }
@@ -84,14 +84,14 @@
         }
       }
     },
-    "D:\\Users\\Alex\\source\\repos\\GameDev\\AirAmbo\\AirAmboAttempt01\\AirAmboAttempt01\\PatientManagementSystem.csproj": {
+    "D:\\Users\\Alex\\source\\repos\\GameDev\\AirAmbo\\PatientManagementSystem\\AirAmboAttempt01\\PatientManagementSystem.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Users\\Alex\\source\\repos\\GameDev\\AirAmbo\\AirAmboAttempt01\\AirAmboAttempt01\\PatientManagementSystem.csproj",
+        "projectUniqueName": "D:\\Users\\Alex\\source\\repos\\GameDev\\AirAmbo\\PatientManagementSystem\\AirAmboAttempt01\\PatientManagementSystem.csproj",
         "projectName": "PatientManagementSystem",
-        "projectPath": "D:\\Users\\Alex\\source\\repos\\GameDev\\AirAmbo\\AirAmboAttempt01\\AirAmboAttempt01\\PatientManagementSystem.csproj",
+        "projectPath": "D:\\Users\\Alex\\source\\repos\\GameDev\\AirAmbo\\PatientManagementSystem\\AirAmboAttempt01\\PatientManagementSystem.csproj",
         "packagesPath": "C:\\Users\\Alex\\.nuget\\packages\\",
-        "outputPath": "D:\\Users\\Alex\\source\\repos\\GameDev\\AirAmbo\\AirAmboAttempt01\\AirAmboAttempt01\\obj\\",
+        "outputPath": "D:\\Users\\Alex\\source\\repos\\GameDev\\AirAmbo\\PatientManagementSystem\\AirAmboAttempt01\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Alex\\AppData\\Roaming\\NuGet\\NuGet.Config",
