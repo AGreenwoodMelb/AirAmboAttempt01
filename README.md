@@ -5,7 +5,7 @@ The aim is to provide a system for creating / examining / interacting with a vir
 Currently this project is set up as a Console App as it is still very early in development but is intended to be a class library for use in another project.
 
 ### Side Note:
-This project is primarily a C# learning experience and it contains examples of stunning bad coding because I truly didn't know how to do it better.
+This project is primarily a C# learning experience and it contains examples of stunningly bad coding because I truly didn't know how to do it better.
 
 I am constantly changing and reworking the entire code base and therefore this code should not be used or relied upon in any other personal or commercial projects as ALL functionality is subject to change.
 
@@ -40,5 +40,19 @@ It is my intention to return and set up appropriate Unit Tests once the code bec
 
 
 ## To Be Done
-- (Too many things)
+### Short Term
+- ~~Rename AirAmboAttempt01 and AirAmboAttempt01Test folder to more appropriate name~~ (Kinda works)
+- Create and implement relevant fields and functionality for Organ classes.
+- Rebuild BloodSystem class with appropriate fields and calculations.
+- Rebuild Bleeding functionality.
+- Review and possibly rebuild Skeleton system.
+- Rebuild Fluids classes and dervied systems.
+- Rebuild Transfuse Intervention
+- Figure out what I was doing with the Drug and PatientPharmacology (RENAME THIS) systems
+- Expand the Infections system to have Region / Organ specific Infection Profile (InfectionType, InfectionTreatment Resistance, etc..) probabilty tables.
+- Add Gases system for Oxygen and Inhaled substances systems.
 - Expand this list with //TODO:'s and things from the CherryTree file
+
+### Long Term
+- Build PatientBuilder system for ease of PatientCreation.
+- Create Database integration for storing Patient / Patient related object prefabs

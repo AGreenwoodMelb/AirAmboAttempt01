@@ -617,7 +617,7 @@ namespace PatientManagementSystem.Patients.PatientExaminations
             results.UrinaryTract.Bladder.HasStones = patient.Body.Abdomen.UrinaryTract.Bladder.HasStones;
             results.UrinaryTract.Bladder.IsUrethraBlocked = patient.Body.Abdomen.UrinaryTract.Bladder.IsUrethraBlocked;
             results.AccessPoints.UrinaryCatheter.IsInserted = patient.AccessPoints.UrinaryCatheter.IsInserted;
-            //REVIEW: Does BladderScane need anything else?
+            //REVIEW: Does BladderScan need anything else?
             return true;
         }
     } //TODO: Handle WasteProduction
