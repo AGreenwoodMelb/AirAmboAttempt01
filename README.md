@@ -28,7 +28,7 @@ For now the best way of using this code is:
 5. Perform Examinations and Interventions by using the PatientPod instance's .PerformIntervention() method passing in an instance of the Intervention / Examination you wish to perform as well as an out bool to store whether the action was performed successfully (The return bool is to indicate if the action was even possible).
 6. Access the PatientPod instance's PatientResults object to see the information obtained from any of the Interventions / Examinations performed.
 
-####Example
+#### Example
 ```cs
 
 //1. Create new instance of PatientPod
@@ -37,9 +37,9 @@ PatientPod patientPod = new PatientPod();
 //2. Optionally create instances of any of the parameters of the Patient 
 Blood blood= new Blood(new BloodType() { ABO = BloodABO.AB, Rhesus = BloodRhesus.Positive });
 BloodSystem bloodSystem = new BloodSystem(blood);
-Abdomen abs = new Abdomen(reproductives: new Reproductive_Male());
+Abdomen abdomen = new Abdomen(reproductives: new Reproductive_Male());
 Anthropometrics metrics = new Anthropometrics(21,181,120);
-Physical body = new Physical(blood: bloodSystem, abdomen: abs);
+Physical body = new Physical(blood: bloodSystem, abdomen: abdomen);
 
 //3. Create a new instance of Patient (passing in any previously defined appropriate arguments)
 Patient patient = new Patient(body: body);
