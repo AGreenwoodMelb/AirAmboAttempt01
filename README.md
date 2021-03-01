@@ -28,6 +28,7 @@ For now the best way of using this code is:
 5. Perform Examinations and Interventions by using the PatientPod instance's .PerformIntervention() method passing in an instance of the Intervention / Examination you wish to perform as well as an out bool to store whether the action was performed successfully (The return bool is to indicate if the action was even possible).
 6. Access the PatientPod instance's PatientResults object to see the information obtained from any of the Interventions / Examinations performed.
 
+####Example
 ```cs
 
 //1. Create new instance of PatientPod
@@ -45,7 +46,6 @@ Patient patient = new Patient(body: body);
 
 //4. Use Pod.TryAddPatient() passing it the newly created Patient object as a parameter. 
 patientPod.TryAddPatient(patient);
-
 
 //5. Perform Examinations and Interventions by using the PatientPod instance's .PerformIntervention()
 patientPod.PerformIntervention( new ExamineLungsAuscultateLungs(), out bool _);
