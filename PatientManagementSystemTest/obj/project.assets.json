@@ -5643,11 +5643,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Users\\Alex\\source\\repos\\GameDev\\AirAmbo\\PatientManagementSystem\\AirAmboAttempt01Test\\PatientManagementSystemTest.csproj",
+      "projectUniqueName": "D:\\Users\\Alex\\source\\repos\\GameDev\\AirAmbo\\PatientManagementSystem\\PatientManagementSystemTest\\PatientManagementSystemTest.csproj",
       "projectName": "PatientManagementSystemTest",
-      "projectPath": "D:\\Users\\Alex\\source\\repos\\GameDev\\AirAmbo\\PatientManagementSystem\\AirAmboAttempt01Test\\PatientManagementSystemTest.csproj",
+      "projectPath": "D:\\Users\\Alex\\source\\repos\\GameDev\\AirAmbo\\PatientManagementSystem\\PatientManagementSystemTest\\PatientManagementSystemTest.csproj",
       "packagesPath": "C:\\Users\\Alex\\.nuget\\packages\\",
-      "outputPath": "D:\\Users\\Alex\\source\\repos\\GameDev\\AirAmbo\\PatientManagementSystem\\AirAmboAttempt01Test\\obj\\",
+      "outputPath": "D:\\Users\\Alex\\source\\repos\\GameDev\\AirAmbo\\PatientManagementSystem\\PatientManagementSystemTest\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Alex\\AppData\\Roaming\\NuGet\\NuGet.Config",
