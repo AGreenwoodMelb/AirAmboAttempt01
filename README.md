@@ -9,6 +9,8 @@ This project is primarily a C# learning experience and it contains examples of s
 
 I am constantly changing and reworking the entire code base and therefore this code should not be used or relied upon in any other personal or commercial projects as ALL functionality is subject to change.
 
+<br>
+
 ## Table of Contents
 - [Getting Started](#getting-started)
 - [Usage](#usage)
@@ -19,6 +21,7 @@ I am constantly changing and reworking the entire code base and therefore this c
   - [Medium Term](#medium-term)
   - [Long Term](#long-term)
 
+<br>
 
 ## Getting Started
 At the moment there is no good way of using this code out the box.
@@ -26,6 +29,9 @@ At the moment there is no good way of using this code out the box.
 Running this program as a console app will get varied results (or errors) based on the current commit as the Program.cs:Main is used for testing and debugging purposes.
 
 All usage other usage should be done using a PatientPod object as this is designed to be the only point of contact for the player, although depending on the current commit other functionality may be temporarily exposed.
+
+<br>
+
 
 ## Usage
 For now the best way of using this code is:
@@ -37,6 +43,9 @@ For now the best way of using this code is:
 4. Use Pod.TryAddPatient() passing it the newly created Patient object as a parameter.
 5. Perform Examinations and Interventions by using the PatientPod instance's .PerformIntervention() method passing in an instance of the Intervention / Examination you wish to perform as well as an out bool to store whether the action was performed successfully (The return bool is to indicate if the action was even possible).
 6. Access the PatientPod instance's PatientResults object to see the information obtained from any of the Interventions / Examinations performed.
+
+<br>
+
 
 #### Example
 ```cs
@@ -67,6 +76,8 @@ System.Console.WriteLine(patientPod.PatientResults.RespiratorySystem.LeftLung.Br
 
 (List of available Interventions / Examinations / Patient Setup Options to be completed)
 
+<br>
+
 ## Questions
 
 ### Where is the Unit Testing?
@@ -76,6 +87,7 @@ This led me to abandoning the Unit Testing and TDD approach fairly early on with
 
 It is my intention to return and set up appropriate Unit Tests once the code becomes more stable (arguably some parts are stable enough and I should set up tests for those).
 
+<br>
 
 ## To Be Done
 ### Short Term
@@ -94,6 +106,9 @@ It is my intention to return and set up appropriate Unit Tests once the code bec
 ### Medium Term
 - Improve the "Usage" section of the README file to give a better explanation of how to set up and use this project, including important class constructor break down with code snippets.
 - Re-implement Unit Testing (Especially for the more stable classes and systems).
+- Add Mental and Socioeconomic systems to the Patient.
+- Add IV Poles classes and rework the Transfusion system to use these.
+- Add Pod Atmosphere system for use along side Gases system.
 
 ### Long Term
 - Build PatientBuilder system for ease of PatientCreation.
