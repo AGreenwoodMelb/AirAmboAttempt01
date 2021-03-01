@@ -9,6 +9,16 @@ This project is primarily a C# learning experience and it contains examples of s
 
 I am constantly changing and reworking the entire code base and therefore this code should not be used or relied upon in any other personal or commercial projects as ALL functionality is subject to change.
 
+## Table of Contents
+- [Getting Started] 
+- [Usage]
+  - [Example]
+- [Questions]
+- [To Be Done]
+  - [Short Term]
+  - [Medium Term]
+  - [Long Term]
+
 
 ## Getting Started
 At the moment there is no good way of using this code out the box.
@@ -17,7 +27,7 @@ Running this program as a console app will get varied results (or errors) based 
 
 All usage other usage should be done using a PatientPod object as this is designed to be the only point of contact for the player, although depending on the current commit other functionality may be temporarily exposed.
 
-### Usage
+## Usage
 For now the best way of using this code is:
 
 1. Create a new instance of PatientPod (Use default constructor)
@@ -57,8 +67,9 @@ System.Console.WriteLine(patientPod.PatientResults.RespiratorySystem.LeftLung.Br
 
 (List of available Interventions / Examinations / Patient Setup Options to be completed)
 
+## Questions
 
-## Where is the Unit Testing?
+### Where is the Unit Testing?
 Initially I attempted to follow a TDD workflow but quickly found myself spending more time rewriting the entire test class once I discovered that my previous approach to a problem had failed.
 
 This led me to abandoning the Unit Testing and TDD approach fairly early on with only remnants of my previous attempt surviving.
@@ -81,7 +92,7 @@ It is my intention to return and set up appropriate Unit Tests once the code bec
 - Expand this list with //TODO:'s and things from the CherryTree file
 
 ### Medium Term
-- Improve the "Usage" section of the README file to give a better explination of how to set up and use this project, including important class constructor break down with code snippets.
+- Improve the "Usage" section of the README file to give a better explanation of how to set up and use this project, including important class constructor break down with code snippets.
 - Re-implement Unit Testing (Especially for the more stable classes and systems).
 
 ### Long Term
