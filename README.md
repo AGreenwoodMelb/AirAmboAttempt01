@@ -24,8 +24,9 @@ For now the best way of using this code is:
 2. Optionally create instances of any of the parameters of the Patient constructor: Physical, Mental, Biography. 
 	This can be further defined by creating instances of their sub-objects and passing them into the respective constructors
 3. Create a new instance of Patient (passing in any previously defined appropriate arguments)
-4. Perform Examinations and Interventions by using the PatientPod instance's .PerformIntervention() method passing in an instance of the Intervention / Examination you wish to perform as well as an out bool to store whether the action was performed successfully (The return bool is to indicate if the action was even possible).
-5. Access the PatientPod instance's PatientResults object to see the information obtained from any of the Interventions / Examinations performed.
+4. Use Pod.TryAddPatient() passing it the newly created Patient object as a parameter.
+5. Perform Examinations and Interventions by using the PatientPod instance's .PerformIntervention() method passing in an instance of the Intervention / Examination you wish to perform as well as an out bool to store whether the action was performed successfully (The return bool is to indicate if the action was even possible).
+6. Access the PatientPod instance's PatientResults object to see the information obtained from any of the Interventions / Examinations performed.
 
 
 (List of available Interventions / Examinations / Patient Setup Options to be completed)
