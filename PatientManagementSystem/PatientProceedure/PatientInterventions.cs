@@ -5,18 +5,16 @@ using PatientManagementSystem.Patients.PatientInfection;
 using PatientManagementSystem.Patients.PatientAccessPoints;
 using PatientManagementSystem.Patients.PatientDefaults;
 using PatientManagementSystem.Patients.ExaminationResults;
-using PatientManagementSystem.Patients.PatientExaminations;
 
-namespace PatientManagementSystem.Patients.PatientInterventions
+namespace PatientManagementSystem.Patients.PatientProceedures
 {
-    public abstract class PatientIntervention
+    public abstract class PatientIntervention : PatientProceedure
     {
-        public float WasteProduced { get; protected set; }
         public virtual bool Intervene(Patient patient, out bool Succeeded)
         {
             throw new NotImplementedException();
         }
-        public virtual bool Intervene(Patient patient, PatientExamResults results, out bool Succeeded)
+        public override bool Perform(Patient patient, PatientExamResults results, out bool Succeeded)
         {
             return Intervene(patient, out Succeeded);
         }
@@ -336,35 +334,6 @@ namespace PatientManagementSystem.Patients.PatientInterventions
         }
     }
 
-    public class PerformLumbarPuncture : PatientIntervention
-    {
-        //Lumbar Puncture. Pain and greater risk of causing CNS infection, High chance to fail
-        public override bool Intervene(Patient patient, PatientExamResults results, out bool Succeeded)
-        {
-            Succeeded = false;
-
-            /*
-            if(reasonYouCantPerform)
-                return false;
-            */
-
-            WasteProduced = DefaultWasteProduction.PerformLumbarPuncture;
-
-            if (patient.MagicRandomSeed > DefaultPlayerStatsTEMP.PerformLumbarPunctureSuccess)
-            {
-                patient.Flags.hasCSFSample = true;
-                Succeeded = true;
-                ExamineCSF examineCSF = new ExamineCSF();
-                examineCSF.Examine(patient, results);
-                WasteProduced += examineCSF.WasteProduced;
-            }
-
-            if (patient.MagicRandomSeed > DefaultInfectionValues.PerformLumbarPuncture)
-            {
-                patient.Body.Infections.Head.Brain.Infect(new Infection());
-            }
-            return true;
-        }
-    }
+    
 
 }

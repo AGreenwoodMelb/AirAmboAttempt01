@@ -34,7 +34,6 @@ namespace PatientManagementSystem.Patients.PatientOrgans
 
     public class LungLobe : Organ
     {
-
         #region Props
         private LungBreathSounds _breathSounds = LungBreathSounds.Normal;
         public LungBreathSounds BreathSounds
@@ -51,18 +50,24 @@ namespace PatientManagementSystem.Patients.PatientOrgans
         }
         #endregion
 
-        public LungLobe() //: base(DefaultBloodLossBaseRates.LungLobe)
+        public LungLobe() //: base(DefaultOxygenRequirements.LungLobe, DefaultBloodRequirements.LungLobe)
         {
+            OxygenRequirement = DefaultOxygenRequirements.LungLobe;
+            BloodRequirement = DefaultBloodRequirements.LungLobe;
         }
     }
 
     public abstract class Lung : Organ
     {
         public override OrganState OrganState => LookupOrganState(GetLungEfficiency());
+        public override float OxygenRequirement => GetLungOxygenRequirement();
+        public override float BloodRequirement => GetLungBloodRequirement();
         public readonly float DefaultLobeOxygenProductionPerBreath = DefaultLungs.LobeOxygenProductionPerBreath;
         public abstract Dictionary<LungLobeLocation, LungLobe> Lobes { get; }
         public abstract float GetLungEfficiency();
         public abstract float GetLungOxygenProduction(); //OxygenUnit production * Efficiency
+        protected abstract float GetLungOxygenRequirement();
+        protected abstract float GetLungBloodRequirement();
     }
 
     public class RightLung : Lung
@@ -74,7 +79,6 @@ namespace PatientManagementSystem.Patients.PatientOrgans
             { LungLobeLocation.Lower, new LungLobe() },
         };
 
-
         public override float GetLungEfficiency()
         {
             float average = 0f;
@@ -83,13 +87,28 @@ namespace PatientManagementSystem.Patients.PatientOrgans
             average += Lobes[LungLobeLocation.Lower].OrganEfficiency;
             return average / 3f;
         }
-
         public override float GetLungOxygenProduction()
         {
             float output = 0;
             output += Lobes[LungLobeLocation.Upper].OrganEfficiency * DefaultLobeOxygenProductionPerBreath;
             output += Lobes[LungLobeLocation.Middle].OrganEfficiency * DefaultLobeOxygenProductionPerBreath;
             output += Lobes[LungLobeLocation.Lower].OrganEfficiency * DefaultLobeOxygenProductionPerBreath;
+            return output;
+        }
+        protected override float GetLungOxygenRequirement()
+        {
+            float total = 0;
+            total += Lobes[LungLobeLocation.Upper].OxygenRequirement;
+            total += Lobes[LungLobeLocation.Middle].OxygenRequirement;
+            total += Lobes[LungLobeLocation.Lower].OxygenRequirement;
+            return total;
+        }
+        protected override float GetLungBloodRequirement()
+        {
+            float output = 0;
+            output += Lobes[LungLobeLocation.Upper].BloodRequirement;// * DefaultLobeOxygenProductionPerBreath;
+            output += Lobes[LungLobeLocation.Middle].BloodRequirement;// * DefaultLobeOxygenProductionPerBreath;
+            output += Lobes[LungLobeLocation.Lower].BloodRequirement;// * DefaultLobeOxygenProductionPerBreath;
             return output;
         }
     }
@@ -109,12 +128,25 @@ namespace PatientManagementSystem.Patients.PatientOrgans
             average += Lobes[LungLobeLocation.Lower].OrganEfficiency;
             return average / 2f;
         }
-
         public override float GetLungOxygenProduction()
         {
             float output = 0;
             output += Lobes[LungLobeLocation.Upper].OrganEfficiency * DefaultLobeOxygenProductionPerBreath;
             output += Lobes[LungLobeLocation.Lower].OrganEfficiency * DefaultLobeOxygenProductionPerBreath;
+            return output;
+        }
+        protected override float GetLungOxygenRequirement()
+        {
+            float total = 0;
+            total += Lobes[LungLobeLocation.Upper].OxygenRequirement;
+            total += Lobes[LungLobeLocation.Lower].OxygenRequirement;
+            return total;
+        }
+        protected override float GetLungBloodRequirement()
+        {
+            float output = 0;
+            output += Lobes[LungLobeLocation.Upper].BloodRequirement; // * DefaultLobeOxygenProductionPerBreath;
+            output += Lobes[LungLobeLocation.Lower].BloodRequirement; // * DefaultLobeOxygenProductionPerBreath;
             return output;
         }
     }

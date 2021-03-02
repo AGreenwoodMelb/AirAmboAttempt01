@@ -1,18 +1,19 @@
 ﻿using PatientManagementSystem.Patients.ExaminationResults;
 using PatientManagementSystem.Patients.PatientAccessPoints;
 using PatientManagementSystem.Patients.PatientBones;
-using PatientManagementSystem.Patients.PatientInterventions;
 using PatientManagementSystem.Patients.PatientOrgans;
 using System;
 using System.Collections.Generic;
 
-namespace PatientManagementSystem.Patients.PatientExaminations
+namespace PatientManagementSystem.Patients.PatientProceedures
 {
-    public abstract class PatientExamination : PatientIntervention
+    public abstract class PatientExamination : PatientProceedure
     {
-        //public float WasteProduced { get; protected set; }
-        public abstract bool Examine(Patient patient, PatientExamResults results);
-        public override bool Intervene(Patient patient, PatientExamResults results, out bool Succeed)
+        public virtual bool Examine(Patient patient, PatientExamResults results)
+        {
+            throw new NotImplementedException();
+        }
+        public override bool Perform(Patient patient, PatientExamResults results, out bool Succeed)
         {
             Succeed = true;
             return Examine(patient, results);

@@ -18,8 +18,8 @@ namespace PatientManagementSystem.Patients.PatientDefaults
 
         //The below values are pretty much arbitrarily picked
         //Height (cm)
-        public static readonly float DefaultHeight= 175;
-        public static readonly float MinHeight= 134;
+        public static readonly float DefaultHeight = 175;
+        public static readonly float MinHeight = 134;
         public static readonly float MaxHeight = 200;
 
         //Weight (kgs)
@@ -27,6 +27,19 @@ namespace PatientManagementSystem.Patients.PatientDefaults
         public static readonly float MinWeight = 30;
         public static readonly float MaxWeight = 150;
     }
+
+    public static class DefaultOxygenRequirements
+    {
+        public static readonly float LungLobe = 1f;
+        public static readonly float Heart = 1f;
+    }
+
+    public static class DefaultBloodRequirements
+    {
+        public static readonly float LungLobe = 1f;
+        public static readonly float Heart = 1f;
+    }
+
     public static class DefaultBloodLossBaseRates
     {
         public static readonly float Superficial = 1f;
@@ -120,9 +133,8 @@ namespace PatientManagementSystem.Patients.PatientDefaults
     public static class DefaultLungs
     {
         public static readonly float LobeOxygenProductionPerBreath = 100f;
-        //public static readonly float OxygenSaturation = 100f; //What is this for?
         public static readonly int RespirationRate = 16;
-        
+
     }
 
     public static class DefaultWasteProduction
@@ -162,7 +174,7 @@ namespace PatientManagementSystem.Patients.PatientDefaults
         #endregion
 
         #region General
-        public static readonly float PerformLumbarPuncture = 0f;
+        public static readonly float PerformLumbarPuncture = 100f;
         #endregion
 
         #region DrugAdministration

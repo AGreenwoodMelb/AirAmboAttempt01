@@ -35,6 +35,19 @@ namespace PatientManagementSystem.Patients.PatientOrgans
         Reproductives,
         Other, //For expansions?
     }
+    public enum OrganPerfusionState
+    {
+        Normal,
+        Hypoperfused,
+        Ischaemic,
+    }
+    public enum OrganOxygenationState
+    {
+        Normal,
+        Hypoxic,
+        Anoxic, //Probably the wrong term tbh
+    }
+
     public abstract class Organ
     {
         #region Props
@@ -46,23 +59,22 @@ namespace PatientManagementSystem.Patients.PatientOrgans
             get
             {
                 return _organHealth; //TEMP
-                return _organEfficiency; 
+                return _organEfficiency;
             }
             private set
             {
                 _organEfficiency = value;
             }
-        }//TODO: OrganEfficiency should be dynamically generated from _organHealth and Default file
+        }//TODO: OrganEfficiency should be dynamically generated from _organHealth, Default file, Oxygenation...
 
         public bool IsPresent => !(OrganState == OrganState.Removed || OrganState == OrganState.None);
-        public virtual OrganState OrganState //REVIEW: This seems to work by chance, not design.
+        public virtual OrganState OrganState
         {
             get
             {
                 return LookupOrganState(_organHealth);
             }
         }
-
         protected OrganState LookupOrganState(float organHealth)
         {
             OrganState organState = OrganState.None;
@@ -73,22 +85,74 @@ namespace PatientManagementSystem.Patients.PatientOrgans
             }
 
             return organState;
+        }//REVIEW: This seems to work by chance, not design.
+
+
+        private float _oxygenRequired; //REVIEW: Should this be readonly and set in a parameterized constructor? The lung override of the prop may cause problems? This will be misery to setup the constructors again so wait to fix this until the design settles
+        public virtual float OxygenRequirement
+        {
+            get
+            {
+                return _oxygenRequired;
+            }
+            protected set
+            {
+                _oxygenRequired = value;
+            }
         }
+
+        public float _oxygenConsumed; //TODO: Finish implementing. Amount of Oxygen consumed(up to OrganOxygenRequired), Will need BloodSystem first here;
+        public virtual float OxygenConsumed
+        {
+            get
+            {
+                return _oxygenConsumed;
+            }
+            set
+            {
+                _oxygenConsumed = value;
+            }
+        }
+
+        public float Oxygenation => OxygenConsumed / OxygenRequirement;
+
+
+        /* NOTES: Blood requirement
+         * Is this necessary or will the Oxygen system coupled with RBC carrying capacity suffice? 
+         * I think this is useful for localised areas of ischaemia when there is no Hypoxia
+         */
+        private float _bloodRequirement; //See _oxygenRequired REVIEW
+        public virtual float BloodRequirement
+        {
+            get { return _bloodRequirement; }
+            protected set { _bloodRequirement = value; }
+        }
+
+        private float _bloodSupplied;
+        public virtual float BloodSupplied
+        {
+            get { return _bloodSupplied; }
+            set { _bloodSupplied = value; }
+        }
+
+        public float Perfusion => BloodSupplied / BloodRequirement;
+        #endregion
+
 
         public void RemoveOrgan()
         {
             _organEfficiency = 0f;
+            _organHealth = 0f;
         }
 
+        //TO BE REMOVED TO BLEEDING SYSTEM
         //private BleedingSeverity _isBleeding = BleedingSeverity.None;
         //public BleedingSeverity IsBleeding
         //{
         //    get { return _isBleeding; }
         //    protected set { _isBleeding = value; }
         //}
-
         //public readonly float BaseBloodLossRate;
-        #endregion
         //public Organ(float bloodLossRate)
         //{
         //    BaseBloodLossRate = bloodLossRate;

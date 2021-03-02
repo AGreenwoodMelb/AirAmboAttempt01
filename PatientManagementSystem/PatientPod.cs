@@ -1,7 +1,6 @@
 ﻿using PatientManagementSystem.Patients;
-using PatientManagementSystem.Patients.PatientInterventions;
-using PatientManagementSystem.Patients.PatientExaminations;
 using PatientManagementSystem.Patients.ExaminationResults;
+using PatientManagementSystem.Patients.PatientProceedures;
 
 namespace PatientManagementSystem
 {
@@ -20,7 +19,6 @@ namespace PatientManagementSystem
 
         //LATER: Add the equivalent of IV poles for hagging fluid bags and infusions
 
-
         public PatientPod()
         {
 
@@ -28,7 +26,7 @@ namespace PatientManagementSystem
 
         public PatientPod(object ambulance)
         {
-            MaximumWasteVolume = 100f; //TODO: Replace with Defaults value;
+            MaximumWasteVolume = 100f; //UNITY: Replace with Defaults value;
         }//LATER: Replace parameter: ambulance type with appropriate class type
 
 
@@ -78,7 +76,7 @@ namespace PatientManagementSystem
             return CurrentPatient;
         }
 
-        public bool PerformIntervention(PatientIntervention patientIntervention, out bool Succeeded)
+        public bool PerformProceedure(PatientProceedure patientProceedure, out bool Succeeded)
         {
             if (false && TotalWasteProduced >= MaximumWasteVolume) //LATER: (Remove) Just to bypass this check for now
             {
@@ -86,9 +84,9 @@ namespace PatientManagementSystem
                 return false;
             }//LATER: Waste check in PerformIntervention needs tweaking
 
-            if (patientIntervention.Intervene(CurrentPatient, PatientResults, out Succeeded))
+            if (patientProceedure.Perform(CurrentPatient, PatientResults, out Succeeded))
             {
-                TotalWasteProduced += patientIntervention.WasteProduced;
+                TotalWasteProduced += patientProceedure.WasteProduced;
                 return true;
             }
             return false;

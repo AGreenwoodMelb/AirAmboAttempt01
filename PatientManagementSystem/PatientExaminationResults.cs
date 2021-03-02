@@ -131,7 +131,7 @@ namespace PatientManagementSystem.Patients.ExaminationResults
             //Bleeding stuff? //This should be in a base PatientExamResultsOrgan class
         }
 
-        public class PatientExamResultLeftLung : PatientExamResultsLung
+        public class PatientExamResultRightLung : PatientExamResultsLung
         {
             public Dictionary<LungLobeLocation, LungBreathSounds> BreathSounds = new Dictionary<LungLobeLocation, LungBreathSounds>()
             {
@@ -147,7 +147,7 @@ namespace PatientManagementSystem.Patients.ExaminationResults
             };
         }
 
-        public class PatientExamResultRightLung : PatientExamResultsLung
+        public class PatientExamResultLeftLung : PatientExamResultsLung
         {
             public Dictionary<LungLobeLocation, LungBreathSounds> BreathSounds = new Dictionary<LungLobeLocation, LungBreathSounds>()
             {

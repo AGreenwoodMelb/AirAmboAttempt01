@@ -6,11 +6,12 @@
 //TODO: (Started?) Rebuild OrganState enum, perhaps use a float to indicate organ health? another float for OrganFunctionEffectiveness (nice short variable name there) 
 //TODO: (Started) Reorganise files and class locations
 //TODO: (Started) Finish building Lung System
-
+//TODO: Cleanup the arrangement of the members in the Organ base class (its getting chaotic in there)
 #endregion
 
 #region REVIEWS
 //REVIEW: Consider scrapping that awful HeartStructures / HeartVessels crap
+//REVIEW: Should the Organ class take the BloodRequirement, OxygenConsumption values as parameters and make those fields readonly?
 #endregion
 
 #region LATERS
@@ -36,7 +37,6 @@
 //UNITY: Create a Patient Builder system
 //UNITY: Database Creation
 #endregion
-
 
 #region Tag_
 
