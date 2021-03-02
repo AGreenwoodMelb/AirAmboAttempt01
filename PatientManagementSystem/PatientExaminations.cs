@@ -274,7 +274,7 @@ namespace PatientManagementSystem.Patients.PatientExaminations
         public override bool Examine(Patient patient, PatientExamResults results)
         {
             results.Brain.isIschaemic = patient.Body.Head.Brain.IsIschaemic; //Eventually replace with Vessels related stuff
-            results.Brain.isBleeding = patient.Body.Head.Brain.IsBleeding;
+            //results.Brain.isBleeding = patient.Body.Head.Brain.IsBleeding;
             results.Brain.currentPressure = patient.Body.Head.Brain.CurrentPressure;
             results.Brain.currentInfection.InfectionLevel = patient.Body.Infections.Head.Brain.InfectionLevel;
             return true;
@@ -366,7 +366,7 @@ namespace PatientManagementSystem.Patients.PatientExaminations
     {
         public override bool Examine(Patient patient, PatientExamResults results)
         {
-            results.Vitals.OxygenSaturation = patient.Body.Chest.Lungs.OxygenSaturation;
+            //results.Vitals.OxygenSaturation = patient.Body.Chest.Lungs.OxygenSaturation; //Replace with a call to BloodSystem.OxygenSaturation not Lungs
             return true;
         }
     }
@@ -454,7 +454,7 @@ namespace PatientManagementSystem.Patients.PatientExaminations
                 targetLung = patient.Body.Chest.Lungs.RightLung;;
             }
 
-            if (targetLung == null || patient.Body.Chest.Lungs.RespiratoryRate == 0) //LUXURY: Perhaps have a way of setting how long the player listens for and check if breaths are likely to be heard in that time frame? Maybe too mean
+            if (!targetLung.IsPresent || patient.Body.Chest.Lungs.RespiratoryRate == 0) //LUXURY: Perhaps have a way of setting how long the player listens for and check if breaths are likely to be heard in that time frame? Maybe too mean
             {
                 outputLocation[_targetLobe] = LungBreathSounds.None;
             }
@@ -522,7 +522,7 @@ namespace PatientManagementSystem.Patients.PatientExaminations
                 targetLung = patient.Body.Chest.Lungs.RightLung; ;
             }
 
-            if (targetLung == null) 
+            if (!targetLung.IsPresent) 
             {
                 outputLocation[_targetLobe] = LungPrecussionSounds.Hyperresonant;
             }

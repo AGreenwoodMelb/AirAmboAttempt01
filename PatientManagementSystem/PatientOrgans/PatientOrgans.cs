@@ -33,9 +33,9 @@ namespace PatientManagementSystem.Patients.PatientOrgans
         RightKidney,
         Bladder,
         Reproductives,
-        Other //For expansions?
+        Other, //For expansions?
     }
-    public class Organ
+    public abstract class Organ
     {
         #region Props
         protected float _organHealth = 1f;
@@ -53,7 +53,8 @@ namespace PatientManagementSystem.Patients.PatientOrgans
             }
         }//TODO: OrganEfficiency should be dynamically generated from _organHealth and Default file
 
-        public OrganState OrganState //REVIEW: This seems to work by chance, not design.
+        public bool IsPresent => !(OrganState == OrganState.Removed || OrganState == OrganState.None);
+        public virtual OrganState OrganState //REVIEW: This seems to work by chance, not design.
         {
             get
             {
@@ -66,20 +67,25 @@ namespace PatientManagementSystem.Patients.PatientOrgans
                 return organState;
             }
         }
-
-        private BleedingSeverity _isBleeding = BleedingSeverity.None;
-        public BleedingSeverity IsBleeding
+        
+        public void RemoveOrgan()
         {
-            get { return _isBleeding; }
-            protected set { _isBleeding = value; }
+            _organEfficiency = -1f;
         }
-        public readonly float BaseBloodLossRate;
 
+        //private BleedingSeverity _isBleeding = BleedingSeverity.None;
+        //public BleedingSeverity IsBleeding
+        //{
+        //    get { return _isBleeding; }
+        //    protected set { _isBleeding = value; }
+        //}
+
+        //public readonly float BaseBloodLossRate;
         #endregion
-        public Organ(float bloodLossRate)
-        {
-            BaseBloodLossRate = bloodLossRate;
-        }
+        //public Organ(float bloodLossRate)
+        //{
+        //    BaseBloodLossRate = bloodLossRate;
+        //}
     }
 
     #region DerivedOrganClasses
@@ -123,7 +129,7 @@ namespace PatientManagementSystem.Patients.PatientOrgans
         }
         #endregion
 
-        public Brain() : base(DefaultBloodLossBaseRates.Brain)
+        public Brain() //: base(DefaultBloodLossBaseRates.Brain)
         {
 
         }
@@ -202,7 +208,7 @@ namespace PatientManagementSystem.Patients.PatientOrgans
 
         #endregion
 
-        public Heart(HeartStructures heartStructures = null, bool isBeating = true, bool isArrythmic = false, bool hasPacemaker = false, int beatsPerMinute = 60) : base(DefaultBloodLossBaseRates.Heart)
+        public Heart(HeartStructures heartStructures = null, bool isBeating = true, bool isArrythmic = false, bool hasPacemaker = false, int beatsPerMinute = 60) //: base(DefaultBloodLossBaseRates.Heart)
         {
             _heartStructures = heartStructures ?? new HeartStructures();
             _isBeating = isBeating;
@@ -234,7 +240,7 @@ namespace PatientManagementSystem.Patients.PatientOrgans
         }
         #endregion
 
-        public Kidney() : base(DefaultBloodLossBaseRates.Kidney)
+        public Kidney() //: base(DefaultBloodLossBaseRates.Kidney)
         {
 
         }
@@ -279,7 +285,7 @@ namespace PatientManagementSystem.Patients.PatientOrgans
         }
 
         #endregion
-        public Bladder() : base(DefaultBloodLossBaseRates.Bladder)
+        public Bladder() //: base(DefaultBloodLossBaseRates.Bladder)
         {
 
         }
@@ -337,7 +343,7 @@ namespace PatientManagementSystem.Patients.PatientOrgans
         }
         #endregion
 
-        public Liver() : base(DefaultBloodLossBaseRates.Liver)
+        public Liver() //: base(DefaultBloodLossBaseRates.Liver)
         {
 
         }
@@ -345,14 +351,14 @@ namespace PatientManagementSystem.Patients.PatientOrgans
 
     public class GastrointestinalTract : Organ
     {
-        public GastrointestinalTract() : base(DefaultBloodLossBaseRates.GI)
+        public GastrointestinalTract() //: base(DefaultBloodLossBaseRates.GI)
         {
 
         }
     }
     public class Spleen : Organ
     {
-        public Spleen() : base(DefaultBloodLossBaseRates.Spleen)
+        public Spleen() //: base(DefaultBloodLossBaseRates.Spleen)
         {
 
         }
@@ -360,7 +366,7 @@ namespace PatientManagementSystem.Patients.PatientOrgans
 
     public class Pancreas : Organ
     {
-        public Pancreas() : base(DefaultBloodLossBaseRates.Pancreas)
+        public Pancreas() //: base(DefaultBloodLossBaseRates.Pancreas)
         {
 
         }
@@ -368,7 +374,7 @@ namespace PatientManagementSystem.Patients.PatientOrgans
 
     public abstract class Reproductive : Organ
     {
-        public Reproductive(float bloodLossRate) : base(bloodLossRate)
+        public Reproductive(float bloodLossRate) //: base(bloodLossRate)
         {
 
         }

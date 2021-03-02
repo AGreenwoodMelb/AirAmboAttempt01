@@ -35,6 +35,7 @@ namespace PatientManagementSystem.Patients.PatientOrgans
 
     public class LungLobe : Organ
     {
+
         #region Props
         private LungBreathSounds _breathSounds = LungBreathSounds.Normal;
         public LungBreathSounds BreathSounds
@@ -51,15 +52,20 @@ namespace PatientManagementSystem.Patients.PatientOrgans
         }
         #endregion
 
-        public LungLobe() : base(DefaultBloodLossBaseRates.Lung)
+        public LungLobe() //: base(DefaultBloodLossBaseRates.LungLobe)
         {
         }
     }
 
-    public abstract class Lung
+    public abstract class Lung : Organ
     {
+        public abstract override OrganState OrganState { get; } //Do i need this
+        public readonly float DefaultLobeOxygenProductionPerBreath = DefaultLungs.LobeOxygenProductionPerBreath;
         public abstract Dictionary<LungLobeLocation, LungLobe> Lobes { get; }
         public abstract float GetLungEfficiency();
+        public abstract float GetLungOxygenProduction(); //OxygenUnit production * Efficiency
+
+        
     }
 
     public class RightLung : Lung
@@ -71,6 +77,8 @@ namespace PatientManagementSystem.Patients.PatientOrgans
             { LungLobeLocation.Lower, new LungLobe() },
         };
 
+        public override OrganState OrganState => throw new NotImplementedException();
+
         public override float GetLungEfficiency()
         {
             float average = 0f;
@@ -78,6 +86,15 @@ namespace PatientManagementSystem.Patients.PatientOrgans
             average += Lobes[LungLobeLocation.Middle].OrganEfficiency;
             average += Lobes[LungLobeLocation.Lower].OrganEfficiency;
             return average / 3f;
+        }
+
+        public override float GetLungOxygenProduction()
+        {
+            float output = 0;
+            output += Lobes[LungLobeLocation.Upper].OrganEfficiency * DefaultLobeOxygenProductionPerBreath;
+            output += Lobes[LungLobeLocation.Middle].OrganEfficiency * DefaultLobeOxygenProductionPerBreath;
+            output += Lobes[LungLobeLocation.Lower].OrganEfficiency * DefaultLobeOxygenProductionPerBreath;
+            return output;
         }
     }
 
@@ -89,12 +106,22 @@ namespace PatientManagementSystem.Patients.PatientOrgans
             { LungLobeLocation.Lower, new LungLobe() },
         };
 
+        public override OrganState OrganState => throw new NotImplementedException();
+
         public override float GetLungEfficiency()
         {
             float average = 0f;
             average += Lobes[LungLobeLocation.Upper].OrganEfficiency;
             average += Lobes[LungLobeLocation.Lower].OrganEfficiency;
             return average / 2f;
+        }
+
+        public override float GetLungOxygenProduction()
+        {
+            float output = 0;
+            output += Lobes[LungLobeLocation.Upper].OrganEfficiency * DefaultLobeOxygenProductionPerBreath;
+            output += Lobes[LungLobeLocation.Lower].OrganEfficiency * DefaultLobeOxygenProductionPerBreath;
+            return output;
         }
     }
 
@@ -122,13 +149,15 @@ namespace PatientManagementSystem.Patients.PatientOrgans
             set { _respiratoryRate = value; }
         }
 
-        public float OxygenSaturation
-        {
-            get
-            {
-                return GetLungFunction() * ((float)RespiratoryRate / DefaultLungs.RespirationRate) * DefaultLungs.OxygenSaturation; //Don't clamp here as over-saturation will be used as indicator to reduce RespRate in Patient manager
-            }
-        }
+        //public float OxygenSaturation
+        //{
+        //    get
+        //    {
+        //        return GetLungFunction() * ((float)RespiratoryRate / DefaultLungs.RespirationRate) * DefaultLungs.OxygenSaturation; //Don't clamp here as over-saturation will be used as indicator to reduce RespRate in Patient manager
+        //    }
+        //}//This is a BloodSystem problem
+
+        public float OxygenProduced => GetTotalOxygenProduced();
         #endregion
 
         public RespiratorySystem(LeftLung leftLung = null, RightLung rightLung = null, int? respiratoryRate = null)
@@ -141,9 +170,9 @@ namespace PatientManagementSystem.Patients.PatientOrgans
         public float GetLungFunction()
         {
             float average = 0;
-            if (LeftLung != null)
+            if (LeftLung.IsPresent)
                 average += LeftLung.GetLungEfficiency();
-            if (RightLung != null)
+            if (RightLung.IsPresent)
                 average += RightLung.GetLungEfficiency();
 
             return average / 2;
@@ -151,17 +180,17 @@ namespace PatientManagementSystem.Patients.PatientOrgans
 
         public bool RemoveLung(bool isTargetLeft, out Lung RemovedLung)
         {
-            if (isTargetLeft && LeftLung != null)
+            if (isTargetLeft && LeftLung.IsPresent)
             {
                 RemovedLung = LeftLung;
-                LeftLung = null;
+                LeftLung.RemoveOrgan();
                 return true;
             }
 
-            if (!isTargetLeft && RightLung != null)
+            if (!isTargetLeft && RightLung.IsPresent)
             {
                 RemovedLung = RightLung;
-                RightLung = null;
+                RightLung.RemoveOrgan();
                 return true;
             }
 
@@ -174,14 +203,14 @@ namespace PatientManagementSystem.Patients.PatientOrgans
             switch (newLung)
             {
                 case LeftLung leftLung:
-                    if (LeftLung == null)
+                    if (LeftLung.IsPresent)
                     {
                         LeftLung = leftLung;
                         return true;
                     }
                     break;
                 case RightLung rightLung:
-                    if (RightLung == null)
+                    if (RightLung.IsPresent)
                     {
                         RightLung = rightLung;
                         return true;
@@ -191,6 +220,17 @@ namespace PatientManagementSystem.Patients.PatientOrgans
                     throw new ArgumentException(message: $"Unrecognised Lung Type: {newLung.GetType().Name}");
             }
             return false;
+        }
+
+        private float GetTotalOxygenProduced()
+        {
+            float output = 0;
+            if (LeftLung.IsPresent )
+                output += LeftLung.GetLungOxygenProduction();
+            if (RightLung.IsPresent)
+                output += RightLung.GetLungOxygenProduction();
+            output *= RespiratoryRate;
+            return output;
         }
     }
 }

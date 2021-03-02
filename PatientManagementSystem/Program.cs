@@ -65,8 +65,7 @@ namespace PatientManagementSystem.Patients
 
             //6. Access the PatientPod instance's PatientResults object to see the information obtained from any of the Interventions / Examinations performed.
             System.Console.WriteLine(patientPod.PatientResults.RespiratorySystem.LeftLung.BreathSounds[LungLobeLocation.Upper]);
-
-
+           
             bool FOR_DEBUGGING = true;
         }
     }

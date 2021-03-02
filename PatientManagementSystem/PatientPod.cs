@@ -107,5 +107,10 @@ namespace PatientManagementSystem
             */
         }//LATER: Implement once the Ambulance waste system is in production
         #endregion
+
+        //IVPole:
+        //HangFluidBag (Fluid IncFluid, TargetIVPole)
+        //RemoveFluidBag (TargetIVPole) 
+        //InjectFluidBag (Drug, TargetIVPole) //Add drug to hanging IV bag
     }
 }

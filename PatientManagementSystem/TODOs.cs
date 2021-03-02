@@ -1,6 +1,5 @@
 ﻿#region URGENTS
-
-
+//URGENT: Remove BloodLossRates from all organs and move to new Bleeding System.
 #endregion
 
 #region TODOS
@@ -33,4 +32,9 @@
 #region UNITYs
 //UNITY: Create a Patient Builder system
 //UNITY: Database Creation
+#endregion
+
+
+#region Tag_
+
 #endregion

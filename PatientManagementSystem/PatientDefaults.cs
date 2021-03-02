@@ -34,7 +34,7 @@ namespace PatientManagementSystem.Patients.PatientDefaults
         public static readonly float Brain = 1f;
 
         public static readonly float Heart = 1f;
-        public static readonly float Lung = 1f;
+        public static readonly float LungLobe = 1f;
 
         public static readonly float GI = 1f;
         public static readonly float Kidney = 1f;
@@ -119,8 +119,10 @@ namespace PatientManagementSystem.Patients.PatientDefaults
 
     public static class DefaultLungs
     {
-        public static readonly float OxygenSaturation = 100f;
+        public static readonly float LobeOxygenProductionPerBreath = 100f;
+        //public static readonly float OxygenSaturation = 100f; //What is this for?
         public static readonly int RespirationRate = 16;
+        
     }
 
     public static class DefaultWasteProduction
