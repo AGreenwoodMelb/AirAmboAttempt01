@@ -38,14 +38,15 @@ namespace PatientManagementSystem.Patients.PatientOrgans
     public abstract class Organ
     {
         #region Props
-        protected float _organHealth = 1f;
+        public float _organHealth = 1f; //Temporarily set accessor to public from protected
 
         private float _organEfficiency;
         public float OrganEfficiency
         {
             get
             {
-                return _organEfficiency;
+                return _organHealth; //TEMP
+                return _organEfficiency; 
             }
             private set
             {
@@ -58,19 +59,25 @@ namespace PatientManagementSystem.Patients.PatientOrgans
         {
             get
             {
-                OrganState organState = OrganState.None;
-                for (int i = DefaultOrganStuff.OrganLookup.Length - 1; i >= 0; i--)
-                {
-                    if (_organHealth <= DefaultOrganStuff.OrganLookup[i].Item2)
-                        organState = DefaultOrganStuff.OrganLookup[i].Item1;
-                }
-                return organState;
+                return LookupOrganState(_organHealth);
             }
         }
-        
+
+        protected OrganState LookupOrganState(float organHealth)
+        {
+            OrganState organState = OrganState.None;
+            for (int i = DefaultOrganStuff.OrganLookup.Length - 1; i >= 0; i--)
+            {
+                if (organHealth <= DefaultOrganStuff.OrganLookup[i].Item2)
+                    organState = DefaultOrganStuff.OrganLookup[i].Item1;
+            }
+
+            return organState;
+        }
+
         public void RemoveOrgan()
         {
-            _organEfficiency = -1f;
+            _organEfficiency = 0f;
         }
 
         //private BleedingSeverity _isBleeding = BleedingSeverity.None;

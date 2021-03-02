@@ -43,28 +43,12 @@ namespace PatientManagementSystem.Patients
             //System.Console.WriteLine(Pod.PatientResults.RespiratorySystem.LeftLung.BreathSounds[LungLobeLocation.Upper]);
 
 
-            //1. Create new instance of PatientPod
-            PatientPod patientPod = new PatientPod();
+            Lung test = new RightLung();
+            test.Lobes[LungLobeLocation.Upper]._organHealth = 0.045f;
+            test.Lobes[LungLobeLocation.Lower]._organHealth = 0.065f;
+            OrganState t = test.OrganState;
 
-            //2. Optionally create instances of any of the parameters of the Patient 
-            Blood blood = new Blood(new BloodType() { ABO = BloodABO.AB, Rhesus = BloodRhesus.Positive });
-            BloodSystem bloodSystem = new BloodSystem(blood);
-            Abdomen abs = new Abdomen(reproductives: new Reproductive_Male());
-            Anthropometrics metrics = new Anthropometrics(21, 181, 120);
-            Physical body = new Physical(blood: bloodSystem, abdomen: abs);
-
-            //3. Create a new instance of Patient (passing in any previously defined appropriate arguments)
-            Patient patient = new Patient(body: body);
-
-            //4. Use Pod.TryAddPatient() passing it the newly created Patient object as a parameter. 
-            patientPod.TryAddPatient(patient);
-
-
-            //5. Perform Examinations and Interventions by using the PatientPod instance's .PerformIntervention()
-            patientPod.PerformIntervention(new ExamineLungsAuscultateLungs(), out bool _);
-
-            //6. Access the PatientPod instance's PatientResults object to see the information obtained from any of the Interventions / Examinations performed.
-            System.Console.WriteLine(patientPod.PatientResults.RespiratorySystem.LeftLung.BreathSounds[LungLobeLocation.Upper]);
+            
            
             bool FOR_DEBUGGING = true;
         }

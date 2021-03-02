@@ -14,7 +14,6 @@ namespace PatientManagementSystem.Patients.PatientOrgans
         Normal,
         Wheezing, //Inflammation - Infection / other
         Bubbling, //Fluid - Bleeding / infection / Aspiration
-
     }
     public enum LungPrecussionSounds
     {
@@ -59,13 +58,11 @@ namespace PatientManagementSystem.Patients.PatientOrgans
 
     public abstract class Lung : Organ
     {
-        public abstract override OrganState OrganState { get; } //Do i need this
+        public override OrganState OrganState => LookupOrganState(GetLungEfficiency());
         public readonly float DefaultLobeOxygenProductionPerBreath = DefaultLungs.LobeOxygenProductionPerBreath;
         public abstract Dictionary<LungLobeLocation, LungLobe> Lobes { get; }
         public abstract float GetLungEfficiency();
         public abstract float GetLungOxygenProduction(); //OxygenUnit production * Efficiency
-
-        
     }
 
     public class RightLung : Lung
@@ -77,7 +74,6 @@ namespace PatientManagementSystem.Patients.PatientOrgans
             { LungLobeLocation.Lower, new LungLobe() },
         };
 
-        public override OrganState OrganState => throw new NotImplementedException();
 
         public override float GetLungEfficiency()
         {
@@ -105,8 +101,6 @@ namespace PatientManagementSystem.Patients.PatientOrgans
             { LungLobeLocation.Upper, new LungLobe() },
             { LungLobeLocation.Lower, new LungLobe() },
         };
-
-        public override OrganState OrganState => throw new NotImplementedException();
 
         public override float GetLungEfficiency()
         {
