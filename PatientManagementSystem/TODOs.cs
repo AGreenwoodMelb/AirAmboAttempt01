@@ -1,18 +1,13 @@
 ﻿#region URGENTS
-//URGENT: Redo the Example section to use the new PatientProceedure class and Pod.PerformProceedure() 
 //URGENT: Created new Bleeding System / Rebuild the Bleeding system to mirror the infections system?
 #endregion
 
 #region TODOS
-//TODO: (Started?) Rebuild OrganState enum, perhaps use a float to indicate organ health? another float for OrganFunctionEffectiveness (nice short variable name there) 
-//TODO: (Started) Reorganise files and class locations
-//TODO: (Started) Finish building Lung System
-//TODO: Cleanup the arrangement of the members in the Organ base class (its getting chaotic in there)
+
 #endregion
 
 #region REVIEWS
 //REVIEW: Consider scrapping that awful HeartStructures / HeartVessels crap
-//REVIEW: Should the Organ class take the BloodRequirement, OxygenConsumption values as parameters and make those fields readonly?
 #endregion
 
 #region LATERS
@@ -28,6 +23,7 @@
 
 #region ONGOINGs
 //ONGOING: Continue to add to the README.md and try to provide Implementation details on stable classes as well as code snippets.
+//ONGOING: (Started) Reorganise files and class locations
 #endregion
 
 #region LUXURYs

@@ -87,13 +87,11 @@ namespace PatientManagementSystem.Patients.PatientAccessPoints
     public class ArtificialAirway : AccessPoint
     {
         public ArtificialAirwayType AirwayType { get; private set; }
-
         public override void Remove()
         {
             base.Remove();
             AirwayType = ArtificialAirwayType.None;
         }
-
         public void Insert(ArtificialAirwayType artificialAirwayType)
         {
             AirwayType = artificialAirwayType;

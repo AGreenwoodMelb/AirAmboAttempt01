@@ -35,7 +35,7 @@ namespace PatientManagementSystem.Patients.ExaminationResults
         public PatientExamResultsGastrointestinalTract GastrointestinalTract = new PatientExamResultsGastrointestinalTract();
         public PatientExamResultsUrinaryTract UrinaryTract = new PatientExamResultsUrinaryTract();
         public PatientExamResultsReproductives Reproductives = new PatientExamResultsReproductives();
-    } //TODO: Expand and complete all OrganResult classes
+    }//TODO: Expand and complete all OrganResult classes
 
 
     #region XRaysResults

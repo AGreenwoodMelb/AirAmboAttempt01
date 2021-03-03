@@ -28,7 +28,7 @@ namespace PatientManagementSystem
         {
             MaximumWasteVolume = 100f; //UNITY: Replace with Defaults value;
         }//LATER: Replace parameter: ambulance type with appropriate class type
-
+        
 
         public bool TryAddPatient(Patient newPatient)
         {
@@ -82,7 +82,7 @@ namespace PatientManagementSystem
             {
                 Succeeded = false;
                 return false;
-            }//LATER: Waste check in PerformIntervention needs tweaking
+            }
 
             if (patientProceedure.Perform(CurrentPatient, PatientResults, out Succeeded))
             {

@@ -20,7 +20,6 @@ namespace PatientManagementSystem.Patients.PatientBlood
     {
         public BloodABO ABO;
         public BloodRhesus Rhesus;
-
         public override string ToString() => $"{ABO} {Rhesus}";
     }
     public enum BleedingSeverity

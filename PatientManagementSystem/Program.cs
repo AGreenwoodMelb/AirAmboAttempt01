@@ -22,7 +22,7 @@ namespace PatientManagementSystem.Patients
             Pod.TryAddPatient(pt);
 
 
-            ////Console.WriteLine(pt.Body.Anthropometrics.BMI);
+            //Console.WriteLine(pt.Body.Anthropometrics.BMI);
             //LeftLung left = new LeftLung();
             //RightLung right = new RightLung();
 
@@ -51,7 +51,7 @@ namespace PatientManagementSystem.Patients
             //test.Lobes[LungLobeLocation.Upper]._organHealth = 0.045f;
             //test.Lobes[LungLobeLocation.Lower]._organHealth = 0.065f;
             //OrganState t = test.OrganState;
-            
+
             //System.Console.WriteLine(    test.OxygenRequirement);
 
             System.Console.WriteLine("FOR DEBUGGING");

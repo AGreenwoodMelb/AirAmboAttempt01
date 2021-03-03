@@ -14,21 +14,6 @@
         Severe,
         Extreme
     }
-    public enum Consciousness
-    {
-       Dead,
-       Unresponsive,
-       Semi_Responsive,
-       Responsive
-    }
-    public enum MentalState
-    {
-        Dead,
-        Normal,
-        Absent,
-        Confused,
-        Agitated,
-    }
     public enum BodyRegion
     {
         None,

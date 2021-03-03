@@ -66,8 +66,8 @@ Patient patient = new Patient(body: body);
 //4. Use Pod.TryAddPatient() passing it the newly created Patient object as a parameter. 
 patientPod.TryAddPatient(patient);
 
-//5. Perform Examinations and Interventions by using the PatientPod instance's .PerformIntervention()
-patientPod.PerformIntervention( new ExamineLungsAuscultateLungs(), out bool _);
+//5. Perform Examinations and Interventions by using the PatientPod instance's .PerformProceedure()
+patientPod.PerformProceedure( new ExamineLungsAuscultateLungs(), out bool _);
 
 //6. Access the PatientPod instance's PatientResults object to see the information obtained from any of the Interventions / Examinations performed.
 System.Console.WriteLine(patientPod.PatientResults.RespiratorySystem.LeftLung.BreathSounds[LungLobeLocation.Upper]); //Not the best example but currently works.

@@ -51,6 +51,7 @@ namespace PatientManagementSystem.Patients.PatientOrgans
     public abstract class Organ
     {
         #region Props
+        #region General
         public float _organHealth = 1f; //Temporarily set accessor to public from protected
 
         private float _organEfficiency;
@@ -65,7 +66,7 @@ namespace PatientManagementSystem.Patients.PatientOrgans
             {
                 _organEfficiency = value;
             }
-        }//TODO: OrganEfficiency should be dynamically generated from _organHealth, Default file, Oxygenation...
+        } //TODO: OrganEfficiency should be dynamically generated from _organHealth, Default file, Oxygenation...
 
         public bool IsPresent => !(OrganState == OrganState.Removed || OrganState == OrganState.None);
         public virtual OrganState OrganState
@@ -85,10 +86,10 @@ namespace PatientManagementSystem.Patients.PatientOrgans
             }
 
             return organState;
-        }//REVIEW: This seems to work by chance, not design.
-
-
-        private readonly float _oxygenRequiredBase; //REVIEW: Should this be readonly and set in a parameterized constructor? The lung override of the prop may cause problems? This will be misery to setup the constructors again so wait to fix this until the design settles
+        } //REVIEW: This seems to work by chance, not design.
+        #endregion
+        #region Oxygen
+        private readonly float _oxygenRequiredBase;
         public virtual float OxygenRequirement
         {
             get
@@ -113,15 +114,14 @@ namespace PatientManagementSystem.Patients.PatientOrgans
                 _oxygenConsumed = value;
             }
         }
-
         public float Oxygenation => OxygenConsumed / OxygenRequirement;
-
-
-        /* NOTES: Blood requirement
+        #endregion
+        #region Perfusion
+        /* NOTES: Perfusion requirement
          * Is this necessary or will the Oxygen system coupled with RBC carrying capacity suffice? 
          * I think this is useful for localised areas of ischaemia when there is no Hypoxia
          */
-        private readonly float _perfusionRequiredBase; //See _oxygenRequired REVIEW
+        private readonly float _perfusionRequiredBase;
         public virtual float PerfusionRequirement
         {
             get { return _perfusionRequiredBase; }
@@ -137,19 +137,21 @@ namespace PatientManagementSystem.Patients.PatientOrgans
 
         public float Perfusion => PerfusionSupplied / PerfusionRequirement;
         #endregion
-
+        #endregion
+        #region Constructor
         public Organ(float oxygenRequirement, float perfusionRequirement)
         {
             _oxygenRequiredBase = oxygenRequirement;
             _perfusionRequiredBase = perfusionRequirement;
         }
-
+        #endregion
+        #region Functions
         public void RemoveOrgan()
         {
             _organEfficiency = 0f;
             _organHealth = 0f;
         }
-        
+        #endregion
         //TO BE REMOVED TO BLEEDING SYSTEM
         //private BleedingSeverity _isBleeding = BleedingSeverity.None;
         //public BleedingSeverity IsBleeding

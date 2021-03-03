@@ -1,7 +1,7 @@
 ﻿using PatientManagementSystem.Patients.PatientAccessPoints;
 using PatientManagementSystem.Patients.PatientBlood;
 using PatientManagementSystem.Patients.PatientBones;
-using PatientManagementSystem.Patients.PatientOrgans; //Hopefully this wont last
+using PatientManagementSystem.Patients.PatientOrgans;
 using PatientManagementSystem.Patients.PatientInfection;
 using PatientManagementSystem.Patients.PatientDrugs;
 using System.Collections.Generic;

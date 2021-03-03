@@ -55,7 +55,6 @@ namespace PatientManagementSystem.Patients.PatientOrgans
 
         }
     }
-
     public abstract class Lung : Organ
     {
         public override OrganState OrganState => LookupOrganState(GetLungEfficiency());
@@ -72,7 +71,6 @@ namespace PatientManagementSystem.Patients.PatientOrgans
 
         }
     }
-
     public class RightLung : Lung
     {
         public override Dictionary<LungLobeLocation, LungLobe> Lobes { get; } = new Dictionary<LungLobeLocation, LungLobe>()
@@ -115,7 +113,6 @@ namespace PatientManagementSystem.Patients.PatientOrgans
             return output;
         }
     }
-
     public class LeftLung : Lung
     {
         public override Dictionary<LungLobeLocation, LungLobe> Lobes { get; } = new Dictionary<LungLobeLocation, LungLobe>()
@@ -153,7 +150,6 @@ namespace PatientManagementSystem.Patients.PatientOrgans
             return output;
         }
     }
-
     public class RespiratorySystem
     {
         #region Props
@@ -262,4 +258,4 @@ namespace PatientManagementSystem.Patients.PatientOrgans
             return output;
         }
     }
-}
+}   

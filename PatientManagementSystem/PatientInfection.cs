@@ -286,8 +286,6 @@ namespace PatientManagementSystem.Patients.PatientInfection
             }
         }
         #endregion
-
-
     }
 }
 

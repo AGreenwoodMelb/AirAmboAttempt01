@@ -12,7 +12,6 @@ namespace PatientManagementSystem.Patients.PatientDrugs
         Inhaled,
         Other,
     }
-
     public enum ExcretionRoute
     {
         Urine,
@@ -48,7 +47,7 @@ namespace PatientManagementSystem.Patients.PatientDrugs
 
         public bool Administer(Patient patient, AdministrationRoute route)
         {
-            WasteProduced = DefaultWasteProduction.AdministerDrug[DrugName] * DefaultWasteProduction.AdministerRoute[route]; //keep
+            WasteProduced = DefaultWasteProduction.AdministerDrug[DrugName] * DefaultWasteProduction.AdministerRoute[route]; //Keep
             _patient = patient;
             bool AdministrationSuccessful = false; //Keep
 
