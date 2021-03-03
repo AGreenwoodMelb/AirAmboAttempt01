@@ -78,27 +78,27 @@ namespace PatientManagementSystem.Patients.PatientOrgans
         protected OrganState LookupOrganState(float organHealth)
         {
             OrganState organState = OrganState.None;
-            for (int i = DefaultOrganStuff.OrganLookup.Length - 1; i >= 0; i--)
+            for (int i = DefaultOrgans.OrganStateLookup.Length - 1; i >= 0; i--)
             {
-                if (organHealth <= DefaultOrganStuff.OrganLookup[i].Item2)
-                    organState = DefaultOrganStuff.OrganLookup[i].Item1;
+                if (organHealth <= DefaultOrgans.OrganStateLookup[i].Item2)
+                    organState = DefaultOrgans.OrganStateLookup[i].Item1;
             }
 
             return organState;
         }//REVIEW: This seems to work by chance, not design.
 
 
-        private float _oxygenRequired; //REVIEW: Should this be readonly and set in a parameterized constructor? The lung override of the prop may cause problems? This will be misery to setup the constructors again so wait to fix this until the design settles
+        private readonly float _oxygenRequiredBase; //REVIEW: Should this be readonly and set in a parameterized constructor? The lung override of the prop may cause problems? This will be misery to setup the constructors again so wait to fix this until the design settles
         public virtual float OxygenRequirement
         {
             get
             {
-                return _oxygenRequired;
+                return _oxygenRequiredBase;
             }
-            protected set
-            {
-                _oxygenRequired = value;
-            }
+            //protected set
+            //{
+            //    _oxygenRequiredBase = value;
+            //}
         }
 
         public float _oxygenConsumed; //TODO: Finish implementing. Amount of Oxygen consumed(up to OrganOxygenRequired), Will need BloodSystem first here;
@@ -121,30 +121,35 @@ namespace PatientManagementSystem.Patients.PatientOrgans
          * Is this necessary or will the Oxygen system coupled with RBC carrying capacity suffice? 
          * I think this is useful for localised areas of ischaemia when there is no Hypoxia
          */
-        private float _bloodRequirement; //See _oxygenRequired REVIEW
-        public virtual float BloodRequirement
+        private readonly float _perfusionRequiredBase; //See _oxygenRequired REVIEW
+        public virtual float PerfusionRequirement
         {
-            get { return _bloodRequirement; }
-            protected set { _bloodRequirement = value; }
+            get { return _perfusionRequiredBase; }
+            //protected set { _bloodRequirementBase = value; }
         }
 
-        private float _bloodSupplied;
-        public virtual float BloodSupplied
+        private float _perfusionSupplied;
+        public virtual float PerfusionSupplied
         {
-            get { return _bloodSupplied; }
-            set { _bloodSupplied = value; }
+            get { return _perfusionSupplied; }
+            set { _perfusionSupplied = value; }
         }
 
-        public float Perfusion => BloodSupplied / BloodRequirement;
+        public float Perfusion => PerfusionSupplied / PerfusionRequirement;
         #endregion
 
+        public Organ(float oxygenRequirement, float perfusionRequirement)
+        {
+            _oxygenRequiredBase = oxygenRequirement;
+            _perfusionRequiredBase = perfusionRequirement;
+        }
 
         public void RemoveOrgan()
         {
             _organEfficiency = 0f;
             _organHealth = 0f;
         }
-
+        
         //TO BE REMOVED TO BLEEDING SYSTEM
         //private BleedingSeverity _isBleeding = BleedingSeverity.None;
         //public BleedingSeverity IsBleeding
@@ -200,7 +205,7 @@ namespace PatientManagementSystem.Patients.PatientOrgans
         }
         #endregion
 
-        public Brain() //: base(DefaultBloodLossBaseRates.Brain)
+        public Brain() : base(DefaultOrgans.DefaultBrain.OxygenRequirement, DefaultOrgans.DefaultBrain.PerfusionRequirement)
         {
 
         }
@@ -279,13 +284,13 @@ namespace PatientManagementSystem.Patients.PatientOrgans
 
         #endregion
 
-        public Heart(HeartStructures heartStructures = null, bool isBeating = true, bool isArrythmic = false, bool hasPacemaker = false, int beatsPerMinute = 60) //: base(DefaultBloodLossBaseRates.Heart)
+        public Heart(HeartStructures heartStructures = null, bool isBeating = true, bool isArrythmic = false, bool hasPacemaker = false, int? beatsPerMinute = null) : base(DefaultOrgans.DefaultHeart.OxygenRequirement, DefaultOrgans.DefaultHeart.PerfusionRequirement)
         {
             _heartStructures = heartStructures ?? new HeartStructures();
             _isBeating = isBeating;
             _isArrythmic = isArrythmic;
             _hasPacemaker = hasPacemaker;
-            _beatsPerMinute = beatsPerMinute;
+            _beatsPerMinute = beatsPerMinute ?? DefaultOrgans.DefaultHeart.HeartRate;
         }
     }
 
@@ -311,7 +316,7 @@ namespace PatientManagementSystem.Patients.PatientOrgans
         }
         #endregion
 
-        public Kidney() //: base(DefaultBloodLossBaseRates.Kidney)
+        public Kidney() : base(DefaultOrgans.DefaultKidney.OxygenRequirement, DefaultOrgans.DefaultKidney.PerfusionRequirement)
         {
 
         }
@@ -356,7 +361,7 @@ namespace PatientManagementSystem.Patients.PatientOrgans
         }
 
         #endregion
-        public Bladder() //: base(DefaultBloodLossBaseRates.Bladder)
+        public Bladder() : base(DefaultOrgans.DefaultBladder.OxygenRequirement, DefaultOrgans.DefaultBladder.PerfusionRequirement)
         {
 
         }
@@ -414,7 +419,7 @@ namespace PatientManagementSystem.Patients.PatientOrgans
         }
         #endregion
 
-        public Liver() //: base(DefaultBloodLossBaseRates.Liver)
+        public Liver() : base(DefaultOrgans.DefaultLiver.OxygenRequirement, DefaultOrgans.DefaultLiver.PerfusionRequirement)
         {
 
         }
@@ -422,14 +427,14 @@ namespace PatientManagementSystem.Patients.PatientOrgans
 
     public class GastrointestinalTract : Organ
     {
-        public GastrointestinalTract() //: base(DefaultBloodLossBaseRates.GI)
+        public GastrointestinalTract() : base(DefaultOrgans.DefaultGI.OxygenRequirement, DefaultOrgans.DefaultGI.PerfusionRequirement)
         {
 
         }
     }
     public class Spleen : Organ
     {
-        public Spleen() //: base(DefaultBloodLossBaseRates.Spleen)
+        public Spleen() : base(DefaultOrgans.DefaultSpleen.OxygenRequirement, DefaultOrgans.DefaultSpleen.PerfusionRequirement)
         {
 
         }
@@ -437,7 +442,7 @@ namespace PatientManagementSystem.Patients.PatientOrgans
 
     public class Pancreas : Organ
     {
-        public Pancreas() //: base(DefaultBloodLossBaseRates.Pancreas)
+        public Pancreas() : base(DefaultOrgans.DefaultPancreas.OxygenRequirement, DefaultOrgans.DefaultPancreas.PerfusionRequirement)
         {
 
         }
@@ -445,7 +450,7 @@ namespace PatientManagementSystem.Patients.PatientOrgans
 
     public abstract class Reproductive : Organ
     {
-        public Reproductive(float bloodLossRate) //: base(bloodLossRate)
+        public Reproductive(float oxygenRequirement, float perfusionRequirement) : base(oxygenRequirement, perfusionRequirement)
         {
 
         }
@@ -465,7 +470,7 @@ namespace PatientManagementSystem.Patients.PatientOrgans
         #endregion
         public override Gender GetOrgansSex() => Gender.Male;
 
-        public Reproductive_Male() : base(DefaultBloodLossBaseRates.Reproductive_Male)
+        public Reproductive_Male() : base(DefaultOrgans.DefaultReproductive_Male.OxygenRequirement, DefaultOrgans.DefaultReproductive_Male.PerfusionRequirement)
         {
 
         }
@@ -496,7 +501,7 @@ namespace PatientManagementSystem.Patients.PatientOrgans
         }
         #endregion
         public override Gender GetOrgansSex() => Gender.Female;
-        public Reproductive_Female() : base(DefaultBloodLossBaseRates.Reproductive_Female)
+        public Reproductive_Female() : base(DefaultOrgans.DefaultReproductive_Female.OxygenRequirement, DefaultOrgans.DefaultReproductive_Female.PerfusionRequirement)
         {
 
         }

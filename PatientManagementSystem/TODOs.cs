@@ -1,4 +1,5 @@
 ﻿#region URGENTS
+//URGENT: Redo the Example section to use the new PatientProceedure class and Pod.PerformProceedure() 
 //URGENT: Created new Bleeding System / Rebuild the Bleeding system to mirror the infections system?
 #endregion
 

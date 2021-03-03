@@ -7,7 +7,6 @@ namespace PatientManagementSystem.Patients.PatientProceedures
     public abstract class PatientProceedure
     {
         public float WasteProduced { get; protected set; }
-
         public abstract bool Perform(Patient patient, PatientExamResults results, out bool Succeeded);
     }
     public class PerformLumbarPuncture : PatientProceedure
@@ -39,5 +38,5 @@ namespace PatientManagementSystem.Patients.PatientProceedures
             }
             return true;
         }
-    }
+    } //This should go back to the Intervene class and an appropriate virtual method be used
 }

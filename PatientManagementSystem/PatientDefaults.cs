@@ -28,37 +28,25 @@ namespace PatientManagementSystem.Patients.PatientDefaults
         public static readonly float MaxWeight = 150;
     }
 
-    public static class DefaultOxygenRequirements
-    {
-        public static readonly float LungLobe = 1f;
-        public static readonly float Heart = 1f;
-    }
-
-    public static class DefaultBloodRequirements
-    {
-        public static readonly float LungLobe = 1f;
-        public static readonly float Heart = 1f;
-    }
-
     public static class DefaultBloodLossBaseRates
     {
         public static readonly float Superficial = 1f;
 
-        public static readonly float Brain = 1f;
+        //public static readonly float Brain = 1f;
 
-        public static readonly float Heart = 1f;
-        public static readonly float LungLobe = 1f;
+        //public static readonly float Heart = 1f;
+        //public static readonly float LungLobe = 1f;
 
-        public static readonly float GI = 1f;
-        public static readonly float Kidney = 1f;
-        public static readonly float Bladder = 1f;
-        public static readonly float Liver = 1f;
-        public static readonly float Pancreas = 1f;
-        public static readonly float Spleen = 1f;
-        public static readonly float Reproductive_Male = 1f;
-        public static readonly float Reproductive_Female = 1f;
+        //public static readonly float GI = 1f;
+        //public static readonly float Kidney = 1f;
+        //public static readonly float Bladder = 1f;
+        //public static readonly float Liver = 1f;
+        //public static readonly float Pancreas = 1f;
+        //public static readonly float Spleen = 1f;
+        //public static readonly float Reproductive_Male = 1f;
+        //public static readonly float Reproductive_Female = 1f;
 
-        public static readonly Dictionary<BleedingSeverity, float> BleedingSeverityMultiplier = new Dictionary<BleedingSeverity, float>()
+        public static readonly Dictionary<BleedingSeverity, float> LookupBleedingSeverityMultiplier = new Dictionary<BleedingSeverity, float>()
         {
             { BleedingSeverity.None, 0},
             { BleedingSeverity.Mild, 0.5f},
@@ -68,73 +56,161 @@ namespace PatientManagementSystem.Patients.PatientDefaults
         };
     }
 
-    public static class DefaultBoneStructures
+    public static class DefaultOrgans
     {
-        public static readonly Bone[] DefaultHeadBones = new Bone[]
+        public static readonly (OrganState, float)[] OrganStateLookup = new (OrganState, float)[]
         {
-            new Bone("Skull"),
-            new Bone("Spine"),
-            new Bone("Facial")
+            (OrganState.None,-1.0f),
+            (OrganState.Removed,0.0f),
+            (OrganState.Destroyed,0.10f),
+            (OrganState.Damaged,0.30f),
+            (OrganState.Impaired,0.70f),
+            (OrganState.Normal,1.0f),
         };
 
-        public static readonly Bone[] DefaultArmBones = new Bone[]
+        #region Head
+        public static class DefaultBrain
         {
-            new Bone("Humerus"),
-            new Bone("Radius/Ulnar"),
-            new Bone("Hand")
-        };
+            //Organ Specific
 
-        public static readonly Bone[] DefaultChestBones = new Bone[]
+            //Oxygen
+            public static readonly float OxygenRequirement = 1f;
+
+            //Blood
+            public static readonly float PerfusionRequirement = 1f;
+            public static readonly float BloodLossRate = 1f;
+        }
+        #endregion
+
+        #region Chest
+        public static class DefaultRespiratorySystem
         {
-            new Bone("Ribs"),
-            new Bone("Spine")
-        };
+            //Organ Specific
+            public static readonly int RespirationRatePerMinute = 16;
+            public static readonly float LobeOxygenProductionPerBreath = 100f;
 
-        public static readonly Bone[] DefaultAbdomenBones = new Bone[]
+            //Oxygen
+            public static readonly float LobeOxygenRequirement = 1f;
+
+            //Blood
+            public static readonly float LobePerfusionRequirement = 1f;
+            public static readonly float LobeBloodLossRate = 1f;
+        }
+        public static class DefaultHeart
         {
-            new Bone("Spine"),
-            new Bone("Pelvis")
-        };
+            //Organ Specific
+            public static readonly int HeartRate = 60;
+            //Oxygen
+            public static readonly float OxygenRequirement = 1f;
 
-        public static readonly Bone[] DefaultLegBones = new Bone[]
+            //Blood
+            public static readonly float PerfusionRequirement = 1f;
+            public static readonly float BloodLossRate = 1f;
+        }
+        #endregion
+
+        #region Abdomen
+        public static class DefaultGI
         {
-            new Bone("Femur"),
-            new Bone("Patella"),
-            new Bone("Tibia/Fibula"),
-            new Bone("Foot")
-        };
+            //Organ Specific
 
-    }
+            //Oxygen
+            public static readonly float OxygenRequirement = 1f;
 
-    public static class DefaultFluidProfiles
-    {
-        public static readonly FluidProfile Drug = new FluidProfile()
+            //Blood
+            public static readonly float PerfusionRequirement = 1f;
+            public static readonly float BloodLossRate = 1f;
+        }
+        public static class DefaultKidney
         {
-            Hematocrit = 0.0f,
-            ClottingFactor = 0.0f,
-            Electrolytes = 0.0f
-        };//Essentially ratios found in standard drug infusion //TBC
+            //Organ Specific
 
-        public static readonly FluidProfile Blood = new FluidProfile()
+            //Oxygen
+            public static readonly float OxygenRequirement = 1f;
+
+            //Blood
+            public static readonly float PerfusionRequirement = 1f;
+            public static readonly float BloodLossRate = 1f;
+        }
+        public static class DefaultBladder
         {
-            Hematocrit = 0.4f,
-            ClottingFactor = 1.0f,
-            Electrolytes = 1.0f
-        };//Essentially ratios found in standard blood
+            //Organ Specific
 
-        public static readonly FluidProfile BaseFluid = new FluidProfile()
+            //Oxygen
+            public static readonly float OxygenRequirement = 1f;
+
+            //Blood
+            public static readonly float PerfusionRequirement = 1f;
+            public static readonly float BloodLossRate = 1f;
+        }
+        public static class DefaultLiver
         {
-            Hematocrit = 0.0f,
-            ClottingFactor = 0.0f,
-            Electrolytes = 0.0f
-        };//Essentially ratios found in 1L of water
-    }
+            //Organ Specific
 
-    public static class DefaultLungs
-    {
-        public static readonly float LobeOxygenProductionPerBreath = 100f;
-        public static readonly int RespirationRate = 16;
+            //Oxygen
+            public static readonly float OxygenRequirement = 1f;
 
+            //Blood
+            public static readonly float PerfusionRequirement = 1f;
+            public static readonly float BloodLossRate = 1f;
+        }
+        public static class DefaultPancreas
+        {
+            //Organ Specific
+
+            //Oxygen
+            public static readonly float OxygenRequirement = 1f;
+
+            //Blood
+            public static readonly float PerfusionRequirement = 1f;
+            public static readonly float BloodLossRate = 1f;
+        }
+        public static class DefaultSpleen
+        {
+            //Organ Specific
+
+            //Oxygen
+            public static readonly float OxygenRequirement = 1f;
+
+            //Blood
+            public static readonly float PerfusionRequirement = 1f;
+            public static readonly float BloodLossRate = 1f;
+        }
+        public static class DefaultReproductive_Female
+        {
+            //Organ Specific
+
+            //Oxygen
+            public static readonly float OxygenRequirement = 1f;
+
+            //Blood
+            public static readonly float PerfusionRequirement = 1f;
+            public static readonly float BloodLossRate = 1f;
+        }
+        public static class DefaultReproductive_Male
+        {
+            //Organ Specific
+
+            //Oxygen
+            public static readonly float OxygenRequirement = 1f;
+
+            //Blood
+            public static readonly float PerfusionRequirement = 1f;
+            public static readonly float BloodLossRate = 1f;
+        }
+        #endregion
+
+        public static class DefaultCOPYPASTE
+        {
+            //Organ Specific
+
+            //Oxygen
+            public static readonly float OxygenRequirement = 1f;
+
+            //Blood
+            public static readonly float PerfusionRequirement = 1f;
+            public static readonly float BloodLossRate = 1f;
+        }
     }
 
     public static class DefaultWasteProduction
@@ -220,19 +296,6 @@ namespace PatientManagementSystem.Patients.PatientDefaults
         public static float PerformLumbarPunctureSuccess = 0f;
     }
 
-    public static class DefaultOrganStuff
-    {
-        public static readonly (OrganState, float)[] OrganLookup = new (OrganState, float)[]
-        {
-            (OrganState.None,-1.0f),
-            (OrganState.Removed,0.0f),
-            (OrganState.Destroyed,0.10f),
-            (OrganState.Damaged,0.30f),
-            (OrganState.Impaired,0.70f),
-            (OrganState.Normal,1.0f),
-        };
-    }
-
     public static class DefaultInfectionValues
     {
         public static readonly (InfectionSeverity, float)[] SeverityLookup = new (InfectionSeverity, float)[]
@@ -278,5 +341,67 @@ namespace PatientManagementSystem.Patients.PatientDefaults
         public static readonly float SampleShuntCSF = 0f;
         public static readonly float PerformLumbarPuncture = 0f;
         #endregion
+    }
+
+    public static class DefaultBoneStructures
+    {
+        public static readonly Bone[] DefaultHeadBones = new Bone[]
+        {
+            new Bone("Skull"),
+            new Bone("Spine"),
+            new Bone("Facial")
+        };
+
+        public static readonly Bone[] DefaultArmBones = new Bone[]
+        {
+            new Bone("Humerus"),
+            new Bone("Radius/Ulnar"),
+            new Bone("Hand")
+        };
+
+        public static readonly Bone[] DefaultChestBones = new Bone[]
+        {
+            new Bone("Ribs"),
+            new Bone("Spine")
+        };
+
+        public static readonly Bone[] DefaultAbdomenBones = new Bone[]
+        {
+            new Bone("Spine"),
+            new Bone("Pelvis")
+        };
+
+        public static readonly Bone[] DefaultLegBones = new Bone[]
+        {
+            new Bone("Femur"),
+            new Bone("Patella"),
+            new Bone("Tibia/Fibula"),
+            new Bone("Foot")
+        };
+
+    }
+
+    public static class DefaultFluidProfiles
+    {
+        public static readonly FluidProfile Drug = new FluidProfile()
+        {
+            Hematocrit = 0.0f,
+            ClottingFactor = 0.0f,
+            Electrolytes = 0.0f
+        };//Essentially ratios found in standard drug infusion //TBC
+
+        public static readonly FluidProfile Blood = new FluidProfile()
+        {
+            Hematocrit = 0.4f,
+            ClottingFactor = 1.0f,
+            Electrolytes = 1.0f
+        };//Essentially ratios found in standard blood
+
+        public static readonly FluidProfile BaseFluid = new FluidProfile()
+        {
+            Hematocrit = 0.0f,
+            ClottingFactor = 0.0f,
+            Electrolytes = 0.0f
+        };//Essentially ratios found in 1L of water
     }
 }
