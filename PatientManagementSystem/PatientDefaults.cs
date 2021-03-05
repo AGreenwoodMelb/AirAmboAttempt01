@@ -32,20 +32,6 @@ namespace PatientManagementSystem.Patients.PatientDefaults
     {
         public static readonly float Superficial = 1f;
 
-        //public static readonly float Brain = 1f;
-
-        //public static readonly float Heart = 1f;
-        //public static readonly float LungLobe = 1f;
-
-        //public static readonly float GI = 1f;
-        //public static readonly float Kidney = 1f;
-        //public static readonly float Bladder = 1f;
-        //public static readonly float Liver = 1f;
-        //public static readonly float Pancreas = 1f;
-        //public static readonly float Spleen = 1f;
-        //public static readonly float Reproductive_Male = 1f;
-        //public static readonly float Reproductive_Female = 1f;
-
         public static readonly Dictionary<BleedingSeverity, float> LookupBleedingSeverityMultiplier = new Dictionary<BleedingSeverity, float>()
         {
             { BleedingSeverity.None, 0},

@@ -47,7 +47,7 @@ namespace PatientManagementSystem.Patients.PatientOrgans
         Hypoxic,
         Anoxic, //Probably the wrong term tbh
     }
-
+   
     public abstract class Organ
     {
         #region Props
@@ -206,12 +206,14 @@ namespace PatientManagementSystem.Patients.PatientOrgans
             set { _csf = value; }
         }
         #endregion
-
+        #region Constructors
         public Brain() : base(DefaultOrgans.DefaultBrain.OxygenRequirement, DefaultOrgans.DefaultBrain.PerfusionRequirement)
         {
 
         }
-
+        #endregion
+        #region Functions
+        #endregion
         public struct CSFProfile
         {
             public CSFAppearance Appearance;
@@ -285,7 +287,7 @@ namespace PatientManagementSystem.Patients.PatientOrgans
         }
 
         #endregion
-
+        #region Contructors
         public Heart(HeartStructures heartStructures = null, bool isBeating = true, bool isArrythmic = false, bool hasPacemaker = false, int? beatsPerMinute = null) : base(DefaultOrgans.DefaultHeart.OxygenRequirement, DefaultOrgans.DefaultHeart.PerfusionRequirement)
         {
             _heartStructures = heartStructures ?? new HeartStructures();
@@ -294,6 +296,9 @@ namespace PatientManagementSystem.Patients.PatientOrgans
             _hasPacemaker = hasPacemaker;
             _beatsPerMinute = beatsPerMinute ?? DefaultOrgans.DefaultHeart.HeartRate;
         }
+        #endregion
+        #region Functions
+        #endregion
     }
 
     //Lungs in file://D:\Users\Alex\source\repos\GameDev\AirAmbo\AirAmboAttempt01\AirAmboAttempt01\PatientOrgans\PatientLungs.cs
@@ -317,11 +322,14 @@ namespace PatientManagementSystem.Patients.PatientOrgans
             set { _isUreterBlocked = value; }
         }
         #endregion
-
+        #region Constructors
         public Kidney() : base(DefaultOrgans.DefaultKidney.OxygenRequirement, DefaultOrgans.DefaultKidney.PerfusionRequirement)
         {
 
         }
+        #endregion
+        #region Functions
+        #endregion
     }
     public class Bladder : Organ
     {
@@ -363,11 +371,14 @@ namespace PatientManagementSystem.Patients.PatientOrgans
         }
 
         #endregion
+        #region Constructors
         public Bladder() : base(DefaultOrgans.DefaultBladder.OxygenRequirement, DefaultOrgans.DefaultBladder.PerfusionRequirement)
         {
 
         }
-
+        #endregion
+        #region Functions
+        #endregion
     }
     public class UrinaryTract
     {
@@ -393,14 +404,16 @@ namespace PatientManagementSystem.Patients.PatientOrgans
             set { _bladder = value; }
         }
         #endregion
-
+        #region Constructors
         public UrinaryTract(Kidney leftKidney = null, Kidney rightKidney = null, Bladder bladder = null)
         {
             LeftKidney = leftKidney ?? new Kidney();
             RightKidney = rightKidney ?? new Kidney();
             Bladder = bladder ?? new Bladder();
         }
-
+        #endregion
+        #region Functions
+        #endregion
     }
 
     public class Liver : Organ
@@ -420,44 +433,70 @@ namespace PatientManagementSystem.Patients.PatientOrgans
             set { _isBilliaryDuctBlocked = value; }
         }
         #endregion
-
+        #region Constructors
         public Liver() : base(DefaultOrgans.DefaultLiver.OxygenRequirement, DefaultOrgans.DefaultLiver.PerfusionRequirement)
         {
 
         }
+        #endregion
+        #region Functions
+        #endregion
     }
 
     public class GastrointestinalTract : Organ
     {
+        #region Props
+        #endregion
+        #region Constructors
         public GastrointestinalTract() : base(DefaultOrgans.DefaultGI.OxygenRequirement, DefaultOrgans.DefaultGI.PerfusionRequirement)
         {
 
         }
+        #endregion
+        #region Functions
+        #endregion
     }
     public class Spleen : Organ
     {
+        #region Props
+        #endregion
+        #region Constructors
         public Spleen() : base(DefaultOrgans.DefaultSpleen.OxygenRequirement, DefaultOrgans.DefaultSpleen.PerfusionRequirement)
         {
 
         }
+        #endregion
+        #region Functions
+        #endregion
     }
 
     public class Pancreas : Organ
     {
+        #region Props
+        #endregion
+        #region Constructors
         public Pancreas() : base(DefaultOrgans.DefaultPancreas.OxygenRequirement, DefaultOrgans.DefaultPancreas.PerfusionRequirement)
         {
 
         }
+        #endregion
+        #region Functions
+        #endregion
     }
 
     public abstract class Reproductive : Organ
     {
+        #region Props
+        #endregion
+        #region Constructors
         public Reproductive(float oxygenRequirement, float perfusionRequirement) : base(oxygenRequirement, perfusionRequirement)
         {
 
         }
-
+        #endregion
+        #region Functions
         public abstract Gender GetOrgansSex();
+        #endregion
     }
 
     public class Reproductive_Male : Reproductive
@@ -470,12 +509,15 @@ namespace PatientManagementSystem.Patients.PatientOrgans
             set { _psa = value; }
         }
         #endregion
-        public override Gender GetOrgansSex() => Gender.Male;
-
+        #region Constructors
         public Reproductive_Male() : base(DefaultOrgans.DefaultReproductive_Male.OxygenRequirement, DefaultOrgans.DefaultReproductive_Male.PerfusionRequirement)
         {
 
         }
+        #endregion
+        #region Functions
+        public override Gender GetOrgansSex() => Gender.Male;
+        #endregion
     }
 
     public class Reproductive_Female : Reproductive
@@ -502,11 +544,15 @@ namespace PatientManagementSystem.Patients.PatientOrgans
             set { _bHCG = value; }
         }
         #endregion
-        public override Gender GetOrgansSex() => Gender.Female;
+        #region Constructors
         public Reproductive_Female() : base(DefaultOrgans.DefaultReproductive_Female.OxygenRequirement, DefaultOrgans.DefaultReproductive_Female.PerfusionRequirement)
         {
 
         }
+        #endregion
+        #region Functions
+        public override Gender GetOrgansSex() => Gender.Female;
+        #endregion
     }
     #endregion
     #endregion

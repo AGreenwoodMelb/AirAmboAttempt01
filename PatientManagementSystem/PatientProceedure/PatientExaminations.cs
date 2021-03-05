@@ -636,7 +636,6 @@ namespace PatientManagementSystem.Patients.PatientProceedures
     #endregion
 
     #region BloodExams
-
     public abstract class ExamineBlood : PatientExamination
     {
         public bool CheckForIVAccess(Patient patient)
