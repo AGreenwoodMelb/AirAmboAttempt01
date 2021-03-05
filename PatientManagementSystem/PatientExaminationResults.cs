@@ -37,7 +37,6 @@ namespace PatientManagementSystem.Patients.ExaminationResults
         public PatientExamResultsReproductives Reproductives = new PatientExamResultsReproductives();
     }//TODO: Expand and complete all OrganResult classes
 
-
     #region XRaysResults
     public class PatientExamResultsXRays
     {

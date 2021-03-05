@@ -5624,8 +5624,8 @@
     },
     "PatientManagementSystem/1.0.0": {
       "type": "project",
-      "path": "../AirAmboAttempt01/PatientManagementSystem.csproj",
-      "msbuildProject": "../AirAmboAttempt01/PatientManagementSystem.csproj"
+      "path": "../PatientManagementSystem/PatientManagementSystem.csproj",
+      "msbuildProject": "../PatientManagementSystem/PatientManagementSystem.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -5669,8 +5669,8 @@
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
           "projectReferences": {
-            "D:\\Users\\Alex\\source\\repos\\GameDev\\AirAmbo\\PatientManagementSystem\\AirAmboAttempt01\\PatientManagementSystem.csproj": {
-              "projectPath": "D:\\Users\\Alex\\source\\repos\\GameDev\\AirAmbo\\PatientManagementSystem\\AirAmboAttempt01\\PatientManagementSystem.csproj"
+            "D:\\Users\\Alex\\source\\repos\\GameDev\\AirAmbo\\PatientManagementSystem\\PatientManagementSystem\\PatientManagementSystem.csproj": {
+              "projectPath": "D:\\Users\\Alex\\source\\repos\\GameDev\\AirAmbo\\PatientManagementSystem\\PatientManagementSystem\\PatientManagementSystem.csproj"
             }
           }
         }

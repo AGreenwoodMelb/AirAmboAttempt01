@@ -301,7 +301,7 @@ namespace PatientManagementSystem.Patients.PatientOrgans
         #endregion
     }
 
-    //Lungs in file://D:\Users\Alex\source\repos\GameDev\AirAmbo\AirAmboAttempt01\AirAmboAttempt01\PatientOrgans\PatientLungs.cs
+    //Lungs in PatientLungs.cs
 
     #endregion
     #region AbdomenOrgans

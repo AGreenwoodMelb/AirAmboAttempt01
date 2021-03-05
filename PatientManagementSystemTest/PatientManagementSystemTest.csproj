@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AirAmboAttempt01\PatientManagementSystem.csproj" />
+    <ProjectReference Include="..\PatientManagementSystem\PatientManagementSystem.csproj" />
   </ItemGroup>
 
 

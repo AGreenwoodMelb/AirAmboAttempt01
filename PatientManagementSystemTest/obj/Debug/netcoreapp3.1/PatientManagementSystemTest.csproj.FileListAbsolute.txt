@@ -1,0 +1,4 @@
+D:\Users\Alex\source\repos\GameDev\AirAmbo\PatientManagementSystem\PatientManagementSystemTest\obj\Debug\netcoreapp3.1\PatientManagementSystemTest.csprojAssemblyReference.cache
+D:\Users\Alex\source\repos\GameDev\AirAmbo\PatientManagementSystem\PatientManagementSystemTest\obj\Debug\netcoreapp3.1\PatientManagementSystemTest.AssemblyInfoInputs.cache
+D:\Users\Alex\source\repos\GameDev\AirAmbo\PatientManagementSystem\PatientManagementSystemTest\obj\Debug\netcoreapp3.1\PatientManagementSystemTest.AssemblyInfo.cs
+D:\Users\Alex\source\repos\GameDev\AirAmbo\PatientManagementSystem\PatientManagementSystemTest\obj\Debug\netcoreapp3.1\PatientManagementSystemTest.csproj.CoreCompileInputs.cache

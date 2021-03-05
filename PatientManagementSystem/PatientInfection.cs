@@ -168,10 +168,9 @@ namespace PatientManagementSystem.Patients.PatientInfection
                     //infection.DecreaseInfection();
                 }
             }
-
         }//LATER: Implement second parameter of DrugType for resistance calc
 
-        public Infection[] GetInfectionsArray()
+        public IEnumerable<Infection> GetInfectionsArray()
         {
             return Head.GetInfections().Concat(Chest.GetInfections().Concat(Abdomen.GetInfections())).ToArray();
         }//Still pretty bad
@@ -180,21 +179,28 @@ namespace PatientManagementSystem.Patients.PatientInfection
         public abstract class DefaultContainer
         {
             public Infection Surface;
-            public abstract Infection[] GetInfections();
+            public virtual IEnumerable<Infection> GetInfections()
+            {
+                return new Infection[]
+                {
+                    Surface
+                };
+            }
         }
+
         public class HeadContainer : DefaultContainer
         {
             public Infection Brain;
 
-            public override Infection[] GetInfections()
+            public override IEnumerable<Infection> GetInfections()
             {
                 return new Infection[]
                 {
-                    Surface,
                     Brain,
-                };
+                }.Concat(base.GetInfections());
             }
         }
+
         public class ChestContainer : DefaultContainer
         {
             public Infection Heart;
@@ -211,18 +217,19 @@ namespace PatientManagementSystem.Patients.PatientInfection
                 {LungLobeLocation.Lower, new Infection() },
             };
 
-            public override Infection[] GetInfections()
+            public override IEnumerable<Infection> GetInfections()
             {
-                Infection[] others = new Infection[] { Surface, Heart };
-                Infection [] leftLung = LeftLung.Values.ToArray();
-                Infection [] rightLung = RightLung.Values.ToArray();
+                IEnumerable<Infection> structures = new Infection[]
+                {
+                    Heart,
+                }.Concat(base.GetInfections());
+                IEnumerable<Infection> leftLung = LeftLung.Values.ToArray();
+                IEnumerable<Infection> rightLung = RightLung.Values.ToArray();
 
-                Infection[] result = others.Concat(leftLung.Concat(rightLung)).ToArray();
-                //return  (new Infection[] { Surface, Heart }).Concat(LeftLung.Values.Concat(RightLung.Values)).ToArray(); //Ugly ass code but technically does the same thing.
-                
-                return result;
+                return structures.Concat(leftLung.Concat(rightLung)); ;
             }
         }
+
         public class AbdomenContainer : DefaultContainer
         {
             public Infection GastrointestinalTract;
@@ -234,11 +241,10 @@ namespace PatientManagementSystem.Patients.PatientInfection
             public Infection Bladder;
             public Infection Reproductives;
 
-            public override Infection[] GetInfections()
+            public override IEnumerable<Infection> GetInfections()
             {
                 return new Infection[]
                 {
-                    Surface,
                     GastrointestinalTract,
                     Liver,
                     Spleen,
@@ -247,7 +253,7 @@ namespace PatientManagementSystem.Patients.PatientInfection
                     RightKidney,
                     Bladder,
                     Reproductives,
-                };
+                }.Concat(base.GetInfections());
             }
         }
         public class AccessPointsContainer
@@ -272,7 +278,7 @@ namespace PatientManagementSystem.Patients.PatientInfection
 
             public Infection UrinaryCatheter;
 
-            public Infection[] GetInfections()
+            public IEnumerable<Infection> GetInfections()
             {
                 return new Infection[]{
                     IVs[IVTargetLocation.ArmLeft],
@@ -281,6 +287,7 @@ namespace PatientManagementSystem.Patients.PatientInfection
                     IVs[IVTargetLocation.LegRight],
                     IVs[IVTargetLocation.CentralLine],
                     CerebralShunt,
+                    ArtificialAirway,
                     UrinaryCatheter,
                 };
             }
