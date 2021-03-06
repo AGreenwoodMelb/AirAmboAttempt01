@@ -1,78 +1,59 @@
-﻿namespace PatientManagementSystem.Patients.PatientOrgans
+﻿using PatientManagementSystem.Patients.PatientDefaults;
+
+namespace PatientManagementSystem.Patients.PatientOrgans
 {
-    public enum VesselState
+    public class Heart : Organ
     {
-        Normal,
-        Narrowed,
-        Blocked,
-    }
-    public enum TissueState
-    {
-        Normal,
-        Ishaemic,
-        Dead,
-    }
-    public enum OrganSize
-    {
-        Normal,
-        Smaller,
-        Larger,
-    }
+        #region Props
+        public override OrganStructure[] Structures => DefaultOrganStructure.Heart;
 
-    public class HeartStructures
-    {
-        public HeartVessels Vessels;
-        public HeartTissues Tissues;
-
-        public HeartStructures(HeartVessels vessels = null, HeartTissues tissues = null)
+        private bool _isBeating = true;
+        public bool IsBeating
         {
-            Vessels = vessels ?? new HeartVessels();
-            Tissues = tissues ?? new HeartTissues();
+            get { return _isBeating; }
+            set { _isBeating = value; }
         }
-    }
 
-    public class HeartVessels
-    {
-        #region LeftCoronaryArteries
-        public VesselState LCA { get; set; }
-        public VesselState LAD { get; set; }
-        public VesselState LCircA { get; set; }
-        #endregion
-
-        #region RightCoronaryArteries
-        public VesselState RCA { get; set; }
-        public VesselState PDA { get; set; }
-        public VesselState RMA { get; set; }
-        #endregion
-
-        public HeartVessels(VesselState lCA = VesselState.Normal, VesselState lAD = VesselState.Normal, VesselState lCircA = VesselState.Normal, VesselState pDA = VesselState.Normal, VesselState rCA = VesselState.Normal, VesselState rMA = VesselState.Normal)
+        private bool _isArrythmic;
+        public bool IsArrythmic
         {
-            LCA = lCA;
-            LAD = lAD;
-            LCircA = lCircA;
-            PDA = pDA;
-            RCA = rCA;
-            RMA = rMA;
+            get { return _isArrythmic; }
+            set { _isArrythmic = value; }
         }
-    }
 
-    public class HeartTissues
-    {
-        #region HeartTissue
-        public TissueState Septum { get; set; }
-        public TissueState LeftAnteriorWall { get; set; }
-        public TissueState LeftPosteriorInferiorWall { get; set; }
-        public TissueState FreeWall { get; set; }
-        public TissueState RightVentricle { get; set; }
-        #endregion
-
-        public HeartTissues(TissueState septum = TissueState.Normal, TissueState leftAnteriorWall = TissueState.Normal, TissueState leftPosteriorInferiorWall = TissueState.Normal, TissueState freeWall = TissueState.Normal, TissueState rightVentricle = TissueState.Normal)
+        private bool _hasPacemaker;
+        public bool HasPaceMaker
         {
-            Septum = septum;
-            LeftAnteriorWall = leftAnteriorWall;
-            LeftPosteriorInferiorWall = leftPosteriorInferiorWall;
-            FreeWall = freeWall;
-            RightVentricle = rightVentricle;
+            get { return _hasPacemaker; }
+            set { _hasPacemaker = value; }
         }
+
+        private int _beatsPerMinute;
+        public int BeatsPerMinute
+        {
+            get { return _beatsPerMinute; }
+            set { _beatsPerMinute = value; }
+        }
+
+        private OrganSize _heartSize;
+
+        public OrganSize HeartSize
+        {
+            get { return _heartSize; }
+            set { _heartSize = value; }
+        }
+
+        #endregion
+        #region Contructors
+        public Heart(bool isBeating = true, bool isArrythmic = false, bool hasPacemaker = false, int? beatsPerMinute = null) : base(DefaultOrgans.DefaultHeart.OxygenRequirement, DefaultOrgans.DefaultHeart.PerfusionRequirement)
+        {
+            _isBeating = isBeating;
+            _isArrythmic = isArrythmic;
+            _hasPacemaker = hasPacemaker;
+            _beatsPerMinute = beatsPerMinute ?? DefaultOrgans.DefaultHeart.HeartRate;
+        }
+        #endregion
+        #region Functions
+        #endregion
     }
 }

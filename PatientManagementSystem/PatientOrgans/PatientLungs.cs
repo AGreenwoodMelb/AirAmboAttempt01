@@ -48,7 +48,9 @@ namespace PatientManagementSystem.Patients.PatientOrgans
             get { return _precussionSounds; }
             set { _precussionSounds = value; }
         }
+        public override OrganStructure[] Structures => new OrganStructure[] { }; //Watch this bite me in the ass
         #endregion
+
 
         public LungLobe() : base(DefaultOrgans.DefaultRespiratorySystem.LobeOxygenRequirement, DefaultOrgans.DefaultRespiratorySystem.LobePerfusionRequirement)
         {
@@ -73,6 +75,7 @@ namespace PatientManagementSystem.Patients.PatientOrgans
     }
     public class RightLung : Lung
     {
+        public override OrganStructure[] Structures => DefaultOrganStructure.RightLung;
         public override Dictionary<LungLobeLocation, LungLobe> Lobes { get; } = new Dictionary<LungLobeLocation, LungLobe>()
         {
             { LungLobeLocation.Upper, new LungLobe() },
@@ -115,6 +118,7 @@ namespace PatientManagementSystem.Patients.PatientOrgans
     }
     public class LeftLung : Lung
     {
+        public override OrganStructure[] Structures => DefaultOrganStructure.LeftLung;
         public override Dictionary<LungLobeLocation, LungLobe> Lobes { get; } = new Dictionary<LungLobeLocation, LungLobe>()
         {
             { LungLobeLocation.Upper, new LungLobe() },

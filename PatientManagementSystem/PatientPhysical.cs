@@ -3,6 +3,7 @@ using PatientManagementSystem.Patients.PatientBones;
 using PatientManagementSystem.Patients.PatientDefaults;
 using PatientManagementSystem.Patients.PatientInfection;
 using PatientManagementSystem.Patients.PatientOrgans;
+using PatientManagementSystem.Patients.Vascular;
 using System;
 
 namespace PatientManagementSystem.Patients.PatientPhysical
@@ -69,9 +70,18 @@ namespace PatientManagementSystem.Patients.PatientPhysical
             get { return _infections; }
             set { _infections = value; }
         }
+
+        private VascularSystem _vascularSystem;
+
+        public VascularSystem VascularSystem
+        {
+            get { return _vascularSystem; }
+            set { _vascularSystem = value; }
+        }
+
         #endregion
 
-        public Physical(Anthropometrics metrics = null, Head head = null, Chest chest = null, Abdomen abdomen = null, BloodSystem blood = null, Limbs limbs = null, Infections infections = null)
+        public Physical(Anthropometrics metrics = null, Head head = null, Chest chest = null, Abdomen abdomen = null, BloodSystem blood = null, Limbs limbs = null, Infections infections = null, VascularSystem vascularSystem = null)
         {
             _anthropometrics = metrics ?? new Anthropometrics();
             Head = head ?? new Head();
@@ -80,6 +90,7 @@ namespace PatientManagementSystem.Patients.PatientPhysical
             Blood = blood ?? new BloodSystem();
             Limbs = limbs ?? new Limbs();
             Infections = infections ?? new Infections();
+            VascularSystem = vascularSystem ?? new VascularSystem();
         }
     }
 

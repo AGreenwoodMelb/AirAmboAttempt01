@@ -2,6 +2,7 @@
 using PatientManagementSystem.Patients.PatientOrgans;
 using PatientManagementSystem.Patients.PatientPhysical;
 using PatientManagementSystem.Patients.PatientProceedures;
+using PatientManagementSystem.Patients.Vascular;
 
 namespace PatientManagementSystem.Patients
 {
@@ -22,6 +23,20 @@ namespace PatientManagementSystem.Patients
             Pod.TryAddPatient(pt);
 
 
+            pt.Body.VascularSystem.OxygenatedVessels["LeftCoronary"].Patency = 0.25f;
+
+            Pod.PerformProceedure(new ExamineHeartCoronaryAngiogram(), out bool _);
+
+
+            //VascularSystem vs = new VascularSystem();
+
+            //vs.OxygenatedVessels["AscendingAorta"].Patency = 0.35f;
+            //vs.OxygenatedVessels["LeftCoronary"].Patency = 0.25f;
+
+            //System.Console.WriteLine(vs.GetSupply(new  Heart()));
+            //Vessel restrictionPoint = vs.OxygenatedVessels["LeftAnteriorDescending"].GetLowestPatencyVessel();
+            //System.Console.WriteLine($"{restrictionPoint.Name}: {restrictionPoint.Patency}");
+
             //Console.WriteLine(pt.Body.Anthropometrics.BMI);
             //LeftLung left = new LeftLung();
             //RightLung right = new RightLung();
@@ -41,10 +56,10 @@ namespace PatientManagementSystem.Patients
             //var t = pt.Body.Infections.Chest.GetInfections();
 
             //System.Console.WriteLine(Pod.PatientResults.RespiratorySystem.LeftLung.BreathSounds[LungLobeLocation.Upper]);
-            System.Console.WriteLine(Pod.TotalWasteProduced);
-            PatientProceedure intervention = new PerformLumbarPuncture();
-            Pod.PerformProceedure(intervention, out bool _);
-            System.Console.WriteLine(Pod.TotalWasteProduced);
+            //System.Console.WriteLine(Pod.TotalWasteProduced);
+            //PatientProceedure intervention = new PerformLumbarPuncture();
+            //Pod.PerformProceedure(intervention, out bool _);
+            //System.Console.WriteLine(Pod.TotalWasteProduced);
 
 
             //Lung test = new RightLung();

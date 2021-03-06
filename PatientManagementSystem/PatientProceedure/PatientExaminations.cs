@@ -2,8 +2,10 @@
 using PatientManagementSystem.Patients.PatientAccessPoints;
 using PatientManagementSystem.Patients.PatientBones;
 using PatientManagementSystem.Patients.PatientOrgans;
+using PatientManagementSystem.Patients.Vascular;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace PatientManagementSystem.Patients.PatientProceedures
 {
@@ -323,14 +325,12 @@ namespace PatientManagementSystem.Patients.PatientProceedures
         public override bool Examine(Patient patient, PatientExamResults results)
         {
             //Left Coronary Arteries
-            results.Heart.CoronaryAngiogram.LCA = patient.Body.Chest.Heart.HeartStructures.Vessels.LCA;
-            results.Heart.CoronaryAngiogram.LAD = patient.Body.Chest.Heart.HeartStructures.Vessels.LAD;
-            results.Heart.CoronaryAngiogram.LCircA = patient.Body.Chest.Heart.HeartStructures.Vessels.LCircA;
+            results.Heart.Angiogram.LeftCoronaryArtery.VesselState = patient.Body.VascularSystem.OxygenatedVessels["LeftCoronary"].VesselState;
+            results.Heart.Angiogram.LeftAnteriorDescendingArtery.VesselState = patient.Body.VascularSystem.OxygenatedVessels["LeftAnteriorDescending"].VesselState;
+            results.Heart.Angiogram.CirumflexArtery.VesselState = patient.Body.VascularSystem.OxygenatedVessels["Circumflex"].VesselState;
 
             //Right Coronary Arteries
-            results.Heart.CoronaryAngiogram.RCA = patient.Body.Chest.Heart.HeartStructures.Vessels.RCA;
-            results.Heart.CoronaryAngiogram.PDA = patient.Body.Chest.Heart.HeartStructures.Vessels.PDA;
-            results.Heart.CoronaryAngiogram.RMA = patient.Body.Chest.Heart.HeartStructures.Vessels.RMA;
+            results.Heart.Angiogram.RightCoronaryArtery.VesselState = patient.Body.VascularSystem.OxygenatedVessels["RightCoronary"].VesselState;
 
             return true;
         }
@@ -340,11 +340,11 @@ namespace PatientManagementSystem.Patients.PatientProceedures
     {
         public override bool Examine(Patient patient, PatientExamResults results)
         {
-            results.Heart.Echocardiogram.Septum = patient.Body.Chest.Heart.HeartStructures.Tissues.Septum;
-            results.Heart.Echocardiogram.LeftAnteriorWall = patient.Body.Chest.Heart.HeartStructures.Tissues.LeftAnteriorWall;
-            results.Heart.Echocardiogram.LeftPosteriorInferiorWall = patient.Body.Chest.Heart.HeartStructures.Tissues.LeftPosteriorInferiorWall;
-            results.Heart.Echocardiogram.FreeWall = patient.Body.Chest.Heart.HeartStructures.Tissues.FreeWall;
-            results.Heart.Echocardiogram.RightVentricle = patient.Body.Chest.Heart.HeartStructures.Tissues.RightVentricle;
+            //results.Heart.Echocardiogram.Septum = patient.Body.Chest.Heart.HeartStructures.Tissues.Septum;
+            //results.Heart.Echocardiogram.LeftAnteriorWall = patient.Body.Chest.Heart.HeartStructures.Tissues.LeftAnteriorWall;
+            //results.Heart.Echocardiogram.LeftPosteriorInferiorWall = patient.Body.Chest.Heart.HeartStructures.Tissues.LeftPosteriorInferiorWall;
+            //results.Heart.Echocardiogram.FreeWall = patient.Body.Chest.Heart.HeartStructures.Tissues.FreeWall;
+            //results.Heart.Echocardiogram.RightVentricle = patient.Body.Chest.Heart.HeartStructures.Tissues.RightVentricle;
 
             results.Heart.HeartSize = patient.Body.Chest.Heart.HeartSize;
 
@@ -385,7 +385,7 @@ namespace PatientManagementSystem.Patients.PatientProceedures
     public class ExamineBronchoscopySample : PatientExamination
     {
         private bool _targetLeftLung;
-        private LungLobeLocation _targetLobe; 
+        private LungLobeLocation _targetLobe;
         public ExamineBronchoscopySample(bool targetLeftLung, LungLobeLocation targetLobe)
         {
             _targetLeftLung = targetLeftLung;
@@ -404,7 +404,7 @@ namespace PatientManagementSystem.Patients.PatientProceedures
     {
         public override bool Examine(Patient patient, PatientExamResults results)
         {
-            new ExamineLungsAuscultateLung(true).Examine(patient,results);
+            new ExamineLungsAuscultateLung(true).Examine(patient, results);
             new ExamineLungsAuscultateLung(false).Examine(patient, results);
             return true;
         }
@@ -452,7 +452,7 @@ namespace PatientManagementSystem.Patients.PatientProceedures
             }
             else
             {
-                targetLung = patient.Body.Chest.Lungs.RightLung;;
+                targetLung = patient.Body.Chest.Lungs.RightLung; ;
             }
 
             if (!targetLung.IsPresent || patient.Body.Chest.Lungs.RespiratoryRate == 0) //LUXURY: Perhaps have a way of setting how long the player listens for and check if breaths are likely to be heard in that time frame? Maybe too mean
@@ -504,7 +504,7 @@ namespace PatientManagementSystem.Patients.PatientProceedures
         private bool _targetLeftLung;
         private LungLobeLocation _targetLobe;
 
-        public ExamineLungsPrecussLungLobe(bool targetLeftLung, LungLobeLocation targetLobe) 
+        public ExamineLungsPrecussLungLobe(bool targetLeftLung, LungLobeLocation targetLobe)
         {
             _targetLeftLung = targetLeftLung;
             _targetLobe = targetLobe;
@@ -523,7 +523,7 @@ namespace PatientManagementSystem.Patients.PatientProceedures
                 targetLung = patient.Body.Chest.Lungs.RightLung; ;
             }
 
-            if (!targetLung.IsPresent) 
+            if (!targetLung.IsPresent)
             {
                 outputLocation[_targetLobe] = LungPrecussionSounds.Hyperresonant;
             }
@@ -534,7 +534,7 @@ namespace PatientManagementSystem.Patients.PatientProceedures
 
             return true;
         }
-    } 
+    }
     #endregion
     #endregion
 

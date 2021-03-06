@@ -1,8 +1,17 @@
 ﻿using PatientManagementSystem.Patients.PatientBlood;
 using PatientManagementSystem.Patients.PatientDefaults;
+using PatientManagementSystem.Patients.Vascular;
 
 namespace PatientManagementSystem.Patients.PatientOrgans
+  
 {
+    public enum TissueState
+    {
+        Unknown,
+        Normal,
+        Ishaemic,
+        Dead,
+    }
     public enum OrganState
     {
         None,
@@ -47,7 +56,28 @@ namespace PatientManagementSystem.Patients.PatientOrgans
         Hypoxic,
         Anoxic, //Probably the wrong term tbh
     }
-   
+    public enum OrganSize
+    {
+        Unknown,
+        Normal,
+        Smaller,
+        Larger,
+    }
+
+    public struct OrganStructure
+    {
+        public readonly string Name;
+        public readonly string SupplyVesselName;
+        public TissueState TissueState;
+
+        public OrganStructure(string name, string supplyVesselNames, TissueState tissueState = TissueState.Normal)
+        {
+            Name = name;
+            SupplyVesselName = supplyVesselNames;
+            TissueState = tissueState;
+        }
+    }
+
     public abstract class Organ
     {
         #region Props
@@ -87,6 +117,8 @@ namespace PatientManagementSystem.Patients.PatientOrgans
 
             return organState;
         } //REVIEW: This seems to work by chance, not design.
+
+        public abstract OrganStructure[] Structures { get; } //Change this to abstract once setup complete
         #endregion
         #region Oxygen
         private readonly float _oxygenRequiredBase;
@@ -136,6 +168,7 @@ namespace PatientManagementSystem.Patients.PatientOrgans
         }
 
         public float Perfusion => PerfusionSupplied / PerfusionRequirement;
+        
         #endregion
         #endregion
         #region Constructor
@@ -171,6 +204,7 @@ namespace PatientManagementSystem.Patients.PatientOrgans
     public class Brain : Organ
     {
         #region Props
+        
         private float _currentPressure;
         public float CurrentPressure
         {
@@ -198,6 +232,7 @@ namespace PatientManagementSystem.Patients.PatientOrgans
             get { return _isBrainDead; }
             set { _isBrainDead = value; }
         }
+        public override OrganStructure[] Structures => DefaultOrganStructure.Brain; 
         private CSFProfile _csf;
 
         public CSFProfile CSF
@@ -241,65 +276,7 @@ namespace PatientManagementSystem.Patients.PatientOrgans
     }
     #endregion
     #region ChestOrgans
-    public class Heart : Organ
-    {
-        #region Props
-        private bool _isBeating = true;
-        public bool IsBeating
-        {
-            get { return _isBeating; }
-            set { _isBeating = value; }
-        }
-
-        private bool _isArrythmic;
-        public bool IsArrythmic
-        {
-            get { return _isArrythmic; }
-            set { _isArrythmic = value; }
-        }
-
-        private bool _hasPacemaker;
-        public bool HasPaceMaker
-        {
-            get { return _hasPacemaker; }
-            set { _hasPacemaker = value; }
-        }
-
-        private int _beatsPerMinute;
-        public int BeatsPerMinute
-        {
-            get { return _beatsPerMinute; }
-            set { _beatsPerMinute = value; }
-        }
-
-        private HeartStructures _heartStructures;
-        public HeartStructures HeartStructures
-        {
-            get { return _heartStructures; }
-            set { _heartStructures = value; }
-        }
-        private OrganSize _heartSize;
-
-        public OrganSize HeartSize
-        {
-            get { return _heartSize; }
-            set { _heartSize = value; }
-        }
-
-        #endregion
-        #region Contructors
-        public Heart(HeartStructures heartStructures = null, bool isBeating = true, bool isArrythmic = false, bool hasPacemaker = false, int? beatsPerMinute = null) : base(DefaultOrgans.DefaultHeart.OxygenRequirement, DefaultOrgans.DefaultHeart.PerfusionRequirement)
-        {
-            _heartStructures = heartStructures ?? new HeartStructures();
-            _isBeating = isBeating;
-            _isArrythmic = isArrythmic;
-            _hasPacemaker = hasPacemaker;
-            _beatsPerMinute = beatsPerMinute ?? DefaultOrgans.DefaultHeart.HeartRate;
-        }
-        #endregion
-        #region Functions
-        #endregion
-    }
+   
 
     //Lungs in PatientLungs.cs
 
@@ -308,6 +285,7 @@ namespace PatientManagementSystem.Patients.PatientOrgans
     public class Kidney : Organ
     {
         #region Props
+        public readonly bool IsLeft;
         private bool _hasStone;
         public bool HasStone
         {
@@ -321,11 +299,12 @@ namespace PatientManagementSystem.Patients.PatientOrgans
             get { return _isUreterBlocked; }
             set { _isUreterBlocked = value; }
         }
+        public override OrganStructure[] Structures => (IsLeft) ? DefaultOrganStructure.LeftKidney : DefaultOrganStructure.RightKidney;
         #endregion
         #region Constructors
-        public Kidney() : base(DefaultOrgans.DefaultKidney.OxygenRequirement, DefaultOrgans.DefaultKidney.PerfusionRequirement)
+        public Kidney(bool isLeft) : base(DefaultOrgans.DefaultKidney.OxygenRequirement, DefaultOrgans.DefaultKidney.PerfusionRequirement)
         {
-
+            IsLeft = isLeft;
         }
         #endregion
         #region Functions
@@ -370,6 +349,7 @@ namespace PatientManagementSystem.Patients.PatientOrgans
             set { _urine = value; }
         }
 
+        public override OrganStructure[] Structures => DefaultOrganStructure.Bladder;
         #endregion
         #region Constructors
         public Bladder() : base(DefaultOrgans.DefaultBladder.OxygenRequirement, DefaultOrgans.DefaultBladder.PerfusionRequirement)
@@ -383,14 +363,14 @@ namespace PatientManagementSystem.Patients.PatientOrgans
     public class UrinaryTract
     {
         #region Props
-        private Kidney _leftKidney = new Kidney();
+        private Kidney _leftKidney;// = new Kidney(true);
         public Kidney LeftKidney
         {
             get { return _leftKidney; }
             set { _leftKidney = value; }
         }
 
-        private Kidney _rightKidney = new Kidney();
+        private Kidney _rightKidney;// = new Kidney(false);
         public Kidney RightKidney
         {
             get { return _rightKidney; }
@@ -407,8 +387,8 @@ namespace PatientManagementSystem.Patients.PatientOrgans
         #region Constructors
         public UrinaryTract(Kidney leftKidney = null, Kidney rightKidney = null, Bladder bladder = null)
         {
-            LeftKidney = leftKidney ?? new Kidney();
-            RightKidney = rightKidney ?? new Kidney();
+            LeftKidney = leftKidney ?? new Kidney(true);
+            RightKidney = rightKidney ?? new Kidney(false);
             Bladder = bladder ?? new Bladder();
         }
         #endregion
@@ -432,6 +412,7 @@ namespace PatientManagementSystem.Patients.PatientOrgans
             get { return _isBilliaryDuctBlocked; }
             set { _isBilliaryDuctBlocked = value; }
         }
+        public override OrganStructure[] Structures => DefaultOrganStructure.Liver;
         #endregion
         #region Constructors
         public Liver() : base(DefaultOrgans.DefaultLiver.OxygenRequirement, DefaultOrgans.DefaultLiver.PerfusionRequirement)
@@ -446,6 +427,7 @@ namespace PatientManagementSystem.Patients.PatientOrgans
     public class GastrointestinalTract : Organ
     {
         #region Props
+        public override OrganStructure[] Structures => DefaultOrganStructure.GastrointestianlTract;
         #endregion
         #region Constructors
         public GastrointestinalTract() : base(DefaultOrgans.DefaultGI.OxygenRequirement, DefaultOrgans.DefaultGI.PerfusionRequirement)
@@ -459,6 +441,7 @@ namespace PatientManagementSystem.Patients.PatientOrgans
     public class Spleen : Organ
     {
         #region Props
+        public override OrganStructure[] Structures => DefaultOrganStructure.Spleen;
         #endregion
         #region Constructors
         public Spleen() : base(DefaultOrgans.DefaultSpleen.OxygenRequirement, DefaultOrgans.DefaultSpleen.PerfusionRequirement)
@@ -473,6 +456,7 @@ namespace PatientManagementSystem.Patients.PatientOrgans
     public class Pancreas : Organ
     {
         #region Props
+        public override OrganStructure[] Structures => DefaultOrganStructure.Pancreas;
         #endregion
         #region Constructors
         public Pancreas() : base(DefaultOrgans.DefaultPancreas.OxygenRequirement, DefaultOrgans.DefaultPancreas.PerfusionRequirement)
@@ -508,6 +492,7 @@ namespace PatientManagementSystem.Patients.PatientOrgans
             get { return _psa; }
             set { _psa = value; }
         }
+        public override OrganStructure[] Structures => DefaultOrganStructure.ReproductivesMale;
         #endregion
         #region Constructors
         public Reproductive_Male() : base(DefaultOrgans.DefaultReproductive_Male.OxygenRequirement, DefaultOrgans.DefaultReproductive_Male.PerfusionRequirement)
@@ -543,6 +528,7 @@ namespace PatientManagementSystem.Patients.PatientOrgans
             get { return _bHCG; }
             set { _bHCG = value; }
         }
+        public override OrganStructure[] Structures => DefaultOrganStructure.ReproductivesFemale;
         #endregion
         #region Constructors
         public Reproductive_Female() : base(DefaultOrgans.DefaultReproductive_Female.OxygenRequirement, DefaultOrgans.DefaultReproductive_Female.PerfusionRequirement)

@@ -4,10 +4,17 @@ using PatientManagementSystem.Patients.PatientBones;
 using PatientManagementSystem.Patients.PatientInfection;
 using PatientManagementSystem.Patients.PatientOrgans;
 using PatientManagementSystem.Patients.PatientPhysical;
+using PatientManagementSystem.Patients.Vascular;
 using System.Collections.Generic;
 
 namespace PatientManagementSystem.Patients.ExaminationResults
 {
+    public struct VesselResults
+    {
+        public VesselState VesselState;
+        public float? Patency;
+    }
+
     public class PatientExamResults
     {
         public object tempOutput; //Default dumping variable
@@ -107,10 +114,16 @@ namespace PatientManagementSystem.Patients.ExaminationResults
         public bool IsArrythmic;
         public bool HasPacemaker;
         public OrganSize HeartSize;
+        public CoronaryAngiogramResults Angiogram = new CoronaryAngiogramResults();
 
 
-        public HeartTissues Echocardiogram;
-        public HeartVessels CoronaryAngiogram;
+        public struct CoronaryAngiogramResults
+        {
+            public VesselResults LeftCoronaryArtery;
+            public VesselResults LeftAnteriorDescendingArtery;
+            public VesselResults CirumflexArtery;
+            public VesselResults RightCoronaryArtery;
+        }
 
     } //TODO: Expand to accomodate the results of the different heart scans
     #endregion

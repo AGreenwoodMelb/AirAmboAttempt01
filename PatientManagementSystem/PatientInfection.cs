@@ -172,7 +172,7 @@ namespace PatientManagementSystem.Patients.PatientInfection
 
         public IEnumerable<Infection> GetInfectionsArray()
         {
-            return Head.GetInfections().Concat(Chest.GetInfections().Concat(Abdomen.GetInfections())).ToArray();
+            return Head.GetInfections().Concat(Chest.GetInfections().Concat(Abdomen.GetInfections()));
         }//Still pretty bad
 
         #region ContainerClasses
