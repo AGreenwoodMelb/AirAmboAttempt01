@@ -8,19 +8,19 @@ namespace PatientManagementSystemTest
 {
     public class PatientOrganLungsTests
     {
-        [Fact]
-        public void CreateDefaultLungs()
-        {
-            RespiratorySystem lungs = new RespiratorySystem();
+        //[Fact]
+        //public void CreateDefaultLungs()
+        //{
+        //    RespiratorySystem lungs = new RespiratorySystem();
 
-            Assert.True(lungs.LeftLung != null && lungs.RightLung != null);
-        }
+        //    Assert.True(lungs.LeftLung != null && lungs.RightLung != null);
+        //}
 
-        [Fact]
-        public void InsertLungCantPutRightLungInLeftSpot()
-        {
+        //[Fact]
+        //public void InsertLungCantPutRightLungInLeftSpot()
+        //{
 
-        } 
+        //} 
 
     }
 }

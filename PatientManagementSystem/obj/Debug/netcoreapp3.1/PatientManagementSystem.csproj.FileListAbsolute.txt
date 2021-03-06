@@ -13,7 +13,6 @@ D:\Users\Alex\source\repos\GameDev\AirAmbo\PatientManagementSystem\PatientManage
 D:\Users\Alex\source\repos\GameDev\AirAmbo\PatientManagementSystem\PatientManagementSystem\bin\Debug\netcoreapp3.1\PatientManagementSystem.runtimeconfig.dev.json
 D:\Users\Alex\source\repos\GameDev\AirAmbo\PatientManagementSystem\PatientManagementSystem\bin\Debug\netcoreapp3.1\PatientManagementSystem.dll
 D:\Users\Alex\source\repos\GameDev\AirAmbo\PatientManagementSystem\PatientManagementSystem\bin\Debug\netcoreapp3.1\PatientManagementSystem.pdb
-D:\Users\Alex\source\repos\GameDev\AirAmbo\PatientManagementSystem\PatientManagementSystem\obj\Debug\netcoreapp3.1\PatientManagementSystem.csprojAssemblyReference.cache
 D:\Users\Alex\source\repos\GameDev\AirAmbo\PatientManagementSystem\PatientManagementSystem\obj\Debug\netcoreapp3.1\PatientManagementSystem.AssemblyInfoInputs.cache
 D:\Users\Alex\source\repos\GameDev\AirAmbo\PatientManagementSystem\PatientManagementSystem\obj\Debug\netcoreapp3.1\PatientManagementSystem.AssemblyInfo.cs
 D:\Users\Alex\source\repos\GameDev\AirAmbo\PatientManagementSystem\PatientManagementSystem\obj\Debug\netcoreapp3.1\PatientManagementSystem.csproj.CoreCompileInputs.cache
